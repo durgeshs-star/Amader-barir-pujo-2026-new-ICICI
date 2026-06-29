@@ -83,13 +83,15 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
         <div className="flex justify-between items-center px-4 py-4 border-b border-gray-150">
           <Link to="/" onClick={handleLinkClick} className="block select-none">
             <div className="flex items-center gap-2.5">
-              <img
-                src="/assets/img/Logo-puja.webp"
-                alt="Amader Barir Pujo logo"
-                className="h-11 w-11 object-contain"
-                width={44}
-                height={44}
-              />
+              <div className="w-10 h-10 rounded-full bg-white/90 flex items-center justify-center shadow-sm p-0.5 shrink-0">
+                <img
+                  src="/assets/img/Logo-puja.webp"
+                  alt="Amader Barir Pujo logo"
+                  className="w-full h-full object-contain"
+                  width={40}
+                  height={40}
+                />
+              </div>
               <div className="flex flex-col leading-none">
                 <span className="text-base font-bold font-fraunces text-primary tracking-wide">Amader Barir Pujo</span>
                 <span className="text-[10px] text-accent font-semibold tracking-wider">2026</span>

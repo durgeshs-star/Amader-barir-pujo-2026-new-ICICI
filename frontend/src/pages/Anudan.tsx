@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
+import SEO from '../components/ui/SEO';
 import Button from '../components/ui/Button';
 
 export const Anudan: React.FC = () => {
@@ -18,14 +19,15 @@ export const Anudan: React.FC = () => {
   };
 
   const contributionTiers = [
-    { name: 'Anjali Sponsor', amount: '₹1,100', perk: 'Special sankalpa on Maha Ashtami' },
-    { name: 'Bhog Sponsor', amount: '₹2,500', perk: 'Prasad served with special arrangements' },
-    { name: 'Pandal Patron', amount: '₹5,100', perk: 'Maa Durga blessings certificate & VIP access' },
-    { name: 'Pujo Partner', amount: '₹11,000+', perk: 'Name displayed on sponsor board & VIP family pass' },
+    { name: 'Anjali Sponsor', amount: 'â‚¹1,100', perk: 'Special sankalpa on Maha Ashtami' },
+    { name: 'Bhog Sponsor', amount: 'â‚¹2,500', perk: 'Prasad served with special arrangements' },
+    { name: 'Pandal Patron', amount: 'â‚¹5,100', perk: 'Maa Durga blessings certificate & VIP access' },
+    { name: 'Pujo Partner', amount: 'â‚¹11,000+', perk: 'Name displayed on sponsor board & VIP family pass' },
   ];
 
   return (
-    <div className="pt-24 md:pt-32 pb-20 bg-light-bg/30 min-h-screen">
+    <div className="pt-10 md:pt-14 pb-20 bg-light-bg/30 min-h-screen">
+      <SEO title="Anudan &amp; Contributions" description="Support Amader Barir Pujo with your contribution. Sponsor Bhog, pandal, or cultural programs for Durga Puja 2026 in Wakad, Pune." keywords="Donate Durga Puja Pune, Anudan Amader Barir Pujo, sponsor Durga Puja 2026" />
       <div className="max-w-6xl mx-auto px-6">
         
         {/* Title */}
@@ -108,7 +110,7 @@ export const Anudan: React.FC = () => {
               {submitted ? (
                 <div className="text-center py-6 space-y-3 animate-fade-in">
                   <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto text-green-600 font-bold text-xl">
-                    ✓
+                    âœ“
                   </div>
                   <h3 className="text-lg font-bold font-fraunces text-primary">Details Received</h3>
                   <p className="text-xs text-gray-500 leading-relaxed">
@@ -184,3 +186,5 @@ export const Anudan: React.FC = () => {
 };
 
 export default Anudan;
+
+

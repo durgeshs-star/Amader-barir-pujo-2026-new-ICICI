@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import Button from '../components/ui/Button';
+import SEO from '../components/ui/SEO';
 
 export const Volunteer: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -27,7 +28,12 @@ export const Volunteer: React.FC = () => {
   ];
 
   return (
-    <div className="pt-24 md:pt-32 pb-20 bg-light-bg/30 min-h-screen">
+    <div className="pt-10 md:pt-14 pb-20 bg-light-bg/30 min-h-screen">
+      <SEO
+        title="Volunteer Seva"
+        description="Join Amader Barir Pujo as a volunteer. Serve the community during Durga Puja in Wakad, Pune — Bhog seva, crowd coordination, cultural support and more."
+        keywords="Volunteer Durga Puja Pune, Seva Amader Barir Pujo, community volunteer Wakad"
+      />
       <div className="max-w-xl mx-auto px-6">
         
         {/* Title */}
@@ -46,7 +52,7 @@ export const Volunteer: React.FC = () => {
           {submitted ? (
             <div className="text-center py-8 space-y-4 animate-fade-in">
               <div className="w-16 h-16 bg-green-150 rounded-full flex items-center justify-center mx-auto text-green-600 font-bold text-2xl">
-                ✓
+                âœ“
               </div>
               <h2 className="text-2xl font-bold font-fraunces text-primary">Thank You!</h2>
               <p className="text-sm text-gray-600 leading-relaxed max-w-sm mx-auto">
@@ -158,3 +164,4 @@ export const Volunteer: React.FC = () => {
 };
 
 export default Volunteer;
+

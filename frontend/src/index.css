@@ -12,9 +12,9 @@
   --color-secondary: #8B3210;
   --color-secondary-dark: #5A1E08;
 
-  /* Accent — logo's warm golden yellow */
-  --color-accent: #D4A017;
-  --color-accent-light: #F0C040;
+  /* Accent — bright haldi yellow, pops against fuchsia on any background */
+  --color-accent: #F0C830;
+  --color-accent-light: #F7DB68;
 
   /* Backgrounds derived from logo palette */
   --color-dark-bg: #2A0A14;

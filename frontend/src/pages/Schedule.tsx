@@ -1,4 +1,5 @@
-import React from 'react';
+﻿import React from 'react';
+import SEO from '../components/ui/SEO';
 import { useParams, Link } from 'react-router-dom';
 import { FaClock } from 'react-icons/fa';
 
@@ -90,7 +91,12 @@ export const Schedule: React.FC = () => {
   const activeDay = scheduleData[activeDayKey];
 
   return (
-    <div className="pt-24 md:pt-32 pb-20 bg-light-bg/30 min-h-screen">
+    <div className="pt-10 md:pt-14 pb-20 bg-light-bg/30 min-h-screen">
+      <SEO
+        title={activeDay ? `${activeDay.title} Schedule` : 'Pujo Schedule'}
+        description="View the complete Durga Puja 2026 schedule for Amader Barir Pujo — day-wise rituals, timings, and programs for Panchami through Dashami."
+        keywords="Durga Puja schedule 2026 Pune, Pujo timetable Wakad, Amader Barir Pujo schedule"
+      />
       <div className="max-w-5xl mx-auto px-6">
         
         {/* Title */}
@@ -176,3 +182,5 @@ export const Schedule: React.FC = () => {
 };
 
 export default Schedule;
+
+

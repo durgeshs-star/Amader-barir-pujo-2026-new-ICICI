@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
+import SEO from '../components/ui/SEO';
 
 interface ImageItem {
   id: number;
@@ -23,7 +24,8 @@ export const Gallery: React.FC = () => {
   const filteredImages = filter === 'all' ? galleryImages : galleryImages.filter(img => img.category === filter);
 
   return (
-    <div className="pt-24 md:pt-32 pb-20 bg-light-bg/30 min-h-screen">
+    <div className="pt-10 md:pt-14 pb-20 bg-light-bg/30 min-h-screen">
+      <SEO title="Gallery" description="Browse photos from Amader Barir Pujo celebrations in Wakad, Pune — Durga Puja rituals, Bhog, cultural programs, and community moments." keywords="Durga Puja gallery Pune, Amader Barir Pujo photos, Bengali festival photos Wakad" />
       <div className="max-w-6xl mx-auto px-6">
         
         {/* Title */}
@@ -111,3 +113,5 @@ const GalleryImageWithFallback: React.FC<ImageProps> = ({ src, alt, gradient }) 
 };
 
 export default Gallery;
+
+

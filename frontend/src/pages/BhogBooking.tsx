@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
+import SEO from '../components/ui/SEO';
 import { useParams, Link } from 'react-router-dom';
 import Button from '../components/ui/Button';
 
@@ -25,7 +26,7 @@ export const BhogBooking: React.FC = () => {
       menu: {
         title: 'Maha Saptami Khichuri Bhog',
         items: ['Gobindobhog Rice Khichuri', 'Labra (Mixed Veg Curry)', 'Beguni (Eggplant Fritters)', 'Sweet Tomato Chutney', 'Papad', 'Payesh (Rice Kheer)'],
-        suggestedContribution: '₹150 per plate',
+        suggestedContribution: 'â‚¹150 per plate',
       }
     },
     ashtami: {
@@ -34,7 +35,7 @@ export const BhogBooking: React.FC = () => {
       menu: {
         title: 'Maha Ashtami Special Bhog',
         items: ['Gobindobhog Rice Khichuri', 'Cholar Dal with Coconut', 'Alur Dom', 'Beguni', 'Anarash (Pineapple) Chutney', 'Rosogolla', 'Payesh'],
-        suggestedContribution: '₹200 per plate',
+        suggestedContribution: 'â‚¹200 per plate',
       }
     },
     navami: {
@@ -43,7 +44,7 @@ export const BhogBooking: React.FC = () => {
       menu: {
         title: 'Maha Navami Pulao Bhog',
         items: ['Basanti Pulao', 'Paneer Butter Masala', 'Dhokar Dalna', 'Beguni', 'Mango Chutney', 'Papad', 'Sweet Curd (Misti Doi)', 'Gulab Jamun'],
-        suggestedContribution: '₹250 per plate',
+        suggestedContribution: 'â‚¹250 per plate',
       }
     },
     'lakshmi-puja': {
@@ -52,7 +53,7 @@ export const BhogBooking: React.FC = () => {
       menu: {
         title: 'Kojagari Lakshmi Puja Prasad',
         items: ['Khichuri', 'Labra', 'Beguni', 'Narkel Nadu (Coconut Ladoo)', 'Suji Halwa', 'Payesh'],
-        suggestedContribution: '₹150 per plate',
+        suggestedContribution: 'â‚¹150 per plate',
       }
     }
   };
@@ -67,7 +68,12 @@ export const BhogBooking: React.FC = () => {
   };
 
   return (
-    <div className="pt-24 md:pt-32 pb-20 bg-light-bg/30 min-h-screen">
+    <div className="pt-10 md:pt-14 pb-20 bg-light-bg/30 min-h-screen">
+      <SEO
+        title={activeDay ? `${activeDay.title} Booking` : 'Bhog Booking'}
+        description="Book your sacred Prasad Bhog for Durga Puja 2026 at Amader Barir Pujo, Wakad Pune. Available for Saptami, Ashtami, Navami and Lakshmi Puja."
+        keywords="Bhog booking Pune, Durga Puja prasad 2026, khichuri bhog Wakad Pune"
+      />
       <div className="max-w-5xl mx-auto px-6">
         
         {/* Title */}
@@ -139,7 +145,7 @@ export const BhogBooking: React.FC = () => {
             {submitted ? (
               <div className="text-center py-8 space-y-3 animate-fade-in">
                 <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto text-green-600 font-bold text-xl">
-                  ✓
+                  âœ“
                 </div>
                 <h3 className="text-lg font-bold font-fraunces text-primary">Booking Requested</h3>
                 <p className="text-xs text-gray-600 leading-relaxed">
@@ -230,3 +236,5 @@ export const BhogBooking: React.FC = () => {
 };
 
 export default BhogBooking;
+
+

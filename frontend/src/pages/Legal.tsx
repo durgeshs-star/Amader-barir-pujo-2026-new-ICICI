@@ -1,4 +1,5 @@
-import React from 'react';
+﻿import React from 'react';
+import SEO from '../components/ui/SEO';
 import { useLocation } from 'react-router-dom';
 
 export const Legal: React.FC = () => {
@@ -9,7 +10,11 @@ export const Legal: React.FC = () => {
   const lastUpdated = 'June 29, 2026';
 
   return (
-    <div className="pt-24 md:pt-32 pb-20 bg-light-bg/30 min-h-screen">
+    <div className="pt-10 md:pt-14 pb-20 bg-light-bg/30 min-h-screen">
+      <SEO
+        title={title}
+        description={`${title} for Amader Barir Pujo, Pune — read our policies regarding your use of this website.`}
+      />
       <div className="max-w-4xl mx-auto px-6">
         
         {/* Title */}
@@ -82,3 +87,5 @@ export const Legal: React.FC = () => {
 };
 
 export default Legal;
+
+

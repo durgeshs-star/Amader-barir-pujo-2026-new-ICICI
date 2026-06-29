@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
 import Button from '../components/ui/Button';
+import SEO from '../components/ui/SEO';
 
 export const ContactUs: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -17,9 +18,13 @@ export const ContactUs: React.FC = () => {
   };
 
   return (
-    <div className="pt-24 md:pt-32 pb-20 bg-light-bg/30 min-h-screen">
+    <div className="pt-10 md:pt-14 pb-20 bg-light-bg/30 min-h-screen">
+      <SEO
+        title="Contact Us"
+        description="Get in touch with the Amader Barir Pujo organizing committee. Call, email, or visit us in Wakad, Pune during the Durga Puja celebrations."
+        keywords="Contact Amader Barir Pujo, Durga Puja Pune contact, Bengali community Wakad Pune"
+      />
       <div className="max-w-6xl mx-auto px-6">
-        
         {/* Title */}
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-6xl font-bold text-gray-950 font-fraunces mb-3">
@@ -93,7 +98,7 @@ export const ContactUs: React.FC = () => {
             {submitted ? (
               <div className="text-center py-10 space-y-4 animate-fade-in">
                 <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto text-green-600 font-bold text-xl">
-                  ✓
+                  âœ“
                 </div>
                 <h3 className="text-xl font-bold font-fraunces text-primary font-medium">Message Sent</h3>
                 <p className="text-xs text-gray-600 leading-relaxed max-w-xs mx-auto">
@@ -159,3 +164,4 @@ export const ContactUs: React.FC = () => {
 };
 
 export default ContactUs;
+
