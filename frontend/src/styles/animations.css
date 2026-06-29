@@ -1,68 +1,26 @@
 /* ── Keyframe Animations ────────────────────────────────────────── */
-@keyframes mht-rise {
-  0% {
-    bottom: -10px;
-    opacity: 0;
-    transform: translateX(0);
-  }
-  15% {
-    opacity: 1;
-  }
-  85% {
-    opacity: 1;
-  }
-  100% {
-    bottom: 105%;
-    opacity: 0;
-    transform: translateX(var(--drift, 30px));
-  }
-}
-
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 @keyframes slideInRight {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(0);
-  }
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
 }
 
 @keyframes slideInLeft {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(0);
-  }
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(0); }
 }
 
 /* ── Custom Utility Classes for Animations ───────────────────────── */
-.animate-rise {
-  animation: mht-rise var(--dur, 8s) ease-in var(--delay, 0s) infinite;
-}
-
 .animate-fade-in {
   animation: fadeIn 0.3s ease-out forwards;
 }
 
 .animate-slide-left {
   animation: slideInLeft 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-/* Respect user's reduced-motion preference */
-@media (prefers-reduced-motion: reduce) {
-  .animate-rise {
-    animation: none !important;
-  }
 }
 
 /* ── Custom Scrollbar styling ───────────────────────────────────── */

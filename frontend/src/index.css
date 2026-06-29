@@ -3,14 +3,22 @@
 @import "./styles/animations.css";
 
 @theme {
-  --color-primary: #7E4555;
-  --color-primary-dark: #643441;
-  --color-primary-light: #985769;
-  --color-secondary: #db4242;
-  --color-accent: #c9963a;
-  --color-accent-light: #e2b35a;
-  --color-dark-bg: #1e1115;
-  --color-light-bg: #fcf8f9;
+  /* Primary — logo's dominant fuchsia-pink */
+  --color-primary: #C9559E;
+  --color-primary-dark: #782850;
+  --color-primary-light: #E06CB8;
+
+  /* Secondary — logo's deep warm maroon-brown */
+  --color-secondary: #8B3210;
+  --color-secondary-dark: #5A1E08;
+
+  /* Accent — logo's warm golden yellow */
+  --color-accent: #D4A017;
+  --color-accent-light: #F0C040;
+
+  /* Backgrounds derived from logo palette */
+  --color-dark-bg: #2A0A14;
+  --color-light-bg: #FDF5FA;
   
   --font-fraunces: "Fraunces", serif;
   --font-sans: "Inter", sans-serif;
@@ -20,7 +28,7 @@
   html {
     scroll-behavior: smooth;
     font-family: var(--font-sans);
-    color: #4a4a4a;
+    color: #3a1a2a;
     background-color: #ffffff;
   }
   
@@ -30,7 +38,7 @@
   
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-fraunces);
-    color: #3d1f2f;
+    color: #2A0A14;
     font-weight: 700;
   }
 }

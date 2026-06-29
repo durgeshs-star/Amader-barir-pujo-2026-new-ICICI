@@ -164,8 +164,16 @@ export const Footer: React.FC = () => {
           </div>
 
           {/* Logo brand */}
-          <div className="select-none flex items-center gap-2">
-            <span className="text-xl font-bold font-fraunces text-white tracking-widest">Amader Barir Pujo</span>
+          <div className="select-none flex items-center gap-2.5">
+            <img
+              src="/assets/img/Logo-puja.webp"
+              alt="Amader Barir Pujo"
+              className="h-8 w-8 object-contain"
+              width={32}
+              height={32}
+              loading="lazy"
+            />
+            <span className="text-lg font-bold font-fraunces text-white tracking-wide">Amader Barir Pujo</span>
             <span className="text-[10px] bg-accent/20 text-accent font-semibold px-2 py-0.5 rounded">2026</span>
           </div>
 

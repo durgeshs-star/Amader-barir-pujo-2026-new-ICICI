@@ -1,10 +1,7 @@
 import React from 'react';
-import HeroParticles from './HeroParticles';
-import HeroWatermark from './HeroWatermark';
 import Button from '../ui/Button';
 
 export const Hero: React.FC = () => {
-  // Navigation helper to scroll down or navigate to details
   const handleScrollToContent = () => {
     const contentEl = document.getElementById('experience-section');
     if (contentEl) {
@@ -13,77 +10,79 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-[85vh] md:min-h-[100vh] flex items-center justify-center overflow-hidden bg-dark-bg text-white select-none">
-      {/* Background Image Overlay with Fallback Gradient */}
-      <div 
-        className="absolute inset-0 bg-cover bg-no-repeat bg-[center_top] opacity-40 md:opacity-50 transition-opacity duration-500 z-0"
+    <div className="relative min-h-[95vh] md:min-h-screen flex items-end overflow-hidden bg-dark-bg text-white select-none">
+
+      {/* Full-bleed background image — position shifted down so the goddess face clears the navbar */}
+      <div
+        className="absolute inset-0 bg-cover z-0"
         style={{
-          backgroundImage: "url('/assets/img/puja/35.webp'), linear-gradient(135deg, #1e1115 0%, #7E4555 50%, #643441 100%)",
+          backgroundImage: "url('/assets/img/puja/35.webp')",
+          backgroundPosition: 'center 30%',
         }}
         aria-hidden="true"
       />
-      
-      {/* Dark Vignette Overlay for Premium Contrast */}
-      <div className="absolute inset-0 bg-gradient-to-t from-dark-bg via-transparent to-black/30 z-[1]" aria-hidden="true" />
 
-      {/* Floating Spark Particles */}
-      <HeroParticles />
+      {/* Gradient: strong at bottom for text, subtle dark band at top for navbar, clear in the middle */}
+      <div
+        className="absolute inset-0 z-[1]"
+        style={{
+          background: [
+            'linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.0) 22%)',
+            'linear-gradient(to top,    rgba(42,10,20,0.88) 0%, rgba(42,10,20,0.30) 42%, rgba(0,0,0,0.0) 100%)',
+          ].join(', '),
+        }}
+        aria-hidden="true"
+      />
 
-      {/* Sanskrit OM Watermark Graphic */}
-      <HeroWatermark />
+      {/* Content — sits at the bottom left, leaving the image centre open */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-10 pb-16 md:pb-20">
+        <div className="max-w-xl">
 
-      {/* Hero Content Overlay */}
-      <div className="relative z-10 max-w-4xl mx-auto px-6 py-12 md:py-24 text-center">
-        {/* Subtitle */}
-        <p className="text-accent text-sm md:text-base font-semibold tracking-[0.25em] uppercase mb-4 animate-fade-in">
-          Amader Barir Pujo, Wakad (Pune)
-        </p>
+          {/* Title */}
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold font-fraunces leading-snug mb-4 text-white drop-shadow-lg select-text">
+            Experience The Divine Spirit Of{' '}
+            <span className="text-accent">Durga Pujo</span>
+          </h1>
 
-        {/* Title */}
-        <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold font-fraunces leading-tight mb-6 text-white drop-shadow-xl select-text">
-          Experience The Divine Spirit Of <span className="text-accent">Durga Pujo</span>
-        </h1>
+          {/* Sub-text */}
+          <p className="text-sm md:text-base text-white/75 font-sans leading-relaxed mb-8 select-text max-w-md">
+            Devotion, community meals, cultural programs, and sacred rituals — open to everyone.
+          </p>
 
-        {/* Description */}
-        <p className="text-sm md:text-lg text-white/80 max-w-2xl mx-auto font-sans leading-relaxed mb-10 select-text">
-          Discover devotional services, sacred rituals, community meals, and spiritual programs in our alternate home layout. Open to everyone.
-        </p>
-
-        {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Button 
-            variant="accent" 
-            size="lg" 
-            onClick={handleScrollToContent}
-            className="w-full sm:w-auto shadow-accent/20 hover:shadow-accent/40"
-          >
-            Explore Pujo
-          </Button>
-          <a href="/volunteer" className="w-full sm:w-auto">
-            <Button 
-              variant="outline" 
-              size="lg" 
-              className="w-full text-white border-white hover:bg-white hover:text-primary transition-all duration-300"
+          {/* CTA buttons */}
+          <div className="flex flex-wrap gap-3">
+            <Button
+              variant="accent"
+              size="md"
+              onClick={handleScrollToContent}
             >
-              Become a Volunteer
+              Explore Pujo
             </Button>
-          </a>
+            <a href="/volunteer">
+              <Button
+                variant="outline"
+                size="md"
+                className="text-white border-white/70 hover:bg-white hover:text-primary"
+              >
+                Become a Volunteer
+              </Button>
+            </a>
+          </div>
         </div>
       </div>
 
-      {/* Decorative Bottom Wave/Scroll Indicator */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 hidden md:block">
+      {/* Scroll indicator — bottom right, unobtrusive */}
+      <div className="absolute bottom-6 right-8 z-10 hidden md:flex flex-col items-center gap-1.5">
         <button
           onClick={handleScrollToContent}
-          className="flex flex-col items-center gap-1.5 text-white/50 hover:text-white transition-colors duration-300 bg-transparent border-0 cursor-pointer focus:outline-none"
+          className="flex flex-col items-center gap-1.5 text-white/40 hover:text-white/80 transition-colors duration-300 bg-transparent border-0 cursor-pointer focus:outline-none"
           aria-label="Scroll to main content"
         >
-          <span className="text-xs uppercase tracking-widest font-semibold">Scroll</span>
-          <div className="w-5 h-8 border-2 border-white/30 rounded-full flex justify-center p-1">
-            <div className="w-1.5 h-1.5 bg-accent rounded-full animate-bounce" />
-          </div>
+          <div className="w-[1px] h-10 bg-white/30" />
+          <span className="text-[10px] uppercase tracking-widest rotate-90 origin-center translate-y-4">Scroll</span>
         </button>
       </div>
+
     </div>
   );
 };

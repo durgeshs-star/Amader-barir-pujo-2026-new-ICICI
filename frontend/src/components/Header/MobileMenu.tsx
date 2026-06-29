@@ -82,10 +82,18 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
         {/* Mobile Header (Logo + Close button) */}
         <div className="flex justify-between items-center px-4 py-4 border-b border-gray-150">
           <Link to="/" onClick={handleLinkClick} className="block select-none">
-            {/* Fallback stylized logo text if image is missing */}
-            <div className="flex items-center gap-2">
-              <span className="text-xl font-bold font-fraunces text-primary tracking-wide">ABP</span>
-              <span className="text-xs bg-accent/20 text-accent font-medium px-2 py-0.5 rounded">2026</span>
+            <div className="flex items-center gap-2.5">
+              <img
+                src="/assets/img/Logo-puja.webp"
+                alt="Amader Barir Pujo logo"
+                className="h-11 w-11 object-contain"
+                width={44}
+                height={44}
+              />
+              <div className="flex flex-col leading-none">
+                <span className="text-base font-bold font-fraunces text-primary tracking-wide">Amader Barir Pujo</span>
+                <span className="text-[10px] text-accent font-semibold tracking-wider">2026</span>
+              </div>
             </div>
           </Link>
           <button
