@@ -1,0 +1,233 @@
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaCalendarAlt, FaFacebookF, FaInstagram } from 'react-icons/fa';
+
+interface RecentPost {
+  title: string;
+  date: string;
+  image: string;
+  route: string;
+}
+
+export const Footer: React.FC = () => {
+  const recentPosts: RecentPost[] = [
+    {
+      title: "As we've all discovered by now, the world can change",
+      date: 'May 20, 2026',
+      image: '/assets/img/blog/sm/1.webp',
+      route: '/gallery',
+    },
+    {
+      title: 'Testimony love offering so blessed',
+      date: 'May 20, 2026',
+      image: '/assets/img/blog/sm/2.webp',
+      route: '/gallery',
+    },
+    {
+      title: "As we've all discovered by now, the world can change",
+      date: 'May 20, 2026',
+      image: '/assets/img/blog/sm/3.webp',
+      route: '/gallery',
+    },
+  ];
+
+  return (
+    <footer className="bg-dark-bg text-white/80 select-text">
+      
+      {/* Middle Footer */}
+      <div className="border-b border-white/10 py-16 px-6">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+          
+          {/* Column 1: About details */}
+          <div className="flex flex-col gap-4">
+            <h5 className="text-xl font-bold font-fraunces text-white border-b-2 border-accent pb-2 w-20">
+              About Us
+            </h5>
+            <p className="text-sm leading-relaxed text-white/70">
+              Join us in the grand celebration of Durga Puja—experience devotion, joy, and togetherness!
+            </p>
+            <ul className="space-y-3 text-sm list-none p-0 m-0 pt-2">
+              <li className="flex items-start gap-3">
+                <FaPhoneAlt className="text-accent mt-1 shrink-0" size={12} />
+                <a href="tel:+919879879302" className="hover:text-accent transition-colors">987-987-930-302</a>
+              </li>
+              <li className="flex items-start gap-3">
+                <FaEnvelope className="text-accent mt-1 shrink-0" size={12} />
+                <a href="mailto:info@abp.proplusdatafoundation.com" className="hover:text-accent transition-colors">
+                  info@abp.proplusdatafoundation.com
+                </a>
+              </li>
+              <li className="flex items-start gap-3">
+                <FaMapMarkerAlt className="text-accent mt-1 shrink-0" size={14} />
+                <span className="leading-relaxed">
+                  Wakad, Pune, Pimpri-Chinchwad, Maharashtra 411057
+                </span>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 2: Information Links */}
+          <div className="flex flex-col gap-4">
+            <h5 className="text-xl font-bold font-fraunces text-white border-b-2 border-accent pb-2 w-28">
+              Information
+            </h5>
+            <ul className="space-y-2 text-sm list-none p-0 m-0">
+              <li>
+                <Link to="/pujo-schedule/panchami" className="hover:text-accent transition-colors block py-1">
+                  Pujo Schedule
+                </Link>
+              </li>
+              <li>
+                <Link to="/about-us" className="hover:text-accent transition-colors block py-1">
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link to="/volunteer" className="hover:text-accent transition-colors block py-1">
+                  Volunteers
+                </Link>
+              </li>
+              <li>
+                <Link to="/anudan" className="hover:text-accent transition-colors block py-1">
+                  Anudan
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 3: Others Links */}
+          <div className="flex flex-col gap-4">
+            <h5 className="text-xl font-bold font-fraunces text-white border-b-2 border-accent pb-2 w-14">
+              Others
+            </h5>
+            <ul className="space-y-2 text-sm list-none p-0 m-0">
+              <li>
+                <Link to="/gallery" className="hover:text-accent transition-colors block py-1">
+                  Gallery
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact-us" className="hover:text-accent transition-colors block py-1">
+                  Contact Us
+                </Link>
+              </li>
+              <li>
+                <Link to="/terms-and-conditions" className="hover:text-accent transition-colors block py-1">
+                  Terms &amp; Conditions
+                </Link>
+              </li>
+              <li>
+                <Link to="/privacy-policy" className="hover:text-accent transition-colors block py-1">
+                  Privacy Policy
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 4: Recent Posts (Hidden on smaller mobile sizes) */}
+          <div className="hidden lg:flex flex-col gap-4">
+            <h5 className="text-xl font-bold font-fraunces text-white border-b-2 border-accent pb-2 w-28">
+              Recent Posts
+            </h5>
+            <div className="flex flex-col gap-4">
+              {recentPosts.map((post, idx) => (
+                <Link key={idx} to={post.route} className="flex gap-3.5 group items-start select-none">
+                  {/* Image container */}
+                  <div className="shrink-0 w-16 h-12 bg-white/5 rounded overflow-hidden flex items-center justify-center">
+                    <PostImageWithFallback src={post.image} alt="post" />
+                  </div>
+                  
+                  {/* Post details */}
+                  <div className="flex-1 flex flex-col justify-start">
+                    <span className="text-[10px] text-accent flex items-center gap-1.5 uppercase font-semibold">
+                      <FaCalendarAlt size={8} />
+                      {post.date}
+                    </span>
+                    <h6 className="text-[13px] text-white/80 group-hover:text-accent font-bold font-sans transition-colors leading-snug line-clamp-2 mt-1">
+                      {post.title}
+                    </h6>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      {/* Footer Bottom copyright bar */}
+      <div className="py-8 px-6 bg-black/30">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+          {/* Copyright text */}
+          <div className="text-sm text-white/60 text-center md:text-left select-text">
+            Copyright &copy; Amader Barir Pujo - <span className="text-accent font-bold">2026</span>
+          </div>
+
+          {/* Logo brand */}
+          <div className="select-none flex items-center gap-2">
+            <span className="text-xl font-bold font-fraunces text-white tracking-widest">Amader Barir Pujo</span>
+            <span className="text-[10px] bg-accent/20 text-accent font-semibold px-2 py-0.5 rounded">2026</span>
+          </div>
+
+          {/* Socials */}
+          <ul className="flex items-center gap-4 list-none p-0 m-0 select-none">
+            <li>
+              <a
+                href="https://www.facebook.com/people/Amader-Barir-Pujo/61571741439510/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+                className="flex items-center justify-center w-8 h-8 rounded-full bg-white/5 hover:bg-accent text-white hover:text-white transition-all"
+              >
+                <FaFacebookF size={12} />
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.instagram.com/abp_pune?igsh=YTZtZHVuODQxNWhj"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="flex items-center justify-center w-8 h-8 rounded-full bg-white/5 hover:bg-accent text-white hover:text-white transition-all"
+              >
+                <FaInstagram size={12} />
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </footer>
+  );
+};
+
+// Fallback image helper for posts
+interface PostImageProps {
+  src: string;
+  alt: string;
+}
+const PostImageWithFallback: React.FC<PostImageProps> = ({ src, alt }) => {
+  const [hasError, setHasError] = useState(false);
+
+  if (hasError) {
+    return (
+      <div className="w-full h-full bg-primary/20 flex items-center justify-center text-accent/50 text-xs">
+        <FaCalendarAlt size={14} />
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={src}
+      alt={alt}
+      width="80"
+      height="60"
+      loading="lazy"
+      onError={() => setHasError(true)}
+      className="object-cover w-full h-full"
+    />
+  );
+};
+
+export default Footer;
