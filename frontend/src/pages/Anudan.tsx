@@ -66,7 +66,7 @@ export const Anudan: React.FC = () => {
                 Whether you choose to contribute towards flowers, bhog, sarees, chandmala, decorations, or other Pujo essentials, your offering becomes a meaningful part of the rituals and celebrations.
               </motion.p>
               <motion.div
-                className="pt-4 bg-gradient-to-r from-primary/5 to-accent/5 rounded-xl p-6"
+                className="pt-4 bg-linear-to-r from-primary/5 to-accent/5 rounded-xl p-6"
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.6 }}

@@ -7,7 +7,7 @@ interface AnudanCardProps {
 
 export const AnudanCard: React.FC<AnudanCardProps> = ({ card }) => {
   return (
-    <div className="bg-white border-2 border-gray-300 rounded-xl p-6 hover:border-accent hover:shadow-xl transition-all duration-300 cursor-pointer min-h-[150px] shadow-md">
+    <div className="bg-white border-2 border-gray-300 rounded-xl p-6 hover:border-accent hover:shadow-xl transition-all duration-300 cursor-pointer min-h-37.5 shadow-md">
       <div>
         <h5 className="text-xl font-bold text-gray-900 font-fraunces mb-4">{card.day}</h5>
         <ul className="space-y-3 text-sm text-gray-800">

@@ -90,6 +90,9 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
                   className="w-full h-full object-contain"
                   width={40}
                   height={40}
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
                 />
               </div>
               <div className="flex flex-col leading-none">
