@@ -98,13 +98,13 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
               </div>
               <div className="flex flex-col leading-none">
                 <span className="text-base font-bold font-fraunces text-primary tracking-wide">Amader Barir Pujo</span>
-                <span className="text-[10px] text-accent font-semibold tracking-wider">2026</span>
+                <span className="text-[10px] text-accent-text font-semibold tracking-wider">2026</span>
               </div>
             </div>
           </Link>
           <button
             onClick={onClose}
-            className="flex items-center justify-center w-9 h-9 bg-gray-100 hover:bg-primary hover:text-white text-primary border-0 rounded-full cursor-pointer transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary"
+            className="flex items-center justify-center w-9 h-9 bg-gray-100 hover:bg-primary hover:text-text-on-primary text-primary border-0 rounded-full cursor-pointer transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary"
             aria-label="Close navigation menu"
           >
             <FaTimes size={16} />
@@ -119,7 +119,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
               <Link
                 to="/"
                 onClick={handleLinkClick}
-                className="block py-2 text-[15px] font-medium text-gray-700 hover:text-primary transition-colors"
+                className="block py-2 text-[15px] font-medium text-secondary hover:text-primary transition-colors"
               >
                 Home
               </Link>
@@ -130,7 +130,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
               <Link
                 to="/about-us"
                 onClick={handleLinkClick}
-                className="block py-2 text-[15px] font-medium text-gray-700 hover:text-primary transition-colors"
+                className="block py-2 text-[15px] font-medium text-secondary hover:text-primary transition-colors"
               >
                 About
               </Link>
@@ -140,7 +140,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
             <li className="border-b border-gray-100 pb-1">
               <button
                 onClick={() => setScheduleOpen(!scheduleOpen)}
-                className="w-full flex justify-between items-center py-2 text-[15px] font-medium text-gray-700 hover:text-primary transition-colors text-left bg-transparent border-0 cursor-pointer"
+                className="w-full flex justify-between items-center py-2 text-[15px] font-medium text-secondary hover:text-primary transition-colors text-left bg-transparent border-0 cursor-pointer"
                 aria-expanded={scheduleOpen}
               >
                 <span>Pujo Schedule</span>
@@ -156,7 +156,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
                     <Link
                       to={day.path}
                       onClick={handleLinkClick}
-                      className="block py-1.5 text-sm text-gray-600 hover:text-primary transition-colors"
+                      className="block py-1.5 text-sm text-secondary hover:text-primary transition-colors"
                     >
                       {day.name}
                     </Link>
@@ -170,7 +170,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
               <Link
                 to="/anudan"
                 onClick={handleLinkClick}
-                className="block py-2 text-[15px] font-medium text-gray-700 hover:text-primary transition-colors"
+                className="block py-2 text-[15px] font-medium text-secondary hover:text-primary transition-colors"
               >
                 Anudan
               </Link>
@@ -180,7 +180,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
             <li className="border-b border-gray-100 pb-1">
               <button
                 onClick={() => setBhogOpen(!bhogOpen)}
-                className="w-full flex justify-between items-center py-2 text-[15px] font-medium text-gray-700 hover:text-primary transition-colors text-left bg-transparent border-0 cursor-pointer"
+                className="w-full flex justify-between items-center py-2 text-[15px] font-medium text-secondary hover:text-primary transition-colors text-left bg-transparent border-0 cursor-pointer"
                 aria-expanded={bhogOpen}
               >
                 <span>Bhog Booking</span>
@@ -196,7 +196,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
                     <Link
                       to={day.path}
                       onClick={handleLinkClick}
-                      className="block py-1.5 text-sm text-gray-600 hover:text-primary transition-colors"
+                      className="block py-1.5 text-sm text-secondary hover:text-primary transition-colors"
                     >
                       {day.name}
                     </Link>
@@ -210,7 +210,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
               <Link
                 to="/gallery"
                 onClick={handleLinkClick}
-                className="block py-2 text-[15px] font-medium text-gray-700 hover:text-primary transition-colors"
+                className="block py-2 text-[15px] font-medium text-secondary hover:text-primary transition-colors"
               >
                 Gallery
               </Link>
@@ -221,7 +221,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
               <Link
                 to="/contact-us"
                 onClick={handleLinkClick}
-                className="block py-2 text-[15px] font-medium text-gray-700 hover:text-primary transition-colors"
+                className="block py-2 text-[15px] font-medium text-secondary hover:text-primary transition-colors"
               >
                 Contact
               </Link>
@@ -232,7 +232,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
               <Link
                 to="/volunteer"
                 onClick={handleLinkClick}
-                className="block text-center py-3 text-sm font-semibold text-white bg-primary hover:bg-primary-dark rounded-md transition-colors shadow-sm"
+                className="block text-center py-3 text-sm font-semibold text-text-on-primary bg-primary hover:bg-primary-dark rounded-md transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               >
                 Become a Volunteer
               </Link>

@@ -30,7 +30,7 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
       className={`flex flex-col ${alignment} ${className}`}
     >
       {subtitle && (
-        <p className="uppercase tracking-[0.4em] text-accent text-xs md:text-sm font-semibold">
+        <p className="uppercase tracking-[0.4em] text-accent-text text-xs md:text-sm font-semibold">
           {subtitle}
         </p>
       )}

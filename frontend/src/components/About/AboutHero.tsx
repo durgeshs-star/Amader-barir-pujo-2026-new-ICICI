@@ -24,7 +24,7 @@ const AboutHero = () => {
             About Us
           </h1>
 
-          <p className="text-white/80 mt-4 max-w-xl mx-auto">
+          <p className="text-text-on-primary mt-4 max-w-xl mx-auto">
             Keeping traditions alive while celebrating faith,
             culture and togetherness.
           </p>

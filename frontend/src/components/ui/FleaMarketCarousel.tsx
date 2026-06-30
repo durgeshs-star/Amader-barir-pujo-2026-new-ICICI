@@ -124,7 +124,7 @@ const FleaMarketCarousel = ({
           bg-white shadow-xl border border-gray-200
           flex items-center justify-center
           text-primary
-          hover:bg-primary hover:text-white
+          hover:bg-primary-dark hover:text-text-on-primary
           transition-all duration-300 hover:scale-110"
         >
           <ChevronLeft size={22} />
@@ -141,7 +141,7 @@ const FleaMarketCarousel = ({
           bg-white shadow-xl border border-gray-200
           flex items-center justify-center
           text-primary
-          hover:bg-primary hover:text-white
+          hover:bg-primary-dark hover:text-text-on-primary
           transition-all duration-300 hover:scale-110"
         >
           <ChevronRight size={22} />

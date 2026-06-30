@@ -14,7 +14,7 @@ export const HamburgerButton: React.FC<HamburgerButtonProps> = ({
   return (
     <button
       onClick={onClick}
-      className="flex flex-col justify-center items-center gap-[5px] w-11 h-11 bg-primary/85 hover:bg-primary border-0 rounded-md cursor-pointer p-2 z-[1001] shrink-0 transition-colors duration-300"
+      className="flex flex-col justify-center items-center gap-[5px] w-11 h-11 bg-primary hover:bg-primary-dark border-0 rounded-md cursor-pointer p-2 z-[1001] shrink-0 transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
       aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
       aria-expanded={isOpen}
       aria-controls={ariaControls}

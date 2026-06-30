@@ -23,7 +23,7 @@ export const BhogCounter: React.FC<BhogCounterProps> = ({
         onClick={handleDecrement}
         disabled={value <= 0}
         aria-label={ariaLabel ? `Reduce ${ariaLabel}` : 'Reduce count'}
-        className="w-10 h-10 border-0 bg-light-bg text-primary text-lg font-bold cursor-pointer transition-colors duration-200 hover:bg-primary hover:text-white disabled:cursor-not-allowed disabled:opacity-45"
+        className="w-10 h-10 border-0 bg-light-bg text-primary text-lg font-bold cursor-pointer transition-colors duration-200 hover:bg-primary-dark hover:text-text-on-primary disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-muted"
       >
         -
       </button>
@@ -39,7 +39,7 @@ export const BhogCounter: React.FC<BhogCounterProps> = ({
         onClick={handleIncrement}
         disabled={value >= max}
         aria-label={ariaLabel ? `Add ${ariaLabel}` : 'Add count'}
-        className="w-10 h-10 border-0 bg-light-bg text-primary text-lg font-bold cursor-pointer transition-colors duration-200 hover:bg-primary hover:text-white disabled:cursor-not-allowed disabled:opacity-45"
+        className="w-10 h-10 border-0 bg-light-bg text-primary text-lg font-bold cursor-pointer transition-colors duration-200 hover:bg-primary-dark hover:text-text-on-primary disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-muted"
       >
         +
       </button>

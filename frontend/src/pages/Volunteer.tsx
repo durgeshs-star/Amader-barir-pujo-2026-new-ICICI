@@ -122,14 +122,14 @@ export const Volunteer: React.FC = () => {
               <h2 className="text-2xl font-bold font-fraunces text-primary mt-5">
                 Thank You!
               </h2>
-              <p className="text-sm text-gray-600 leading-relaxed mt-3">
+              <p className="text-sm text-secondary leading-relaxed mt-3">
                 Your volunteer form has been submitted. Our team will get in
                 touch with you soon.
               </p>
               <button
                 type="button"
                 onClick={() => setSubmitted(false)}
-                className="mt-6 text-sm font-semibold text-accent hover:underline bg-transparent border-0 cursor-pointer"
+                className="mt-6 text-sm font-semibold text-accent-text hover:underline bg-transparent border-0 cursor-pointer"
               >
                 Submit another response
               </button>
@@ -155,7 +155,7 @@ export const Volunteer: React.FC = () => {
                   </label>
                   <div className="relative">
                     <FaUser
-                      className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                      className="absolute left-4 top-1/2 -translate-y-1/2 text-muted"
                       size={14}
                       aria-hidden="true"
                     />
@@ -181,7 +181,7 @@ export const Volunteer: React.FC = () => {
                   </label>
                   <div className="relative">
                     <FaEnvelope
-                      className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                      className="absolute left-4 top-1/2 -translate-y-1/2 text-muted"
                       size={14}
                       aria-hidden="true"
                     />
@@ -207,7 +207,7 @@ export const Volunteer: React.FC = () => {
                   </label>
                   <div className="relative">
                     <FaPhone
-                      className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                      className="absolute left-4 top-1/2 -translate-y-1/2 text-muted"
                       size={14}
                       aria-hidden="true"
                     />

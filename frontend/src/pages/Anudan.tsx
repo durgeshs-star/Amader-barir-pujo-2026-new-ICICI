@@ -36,7 +36,7 @@ export const Anudan: React.FC = () => {
               animate={{ scale: 1 }}
               transition={{ duration: 0.5, delay: 0.3, ease: "easeOut" }}
             >
-              <p className="text-lg md:text-xl text-gray-700 leading-relaxed md:leading-loose font-medium">
+              <p className="text-lg md:text-xl text-secondary leading-relaxed md:leading-loose font-medium">
                 🙏 Offer Your Anudan (অনুদান) – Support the Spirit of Amader Barir Pujo
               </p>
             </motion.div>
@@ -49,7 +49,7 @@ export const Anudan: React.FC = () => {
             whileHover={{ scale: 1.02 }}
           >
             <motion.p
-              className="text-base text-gray-700 leading-relaxed mb-6"
+              className="text-base text-secondary leading-relaxed mb-6"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.4 }}
@@ -58,7 +58,7 @@ export const Anudan: React.FC = () => {
             </motion.p>
             <div className="space-y-6">
               <motion.p
-                className="text-base text-gray-700 leading-relaxed"
+                className="text-base text-secondary leading-relaxed"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.5 }}
@@ -80,7 +80,7 @@ export const Anudan: React.FC = () => {
                   </motion.span>
                   How You Can Participate
                 </h5>
-                <p className="text-base text-gray-700 leading-relaxed">
+                <p className="text-base text-secondary leading-relaxed">
                   Browse our list of Pujo items and select an offering that resonates with you. Every contribution, regardless of its value, helps us preserve and celebrate our cherished traditions with devotion and joy.
                 </p>
               </motion.div>

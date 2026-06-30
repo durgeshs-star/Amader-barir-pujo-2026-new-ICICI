@@ -80,7 +80,7 @@ export const BhogBooking: React.FC = () => {
           <h1 className="text-4xl md:text-6xl font-bold text-gray-950 font-fraunces mb-3">
             Bhog Booking
           </h1>
-          <p className="text-sm text-gray-500 font-medium font-sans">
+          <p className="text-sm text-muted font-medium font-sans">
             Book your sacred Prasad lunch box for pick-up or dine-in
           </p>
           <div className="w-16 h-1 bg-accent mx-auto mt-4 rounded-full" />
@@ -97,8 +97,8 @@ export const BhogBooking: React.FC = () => {
                 to={`/bhog-booking/${key}`}
                 className={`px-5 py-2.5 rounded-md text-xs md:text-sm font-semibold transition-all duration-200 block ${
                   isActive
-                    ? 'bg-primary text-white shadow-md'
-                    : 'text-gray-650 hover:bg-light-bg hover:text-primary'
+                    ? 'bg-primary text-text-on-primary shadow-md'
+                    : 'text-secondary hover:bg-light-bg hover:text-primary'
                 }`}
               >
                 {label}
@@ -112,7 +112,7 @@ export const BhogBooking: React.FC = () => {
           
           {/* Left Column: Menu Details */}
           <div className="lg:col-span-2 bg-white rounded-2xl p-6 md:p-10 shadow-md border border-gray-100 animate-fade-in select-text">
-            <span className="text-xs font-bold text-accent uppercase tracking-widest">Selected Pujo Day</span>
+            <span className="text-xs font-bold text-accent-text uppercase tracking-widest">Selected Pujo Day</span>
             <h2 className="text-2xl md:text-4xl font-bold font-fraunces text-primary mt-1 mb-6">
               {activeDay.title}
             </h2>
@@ -122,7 +122,7 @@ export const BhogBooking: React.FC = () => {
                 {activeDay.menu.title}
               </h3>
               
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 pl-4 list-disc text-sm text-gray-700">
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 pl-4 list-disc text-sm text-secondary">
                 {activeDay.menu.items.map((item, idx) => (
                   <li key={idx} className="leading-relaxed">
                     {item}
@@ -130,7 +130,7 @@ export const BhogBooking: React.FC = () => {
                 ))}
               </ul>
 
-              <div className="pt-4 flex justify-between items-center text-xs font-bold text-gray-600 border-t border-gray-200">
+              <div className="pt-4 flex justify-between items-center text-xs font-bold text-secondary border-t border-gray-200">
                 <span>Suggested Seva Contribution</span>
                 <span className="text-base text-primary font-fraunces">{activeDay.menu.suggestedContribution}</span>
               </div>
@@ -147,17 +147,17 @@ export const BhogBooking: React.FC = () => {
                   âœ“
                 </div>
                 <h3 className="text-lg font-bold font-fraunces text-primary">Booking Requested</h3>
-                <p className="text-xs text-gray-600 leading-relaxed">
+                <p className="text-xs text-secondary leading-relaxed">
                   Thank you! We have received your Bhog booking request for {activeDay.title} ({formData.plates} plates). Please complete the suggested contribution at our desk or via UPI transfer.
                 </p>
-                <button onClick={() => setSubmitted(false)} className="text-xs text-accent hover:underline bg-transparent border-0 cursor-pointer">
+                <button onClick={() => setSubmitted(false)} className="text-xs text-accent-text hover:underline bg-transparent border-0 cursor-pointer">
                   Request more plates
                 </button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4 select-text">
                 <div className="flex flex-col gap-1">
-                  <label htmlFor="bh-name" className="text-[10px] font-bold text-gray-550 uppercase tracking-widest">Name</label>
+                  <label htmlFor="bh-name" className="text-[10px] font-bold text-secondary uppercase tracking-widest">Name</label>
                   <input
                     id="bh-name"
                     type="text"
@@ -169,7 +169,7 @@ export const BhogBooking: React.FC = () => {
                   />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <label htmlFor="bh-phone" className="text-[10px] font-bold text-gray-550 uppercase tracking-widest">Phone</label>
+                  <label htmlFor="bh-phone" className="text-[10px] font-bold text-secondary uppercase tracking-widest">Phone</label>
                   <input
                     id="bh-phone"
                     type="tel"
@@ -181,7 +181,7 @@ export const BhogBooking: React.FC = () => {
                   />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <label htmlFor="bh-plates" className="text-[10px] font-bold text-gray-550 uppercase tracking-widest">Number of Plates</label>
+                  <label htmlFor="bh-plates" className="text-[10px] font-bold text-secondary uppercase tracking-widest">Number of Plates</label>
                   <input
                     id="bh-plates"
                     type="number"
@@ -194,8 +194,8 @@ export const BhogBooking: React.FC = () => {
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <span className="text-[10px] font-bold text-gray-550 uppercase tracking-widest">Collection Mode</span>
-                  <div className="flex items-center gap-4 text-xs font-medium text-gray-700">
+                  <span className="text-[10px] font-bold text-secondary uppercase tracking-widest">Collection Mode</span>
+                  <div className="flex items-center gap-4 text-xs font-medium text-secondary">
                     <label className="flex items-center gap-1.5 cursor-pointer">
                       <input
                         type="radio"

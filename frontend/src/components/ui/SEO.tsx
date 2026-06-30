@@ -22,7 +22,7 @@ const SITE_NAME = 'Amader Barir Pujo, Pune';
 const DEFAULT_DESCRIPTION =
   'Amader Barir Pujo, Pune — Discover devotional services, sacred festivals, community meals, and spiritual programs. Open to everyone.';
 const DEFAULT_OG_IMAGE = '/assets/img/banner/1.webp';
-const THEME_COLOR = '#C9559E';
+const THEME_COLOR = '#782850';
 
 export const SEO: React.FC<SEOProps> = ({
   title,

@@ -15,7 +15,7 @@ export const ScheduleIntro: React.FC<ScheduleIntroProps> = ({ paragraph }) => {
           <span className="font-fraunces text-5xl md:text-6xl text-primary/20 leading-none select-none">
             &ldquo;
           </span>
-          <p className="text-base md:text-lg text-gray-700 leading-relaxed md:leading-loose -mt-4 md:-mt-6">
+          <p className="text-base md:text-lg text-secondary leading-relaxed md:leading-loose -mt-4 md:-mt-6">
             {paragraph}
           </p>
           <div className="flex items-center justify-center gap-3 mt-8">

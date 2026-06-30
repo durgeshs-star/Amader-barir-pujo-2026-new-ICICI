@@ -27,13 +27,13 @@ const bhogBookingDays: NavItem[] = [
 ];
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
-  `nav-link text-sm font-medium uppercase tracking-wider transition-colors duration-200 py-1 block text-gray-700 hover:text-primary ${isActive ? 'text-primary font-semibold border-b-2 border-primary' : ''
+  `nav-link text-sm font-medium uppercase tracking-wider transition-colors duration-200 py-1 block text-text-secondary hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm ${isActive ? 'text-primary font-semibold border-b-2 border-primary' : ''
   }`;
 
 const dropdownItemClass = ({ isActive }: { isActive: boolean }) =>
-  `px-4 py-1 text-[13px] font-medium tracking-wide transition-all duration-200 block border-l-[3px] ${isActive
-    ? 'text-white bg-primary border-accent'
-    : 'text-gray-800 bg-white hover:text-white hover:bg-primary border-transparent'
+  `px-4 py-1 text-[13px] font-medium tracking-wide transition-all duration-200 block border-l-[3px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary ${isActive
+    ? 'text-text-on-primary bg-primary border-accent'
+    : 'text-text bg-surface hover:text-text-on-primary hover:bg-primary border-transparent'
   }`;
 
 interface DropdownMenuProps {
@@ -68,7 +68,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ label, items }) => {
     <li className="relative flex items-center">
       {/* Trigger button — hover zone is exactly the button, nothing more */}
       <button
-        className="nav-btn flex items-center gap-1.5 text-sm font-medium uppercase tracking-wider text-gray-700 hover:text-primary bg-transparent border-0 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm transition-colors duration-200 py-1"
+        className="nav-btn flex items-center gap-1.5 text-sm font-medium uppercase tracking-wider text-text-secondary hover:text-primary bg-transparent border-0 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm transition-colors duration-200 py-1"
         aria-haspopup="listbox"
         aria-expanded={open}
         onMouseEnter={handleButtonEnter}

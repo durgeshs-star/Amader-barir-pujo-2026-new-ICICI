@@ -119,13 +119,13 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className={getWrapperClass(fullWidth)}>
         {label && (
-          <label htmlFor={genId} className={`${labelBase} ${error ? 'text-red-500' : 'text-gray-600'}`}>
+          <label htmlFor={genId} className={`${labelBase} ${error ? 'text-danger' : 'text-secondary'}`}>
             {label}
           </label>
         )}
         <div className="relative flex items-center">
           {leftIcon && (
-            <span className="absolute left-3 text-gray-400 pointer-events-none select-none flex items-center">
+            <span className="absolute left-3 text-muted pointer-events-none select-none flex items-center">
               {leftIcon}
             </span>
           )}
@@ -139,7 +139,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             {...props}
           />
           {rightIcon && (
-            <span className="absolute right-3 text-gray-400 pointer-events-none select-none flex items-center">
+            <span className="absolute right-3 text-muted pointer-events-none select-none flex items-center">
               {rightIcon}
             </span>
           )}
@@ -149,7 +149,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             <ErrorIcon />{error}
           </p>
         ) : helperText ? (
-          <p id={`${genId}-helper`} className="mt-1.5 text-[11px] text-gray-400">{helperText}</p>
+          <p id={`${genId}-helper`} className="mt-1.5 text-[11px] text-muted">{helperText}</p>
         ) : null}
       </div>
     );
@@ -176,7 +176,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     return (
       <div className={getWrapperClass(fullWidth)}>
         {label && (
-          <label htmlFor={genId} className={`${labelBase} ${error ? 'text-red-500' : 'text-gray-600'}`}>
+          <label htmlFor={genId} className={`${labelBase} ${error ? 'text-danger' : 'text-secondary'}`}>
             {label}
           </label>
         )}
@@ -194,7 +194,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
             <ErrorIcon />{error}
           </p>
         ) : helperText ? (
-          <p id={`${genId}-helper`} className="mt-1.5 text-[11px] text-gray-400">{helperText}</p>
+          <p id={`${genId}-helper`} className="mt-1.5 text-[11px] text-muted">{helperText}</p>
         ) : null}
       </div>
     );
@@ -221,7 +221,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
     return (
       <div className={getWrapperClass(fullWidth)}>
         {label && (
-          <label htmlFor={genId} className={`${labelBase} ${error ? 'text-red-500' : 'text-gray-600'}`}>
+          <label htmlFor={genId} className={`${labelBase} ${error ? 'text-danger' : 'text-secondary'}`}>
             {label}
           </label>
         )}
@@ -237,7 +237,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
           >
             {children}
           </select>
-          <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
+          <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted">
             <ChevronIcon />
           </span>
         </div>
@@ -246,7 +246,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
             <ErrorIcon />{error}
           </p>
         ) : helperText ? (
-          <p id={`${genId}-helper`} className="mt-1.5 text-[11px] text-gray-400">{helperText}</p>
+          <p id={`${genId}-helper`} className="mt-1.5 text-[11px] text-muted">{helperText}</p>
         ) : null}
       </div>
     );

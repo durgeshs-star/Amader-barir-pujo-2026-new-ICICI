@@ -32,7 +32,7 @@ export const Footer: React.FC = () => {
   ];
 
   return (
-    <footer className="bg-dark-bg text-white/80 select-text">
+    <footer className="bg-dark-bg text-text-inverse-muted select-text">
       
       {/* Middle Footer */}
       <div className="border-b border-white/10 py-16 px-6">
@@ -43,23 +43,23 @@ export const Footer: React.FC = () => {
             <h5 className="text-xl font-bold font-fraunces text-white border-b-2 border-accent pb-2 w-20">
               About Us
             </h5>
-            <p className="text-sm leading-relaxed text-white/70">
+            <p className="text-sm leading-relaxed text-text-inverse-muted">
               Join us in the grand celebration of Durga Puja—experience devotion, joy, and togetherness!
             </p>
             <ul className="space-y-3 text-sm list-none p-0 m-0 pt-2">
               <li className="flex items-start gap-3">
                 <FaPhoneAlt className="text-accent mt-1 shrink-0" size={12} />
-                <a href="tel:+919879879302" className="hover:text-accent transition-colors">987-987-930-302</a>
+                <a href="tel:+919879879302" className="text-text-on-primary hover:text-accent transition-colors">987-987-930-302</a>
               </li>
               <li className="flex items-start gap-3">
                 <FaEnvelope className="text-accent mt-1 shrink-0" size={12} />
-                <a href="mailto:info@abp.proplusdatafoundation.com" className="hover:text-accent transition-colors">
+                <a href="mailto:info@abp.proplusdatafoundation.com" className="text-text-on-primary hover:text-accent transition-colors">
                   info@abp.proplusdatafoundation.com
                 </a>
               </li>
               <li className="flex items-start gap-3">
                 <FaMapMarkerAlt className="text-accent mt-1 shrink-0" size={14} />
-                <span className="leading-relaxed">
+                <span className="leading-relaxed text-text-on-primary">
                   Wakad, Pune, Pimpri-Chinchwad, Maharashtra 411057
                 </span>
               </li>
@@ -73,22 +73,22 @@ export const Footer: React.FC = () => {
             </h5>
             <ul className="space-y-2 text-sm list-none p-0 m-0">
               <li>
-                <Link to="/panchami" className="hover:text-accent transition-colors block py-1">
+                <Link to="/panchami" className="text-text-on-primary hover:text-accent transition-colors block py-1">
                   Pujo Schedule
                 </Link>
               </li>
               <li>
-                <Link to="/about-us" className="hover:text-accent transition-colors block py-1">
+                <Link to="/about-us" className="hover:text-accent transition-colors block py-1 text-text-on-primary">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link to="/volunteer" className="hover:text-accent transition-colors block py-1">
+                <Link to="/volunteer" className="hover:text-accent transition-colors block py-1 text-text-on-primary">
                   Volunteers
                 </Link>
               </li>
               <li>
-                <Link to="/anudan" className="hover:text-accent transition-colors block py-1">
+                <Link to="/anudan" className="hover:text-accent transition-colors block py-1 text-text-on-primary">
                   Anudan
                 </Link>
               </li>
@@ -102,22 +102,22 @@ export const Footer: React.FC = () => {
             </h5>
             <ul className="space-y-2 text-sm list-none p-0 m-0">
               <li>
-                <Link to="/gallery" className="hover:text-accent transition-colors block py-1">
+                <Link to="/gallery" className="hover:text-accent transition-colors block py-1 text-text-on-primary">
                   Gallery
                 </Link>
               </li>
               <li>
-                <Link to="/contact-us" className="hover:text-accent transition-colors block py-1">
+                <Link to="/contact-us" className="hover:text-accent transition-colors block py-1 text-text-on-primary">
                   Contact Us
                 </Link>
               </li>
               <li>
-                <Link to="/terms-and-conditions" className="hover:text-accent transition-colors block py-1">
+                <Link to="/terms-and-conditions" className="hover:text-accent transition-colors block py-1 text-text-on-primary">
                   Terms &amp; Conditions
                 </Link>
               </li>
               <li>
-                <Link to="/privacy-policy" className="hover:text-accent transition-colors block py-1">
+                <Link to="/privacy-policy" className="hover:text-accent transition-colors block py-1 text-text-on-primary">
                   Privacy Policy
                 </Link>
               </li>
@@ -143,7 +143,7 @@ export const Footer: React.FC = () => {
                       <FaCalendarAlt size={8} />
                       {post.date}
                     </span>
-                    <h6 className="text-[13px] text-white/80 group-hover:text-accent font-bold font-sans transition-colors leading-snug line-clamp-2 mt-1">
+                    <h6 className="text-[13px] text-text-inverse-muted group-hover:text-accent font-bold font-sans transition-colors leading-snug line-clamp-2 mt-1">
                       {post.title}
                     </h6>
                   </div>
@@ -159,7 +159,7 @@ export const Footer: React.FC = () => {
       <div className="py-8 px-6 bg-black/30">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
           {/* Copyright text */}
-          <div className="text-sm text-white/60 text-center md:text-left select-text">
+          <div className="text-sm text-text-inverse-muted text-center md:text-left select-text">
             Copyright &copy; Amader Barir Pujo - <span className="text-accent font-bold">2026</span>
           </div>
 
@@ -185,7 +185,7 @@ export const Footer: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
-                className="flex items-center justify-center w-8 h-8 rounded-full bg-white/5 hover:bg-accent text-white hover:text-white transition-all"
+                className="flex items-center justify-center w-8 h-8 rounded-full bg-white/10 hover:bg-accent-dark text-text-on-primary transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               >
                 <FaFacebookF size={12} />
               </a>
@@ -196,7 +196,7 @@ export const Footer: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
-                className="flex items-center justify-center w-8 h-8 rounded-full bg-white/5 hover:bg-accent text-white hover:text-white transition-all"
+                className="flex items-center justify-center w-8 h-8 rounded-full bg-white/10 hover:bg-accent-dark text-text-on-primary transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               >
                 <FaInstagram size={12} />
               </a>
@@ -219,7 +219,7 @@ const PostImageWithFallback: React.FC<PostImageProps> = ({ src, alt }) => {
 
   if (hasError) {
     return (
-      <div className="w-full h-full bg-primary/20 flex items-center justify-center text-accent/50 text-xs">
+      <div className="w-full h-full bg-primary/20 flex items-center justify-center text-accent-text/70 text-xs">
         <FaCalendarAlt size={14} />
       </div>
     );

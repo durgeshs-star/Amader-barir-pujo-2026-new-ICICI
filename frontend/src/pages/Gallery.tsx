@@ -23,7 +23,7 @@ export const Gallery: React.FC = () => {
           <h1 className="text-4xl md:text-6xl font-bold text-gray-950 font-fraunces mb-3">
             Pujo Gallery
           </h1>
-          <p className="text-sm text-gray-500 font-medium">
+          <p className="text-sm text-muted font-medium">
             Visual memories of spiritual moments and celebrations
           </p>
           <motion.div 
@@ -47,8 +47,8 @@ export const Gallery: React.FC = () => {
               onClick={() => setFilter(year)}
               className={`px-4 py-2 rounded-md text-xs md:text-sm font-semibold transition-all duration-200 cursor-pointer ${
                 filter === year
-                  ? 'bg-primary text-white shadow'
-                  : 'bg-white text-gray-650 hover:bg-light-bg hover:text-primary border border-gray-150'
+                    ? 'bg-primary text-text-on-primary shadow'
+                    : 'bg-white text-secondary hover:bg-light-bg hover:text-primary border border-border'
               }`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -78,7 +78,7 @@ export const Gallery: React.FC = () => {
               
               {/* Overlay Text Details on Hover */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 z-10 pointer-events-none">
-                <span className="text-[10px] text-accent font-bold uppercase tracking-widest">{img.year}</span>
+                <span className="text-[10px] text-accent-text font-bold uppercase tracking-widest">{img.year}</span>
                 <h3 className="text-base font-bold text-white font-fraunces mt-0.5">{img.alt}</h3>
               </div>
             </motion.div>
@@ -103,8 +103,8 @@ const GalleryImageWithFallback: React.FC<ImageProps> = ({ src, alt }) => {
       <div 
         className="w-full h-full bg-gradient-to-br from-primary to-accent flex flex-col justify-center items-center p-4 text-center select-none"
       >
-        <span className="text-accent text-3xl font-bold font-fraunces leading-none opacity-40">ABP</span>
-        <span className="text-white/40 text-[10px] uppercase font-semibold tracking-widest mt-2">{alt}</span>
+        <span className="text-accent-text text-3xl font-bold font-fraunces leading-none opacity-60">ABP</span>
+        <span className="text-text-on-primary/70 text-[10px] uppercase font-semibold tracking-widest mt-2">{alt}</span>
       </div>
     );
   }

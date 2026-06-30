@@ -61,7 +61,7 @@ export const SpiritSection: React.FC = () => {
           <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 tracking-wide font-fraunces">
             Experience The Spirit Of Durga Pujo
           </h2>
-          <p className="font-fraunces font-light italic text-2xl text-gray-500">
+          <p className="font-fraunces font-light italic text-2xl text-muted">
             Free &amp; Open to Everyone
           </p>
         </div>
@@ -105,13 +105,13 @@ export const SpiritSection: React.FC = () => {
                   <h3 className="text-xl md:text-2xl font-bold text-gray-950 mb-3 group-hover:text-primary transition-colors font-fraunces">
                     {offering.title}
                   </h3>
-                  <p className="text-sm md:text-base text-gray-600 leading-relaxed font-sans mb-4">
+                  <p className="text-sm md:text-base text-secondary leading-relaxed font-sans mb-4">
                     {offering.description}
                   </p>
                 </div>
                 
                 {/* Arrow Icon */}
-                <div className="flex items-center text-accent group-hover:text-primary transition-colors text-sm font-semibold gap-1 select-none">
+                <div className="flex items-center text-accent-text group-hover:text-primary transition-colors text-sm font-semibold gap-1 select-none">
                   <span>Learn More</span>
                   <FaArrowRight className="text-xs transition-transform duration-300 group-hover:translate-x-1.5" />
                 </div>

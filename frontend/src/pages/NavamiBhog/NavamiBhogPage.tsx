@@ -54,7 +54,7 @@ const NavamiBhogPage: React.FC = () => {
 
       <section className="py-14 md:py-20 bg-light-bg/60">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <p className="text-base md:text-lg text-gray-700 leading-relaxed md:leading-loose">
+          <p className="text-base md:text-lg text-secondary leading-relaxed md:leading-loose">
             Join us in celebrating Durga Pujo through the sacred tradition of Bhog.{' '}
             <strong>Saptami, Ashtami, Navami</strong> three days of soulful offerings, shared with love. First{' '}
             <strong>400 bookings</strong> get <strong>20% off</strong>! Book your{' '}
@@ -63,7 +63,7 @@ const NavamiBhogPage: React.FC = () => {
               href="https://www.abp.proplusdatafoundation.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-primary hover:text-accent underline"
+              className="text-primary hover:text-accent-text underline"
             >
               www.abp.proplusdatafoundation.com
             </a>{' '}

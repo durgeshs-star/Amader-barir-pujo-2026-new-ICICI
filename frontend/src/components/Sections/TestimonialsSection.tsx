@@ -107,7 +107,7 @@ export const TestimonialsSection: React.FC = () => {
                       const parent = e.currentTarget.parentElement;
                       if (parent && parent.children.length === 1) {
                         const avatar = document.createElement('div');
-                        avatar.className = 'w-full h-full flex items-center justify-center bg-primary text-white text-3xl font-bold font-fraunces';
+                        avatar.className = 'w-full h-full flex items-center justify-center bg-primary text-text-on-primary text-3xl font-bold font-fraunces';
                         avatar.innerText = item.name.charAt(0);
                         parent.appendChild(avatar);
                       }
@@ -129,7 +129,7 @@ export const TestimonialsSection: React.FC = () => {
                   </div>
 
                   {/* Body Quote */}
-                  <blockquote className="text-base md:text-lg text-gray-700 italic font-sans leading-relaxed mb-4">
+                  <blockquote className="text-base md:text-lg text-secondary italic font-sans leading-relaxed mb-4">
                     "{item.quote}"
                   </blockquote>
 
@@ -161,14 +161,14 @@ export const TestimonialsSection: React.FC = () => {
         <div className="flex justify-center gap-4 mt-6">
           <button
             onClick={handlePrev}
-            className="flex items-center justify-center w-11 h-11 bg-white hover:bg-primary text-primary hover:text-white border border-gray-150 rounded-full cursor-pointer transition-all duration-200 focus:outline-none shadow-sm"
+            className="flex items-center justify-center w-11 h-11 bg-white hover:bg-primary-dark text-primary hover:text-text-on-primary border border-border rounded-full cursor-pointer transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary shadow-sm"
             aria-label="Previous testimonial slide"
           >
             <FaChevronLeft size={12} />
           </button>
           <button
             onClick={handleNext}
-            className="flex items-center justify-center w-11 h-11 bg-white hover:bg-primary text-primary hover:text-white border border-gray-150 rounded-full cursor-pointer transition-all duration-200 focus:outline-none shadow-sm"
+            className="flex items-center justify-center w-11 h-11 bg-white hover:bg-primary-dark text-primary hover:text-text-on-primary border border-border rounded-full cursor-pointer transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary shadow-sm"
             aria-label="Next testimonial slide"
           >
             <FaChevronRight size={12} />

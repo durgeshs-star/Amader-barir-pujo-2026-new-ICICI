@@ -1,25 +1,63 @@
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 @import "./styles/animations.css";
+@import "./styles/accessibility.css";
 
 @theme {
-  /* Primary — logo's dominant fuchsia-pink */
-  --color-primary: #C9559E;
-  --color-primary-dark: #782850;
+  /*
+   * Accessible design system — WCAG 2.1 AA
+   * Brand hues preserved; semantic tokens enforce minimum contrast.
+   */
+
+  /* Brand — bright fuchsia (decorative surfaces only, not body text) */
+  --color-primary-bright: #C9559E;
   --color-primary-light: #E06CB8;
 
-  /* Secondary — logo's deep warm maroon-brown */
+  /* Primary — accessible maroon-fuchsia (4.5:1+ on white) */
+  --color-primary: #782850;
+  --color-primary-dark: #5E1F42;
+  --color-primary-darker: #4A1834;
+
+  /* Secondary — warm maroon-brown */
   --color-secondary: #8B3210;
   --color-secondary-dark: #5A1E08;
 
-  /* Accent — bright haldi yellow, pops against fuchsia on any background */
+  /* Accent — bright haldi (dark backgrounds & decorative only) */
   --color-accent: #F0C830;
   --color-accent-light: #F7DB68;
+  /* Accent — accessible on light surfaces & button backgrounds */
+  --color-accent-dark: #8A6914;
+  --color-accent-text: #6B5200;
 
-  /* Backgrounds derived from logo palette */
+  /* Surfaces */
   --color-dark-bg: #2A0A14;
   --color-light-bg: #FDF5FA;
-  
+  --color-surface: #FFFFFF;
+  --color-surface-alt: #FDF5FA;
+  --color-surface-inverse: #2A0A14;
+
+  /* Semantic text */
+  --color-text: #2A0A14;
+  --color-text-secondary: #4A2035;
+  --color-text-muted: #6B4A58;
+  --color-text-inverse: #FFFFFF;
+  --color-text-inverse-muted: #E8D4DC;
+  --color-text-on-primary: #FFFFFF;
+  --color-text-on-accent: #2A0A14;
+  --color-text-link: #782850;
+  --color-text-link-hover: #5E1F42;
+  --color-text-link-visited: #4A1834;
+
+  /* Borders & focus */
+  --color-border: #D4B8C8;
+  --color-border-strong: #782850;
+  --color-focus-ring: #782850;
+
+  /* Status */
+  --color-success: #166534;
+  --color-warning: #854D0E;
+  --color-danger: #B91C1C;
+
   --font-fraunces: "Fraunces", serif;
   --font-sans: "Inter", sans-serif;
 }
@@ -28,22 +66,26 @@
   html {
     scroll-behavior: smooth;
     font-family: var(--font-sans);
-    color: #3a1a2a;
-    background-color: #ffffff;
+    color: var(--color-text);
+    background-color: var(--color-surface);
   }
-  
+
   body {
     overflow-x: hidden;
   }
-  
-  h1, h2, h3, h4, h5, h6 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-fraunces);
-    color: #2A0A14;
+    color: var(--color-text);
     font-weight: 700;
   }
 }
 
-/* Base utility overrides for preloader and others */
 .body-scroll-lock {
   overflow: hidden !important;
   touch-action: none;

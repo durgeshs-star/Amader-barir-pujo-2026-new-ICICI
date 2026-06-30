@@ -54,7 +54,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
     >
       <div className="flex items-start justify-between gap-4.5 mb-6">
         <div>
-          <p className="text-xs font-bold text-accent uppercase tracking-widest">
+          <p className="text-xs font-bold text-accent-text uppercase tracking-widest">
             {subtitle}
           </p>
           <h4
@@ -63,7 +63,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
           >
             {title}
           </h4>
-          <p className="text-sm text-gray-600">{description}</p>
+          <p className="text-sm text-secondary">{description}</p>
         </div>
       </div>
 
@@ -79,7 +79,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
       </div>
 
       {disclaimer && (
-        <p className="mt-5 p-3 pl-4 border-l-4 border-accent rounded-lg bg-accent/12 text-gray-800 text-sm leading-relaxed">
+        <p className="mt-5 p-3 pl-4 border-l-4 border-accent rounded-lg bg-accent/12 text-secondary text-sm leading-relaxed">
           {disclaimer}
         </p>
       )}
@@ -90,7 +90,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
             Total:{' '}
             <span className="text-2xl text-primary font-fraunces">₹{totalAmount}</span>
           </p>
-          <p className="text-sm text-gray-600 mb-0">
+          <p className="text-sm text-secondary mb-0">
             <span>{totalCount}</span>{' '}
             <span>{totalCount === 1 ? 'booking selected' : 'bookings selected'}</span>
           </p>
@@ -99,7 +99,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
           type="button"
           onClick={handlePayNow}
           disabled={totalCount === 0}
-          className="min-w-[150px] px-6 py-2.5 bg-primary text-white font-semibold rounded-md border-0 cursor-pointer transition-all duration-300 hover:bg-primary-dark hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-55"
+          className="min-w-[150px] px-6 py-2.5 bg-primary text-text-on-primary font-semibold rounded-md border-0 cursor-pointer transition-all duration-300 hover:bg-primary-dark hover:shadow-lg disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-muted"
           whileHover={{ scale: totalCount > 0 ? 1.05 : 1 }}
           whileTap={{ scale: totalCount > 0 ? 0.95 : 1 }}
         >

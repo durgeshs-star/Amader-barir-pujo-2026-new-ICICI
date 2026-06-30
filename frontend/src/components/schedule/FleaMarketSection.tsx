@@ -20,7 +20,7 @@ export const FleaMarketSection: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-base md:text-lg text-gray-700 leading-relaxed mt-6 max-w-3xl"
+          className="text-base md:text-lg text-secondary leading-relaxed mt-6 max-w-3xl"
         >
           Explore handcrafted art, decor, and treasures from local creators.
           Shop, snack, and soak in the spirit of Bangaliana with every step.

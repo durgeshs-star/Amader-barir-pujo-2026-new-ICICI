@@ -44,7 +44,7 @@ export const Hero: React.FC = () => {
 
           {/* Body text */}
           <p
-            className="text-sm md:text-base text-white/90 font-sans leading-relaxed mb-8 max-w-md select-text"
+            className="text-sm md:text-base text-text-on-primary font-sans leading-relaxed mb-8 max-w-md select-text"
             style={{ textShadow: '0 1px 6px rgba(0,0,0,0.6)' }}
           >
             A vibrant Bengali community celebration, Amader Barir Pujo has been a cherished home away
@@ -57,7 +57,7 @@ export const Hero: React.FC = () => {
               Explore Pujo
             </Button>
             <a href="/volunteer">
-              <Button variant="outline" size="md" className="text-white border-white/70 hover:bg-white hover:!text-primary">
+              <Button variant="outline" size="md" className="text-text-on-primary border-text-on-primary/80 hover:bg-text-on-primary hover:!text-primary">
                 Become a Volunteer
               </Button>
             </a>

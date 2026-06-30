@@ -108,7 +108,7 @@ export const ContactUs: React.FC = () => {
           <h1 className="text-4xl md:text-6xl font-bold text-gray-950 font-fraunces mb-3">
             Contact Us
           </h1>
-          <p className="text-sm text-gray-500 font-medium">
+          <p className="text-sm text-muted font-medium">
             Have questions? Feel free to reach out to our organizing committee.
           </p>
           <motion.div 
@@ -137,8 +137,8 @@ export const ContactUs: React.FC = () => {
                     <FaPhoneAlt size={14} />
                   </div>
                   <div>
-                    <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest block">Call Us</span>
-                    <a href="tel:+123478390" className="font-semibold text-gray-800 hover:text-primary transition-colors">+123 478 390</a>
+                    <span className="text-[10px] text-muted font-bold uppercase tracking-widest block">Call Us</span>
+                    <a href="tel:+123478390" className="font-semibold text-secondary hover:text-primary transition-colors">+123 478 390</a>
                   </div>
                 </li>
                 
@@ -147,8 +147,8 @@ export const ContactUs: React.FC = () => {
                     <FaEnvelope size={14} />
                   </div>
                   <div>
-                    <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest block">Email Us</span>
-                    <a href="mailto:info@abp.proplusdatafoundation.com" className="font-semibold text-gray-800 hover:text-primary transition-colors">
+                    <span className="text-[10px] text-muted font-bold uppercase tracking-widest block">Email Us</span>
+                    <a href="mailto:info@abp.proplusdatafoundation.com" className="font-semibold text-secondary hover:text-primary transition-colors">
                       info@abp.proplusdatafoundation.com
                     </a>
                   </div>
@@ -159,8 +159,8 @@ export const ContactUs: React.FC = () => {
                     <FaMapMarkerAlt size={15} />
                   </div>
                   <div>
-                    <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest block">Location</span>
-                    <span className="font-semibold text-gray-800 leading-relaxed block">
+                    <span className="text-[10px] text-muted font-bold uppercase tracking-widest block">Location</span>
+                    <span className="font-semibold text-secondary leading-relaxed block">
                       Mane Wasti, Kemse Vasti, Wakad, Pune
                     </span>
                   </div>
@@ -201,17 +201,17 @@ export const ContactUs: React.FC = () => {
                   ✓
                 </div>
                 <h3 className="text-xl font-bold font-fraunces text-primary font-medium">Message Sent</h3>
-                <p className="text-xs text-gray-600 leading-relaxed max-w-xs mx-auto">
+                <p className="text-xs text-secondary leading-relaxed max-w-xs mx-auto">
                   Thank you! Your message has been submitted. One of our organizing committee members will get back to you as soon as possible.
                 </p>
-                <button onClick={() => setSubmitted(false)} className="text-xs text-accent hover:underline bg-transparent border-0 cursor-pointer">
+                <button onClick={() => setSubmitted(false)} className="text-xs text-accent-text hover:underline bg-transparent border-0 cursor-pointer">
                   Send another message
                 </button>
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5 select-text">
                 <div className="flex flex-col gap-1.5">
-                  <label htmlFor="ct-name" className="text-xs font-bold text-gray-750 uppercase tracking-wider">Name</label>
+                  <label htmlFor="ct-name" className="text-xs font-bold text-secondary uppercase tracking-wider">Name</label>
                   <input
                     id="ct-name"
                     type="text"
@@ -231,7 +231,7 @@ export const ContactUs: React.FC = () => {
                 </div>
                 
                 <div className="flex flex-col gap-1.5">
-                  <label htmlFor="ct-email" className="text-xs font-bold text-gray-750 uppercase tracking-wider">Email</label>
+                  <label htmlFor="ct-email" className="text-xs font-bold text-secondary uppercase tracking-wider">Email</label>
                   <input
                     id="ct-email"
                     type="email"
@@ -251,7 +251,7 @@ export const ContactUs: React.FC = () => {
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label htmlFor="ct-subject" className="text-xs font-bold text-gray-750 uppercase tracking-wider">Subject</label>
+                  <label htmlFor="ct-subject" className="text-xs font-bold text-secondary uppercase tracking-wider">Subject</label>
                   <input
                     id="ct-subject"
                     type="text"
@@ -271,7 +271,7 @@ export const ContactUs: React.FC = () => {
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label htmlFor="ct-msg" className="text-xs font-bold text-gray-750 uppercase tracking-wider">Message</label>
+                  <label htmlFor="ct-msg" className="text-xs font-bold text-secondary uppercase tracking-wider">Message</label>
                   <textarea
                     id="ct-msg"
                     rows={5}

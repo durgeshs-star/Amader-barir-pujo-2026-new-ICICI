@@ -87,7 +87,7 @@ export const PujoDaysSection: React.FC = () => {
                 
                 <Link
                   to={day.route}
-                  className="text-xs font-semibold tracking-wider text-accent group-hover:text-primary uppercase transition-colors"
+                  className="text-xs font-semibold tracking-wider text-accent-text group-hover:text-primary uppercase transition-colors"
                   aria-label={`View schedule details for ${day.name}`}
                 >
                   View Details &rarr;
@@ -116,8 +116,8 @@ const ImageWithFallback: React.FC<FallbackProps> = ({ src, alt, gradient }) => {
       <div 
         className={`w-full h-full bg-gradient-to-br ${gradient} flex flex-col justify-center items-center p-4 text-center select-none`}
       >
-        <span className="text-accent text-3xl font-bold font-fraunces leading-none opacity-40">ABP</span>
-        <span className="text-white/40 text-[10px] uppercase font-semibold tracking-widest mt-2">{alt}</span>
+        <span className="text-accent-text text-3xl font-bold font-fraunces leading-none opacity-60">ABP</span>
+        <span className="text-text-on-primary/70 text-[10px] uppercase font-semibold tracking-widest mt-2">{alt}</span>
       </div>
     );
   }

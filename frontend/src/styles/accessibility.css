@@ -1,0 +1,77 @@
+/**
+ * Accessible semantic color utilities — WCAG 2.1 AA
+ * Use these instead of raw brand colors when text must be readable.
+ */
+
+@layer utilities {
+  /* Text on light surfaces */
+  .text-brand {
+    color: var(--color-primary);
+  }
+
+  .text-brand-hover:hover {
+    color: var(--color-primary-dark);
+  }
+
+  .text-accent-safe {
+    color: var(--color-accent-text);
+  }
+
+  .text-muted {
+    color: var(--color-text-muted);
+  }
+
+  .text-secondary {
+    color: var(--color-text-secondary);
+  }
+
+  /* Text on dark surfaces */
+  .text-on-dark {
+    color: var(--color-text-inverse);
+  }
+
+  .text-on-dark-muted {
+    color: var(--color-text-inverse-muted);
+  }
+
+  .text-accent-on-dark {
+    color: var(--color-accent);
+  }
+
+  /* Interactive surfaces */
+  .bg-interactive {
+    background-color: var(--color-primary);
+  }
+
+  .bg-interactive-hover:hover {
+    background-color: var(--color-primary-dark);
+  }
+
+  .bg-accent-interactive {
+    background-color: var(--color-accent-dark);
+  }
+
+  .text-on-accent {
+    color: var(--color-text-on-accent);
+  }
+
+  /* Focus ring — visible on all backgrounds */
+  .focus-ring-accessible:focus-visible {
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 2px;
+  }
+}
+
+@layer base {
+  a:not([class*="text-"]):not([class*="hover:"]) {
+    color: var(--color-text-link);
+  }
+
+  a:not([class*="text-"]):not([class*="hover:"]):hover {
+    color: var(--color-text-link-hover);
+  }
+
+  a:not([class*="text-"]):not([class*="hover:"]):visited {
+    color: var(--color-text-link-visited);
+  }
+}

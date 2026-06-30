@@ -104,7 +104,7 @@ export const Schedule: React.FC = () => {
           <h1 className="text-4xl md:text-6xl font-bold text-gray-950 font-fraunces mb-3">
             Pujo Schedule
           </h1>
-          <p className="text-sm text-gray-500 font-medium">
+          <p className="text-sm text-muted font-medium">
             Daily rituals and timing details for the 2026 celebrations
           </p>
           <div className="w-16 h-1 bg-accent mx-auto mt-4 rounded-full" />
@@ -121,8 +121,8 @@ export const Schedule: React.FC = () => {
                 to={`/pujo-schedule/${key}`}
                 className={`px-4 py-2.5 rounded-md text-xs md:text-sm font-semibold transition-all duration-200 block ${
                   isActive
-                    ? 'bg-primary text-white shadow-md'
-                    : 'text-gray-650 hover:bg-light-bg hover:text-primary'
+                    ? 'bg-primary text-text-on-primary shadow-md'
+                    : 'text-secondary hover:bg-light-bg hover:text-primary'
                 }`}
               >
                 {label}
@@ -135,7 +135,7 @@ export const Schedule: React.FC = () => {
         <div className="bg-white rounded-2xl p-6 md:p-10 shadow-md border border-gray-100 animate-fade-in select-text">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-150 pb-6 mb-8 gap-4">
             <div>
-              <span className="text-xs font-bold text-accent uppercase tracking-widest">Selected Day</span>
+              <span className="text-xs font-bold text-accent-text uppercase tracking-widest">Selected Day</span>
               <h2 className="text-2xl md:text-4xl font-bold font-fraunces text-primary mt-1">
                 {activeDay.title}
               </h2>
@@ -156,7 +156,7 @@ export const Schedule: React.FC = () => {
                 {/* Content details */}
                 <div className="flex flex-col md:flex-row md:items-start gap-3 md:gap-8">
                   {/* Timing card */}
-                  <div className="shrink-0 flex items-center gap-1.5 text-sm font-semibold text-accent w-24">
+                  <div className="shrink-0 flex items-center gap-1.5 text-sm font-semibold text-accent-text w-24">
                     <FaClock className="text-xs shrink-0" />
                     <span>{item.time}</span>
                   </div>
@@ -166,7 +166,7 @@ export const Schedule: React.FC = () => {
                     <h3 className="text-base md:text-lg font-bold text-gray-950 font-fraunces group-hover:text-primary transition-colors">
                       {item.ritual}
                     </h3>
-                    <p className="text-xs md:text-sm text-gray-600 leading-relaxed font-sans mt-1">
+                    <p className="text-xs md:text-sm text-secondary leading-relaxed font-sans mt-1">
                       {item.details}
                     </p>
                   </div>

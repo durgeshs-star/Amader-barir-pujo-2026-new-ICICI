@@ -5,7 +5,7 @@ import type { ScheduleBlock, ScheduleDetailsProps } from "../../types/schedule";
 
 const ScheduleBlockContent: React.FC<{ block: ScheduleBlock }> = ({ block }) => (
   <div className="mt-10 first:mt-0">
-    <p className="uppercase tracking-[0.35em] text-accent text-xs md:text-sm font-semibold">
+    <p className="uppercase tracking-[0.35em] text-accent-text text-xs md:text-sm font-semibold">
       {block.subtitle}
     </p>
     {block.title && (
@@ -18,7 +18,7 @@ const ScheduleBlockContent: React.FC<{ block: ScheduleBlock }> = ({ block }) => 
         {block.lines.map((line) => (
           <li
             key={line}
-            className="flex items-start gap-3 text-gray-700 text-base md:text-lg leading-relaxed"
+            className="flex items-start gap-3 text-secondary text-base md:text-lg leading-relaxed"
           >
             <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
             <span>{line}</span>
@@ -37,7 +37,7 @@ const ScheduleBlockContent: React.FC<{ block: ScheduleBlock }> = ({ block }) => 
               {section.lines.map((line) => (
                 <li
                   key={line}
-                  className="flex items-start gap-3 text-gray-700 text-base md:text-lg leading-relaxed"
+                  className="flex items-start gap-3 text-secondary text-base md:text-lg leading-relaxed"
                 >
                   <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
                   <span>{line}</span>
@@ -95,7 +95,7 @@ export const ScheduleDetails: React.FC<ScheduleDetailsProps> = ({
           >
             {hasSimpleLayout && (
               <>
-                <p className="uppercase tracking-[0.4em] text-accent text-xs md:text-sm font-semibold">
+                <p className="uppercase tracking-[0.4em] text-accent-text text-xs md:text-sm font-semibold">
                   {subtitle}
                 </p>
                 <h3 className="font-fraunces text-3xl md:text-5xl font-bold text-primary mt-3 leading-tight">
@@ -121,10 +121,10 @@ export const ScheduleDetails: React.FC<ScheduleDetailsProps> = ({
                   <Clock size={20} strokeWidth={2.25} />
                 </div>
                 <div>
-                  <p className="text-xs uppercase tracking-wider text-gray-500 font-semibold">
+                  <p className="text-xs uppercase tracking-wider text-muted font-semibold">
                     Ceremony Timing
                   </p>
-                  <p className="text-gray-800 text-base md:text-lg font-medium mt-1">
+                  <p className="text-secondary text-base md:text-lg font-medium mt-1">
                     {timing}
                   </p>
                 </div>

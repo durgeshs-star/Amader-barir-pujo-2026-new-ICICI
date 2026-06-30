@@ -22,15 +22,21 @@ export const Button: React.FC<ButtonProps> = ({
   disabled,
   ...props
 }) => {
-  const baseStyle = 'inline-flex items-center justify-center font-semibold rounded-md transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 cursor-pointer disabled:cursor-not-allowed disabled:opacity-60';
-  
+  const baseStyle =
+    'inline-flex items-center justify-center font-semibold rounded-md transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 cursor-pointer disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-muted disabled:border-gray-200 disabled:shadow-none disabled:hover:bg-gray-200';
+
   const variants = {
-    primary: 'bg-primary text-white hover:bg-primary-dark border-2 border-transparent hover:border-accent hover:shadow-lg focus-visible:ring-primary',
-    secondary: 'bg-secondary text-white hover:bg-red-700 border-2 border-transparent hover:shadow-lg focus-visible:ring-secondary',
-    accent: 'bg-accent text-white hover:bg-accent-light border-2 border-transparent hover:shadow-lg focus-visible:ring-accent',
-    outline: 'bg-transparent text-primary border-2 border-primary hover:bg-primary hover:text-white focus-visible:ring-primary',
-    text: 'bg-transparent text-primary hover:bg-primary/5 hover:text-primary-dark border-2 border-transparent focus-visible:ring-primary',
-    danger: 'bg-red-600 text-white hover:bg-red-700 border-2 border-transparent hover:shadow-lg focus-visible:ring-red-600',
+    primary:
+      'bg-primary text-text-on-primary hover:bg-primary-dark border-2 border-transparent hover:border-accent focus-visible:ring-primary',
+    secondary:
+      'bg-secondary text-text-on-primary hover:bg-secondary-dark border-2 border-transparent focus-visible:ring-secondary',
+    accent:
+      'bg-accent-dark text-text-on-primary hover:bg-accent-text border-2 border-transparent focus-visible:ring-accent-dark',
+    outline:
+      'bg-transparent text-primary border-2 border-primary hover:bg-primary hover:text-text-on-primary focus-visible:ring-primary',
+    text: 'bg-transparent text-primary hover:bg-primary/10 hover:text-primary-dark border-2 border-transparent focus-visible:ring-primary',
+    danger:
+      'bg-danger text-text-on-primary hover:bg-red-800 border-2 border-transparent focus-visible:ring-danger',
   };
 
   const sizes = {

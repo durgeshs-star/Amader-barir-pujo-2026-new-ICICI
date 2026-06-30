@@ -57,13 +57,13 @@ export const Header: React.FC<HeaderProps> = ({
       >
         {/* Top info bar */}
         {!isSticky && (
-          <div className="hidden lg:block border-b border-primary/20 py-2.5 text-xs text-gray-8000 font-bold bg-primary">
+          <div className="hidden lg:block border-b border-primary-bright/30 py-2.5 text-xs text-text-on-primary font-bold bg-primary">
             <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
               <ul className="flex items-center gap-6 list-none p-0 m-0">
                 <li>
                   <a
                     href={`tel:${phone.replace(/\D/g, '')}`}
-                    className="flex items-center gap-2 hover:text-accent transition-colors duration-200"
+                    className="flex items-center gap-2 text-text-on-primary hover:text-accent transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded-sm"
                   >
                     <FaPhoneAlt size={11} aria-hidden="true" />
                     <span>{phone}</span>
@@ -72,7 +72,7 @@ export const Header: React.FC<HeaderProps> = ({
                 <li>
                   <a
                     href={`mailto:${email}`}
-                    className="flex items-center gap-2 hover:text-accent transition-colors duration-200"
+                    className="flex items-center gap-2 text-text-on-primary hover:text-accent transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded-sm"
                   >
                     <FaEnvelope size={11} aria-hidden="true" />
                     <span>{email}</span>
@@ -82,13 +82,13 @@ export const Header: React.FC<HeaderProps> = ({
               <ul className="flex items-center gap-3 list-none p-0 m-0">
                 <li>
                   <a href={facebookUrl} target="_blank" rel="noopener noreferrer" aria-label="Follow us on Facebook"
-                    className="flex items-center justify-center w-6 h-6 rounded bg-white/15 hover:bg-accent transition-all text-white">
+                    className="flex items-center justify-center w-6 h-6 rounded bg-white/20 hover:bg-accent-dark transition-all text-text-on-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
                     <FaFacebookF size={12} aria-hidden="true" />
                   </a>
                 </li>
                 <li>
                   <a href={instagramUrl} target="_blank" rel="noopener noreferrer" aria-label="Follow us on Instagram"
-                    className="flex items-center justify-center w-6 h-6 rounded bg-white/15 hover:bg-accent transition-all text-white">
+                    className="flex items-center justify-center w-6 h-6 rounded bg-white/20 hover:bg-accent-dark transition-all text-text-on-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
                     <FaInstagram size={12} aria-hidden="true" />
                   </a>
                 </li>
@@ -126,7 +126,7 @@ export const Header: React.FC<HeaderProps> = ({
             <div className="hidden lg:block shrink-0">
               <Link
                 to={ctaHref}
-                className="inline-block text-sm font-semibold px-6 py-2.5 rounded-md bg-primary text-white border-2 border-transparent hover:bg-primary-dark hover:shadow-lg transition-all duration-300"
+                className="inline-block text-sm font-semibold px-6 py-2.5 rounded-md bg-primary text-text-on-primary border-2 border-transparent hover:bg-primary-dark hover:shadow-lg transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               >
                 {ctaLabel}
               </Link>
@@ -136,7 +136,7 @@ export const Header: React.FC<HeaderProps> = ({
             <div className="flex lg:hidden items-center gap-3">
               <Link
                 to={ctaHref}
-                className="text-xs font-semibold px-3 py-1.5 rounded bg-primary hover:bg-primary-dark text-white shadow-sm shrink-0 transition-colors"
+                className="text-xs font-semibold px-3 py-1.5 rounded bg-primary hover:bg-primary-dark text-text-on-primary shadow-sm shrink-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               >
                 {ctaLabel}
               </Link>

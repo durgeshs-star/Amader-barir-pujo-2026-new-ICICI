@@ -22,14 +22,14 @@ export const Legal: React.FC = () => {
           <h1 className="text-3xl md:text-5xl font-bold text-gray-950 font-fraunces mb-3">
             {title}
           </h1>
-          <p className="text-xs text-gray-500 font-semibold font-sans uppercase tracking-wider">
+          <p className="text-xs text-muted font-semibold font-sans uppercase tracking-wider">
             Last Updated: {lastUpdated}
           </p>
           <div className="w-16 h-1 bg-accent mx-auto mt-4 rounded-full" />
         </div>
 
         {/* Content */}
-        <div className="bg-white rounded-2xl p-6 md:p-10 border border-gray-100 shadow-sm space-y-6 text-sm text-gray-650 leading-relaxed font-sans select-text">
+        <div className="bg-white rounded-2xl p-6 md:p-10 border border-gray-100 shadow-sm space-y-6 text-sm text-secondary leading-relaxed font-sans select-text">
           {isPrivacy ? (
             <>
               <p>
