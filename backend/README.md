@@ -37,6 +37,7 @@ SMTP_USER=your-email@gmail.com
 SMTP_PASS=your-app-password
 EMAIL_FROM=info@abp.proplusdatafoundation.com
 EMAIL_TO=durgesh.s@proplusdata.co
+VOLUNTEER_EMAIL_TO=durgesh.s@proplusdata.co
 
 # Security
 RATE_LIMIT_WINDOW_MS=900000
@@ -93,6 +94,31 @@ Submit contact form.
 ### GET /health
 
 Health check endpoint.
+
+### POST /api/volunteer
+
+Submit volunteer form. Sends an email to `VOLUNTEER_EMAIL_TO` (defaults to `durgesh.s@proplusdata.co`).
+
+**Request Body:**
+```json
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "phone": "9876543210",
+  "message": "Optional message"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Volunteer form submitted successfully",
+  "data": {
+    "id": "uuid"
+  }
+}
+```
 
 ## Architecture
 

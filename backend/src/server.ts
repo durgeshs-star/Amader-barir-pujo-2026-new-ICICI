@@ -5,9 +5,12 @@ import compression from 'compression';
 import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
 import { ContactRepository } from './repositories/ContactRepository';
+import { VolunteerRepository } from './repositories/VolunteerRepository';
 import { EmailService } from './services/EmailService';
 import { ContactController } from './controllers/ContactController';
+import { VolunteerController } from './controllers/VolunteerController';
 import { createContactRoutes } from './routes/contactRoutes';
+import { createVolunteerRoutes } from './routes/volunteerRoutes';
 import { errorHandler } from './middleware/errorHandler';
 
 dotenv.config();
@@ -54,11 +57,14 @@ app.use(compression());
 
 // Initialize dependencies
 const contactRepository = new ContactRepository();
+const volunteerRepository = new VolunteerRepository();
 const emailService = new EmailService();
 const contactController = new ContactController(contactRepository, emailService);
+const volunteerController = new VolunteerController(volunteerRepository, emailService);
 
 // Routes
 app.use('/api', createContactRoutes(contactController));
+app.use('/api', createVolunteerRoutes(volunteerController));
 
 // Health check endpoint
 app.get('/health', (req, res) => {
