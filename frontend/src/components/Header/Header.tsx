@@ -51,13 +51,13 @@ export const Header: React.FC<HeaderProps> = ({
       <header
         className={`w-full transition-all duration-300 bg-white border-b border-gray-100 ${
           isSticky
-            ? 'fixed top-0 left-0 right-0 shadow-md z-[999]'
+            ? 'fixed top-0 left-0 right-0 shadow-md z-999'
             : 'relative z-50'
         }`}
       >
         {/* Top info bar */}
         {!isSticky && (
-          <div className="hidden lg:block border-b border-primary/20 py-2.5 text-xs text-white bg-primary">
+          <div className="hidden lg:block border-b border-primary/20 py-2.5 text-xs text-gray-8000 font-bold bg-primary">
             <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
               <ul className="flex items-center gap-6 list-none p-0 m-0">
                 <li>

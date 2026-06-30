@@ -63,7 +63,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
     <>
       {/* Overlay Backdrop */}
       <div
-        className={`fixed inset-0 bg-black/70 z-[1000] transition-opacity duration-300 ${
+        className={`fixed inset-0 bg-black/70 z-1000 transition-opacity duration-300 ${
           isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
         onClick={onClose}
@@ -71,14 +71,15 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
       />
 
       {/* Slide-out Sidebar Panel */}
-      <aside
-        id="mobile-nav"
-        className={`fixed top-0 left-0 bottom-0 w-[300px] max-w-[85vw] bg-white z-[1002] shadow-2xl transition-transform duration-300 transform flex flex-col ${
-          isOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
-        aria-label="Mobile navigation menu"
-        aria-hidden={!isOpen}
-      >
+            <aside
+          id="mobile-nav"
+          className={`fixed top-0 left-0 bottom-0 w-75 max-w-[85vw] bg-white z-1002 shadow-2xl transition-transform duration-300 transform flex flex-col ${
+            isOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
+          aria-label="Mobile navigation menu"
+          aria-hidden={!isOpen}
+          inert={!isOpen}
+        >
         {/* Mobile Header (Logo + Close button) */}
         <div className="flex justify-between items-center px-4 py-4 border-b border-gray-150">
           <Link to="/" onClick={handleLinkClick} className="block select-none">
