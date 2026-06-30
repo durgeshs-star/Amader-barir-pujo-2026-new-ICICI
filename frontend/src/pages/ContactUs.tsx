@@ -13,9 +13,57 @@ export const ContactUs: React.FC = () => {
   });
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const validateForm = (): boolean => {
+    const newErrors: Record<string, string> = {};
+
+    // Name validation
+    if (!formData.name.trim()) {
+      newErrors.name = 'Name is required';
+    } else if (formData.name.trim().length < 2) {
+      newErrors.name = 'Name must be at least 2 characters';
+    } else if (formData.name.trim().length > 100) {
+      newErrors.name = 'Name must not exceed 100 characters';
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!emailRegex.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+
+    // Subject validation
+    if (!formData.subject.trim()) {
+      newErrors.subject = 'Subject is required';
+    } else if (formData.subject.trim().length < 3) {
+      newErrors.subject = 'Subject must be at least 3 characters';
+    } else if (formData.subject.trim().length > 200) {
+      newErrors.subject = 'Subject must not exceed 200 characters';
+    }
+
+    // Message validation
+    if (!formData.message.trim()) {
+      newErrors.message = 'Message is required';
+    } else if (formData.message.trim().length < 10) {
+      newErrors.message = 'Message must be at least 10 characters';
+    } else if (formData.message.trim().length > 2000) {
+      newErrors.message = 'Message must not exceed 2000 characters';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -30,6 +78,7 @@ export const ContactUs: React.FC = () => {
       if (response.ok) {
         setSubmitted(true);
         setFormData({ name: '', email: '', subject: '', message: '' });
+        setErrors({});
       } else {
         alert('Failed to send message. Please try again.');
       }
@@ -166,12 +215,19 @@ export const ContactUs: React.FC = () => {
                   <input
                     id="ct-name"
                     type="text"
-                    required
                     value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="px-4 py-3 border border-gray-200 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all bg-gray-50/50"
+                    onChange={(e) => {
+                      setFormData({ ...formData, name: e.target.value });
+                      if (errors.name) setErrors({ ...errors, name: '' });
+                    }}
+                    className={`px-4 py-3 border text-sm rounded-lg focus:outline-none focus:ring-2 transition-all bg-gray-50/50 ${
+                      errors.name 
+                        ? 'border-red-500 focus:ring-red-500/40 focus:border-red-500' 
+                        : 'border-gray-200 focus:ring-primary/40 focus:border-primary'
+                    }`}
                     placeholder="Enter name"
                   />
+                  {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name}</p>}
                 </div>
                 
                 <div className="flex flex-col gap-1.5">
@@ -179,12 +235,19 @@ export const ContactUs: React.FC = () => {
                   <input
                     id="ct-email"
                     type="email"
-                    required
                     value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="px-4 py-3 border border-gray-200 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all bg-gray-50/50"
+                    onChange={(e) => {
+                      setFormData({ ...formData, email: e.target.value });
+                      if (errors.email) setErrors({ ...errors, email: '' });
+                    }}
+                    className={`px-4 py-3 border text-sm rounded-lg focus:outline-none focus:ring-2 transition-all bg-gray-50/50 ${
+                      errors.email 
+                        ? 'border-red-500 focus:ring-red-500/40 focus:border-red-500' 
+                        : 'border-gray-200 focus:ring-primary/40 focus:border-primary'
+                    }`}
                     placeholder="Enter email"
                   />
+                  {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email}</p>}
                 </div>
 
                 <div className="flex flex-col gap-1.5">
@@ -192,12 +255,19 @@ export const ContactUs: React.FC = () => {
                   <input
                     id="ct-subject"
                     type="text"
-                    required
                     value={formData.subject}
-                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    className="px-4 py-3 border border-gray-200 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all bg-gray-50/50"
+                    onChange={(e) => {
+                      setFormData({ ...formData, subject: e.target.value });
+                      if (errors.subject) setErrors({ ...errors, subject: '' });
+                    }}
+                    className={`px-4 py-3 border text-sm rounded-lg focus:outline-none focus:ring-2 transition-all bg-gray-50/50 ${
+                      errors.subject 
+                        ? 'border-red-500 focus:ring-red-500/40 focus:border-red-500' 
+                        : 'border-gray-200 focus:ring-primary/40 focus:border-primary'
+                    }`}
                     placeholder="Enter subject"
                   />
+                  {errors.subject && <p className="text-xs text-red-500 mt-1">{errors.subject}</p>}
                 </div>
 
                 <div className="flex flex-col gap-1.5">
@@ -205,12 +275,19 @@ export const ContactUs: React.FC = () => {
                   <textarea
                     id="ct-msg"
                     rows={5}
-                    required
                     value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="px-4 py-3 border border-gray-200 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all bg-gray-50/50 resize-y"
+                    onChange={(e) => {
+                      setFormData({ ...formData, message: e.target.value });
+                      if (errors.message) setErrors({ ...errors, message: '' });
+                    }}
+                    className={`px-4 py-3 border text-sm rounded-lg focus:outline-none focus:ring-2 transition-all bg-gray-50/50 resize-y ${
+                      errors.message 
+                        ? 'border-red-500 focus:ring-red-500/40 focus:border-red-500' 
+                        : 'border-gray-200 focus:ring-primary/40 focus:border-primary'
+                    }`}
                     placeholder="Type your message here..."
                   />
+                  {errors.message && <p className="text-xs text-red-500 mt-1">{errors.message}</p>}
                 </div>
 
                 <Button 
