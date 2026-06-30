@@ -14,8 +14,6 @@ export const Volunteer: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real application, submit data to server.
-    console.log('Volunteer Request Submitted:', formData);
     setSubmitted(true);
   };
 

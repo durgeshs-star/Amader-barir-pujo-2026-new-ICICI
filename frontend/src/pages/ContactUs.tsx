@@ -1,4 +1,5 @@
 ﻿import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
 import Button from '../components/ui/Button';
 import SEO from '../components/ui/SEO';
@@ -7,14 +8,37 @@ export const ContactUs: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    subject: '',
     message: '',
   });
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Contact Message Submitted:', formData);
-    setSubmitted(true);
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setSubmitted(true);
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        alert('Failed to send message. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert('Failed to send message. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -26,20 +50,35 @@ export const ContactUs: React.FC = () => {
       />
       <div className="max-w-6xl mx-auto px-6">
         {/* Title */}
-        <div className="text-center mb-12">
+        <motion.div 
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
           <h1 className="text-4xl md:text-6xl font-bold text-gray-950 font-fraunces mb-3">
             Contact Us
           </h1>
           <p className="text-sm text-gray-500 font-medium">
             Have questions? Feel free to reach out to our organizing committee.
           </p>
-          <div className="w-16 h-1 bg-accent mx-auto mt-4 rounded-full" />
-        </div>
+          <motion.div 
+            className="w-16 h-1 bg-accent mx-auto mt-4 rounded-full"
+            initial={{ width: 0 }}
+            animate={{ width: 64 }}
+            transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+          />
+        </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           
-          {/* Left Column: Details & Map mockup */}
-          <div className="space-y-6 select-text">
+          {/* Left Column: Details & Map */}
+          <motion.div 
+            className="space-y-6 select-text"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+          >
             <div className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm space-y-6">
               <h2 className="text-2xl font-bold font-fraunces text-primary">Get In Touch</h2>
               
@@ -50,7 +89,7 @@ export const ContactUs: React.FC = () => {
                   </div>
                   <div>
                     <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest block">Call Us</span>
-                    <a href="tel:+919879879302" className="font-semibold text-gray-800 hover:text-primary transition-colors">+91 987 987 9302</a>
+                    <a href="tel:+123478390" className="font-semibold text-gray-800 hover:text-primary transition-colors">+123 478 390</a>
                   </div>
                 </li>
                 
@@ -73,32 +112,44 @@ export const ContactUs: React.FC = () => {
                   <div>
                     <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest block">Location</span>
                     <span className="font-semibold text-gray-800 leading-relaxed block">
-                      Wakad, Pune, Pimpri-Chinchwad, Maharashtra 411057
+                      Mane Wasti, Kemse Vasti, Wakad, Pune
                     </span>
                   </div>
                 </li>
               </ul>
             </div>
 
-            {/* Map Placeholder */}
-            <div className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm flex flex-col justify-center items-center h-56 select-none relative overflow-hidden">
-              {/* Fallback stylized Map wrapper */}
-              <div className="absolute inset-0 bg-slate-100 flex flex-col justify-center items-center text-gray-400">
-                <FaMapMarkerAlt className="text-primary text-4xl animate-bounce" />
-                <span className="text-xs uppercase font-bold text-gray-650 tracking-wider mt-3">Wakad, Pune</span>
-                <span className="text-[10px] text-gray-500 mt-1">Interactive Map will load here</span>
-              </div>
+            {/* Google Map */}
+            <div className="bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3781.427289068342!2d73.74880037372274!3d18.59984136675095!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2bbec7d32f58d%3A0x43013cca2bb47ceb!2sProPlus%20Data%20Pvt%20Ltd!5e0!3m2!1sen!2sin!4v1780488340313!5m2!1sen!2sin"
+                width="100%"
+                height="250"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Amader Barir Pujo Location"
+              />
             </div>
-          </div>
+          </motion.div>
 
           {/* Right Column: Message Form */}
-          <div className="bg-white rounded-xl p-6 md:p-8 border border-gray-100 shadow-sm self-start">
-            <h2 className="text-2xl font-bold font-fraunces text-primary mb-6">Send A Message</h2>
-            
+          <motion.div 
+            className="bg-white rounded-xl p-6 md:p-8 border border-gray-100 shadow-sm self-start"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.5, ease: "easeOut" }}
+          >
             {submitted ? (
-              <div className="text-center py-10 space-y-4 animate-fade-in">
+              <motion.div 
+                className="text-center py-10 space-y-4"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+              >
                 <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto text-green-600 font-bold text-xl">
-                  âœ“
+                  ✓
                 </div>
                 <h3 className="text-xl font-bold font-fraunces text-primary font-medium">Message Sent</h3>
                 <p className="text-xs text-gray-600 leading-relaxed max-w-xs mx-auto">
@@ -107,7 +158,7 @@ export const ContactUs: React.FC = () => {
                 <button onClick={() => setSubmitted(false)} className="text-xs text-accent hover:underline bg-transparent border-0 cursor-pointer">
                   Send another message
                 </button>
-              </div>
+              </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5 select-text">
                 <div className="flex flex-col gap-1.5">
@@ -137,6 +188,19 @@ export const ContactUs: React.FC = () => {
                 </div>
 
                 <div className="flex flex-col gap-1.5">
+                  <label htmlFor="ct-subject" className="text-xs font-bold text-gray-750 uppercase tracking-wider">Subject</label>
+                  <input
+                    id="ct-subject"
+                    type="text"
+                    required
+                    value={formData.subject}
+                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                    className="px-4 py-3 border border-gray-200 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all bg-gray-50/50"
+                    placeholder="Enter subject"
+                  />
+                </div>
+
+                <div className="flex flex-col gap-1.5">
                   <label htmlFor="ct-msg" className="text-xs font-bold text-gray-750 uppercase tracking-wider">Message</label>
                   <textarea
                     id="ct-msg"
@@ -149,12 +213,18 @@ export const ContactUs: React.FC = () => {
                   />
                 </div>
 
-                <Button type="submit" variant="primary" fullWidth className="py-3 text-sm">
-                  Send Message
+                <Button 
+                  type="submit" 
+                  variant="primary" 
+                  fullWidth 
+                  className="py-3 text-sm"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? 'Sending...' : 'Send Message'}
                 </Button>
               </form>
             )}
-          </div>
+          </motion.div>
 
         </div>
 

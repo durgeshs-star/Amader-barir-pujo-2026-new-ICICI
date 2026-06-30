@@ -14,7 +14,6 @@ export const Anudan: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Contribution Details Submitted:', formData);
     setSubmitted(true);
   };
 

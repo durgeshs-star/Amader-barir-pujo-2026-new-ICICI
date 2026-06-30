@@ -63,7 +63,6 @@ export const BhogBooking: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Bhog Booking Request:', { day: activeDayKey, ...formData });
     setSubmitted(true);
   };
 
