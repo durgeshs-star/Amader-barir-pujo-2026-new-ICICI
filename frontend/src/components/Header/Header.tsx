@@ -104,7 +104,7 @@ export const Header: React.FC<HeaderProps> = ({
             {/* Logo */}
             <div className="shrink-0 select-none">
               <Link to="/" aria-label="Amader Barir Pujo — Home">
-                <div className={`rounded-full bg-white flex items-center justify-center transition-all duration-300 ${isSticky ? 'w-14 h-14' : 'w-20 h-20'}`}>
+                <div className={`rounded-full bg-white flex items-center justify-center transition-all duration-300 ${isSticky ? 'w-24 h-24' : 'w-24 h-24'}`}>
                   <img
                     src="/assets/img/Logo-puja.webp"
                     alt="Amader Barir Pujo logo"

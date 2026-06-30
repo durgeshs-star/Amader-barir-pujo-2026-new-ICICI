@@ -37,11 +37,8 @@ export const Hero: React.FC = () => {
 
           {/* Title — large display, two visual lines */}
           <h1 className="font-fraunces leading-none mb-6 select-text" style={{ textShadow: '0 2px 12px rgba(0,0,0,0.5)' }}>
-            <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white">
-              Amader Barir
-            </span>
-            <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold italic text-accent mt-1">
-              Durga Pujo.
+            <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-6xl font-bold text-white">
+              Amader Barir Pujo.
             </span>
           </h1>
 
@@ -60,7 +57,7 @@ export const Hero: React.FC = () => {
               Explore Pujo
             </Button>
             <a href="/volunteer">
-              <Button variant="outline" size="md" className="text-white border-white/70 hover:bg-white hover:text-primary">
+              <Button variant="outline" size="md" className="text-white border-white/70 hover:bg-white hover:!text-primary">
                 Become a Volunteer
               </Button>
             </a>

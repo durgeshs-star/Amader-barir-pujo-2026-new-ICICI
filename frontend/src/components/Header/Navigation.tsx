@@ -8,13 +8,14 @@ interface NavItem {
 }
 
 const pujoScheduleDays: NavItem[] = [
-  { name: 'Panchami', path: '/pujo-schedule/panchami' },
-  { name: 'Shashti', path: '/pujo-schedule/shashti' },
-  { name: 'Saptami', path: '/pujo-schedule/saptami' },
-  { name: 'Ashtami', path: '/pujo-schedule/ashtami' },
-  { name: 'Navami', path: '/pujo-schedule/navami' },
-  { name: 'Dashami', path: '/pujo-schedule/dashami' },
-  { name: 'Lakshmi Puja', path: '/pujo-schedule/lakshmi-puja' },
+  { name: 'Panchami', path: '/panchami' },
+  { name: 'Shashti', path: '/shashti' },
+  { name: 'Saptami', path: '/saptami' },
+  { name: 'Ashtami', path: '/ashtami' },
+  { name: 'Navami', path: '/navami' },
+  { name: 'Dashami', path: '/dashami' },
+  { name: 'Lakshmi Puja', path: '/lakshmi-puja' },
+  { name: 'Sharado Puja', path: '/sharado-puja' },
 ];
 
 const bhogBookingDays: NavItem[] = [
@@ -22,6 +23,7 @@ const bhogBookingDays: NavItem[] = [
   { name: 'Ashtami', path: '/bhog-booking/ashtami' },
   { name: 'Navami', path: '/bhog-booking/navami' },
   { name: 'Lakshmi Puja', path: '/bhog-booking/lakshmi-puja' },
+  { name: 'Sharado Puja', path: '/bhog-booking/sharado-puja' },
 ];
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
@@ -84,7 +86,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ label, items }) => {
       {/* Dropdown panel */}
       {open && (
         <div
-          className="absolute top-full left-0 z-[100] min-w-[200px] pt-2"
+          className="absolute top-full left-0 z-100 min-w-50 pt-2"
           role="listbox"
           onMouseEnter={cancelClose}
           onMouseLeave={scheduleClose}

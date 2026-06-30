@@ -73,9 +73,8 @@ export const TestimonialsSection: React.FC = () => {
         
         {/* Section Heading */}
         <div className="text-center mb-12">
-          <p className="text-accent text-xs font-semibold uppercase tracking-widest mb-2">Testimonials</p>
           <h2 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-wide font-fraunces">
-            What Our Devotees Say
+            What Devotees Say
           </h2>
         </div>
 

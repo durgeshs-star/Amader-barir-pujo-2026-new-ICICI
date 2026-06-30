@@ -17,6 +17,10 @@ import BhogBooking from './pages/BhogBooking';
 import Gallery from './pages/Gallery';
 import ContactUs from './pages/ContactUs';
 import Legal from './pages/Legal';
+import PanchamiPage from './pages/Panchami/PanchamiPage';
+import ShashtiPage from './pages/Shashti/ShashtiPage';
+import SaptamiPage from './pages/Saptami/SaptamiPage';
+import AshtamiPage from './pages/Ashtami/AshtamiPage';
 
 export const App: React.FC = () => {
   return (
@@ -31,26 +35,32 @@ export const App: React.FC = () => {
             <Route path="/" element={<Home />} />
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/volunteer" element={<Volunteer />} />
-            
+
             {/* Day specific schedule paths */}
             <Route path="/pujo-schedule/:day" element={<Schedule />} />
             {/* Fallback schedule page */}
             <Route path="/pujo-schedule" element={<Schedule />} />
-            
+
+            {/* Day-specific pujo pages */}
+            <Route path="/panchami" element={<PanchamiPage />} />
+            <Route path="/shashti" element={<ShashtiPage />} />
+            <Route path="/saptami" element={<SaptamiPage />} />
+            <Route path="/ashtami" element={<AshtamiPage />} />
+
             <Route path="/anudan" element={<Anudan />} />
-            
+
             {/* Day specific bhog booking paths */}
             <Route path="/bhog-booking/:day" element={<BhogBooking />} />
             {/* Fallback bhog booking page */}
             <Route path="/bhog-booking" element={<BhogBooking />} />
-            
+
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/contact-us" element={<ContactUs />} />
-            
+
             {/* Legal policies */}
             <Route path="/terms-and-conditions" element={<Legal />} />
             <Route path="/privacy-policy" element={<Legal />} />
-            
+
             {/* Fallback redirect or homepage display */}
             <Route path="*" element={<Home />} />
           </Routes>

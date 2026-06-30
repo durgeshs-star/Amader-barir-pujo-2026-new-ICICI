@@ -22,11 +22,7 @@ const AboutCarousel = () => {
       </span>
 
       <ImageCarousel
-        images={[
-          "/assets/img/full-slider.webp",
-          "/assets/img/culture-1.webp",
-          "/assets/img/culture-2.webp",
-        ]}
+        image="/assets/img/full-slider.webp"
       />
     </div>
   );

@@ -73,7 +73,7 @@ export const Footer: React.FC = () => {
             </h5>
             <ul className="space-y-2 text-sm list-none p-0 m-0">
               <li>
-                <Link to="/pujo-schedule/panchami" className="hover:text-accent transition-colors block py-1">
+                <Link to="/panchami" className="hover:text-accent transition-colors block py-1">
                   Pujo Schedule
                 </Link>
               </li>

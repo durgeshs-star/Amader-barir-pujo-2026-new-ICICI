@@ -13,37 +13,37 @@ export const PujoDaysSection: React.FC = () => {
     {
       name: 'Mahalaya',
       image: '/assets/img/donation/mahalaya.webp',
-      route: '/pujo-schedule/panchami', // or individual sub-pages
+      route: '/panchami', // or individual sub-pages
       gradient: 'from-amber-700 via-primary to-dark-bg'
     },
     {
       name: 'Maha Shashti',
       image: '/assets/img/donation/sasthi.jpg',
-      route: '/pujo-schedule/shashti',
+      route: '/shashti',
       gradient: 'from-rose-800 via-primary-dark to-dark-bg'
     },
     {
       name: 'Maha Saptami',
       image: '/assets/img/donation/saptam.jpg',
-      route: '/pujo-schedule/saptami',
+      route: '/saptami',
       gradient: 'from-burgundy-900 via-primary to-orange-950'
     },
     {
       name: 'Maha Ashtami',
       image: '/assets/img/donation/ashtami.jpg',
-      route: '/pujo-schedule/ashtami',
+      route: '/ashtami',
       gradient: 'from-orange-800 via-primary-light to-dark-bg'
     },
     {
       name: 'Maha Navami',
       image: '/assets/img/donation/navami.jpg',
-      route: '/pujo-schedule/navami',
+      route: '/navami',
       gradient: 'from-red-800 via-primary-dark to-yellow-950'
     },
     {
       name: 'Maha Dashami',
       image: '/assets/img/donation/dashami.png',
-      route: '/pujo-schedule/dashami',
+      route: '/dashami',
       gradient: 'from-yellow-800 via-accent to-dark-bg'
     }
   ];

@@ -39,13 +39,13 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
   }, [isOpen]);
 
   const pujoScheduleDays = [
-    { name: 'Panchami', path: '/pujo-schedule/panchami' },
-    { name: 'Shashti', path: '/pujo-schedule/shashti' },
-    { name: 'Saptami', path: '/pujo-schedule/saptami' },
-    { name: 'Ashtami', path: '/pujo-schedule/ashtami' },
-    { name: 'Navami', path: '/pujo-schedule/navami' },
-    { name: 'Dashami', path: '/pujo-schedule/dashami' },
-    { name: 'Lakshmi Puja', path: '/pujo-schedule/lakshmi-puja' },
+    { name: 'Panchami', path: '/panchami' },
+    { name: 'Shashti', path: '/shashti' },
+    { name: 'Saptami', path: '/saptami' },
+    { name: 'Ashtami', path: '/ashtami' },
+    { name: 'Navami', path: '/navami' },
+    { name: 'Dashami', path: '/dashami' },
+    { name: 'Lakshmi Puja', path: '/lakshmi-puja' },
   ];
 
   const bhogBookingDays = [

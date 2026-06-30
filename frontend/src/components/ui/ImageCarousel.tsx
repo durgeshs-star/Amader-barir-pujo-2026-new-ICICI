@@ -8,6 +8,12 @@ interface ImageCarouselProps {
   height?: string;
 }
 
+const positions = [
+  "left center",
+  "center center",
+  "right center",
+];
+
 const ImageCarousel = ({
   image,
   autoPlay = true,
@@ -21,37 +27,32 @@ const ImageCarousel = ({
     if (!autoPlay) return;
 
     const timer = setInterval(() => {
-      setActive((prev) => (prev + 1) % 3);
+      setActive((prev) => (prev + 1) % positions.length);
     }, interval);
 
     return () => clearInterval(timer);
   }, [autoPlay, interval]);
 
   return (
-    <div className={`relative overflow-hidden rounded-xl shadow-xl h-full ${className ?? ""}`}>
-
-      {/* Viewport */}
+    <div
+      className={`relative overflow-hidden rounded-xl shadow-xl ${className ?? ""}`}
+      style={{ height: height ?? "100%" }}
+    >
+      {/* Panel */}
       <div
-        className="w-full h-full overflow-hidden"
-        style={{ height: height ?? "100%" }}
-      >
-
-        {/* Panoramic Image */}
-        <img
-          src={image}
-          alt="About"
-          className="h-full w-full object-cover transition-transform duration-700 ease-in-out"
-          style={{
-            transform: `translateX(-${active * 33.3333}%)`,
-          }}
-        />
-
-      </div>
+        className="w-full h-85 md:h-107.5 lg:h-130 transition-all duration-700 ease-in-out"
+        style={{
+          backgroundImage: `url(${image})`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "300% 100%",
+          backgroundPosition: positions[active],
+          height: "520px",
+        }}
+      />
 
       {/* Indicators */}
       <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-3">
-
-        {[0, 1, 2].map((index) => (
+        {positions.map((_, index) => (
           <button
             key={index}
             onClick={() => setActive(index)}
@@ -62,9 +63,7 @@ const ImageCarousel = ({
             }`}
           />
         ))}
-
       </div>
-
     </div>
   );
 };
