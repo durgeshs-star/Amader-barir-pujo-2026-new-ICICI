@@ -21,7 +21,7 @@ const VisionMission = () => {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
-        className="uppercase tracking-[0.45em] text-accent text-sm font-semibold"
+        className="uppercase tracking-widest text-secondary text-[10px] font-medium"
       >
         Keeping Traditions Alive, Celebrating Together
       </motion.p>
@@ -30,7 +30,7 @@ const VisionMission = () => {
         initial={{ opacity: 0, y: 25 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="font-fraunces text-5xl lg:text-6xl font-bold leading-tight mt-5"
+        className="font-fraunces text-3xl lg:text-4xl font-bold leading-tight mt-2"
       >
         <span className="text-primary">
           A Celebration of
@@ -38,7 +38,7 @@ const VisionMission = () => {
 
         <br />
 
-        <span className="italic text-accent font-medium">
+        <span className="italic text-secondary font-medium">
           Faith, Culture & Togetherness
         </span>
       </motion.h2>
@@ -47,7 +47,7 @@ const VisionMission = () => {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
-        className="text-gray-600 text-lg leading-9 mt-10 mb-14"
+        className="text-dark-bg text-sm leading-6 mt-4 mb-4"
       >
         Welcome to a place where the divine blessings of Maa Durga inspire
         devotion, strengthen community bonds, and keep our cherished
@@ -55,7 +55,7 @@ const VisionMission = () => {
         with pride, joy, and a shared sense of belonging.
       </motion.p>
 
-      <div className="space-y-8">
+      <div className="space-y-4">
 
         {items.map((item, index) => (
           <motion.div
@@ -70,14 +70,14 @@ const VisionMission = () => {
             whileHover={{
               x: 8,
             }}
-            className="border-l-4 border-accent pl-8 py-2 transition-all duration-300"
+            className="border-l-4 border-primary pl-5 py-1.5 transition-all duration-300 hover:border-secondary"
           >
 
-            <h3 className="font-fraunces text-3xl text-primary font-bold mb-4">
+            <h3 className="font-fraunces text-xl text-primary font-bold mb-2">
               {item.title}
             </h3>
 
-            <p className="text-gray-600 leading-8">
+            <p className="text-dark-bg text-sm leading-6">
               {item.description}
             </p>
 

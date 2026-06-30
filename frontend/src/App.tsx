@@ -21,6 +21,11 @@ import PanchamiPage from './pages/Panchami/PanchamiPage';
 import ShashtiPage from './pages/Shashti/ShashtiPage';
 import SaptamiPage from './pages/Saptami/SaptamiPage';
 import AshtamiPage from './pages/Ashtami/AshtamiPage';
+import NavamiPage from './pages/Navami/NavamiPage';
+import DashamiPage from './pages/Dashami/DashamiPage';
+import SaptamiBhogPage from './pages/SaptamiBhog/SaptamiBhogPage';
+import AshtamiBhogPage from './pages/AshtamiBhog/AshtamiBhogPage';
+import NavamiBhogPage from './pages/NavamiBhog/NavamiBhogPage';
 
 export const App: React.FC = () => {
   return (
@@ -46,10 +51,15 @@ export const App: React.FC = () => {
             <Route path="/shashti" element={<ShashtiPage />} />
             <Route path="/saptami" element={<SaptamiPage />} />
             <Route path="/ashtami" element={<AshtamiPage />} />
+            <Route path="/navami" element={<NavamiPage />} />
+            <Route path="/dashami" element={<DashamiPage />} />
 
             <Route path="/anudan" element={<Anudan />} />
 
             {/* Day specific bhog booking paths */}
+            <Route path="/bhog-booking/saptami" element={<SaptamiBhogPage />} />
+            <Route path="/bhog-booking/ashtami" element={<AshtamiBhogPage />} />
+            <Route path="/bhog-booking/navami" element={<NavamiBhogPage />} />
             <Route path="/bhog-booking/:day" element={<BhogBooking />} />
             {/* Fallback bhog booking page */}
             <Route path="/bhog-booking" element={<BhogBooking />} />

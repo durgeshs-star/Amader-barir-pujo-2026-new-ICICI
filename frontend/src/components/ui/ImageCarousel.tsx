@@ -40,13 +40,12 @@ const ImageCarousel = ({
     >
       {/* Panel */}
       <div
-        className="w-full h-85 md:h-107.5 lg:h-130 transition-all duration-700 ease-in-out"
+        className="w-full h-full transition-all duration-700 ease-in-out"
         style={{
           backgroundImage: `url(${image})`,
           backgroundRepeat: "no-repeat",
-          backgroundSize: "300% 100%",
+          backgroundSize: "cover",
           backgroundPosition: positions[active],
-          height: "520px",
         }}
       />
 

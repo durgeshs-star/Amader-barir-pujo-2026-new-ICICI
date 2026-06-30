@@ -1,21 +1,19 @@
-import React from "react";
+import { type ElementType, type ReactNode } from "react";
 
-export interface ContainerProps {
-  children: React.ReactNode;
+interface ContainerProps {
+  children: ReactNode;
   className?: string;
-  as?: keyof JSX.IntrinsicElements;
+  as?: ElementType;
 }
 
-export const Container: React.FC<ContainerProps> = ({
+export default function Container({
   children,
   className = "",
   as: Tag = "div",
-}) => {
+}: ContainerProps) {
   return (
     <Tag className={`max-w-7xl mx-auto px-6 md:px-10 ${className}`}>
       {children}
     </Tag>
   );
-};
-
-export default Container;
+}
