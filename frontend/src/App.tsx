@@ -1,31 +1,40 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-// Layout & UI Global features
+// Layout & UI Global features — always eager (above the fold)
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import WhatsAppBtn from './components/Sections/WhatsAppBtn';
 import BackToTop from './components/Sections/BackToTop';
 
-// Page Views
 import Home from './pages/Home';
-import AboutUs from './pages/AboutUs';
-import Volunteer from './pages/Volunteer';
-import Schedule from './pages/Schedule';
-import Anudan from './pages/Anudan';
-import BhogBooking from './pages/BhogBooking';
-import Gallery from './pages/Gallery';
-import ContactUs from './pages/ContactUs';
-import Legal from './pages/Legal';
-import PanchamiPage from './pages/Panchami/PanchamiPage';
-import ShashtiPage from './pages/Shashti/ShashtiPage';
-import SaptamiPage from './pages/Saptami/SaptamiPage';
-import AshtamiPage from './pages/Ashtami/AshtamiPage';
-import NavamiPage from './pages/Navami/NavamiPage';
-import DashamiPage from './pages/Dashami/DashamiPage';
-import SaptamiBhogPage from './pages/SaptamiBhog/SaptamiBhogPage';
-import AshtamiBhogPage from './pages/AshtamiBhog/AshtamiBhogPage';
-import NavamiBhogPage from './pages/NavamiBhog/NavamiBhogPage';
+
+const AboutUs        = lazy(() => import('./pages/AboutUs'));
+const Volunteer      = lazy(() => import('./pages/Volunteer'));
+const Schedule       = lazy(() => import('./pages/Schedule'));
+const Anudan         = lazy(() => import('./pages/Anudan'));
+const BhogBooking    = lazy(() => import('./pages/BhogBooking'));
+const Gallery        = lazy(() => import('./pages/Gallery'));
+const ContactUs      = lazy(() => import('./pages/ContactUs'));
+const Legal          = lazy(() => import('./pages/Legal'));
+const PanchamiPage   = lazy(() => import('./pages/Panchami/PanchamiPage'));
+const ShashtiPage    = lazy(() => import('./pages/Shashti/ShashtiPage'));
+const SaptamiPage    = lazy(() => import('./pages/Saptami/SaptamiPage'));
+const AshtamiPage    = lazy(() => import('./pages/Ashtami/AshtamiPage'));
+const NavamiPage     = lazy(() => import('./pages/Navami/NavamiPage'));
+const DashamiPage    = lazy(() => import('./pages/Dashami/DashamiPage'));
+const SaptamiBhogPage = lazy(() => import('./pages/SaptamiBhog/SaptamiBhogPage'));
+const AshtamiBhogPage = lazy(() => import('./pages/AshtamiBhog/AshtamiBhogPage'));
+const NavamiBhogPage  = lazy(() => import('./pages/NavamiBhog/NavamiBhogPage'));
+
+const PageSkeleton: React.FC = () => (
+  <div
+    style={{ minHeight: '60vh', background: '#fff' }}
+    aria-hidden="true"
+    role="status"
+    aria-label="Loading page…"
+  />
+);
 
 export const App: React.FC = () => {
   return (
@@ -35,45 +44,47 @@ export const App: React.FC = () => {
         <Header />
 
         {/* Core Page Router Content Area */}
-        <main className="flex-grow">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about-us" element={<AboutUs />} />
-            <Route path="/volunteer" element={<Volunteer />} />
+        <main className="grow">
+          <Suspense fallback={<PageSkeleton />}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about-us" element={<AboutUs />} />
+              <Route path="/volunteer" element={<Volunteer />} />
 
-            {/* Day specific schedule paths */}
-            <Route path="/pujo-schedule/:day" element={<Schedule />} />
-            {/* Fallback schedule page */}
-            <Route path="/pujo-schedule" element={<Schedule />} />
+              {/* Day specific schedule paths */}
+              <Route path="/pujo-schedule/:day" element={<Schedule />} />
+              {/* Fallback schedule page */}
+              <Route path="/pujo-schedule" element={<Schedule />} />
 
-            {/* Day-specific pujo pages */}
-            <Route path="/panchami" element={<PanchamiPage />} />
-            <Route path="/shashti" element={<ShashtiPage />} />
-            <Route path="/saptami" element={<SaptamiPage />} />
-            <Route path="/ashtami" element={<AshtamiPage />} />
-            <Route path="/navami" element={<NavamiPage />} />
-            <Route path="/dashami" element={<DashamiPage />} />
+              {/* Day-specific pujo pages */}
+              <Route path="/panchami" element={<PanchamiPage />} />
+              <Route path="/shashti" element={<ShashtiPage />} />
+              <Route path="/saptami" element={<SaptamiPage />} />
+              <Route path="/ashtami" element={<AshtamiPage />} />
+              <Route path="/navami" element={<NavamiPage />} />
+              <Route path="/dashami" element={<DashamiPage />} />
 
-            <Route path="/anudan" element={<Anudan />} />
+              <Route path="/anudan" element={<Anudan />} />
 
-            {/* Day specific bhog booking paths */}
-            <Route path="/bhog-booking/saptami" element={<SaptamiBhogPage />} />
-            <Route path="/bhog-booking/ashtami" element={<AshtamiBhogPage />} />
-            <Route path="/bhog-booking/navami" element={<NavamiBhogPage />} />
-            <Route path="/bhog-booking/:day" element={<BhogBooking />} />
-            {/* Fallback bhog booking page */}
-            <Route path="/bhog-booking" element={<BhogBooking />} />
+              {/* Day specific bhog booking paths */}
+              <Route path="/bhog-booking/saptami" element={<SaptamiBhogPage />} />
+              <Route path="/bhog-booking/ashtami" element={<AshtamiBhogPage />} />
+              <Route path="/bhog-booking/navami" element={<NavamiBhogPage />} />
+              <Route path="/bhog-booking/:day" element={<BhogBooking />} />
+              {/* Fallback bhog booking page */}
+              <Route path="/bhog-booking" element={<BhogBooking />} />
 
-            <Route path="/gallery" element={<Gallery />} />
-            <Route path="/contact-us" element={<ContactUs />} />
+              <Route path="/gallery" element={<Gallery />} />
+              <Route path="/contact-us" element={<ContactUs />} />
 
-            {/* Legal policies */}
-            <Route path="/terms-and-conditions" element={<Legal />} />
-            <Route path="/privacy-policy" element={<Legal />} />
+              {/* Legal policies */}
+              <Route path="/terms-and-conditions" element={<Legal />} />
+              <Route path="/privacy-policy" element={<Legal />} />
 
-            {/* Fallback redirect or homepage display */}
-            <Route path="*" element={<Home />} />
-          </Routes>
+              {/* Fallback redirect or homepage display */}
+              <Route path="*" element={<Home />} />
+            </Routes>
+          </Suspense>
         </main>
 
         {/* Footer info bar */}

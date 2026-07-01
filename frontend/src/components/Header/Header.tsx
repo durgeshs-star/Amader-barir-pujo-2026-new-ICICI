@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaPhoneAlt, FaEnvelope, FaFacebookF, FaInstagram } from 'react-icons/fa';
 import Navigation from './Navigation';
@@ -106,7 +106,12 @@ export const Header: React.FC<HeaderProps> = ({
               <Link to="/" aria-label="Amader Barir Pujo — Home">
                 <div className={`rounded-full bg-white flex items-center justify-center transition-all duration-300 ${isSticky ? 'w-24 h-24' : 'w-24 h-24'}`}>
                   <img
-                    src="/assets/img/Logo-puja.webp"
+                    src="/assets/img/Logo-puja-160.webp"
+                    srcSet="
+                      /assets/img/Logo-puja-96.webp   96w,
+                      /assets/img/Logo-puja-160.webp 160w,
+                      /assets/img/Logo-puja-256.webp 256w"
+                    sizes="96px"
                     alt="Amader Barir Pujo logo"
                     className="w-full h-full object-contain"
                     loading="eager"
