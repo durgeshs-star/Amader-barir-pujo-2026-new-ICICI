@@ -56,7 +56,7 @@ export const SpiritSection: React.FC = () => {
   ];
 
   return (
-    <section id="experience-section" className="py-20 md:py-28 bg-white scroll-mt-10">
+    <section id="experience-section" className="py-20 md:py-28 bg-white scroll-mt-10" style={{ contentVisibility: 'auto', containIntrinsicSize: '0 500px' }}>
       <div className="max-w-7xl mx-auto px-6">
         
         {/* Section Title */}
@@ -70,7 +70,7 @@ export const SpiritSection: React.FC = () => {
         </div>
 
         {/* Offerings Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10" style={{ contentVisibility: 'auto', containIntrinsicSize: '0 300px' }}>
           {offerings.map((offering, idx) => (
             <div
               key={idx}
@@ -85,6 +85,7 @@ export const SpiritSection: React.FC = () => {
                   width="50"
                   height="50"
                   loading="lazy"
+                  decoding="async"
                   className="object-contain w-12 h-12 group-hover:scale-110 transition-transform duration-300"
                   onError={(e) => {
                     // Replace img element with fallback svg wrapper if loading fails

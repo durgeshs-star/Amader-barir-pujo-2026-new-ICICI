@@ -43,6 +43,7 @@ const NavamiBhogPage: React.FC = () => {
         description="Navami Bhog Schedule — Learn about our Navami Bhog offerings, procedures, and their spiritual significance at Amader Barir Pujo."
         keywords="Navami bhog, Maha Navami bhog booking, Durga Puja 2026 bhog, Amader Barir Pujo Navami Bhog"
         ogImage="/assets/img/banner/1.webp"
+        canonical="https://www.abp.proplusdatafoundation.com/bhog-booking/navami"
       />
 
       <PageHero

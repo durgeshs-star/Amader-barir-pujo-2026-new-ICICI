@@ -32,15 +32,31 @@ export const Header: React.FC<HeaderProps> = ({
   const [isSticky, setIsSticky] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setIsSticky(window.scrollY > 80);
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(() => {
+          setIsSticky(window.scrollY > 80);
+          ticking = false;
+        });
+      }
+    };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   // Close mobile menu on resize to desktop
   useEffect(() => {
+    let ticking = false;
     const handleResize = () => {
-      if (window.innerWidth >= 1024) setIsMobileMenuOpen(false);
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(() => {
+          if (window.innerWidth >= 1024) setIsMobileMenuOpen(false);
+          ticking = false;
+        });
+      }
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -63,6 +79,7 @@ export const Header: React.FC<HeaderProps> = ({
                 <li>
                   <a
                     href={`tel:${phone.replace(/\D/g, '')}`}
+                    aria-label={`Call us at ${phone}`}
                     className="flex items-center gap-2 text-text-on-primary hover:text-accent transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded-sm"
                   >
                     <FaPhoneAlt size={11} aria-hidden="true" />
@@ -72,6 +89,7 @@ export const Header: React.FC<HeaderProps> = ({
                 <li>
                   <a
                     href={`mailto:${email}`}
+                    aria-label={`Email us at ${email}`}
                     className="flex items-center gap-2 text-text-on-primary hover:text-accent transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded-sm"
                   >
                     <FaEnvelope size={11} aria-hidden="true" />

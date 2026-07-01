@@ -16,6 +16,8 @@ export interface SEOProps {
   keywords?: string;
   /** Disable appending site name to title */
   titleOnly?: boolean;
+  /** Meta robots directive — defaults to "index,follow" */
+  robots?: string;
 }
 
 const SITE_NAME = 'Amader Barir Pujo, Pune';
@@ -32,6 +34,7 @@ export const SEO: React.FC<SEOProps> = ({
   ogType = 'website',
   keywords,
   titleOnly = false,
+  robots = 'index,follow',
 }) => {
   const fullTitle = title
     ? titleOnly
@@ -46,6 +49,7 @@ export const SEO: React.FC<SEOProps> = ({
       <meta name="description" content={description} />
       {keywords && <meta name="keywords" content={keywords} />}
       {canonical && <link rel="canonical" href={canonical} />}
+      <meta name="robots" content={robots} />
 
       {/* ── Theme / PWA ────────────────────────────────── */}
       <meta name="theme-color" content={THEME_COLOR} />

@@ -11,6 +11,7 @@ export const Home: React.FC = () => {
         description="Amader Barir Pujo, Pune — A vibrant Bengali community celebration. Devotional services, Bhog, cultural programs, and sacred rituals. Open to everyone."
         keywords="Durga Puja Pune, Bengali community Pune, Amader Barir Pujo, Wakad Durga Puja 2026"
         ogImage="/assets/img/banner/1.webp"
+        canonical="https://www.abp.proplusdatafoundation.com/"
       />
       <Hero />
       <SpiritSection />

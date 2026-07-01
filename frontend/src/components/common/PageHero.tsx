@@ -21,11 +21,12 @@ export const PageHero: React.FC<PageHeroProps> = ({
 }) => {
   return (
     <section className={`relative ${height} overflow-hidden`}>
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage: `url('${backgroundImage}')`,
-        }}
+      <img
+        src={backgroundImage}
+        alt=""
+        className="absolute inset-0 w-full h-full object-cover"
+        loading="lazy"
+        decoding="async"
       />
 
       <div className={`absolute inset-0 ${overlay}`} />

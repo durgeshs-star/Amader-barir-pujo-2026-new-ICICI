@@ -70,6 +70,7 @@ const PrivacyPolicy: React.FC = () => {
         description="Learn how Amader Barir Pujo collects, uses, and protects your personal data when you use our website or book bhog."
         keywords="Privacy Policy, Data Protection, Amader Barir Pujo"
         ogImage="/assets/img/banner/1.webp"
+        canonical="https://www.abp.proplusdatafoundation.com/privacy-policy"
       />
 
       <LegalContent

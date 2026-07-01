@@ -10,6 +10,7 @@ const About = () => {
         description="Learn about our journey, vision, mission and the spirit of Amader Barir Pujo."
         keywords="About Amader Barir Pujo, Durga Puja Pune, Bengali Community Pune"
         ogImage="/assets/img/banner/1.webp"
+        canonical="https://www.abp.proplusdatafoundation.com/about-us"
       />
 
       <PageHero

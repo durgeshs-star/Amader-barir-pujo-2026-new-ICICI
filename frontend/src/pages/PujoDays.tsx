@@ -10,6 +10,7 @@ const PujoDays = () => {
         description="Explore the sacred days of Durga Puja - from Mahalaya to Maha Dashami. Learn about the rituals and significance of each day."
         keywords="Pujo Days, Durga Puja schedule, Mahalaya, Maha Shashti, Maha Saptami, Maha Ashtami, Maha Navami, Maha Dashami"
         ogImage="/assets/img/banner/1.webp"
+        canonical="https://www.abp.proplusdatafoundation.com/pujo-days"
       />
 
       <PageHero

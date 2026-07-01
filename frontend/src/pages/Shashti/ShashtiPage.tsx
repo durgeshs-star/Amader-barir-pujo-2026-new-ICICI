@@ -16,6 +16,7 @@ const ShashtiPage: React.FC = () => {
         description="Shashti Pujo Schedule — Learn about our Shashti Pujo offerings, procedures, and their spiritual significance at Amader Barir Pujo."
         keywords="Shashti pujo, Maha Shashti, Durga Puja 2026 schedule, Amader Barir Pujo Shashti"
         ogImage="/assets/img/banner/1.webp"
+        canonical="https://www.abp.proplusdatafoundation.com/shashti"
       />
 
       <PageHero

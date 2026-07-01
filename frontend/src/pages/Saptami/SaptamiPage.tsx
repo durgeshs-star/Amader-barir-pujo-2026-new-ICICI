@@ -16,6 +16,7 @@ const SaptamiPage: React.FC = () => {
         description="Saptami Pujo Schedule — Learn about our Saptami Pujo offerings, procedures, and their spiritual significance at Amader Barir Pujo."
         keywords="Saptami pujo, Maha Saptami, Durga Puja 2026 schedule, Amader Barir Pujo Saptami"
         ogImage="/assets/img/banner/1.webp"
+        canonical="https://www.abp.proplusdatafoundation.com/saptami"
       />
 
       <PageHero

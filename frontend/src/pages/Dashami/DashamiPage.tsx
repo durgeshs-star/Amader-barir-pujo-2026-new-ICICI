@@ -16,6 +16,7 @@ const DashamiPage: React.FC = () => {
         description="Dashami Pujo Schedule — Learn about our Dashami Pujo offerings, procedures, and their spiritual significance at Amader Barir Pujo."
         keywords="Dashami pujo, Vijaya Dashami, Sindoor Khela, Durga Puja 2026 schedule, Amader Barir Pujo Dashami"
         ogImage="/assets/img/banner/1.webp"
+        canonical="https://www.abp.proplusdatafoundation.com/dashami"
       />
 
       <PageHero

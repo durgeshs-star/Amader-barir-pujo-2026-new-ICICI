@@ -43,6 +43,7 @@ const AshtamiBhogPage: React.FC = () => {
         description="Ashtami Bhog Schedule — Learn about our Ashtami Bhog offerings, procedures, and their spiritual significance at Amader Barir Pujo."
         keywords="Ashtami bhog, Maha Ashtami bhog booking, Durga Puja 2026 bhog, Amader Barir Pujo Ashtami Bhog"
         ogImage="/assets/img/banner/1.webp"
+        canonical="https://www.abp.proplusdatafoundation.com/bhog-booking/ashtami"
       />
 
       <PageHero

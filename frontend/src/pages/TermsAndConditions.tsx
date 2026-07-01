@@ -91,6 +91,7 @@ const TermsAndConditions: React.FC = () => {
         description="Read our terms and conditions for bhog booking and event participation at Amader Barir Pujo 2026."
         keywords="Terms and Conditions, Amader Barir Pujo, Bhog Booking Terms"
         ogImage="/assets/img/banner/1.webp"
+        canonical="https://www.abp.proplusdatafoundation.com/terms-and-conditions"
       />
 
       <LegalContent

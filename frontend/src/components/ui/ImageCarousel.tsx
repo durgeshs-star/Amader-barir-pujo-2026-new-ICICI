@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 interface ImageCarouselProps {
   image: string;
@@ -22,19 +22,42 @@ const ImageCarousel = ({
   height,
 }: ImageCarouselProps) => {
   const [active, setActive] = useState(0);
+  const [isInView, setIsInView] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
+  // Lazy initialize when in viewport
   useEffect(() => {
-    if (!autoPlay) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Only run auto-play when in view
+  useEffect(() => {
+    if (!autoPlay || !isInView) return;
 
     const timer = setInterval(() => {
       setActive((prev) => (prev + 1) % positions.length);
     }, interval);
 
     return () => clearInterval(timer);
-  }, [autoPlay, interval]);
+  }, [autoPlay, interval, isInView]);
 
   return (
     <div
+      ref={containerRef}
       className={`relative overflow-hidden rounded-xl shadow-xl ${className ?? ""}`}
       style={{ height: height ?? "100%" }}
     >

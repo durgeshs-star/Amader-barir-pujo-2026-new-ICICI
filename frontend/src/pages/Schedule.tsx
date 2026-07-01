@@ -96,6 +96,8 @@ export const Schedule: React.FC = () => {
         title={activeDay ? `${activeDay.title} Schedule` : 'Pujo Schedule'}
         description="View the complete Durga Puja 2026 schedule for Amader Barir Pujo — day-wise rituals, timings, and programs for Panchami through Dashami."
         keywords="Durga Puja schedule 2026 Pune, Pujo timetable Wakad, Amader Barir Pujo schedule"
+        ogImage="/assets/img/banner/1.webp"
+        canonical="https://www.abp.proplusdatafoundation.com/pujo-schedule"
       />
       <div className="max-w-5xl mx-auto px-6">
         

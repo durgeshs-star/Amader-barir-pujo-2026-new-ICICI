@@ -99,6 +99,7 @@ export const Volunteer: React.FC = () => {
         description="Join Amader Barir Pujo as a volunteer. Sign up to serve the community during Durga Puja 2026 in Wakad, Pune."
         keywords="Volunteer Durga Puja Pune, Amader Barir Pujo volunteer, community seva Wakad"
         ogImage="/assets/img/banner/1.webp"
+        canonical="https://www.abp.proplusdatafoundation.com/volunteer"
       />
 
       <PageHero

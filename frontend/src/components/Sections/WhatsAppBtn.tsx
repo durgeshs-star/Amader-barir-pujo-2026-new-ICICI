@@ -17,7 +17,7 @@ export const WhatsAppBtn: React.FC = () => {
       title="Chat with us on WhatsApp"
       aria-label="Contact us on WhatsApp"
     >
-      <FaWhatsapp size={30} />
+      <FaWhatsapp size={30} aria-hidden="true" />
       
       {/* Tooltip on Hover */}
       <span className="absolute left-16 scale-0 group-hover:scale-100 transition-all duration-200 origin-left bg-gray-900 text-white text-xs font-semibold px-3 py-1.5 rounded shadow-md whitespace-nowrap pointer-events-none select-none">

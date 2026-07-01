@@ -67,8 +67,40 @@ export const TestimonialsSection: React.FC = () => {
     return () => clearInterval(timer);
   }, []);
 
+  // Lazy initialize auto-play when section is in view
+  const [isInView, setIsInView] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Only run auto-play when in view
+  useEffect(() => {
+    if (!isInView) return;
+
+    const timer = setInterval(() => {
+      handleNext();
+    }, 6000);
+    return () => clearInterval(timer);
+  }, [isInView]);
+
   return (
-    <section className="py-20 bg-white">
+    <section ref={sectionRef} className="py-20 bg-white" style={{ contentVisibility: 'auto', containIntrinsicSize: '0 400px' }}>
       <div className="max-w-4xl mx-auto px-6">
         
         {/* Section Heading */}
@@ -79,10 +111,11 @@ export const TestimonialsSection: React.FC = () => {
         </div>
 
         {/* Testimonials Slider Window */}
-        <div 
+        <div
           className="relative overflow-hidden bg-light-bg/40 border border-gray-100 rounded-2xl p-6 md:p-12 shadow-inner"
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
+          style={{ contentVisibility: 'auto', containIntrinsicSize: '0 400px' }}
         >
           {/* Flex Carousel Track */}
           <div 
@@ -102,6 +135,7 @@ export const TestimonialsSection: React.FC = () => {
                     width="128"
                     height="128"
                     loading="lazy"
+                    decoding="async"
                     onError={(e) => {
                       e.currentTarget.style.display = 'none';
                       const parent = e.currentTarget.parentElement;

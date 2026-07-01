@@ -71,14 +71,14 @@ export const PujoDaysSection: React.FC = () => {
   };
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-white" style={{ contentVisibility: 'auto', containIntrinsicSize: '0 600px' }}>
       <div className="max-w-7xl mx-auto px-6">
         
         {/* Title */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
           className="text-center mb-14"
         >
@@ -92,11 +92,11 @@ export const PujoDaysSection: React.FC = () => {
         </motion.div>
 
         {/* Days Grid */}
-        <motion.div 
+        <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-100px" }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
           {pujoDays.map((day, idx) => (
@@ -167,6 +167,7 @@ const ImageWithFallback: React.FC<FallbackProps> = ({ src, alt, gradient }) => {
       width="414"
       height="171"
       loading="lazy"
+      decoding="async"
       onError={() => setHasError(true)}
       className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
     />

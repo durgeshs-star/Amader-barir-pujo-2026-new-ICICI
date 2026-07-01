@@ -16,6 +16,7 @@ const NavamiPage: React.FC = () => {
         description="Navami Pujo Schedule — Learn about our Navami Pujo offerings, procedures, and their spiritual significance at Amader Barir Pujo."
         keywords="Navami pujo, Maha Navami, Durga Puja 2026 schedule, Amader Barir Pujo Navami"
         ogImage="/assets/img/banner/1.webp"
+        canonical="https://www.abp.proplusdatafoundation.com/navami"
       />
 
       <PageHero

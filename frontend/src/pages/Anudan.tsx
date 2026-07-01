@@ -13,6 +13,7 @@ export const Anudan: React.FC = () => {
         description="Offer Your Anudan (অনুদান) – Support the Spirit of Amader Barir Pujo. Browse our list of Pujo items and select an offering that resonates with you."
         keywords="Anudan, Durga Puja donation, Amader Barir Pujo contribution, Puja items sponsorship"
         ogImage="/assets/img/banner/1.webp"
+        canonical="https://www.abp.proplusdatafoundation.com/anudan"
       />
       <PageHero
         title="Anudan"

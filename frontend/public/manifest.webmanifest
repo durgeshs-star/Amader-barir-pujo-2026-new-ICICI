@@ -1,0 +1,38 @@
+{
+  "name": "Amader Barir Pujo, Pune",
+  "short_name": "ABP Pune",
+  "description": "Amader Barir Pujo is a vibrant Bengali community celebration in Pune, organized by Pro Plus Data Foundation.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FDF5FA",
+  "theme_color": "#C9559E",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/assets/img/Logo-puja-96.webp",
+      "sizes": "96x96",
+      "type": "image/webp",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/img/Logo-puja-160.webp",
+      "sizes": "160x160",
+      "type": "image/webp",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/img/Logo-puja-256.webp",
+      "sizes": "256x256",
+      "type": "image/webp",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/img/Logo-puja.webp",
+      "sizes": "512x512",
+      "type": "image/webp",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["community", "events", "religion"],
+  "lang": "en"
+}

@@ -166,12 +166,15 @@ export const Footer: React.FC = () => {
           {/* Logo brand */}
           <div className="select-none flex items-center gap-2.5">
             <img
-              src="/assets/img/Logo-puja.webp"
+              src="/assets/img/Logo-puja-96.webp"
+              srcSet="/assets/img/Logo-puja-96.webp 96w"
+              sizes="32px"
               alt="Amader Barir Pujo"
               className="h-8 w-8 object-contain"
               width={32}
               height={32}
               loading="lazy"
+              decoding="async"
             />
             <span className="text-lg font-bold font-fraunces text-white tracking-wide">Amader Barir Pujo</span>
             <span className="text-[10px] bg-accent/20 text-accent font-semibold px-2 py-0.5 rounded">2026</span>
@@ -184,10 +187,10 @@ export const Footer: React.FC = () => {
                 href="https://www.facebook.com/people/Amader-Barir-Pujo/61571741439510/"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Facebook"
+                aria-label="Follow Amader Barir Pujo on Facebook"
                 className="flex items-center justify-center w-8 h-8 rounded-full bg-white/10 hover:bg-accent-dark text-text-on-primary transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               >
-                <FaFacebookF size={12} />
+                <FaFacebookF size={12} aria-hidden="true" />
               </a>
             </li>
             <li>
@@ -195,10 +198,10 @@ export const Footer: React.FC = () => {
                 href="https://www.instagram.com/abp_pune?igsh=YTZtZHVuODQxNWhj"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Instagram"
+                aria-label="Follow Amader Barir Pujo on Instagram"
                 className="flex items-center justify-center w-8 h-8 rounded-full bg-white/10 hover:bg-accent-dark text-text-on-primary transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               >
-                <FaInstagram size={12} />
+                <FaInstagram size={12} aria-hidden="true" />
               </a>
             </li>
           </ul>

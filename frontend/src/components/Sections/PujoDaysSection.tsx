@@ -49,7 +49,7 @@ export const PujoDaysSection: React.FC = () => {
   ];
 
   return (
-    <section className="py-20 bg-light-bg/50">
+    <section className="py-20 bg-light-bg/50" style={{ contentVisibility: 'auto', containIntrinsicSize: '0 600px' }}>
       <div className="max-w-7xl mx-auto px-6">
         
         {/* Title */}
@@ -129,6 +129,7 @@ const ImageWithFallback: React.FC<FallbackProps> = ({ src, alt, gradient }) => {
       width="414"
       height="171"
       loading="lazy"
+      decoding="async"
       onError={() => setHasError(true)}
       className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
     />

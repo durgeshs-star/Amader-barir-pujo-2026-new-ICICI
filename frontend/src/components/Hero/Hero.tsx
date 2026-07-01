@@ -26,7 +26,7 @@ export const Hero: React.FC = () => {
           /assets/img/puja/35-1280.webp 1280w,
           /assets/img/puja/35-1920.webp 1920w"
         sizes="100vw"
-        alt=""
+        alt="Amader Barir Pujo celebration with traditional Durga Puja decorations and festive atmosphere"
         aria-hidden="true"
         fetchPriority="high"
         loading="eager"

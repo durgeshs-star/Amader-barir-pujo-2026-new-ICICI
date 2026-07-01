@@ -72,6 +72,8 @@ export const BhogBooking: React.FC = () => {
         title={activeDay ? `${activeDay.title} Booking` : 'Bhog Booking'}
         description="Book your sacred Prasad Bhog for Durga Puja 2026 at Amader Barir Pujo, Wakad Pune. Available for Saptami, Ashtami, Navami and Lakshmi Puja."
         keywords="Bhog booking Pune, Durga Puja prasad 2026, khichuri bhog Wakad Pune"
+        ogImage="/assets/img/banner/1.webp"
+        canonical="https://www.abp.proplusdatafoundation.com/bhog-booking"
       />
       <div className="max-w-5xl mx-auto px-6">
         

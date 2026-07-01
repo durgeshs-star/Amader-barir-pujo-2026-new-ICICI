@@ -1,6 +1,6 @@
 ﻿import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaClock, FaUsers, FaHandshake, FaFacebook, FaInstagram, FaYoutube } from 'react-icons/fa';
+import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaClock, FaUsers, FaHandshake } from 'react-icons/fa';
 import PageHero from '../components/common/PageHero';
 import Button from '../components/ui/Button';
 import SEO from '../components/ui/SEO';
@@ -97,6 +97,8 @@ export const ContactUs: React.FC = () => {
         title="Contact Us"
         description="Get in touch with the Amader Barir Pujo organizing committee. Call, email, or visit us in Wakad, Pune during the Durga Puja celebrations."
         keywords="Contact Amader Barir Pujo, Durga Puja Pune contact, Bengali community Wakad Pune"
+        ogImage="/assets/img/banner/1.webp"
+        canonical="https://www.abp.proplusdatafoundation.com/contact-us"
       />
 
       <PageHero

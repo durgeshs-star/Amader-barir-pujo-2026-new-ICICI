@@ -10,7 +10,7 @@ export const Gallery: React.FC = () => {
 
   return (
     <div className="pt-10 md:pt-14 pb-20 bg-light-bg/30 min-h-screen">
-      <SEO title="Gallery" description="Browse photos from Amader Barir Pujo celebrations in Wakad, Pune — Durga Puja rituals, Bhog, cultural programs, and community moments." keywords="Durga Puja gallery Pune, Amader Barir Pujo photos, Bengali festival photos Wakad" />
+      <SEO title="Gallery" description="Browse photos from Amader Barir Pujo celebrations in Wakad, Pune — Durga Puja rituals, Bhog, cultural programs, and community moments." keywords="Durga Puja gallery Pune, Amader Barir Pujo photos, Bengali festival photos Wakad" canonical="https://www.abp.proplusdatafoundation.com/gallery" />
       <div className="max-w-6xl mx-auto px-6">
         
         {/* Title */}
@@ -116,6 +116,7 @@ const GalleryImageWithFallback: React.FC<ImageProps> = ({ src, alt }) => {
       width="300"
       height="225"
       loading="lazy"
+      decoding="async"
       onError={() => setHasError(true)}
       className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
     />
