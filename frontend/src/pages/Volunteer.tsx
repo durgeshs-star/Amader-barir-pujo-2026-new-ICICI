@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { FaUser, FaEnvelope, FaPhone, FaArrowRight } from "react-icons/fa";
-import Hero from "../components/common/Hero";
+import { FaUser, FaEnvelope, FaPhone, FaArrowRight, FaHeart, FaUsers, FaHandHoldingHeart, FaCalendarAlt } from "react-icons/fa";
+import PageHero from "../components/common/PageHero";
 import Button from "../components/ui/Button";
 import SEO from "../components/ui/SEO";
 
@@ -101,14 +101,162 @@ export const Volunteer: React.FC = () => {
         ogImage="/assets/img/banner/1.webp"
       />
 
-      <Hero
+      <PageHero
         title="Volunteers"
-        backgroundImage="/assets/img/culture-2.webp"
-        height="h-[35vh] md:h-[45vh]"
+        height="h-[40vh] md:h-[60vh]"
       />
 
-      <section className="py-14 md:py-20 bg-light-bg/40">
-        <div className="max-w-xl mx-auto px-6">
+      {/* Why Volunteer Section */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <h2 className="font-fraunces text-3xl md:text-5xl font-bold text-primary mb-4">
+              Why Volunteer With Us?
+            </h2>
+            <p className="text-text-secondary max-w-2xl mx-auto text-lg">
+              Join our family of dedicated volunteers and experience the joy of serving Maa Durga while building lifelong connections.
+            </p>
+            <div className="w-16 h-1 bg-accent mx-auto mt-6 rounded-full" />
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                icon: <FaHeart size={32} />,
+                title: "Serve with Devotion",
+                description: "Offer your seva to Maa Durga and participate in sacred rituals that bring blessings to the entire community."
+              },
+              {
+                icon: <FaUsers size={32} />,
+                title: "Build Community",
+                description: "Connect with like-minded individuals and become part of a warm, welcoming Bengali family in Pune."
+              },
+              {
+                icon: <FaHandHoldingHeart size={32} />,
+                title: "Make a Difference",
+                description: "Your contribution helps create memorable celebrations and brings joy to thousands of devotees."
+              }
+            ].map((item, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                className="bg-light-bg/30 rounded-xl p-8 text-center hover:shadow-lg transition-shadow border border-gray-100"
+              >
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto text-primary mb-6">
+                  {item.icon}
+                </div>
+                <h3 className="font-fraunces text-xl font-bold text-primary mb-3">
+                  {item.title}
+                </h3>
+                <p className="text-text-secondary text-sm leading-relaxed">
+                  {item.description}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Form Section */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12"
+          >
+            <h2 className="font-fraunces text-3xl md:text-5xl font-bold text-primary mb-4">
+              Join Our Volunteer Team
+            </h2>
+            <p className="text-text-secondary max-w-2xl mx-auto text-lg">
+              Fill out the form below and we'll get in touch with you about upcoming opportunities.
+            </p>
+            <div className="w-16 h-1 bg-accent mx-auto mt-6 rounded-full" />
+          </motion.div>
+
+          <div className="grid lg:grid-cols-2 gap-12 items-start">
+            {/* Left Side - Info */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="space-y-8"
+            >
+              <div className="bg-light-bg/30 rounded-xl p-6 border border-gray-100">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary shrink-0">
+                    <FaCalendarAlt size={20} />
+                  </div>
+                  <div>
+                    <h3 className="font-fraunces text-lg font-bold text-primary mb-2">
+                      Pujo Dates 2026
+                    </h3>
+                    <p className="text-text-secondary text-sm">
+                      October 15-20, 2026<br />
+                      Wakad, Pune
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-light-bg/30 rounded-xl p-6 border border-gray-100">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary shrink-0">
+                    <FaUsers size={20} />
+                  </div>
+                  <div>
+                    <h3 className="font-fraunces text-lg font-bold text-primary mb-2">
+                      What We Expect
+                    </h3>
+                    <ul className="text-text-secondary text-sm space-y-2">
+                      <li>• Commitment during Pujo days</li>
+                      <li>• Team spirit and cooperation</li>
+                      <li>• Respect for traditions</li>
+                      <li>• Positive attitude</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-light-bg/30 rounded-xl p-6 border border-gray-100">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary shrink-0">
+                    <FaHeart size={20} />
+                  </div>
+                  <div>
+                    <h3 className="font-fraunces text-lg font-bold text-primary mb-2">
+                      What You'll Receive
+                    </h3>
+                    <ul className="text-text-secondary text-sm space-y-2">
+                      <li>• Prasad and meals during Pujo</li>
+                      <li>• Volunteer certificate</li>
+                      <li>• Community recognition</li>
+                      <li>• Lifelong friendships</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Right Side - Form */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
           {submitted ? (
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
@@ -256,6 +404,8 @@ export const Volunteer: React.FC = () => {
               </form>
             </motion.div>
           )}
+            </motion.div>
+          </div>
         </div>
       </section>
     </>

@@ -136,6 +136,17 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
               </Link>
             </li>
 
+            {/* Pujo Days */}
+            <li className="border-b border-gray-100 pb-1">
+              <Link
+                to="/pujo-days"
+                onClick={handleLinkClick}
+                className="block py-2 text-[15px] font-medium text-secondary hover:text-primary transition-colors"
+              >
+                Pujo Days
+              </Link>
+            </li>
+
             {/* Pujo Schedule Dropdown */}
             <li className="border-b border-gray-100 pb-1">
               <button

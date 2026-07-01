@@ -1,7 +1,7 @@
 import React from "react";
 import SEO from "../../components/ui/SEO";
+import PageHero from "../../components/common/PageHero";
 import {
-  ScheduleHero,
   ScheduleIntro,
   ScheduleDetails,
   FleaMarketSection,
@@ -18,10 +18,9 @@ const ShashtiPage: React.FC = () => {
         ogImage="/assets/img/banner/1.webp"
       />
 
-      <ScheduleHero
+      <PageHero
         title="Shashti"
         subtitle="Durga Pujo 2026 · Day Two"
-        backgroundImage="/assets/img/culture-2.webp"
         height="h-[45vh] md:h-[70vh]"
       />
 

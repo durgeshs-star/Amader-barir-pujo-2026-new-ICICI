@@ -104,7 +104,7 @@ export const Schedule: React.FC = () => {
           <h1 className="text-4xl md:text-6xl font-bold text-gray-950 font-fraunces mb-3">
             Pujo Schedule
           </h1>
-          <p className="text-sm text-muted font-medium">
+          <p className="text-sm text-muted font-medium text-center">
             Daily rituals and timing details for the 2026 celebrations
           </p>
           <div className="w-16 h-1 bg-accent mx-auto mt-4 rounded-full" />

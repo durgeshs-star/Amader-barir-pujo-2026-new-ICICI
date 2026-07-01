@@ -2,7 +2,7 @@ import ImageCarousel from "../ui/ImageCarousel";
 
 const AboutCarousel = () => {
   return (
-    <div className="relative h-full flex items-center justify-center">
+    <div className="relative min-h-[450px] flex items-center justify-center">
 
       {/* Decorative Corners */}
       <span className="absolute -top-5 -left-5 z-10 text-4xl text-accent-text">
@@ -24,6 +24,7 @@ const AboutCarousel = () => {
       <ImageCarousel
         image="/assets/img/full-slider.webp"
         height="450px"
+        className="w-full"
       />
     </div>
   );

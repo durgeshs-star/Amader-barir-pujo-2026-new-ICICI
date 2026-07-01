@@ -1,5 +1,5 @@
 ﻿import SEO from "../components/ui/SEO";
-import AboutHero from "../components/About/AboutHero";
+import PageHero from "../components/common/PageHero";
 import AboutSection from "../components/About/AboutSection";
 
 const About = () => {
@@ -12,7 +12,10 @@ const About = () => {
         ogImage="/assets/img/banner/1.webp"
       />
 
-      <AboutHero />
+      <PageHero
+        title="About Us"
+        subtitle="Keeping traditions alive while celebrating faith, culture and togetherness."
+      />
       <AboutSection />
     </>
   );

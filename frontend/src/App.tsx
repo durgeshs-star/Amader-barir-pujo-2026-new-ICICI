@@ -11,12 +11,14 @@ import Home from './pages/Home';
 
 const AboutUs        = lazy(() => import('./pages/AboutUs'));
 const Volunteer      = lazy(() => import('./pages/Volunteer'));
+const PujoDays       = lazy(() => import('./pages/PujoDays'));
 const Schedule       = lazy(() => import('./pages/Schedule'));
 const Anudan         = lazy(() => import('./pages/Anudan'));
 const BhogBooking    = lazy(() => import('./pages/BhogBooking'));
 const Gallery        = lazy(() => import('./pages/Gallery'));
 const ContactUs      = lazy(() => import('./pages/ContactUs'));
-const Legal          = lazy(() => import('./pages/Legal'));
+const TermsAndConditions = lazy(() => import('./pages/TermsAndConditions'));
+const PrivacyPolicy  = lazy(() => import('./pages/PrivacyPolicy'));
 const PanchamiPage   = lazy(() => import('./pages/Panchami/PanchamiPage'));
 const ShashtiPage    = lazy(() => import('./pages/Shashti/ShashtiPage'));
 const SaptamiPage    = lazy(() => import('./pages/Saptami/SaptamiPage'));
@@ -49,6 +51,7 @@ export const App: React.FC = () => {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/about-us" element={<AboutUs />} />
+              <Route path="/pujo-days" element={<PujoDays />} />
               <Route path="/volunteer" element={<Volunteer />} />
 
               {/* Day specific schedule paths */}
@@ -78,8 +81,8 @@ export const App: React.FC = () => {
               <Route path="/contact-us" element={<ContactUs />} />
 
               {/* Legal policies */}
-              <Route path="/terms-and-conditions" element={<Legal />} />
-              <Route path="/privacy-policy" element={<Legal />} />
+              <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
               {/* Fallback redirect or homepage display */}
               <Route path="*" element={<Home />} />

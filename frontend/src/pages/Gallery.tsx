@@ -23,7 +23,7 @@ export const Gallery: React.FC = () => {
           <h1 className="text-4xl md:text-6xl font-bold text-gray-950 font-fraunces mb-3">
             Pujo Gallery
           </h1>
-          <p className="text-sm text-muted font-medium">
+          <p className="text-sm text-muted font-medium text-center">
             Visual memories of spiritual moments and celebrations
           </p>
           <motion.div 

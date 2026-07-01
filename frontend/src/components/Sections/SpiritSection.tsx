@@ -1,11 +1,13 @@
 import React from 'react';
 import { FaArrowRight } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 interface Offering {
   title: string;
   description: string;
   imageSrc: string;
   fallbackIcon: React.ReactNode;
+  link?: string;
 }
 
 export const SpiritSection: React.FC = () => {
@@ -34,6 +36,7 @@ export const SpiritSection: React.FC = () => {
       title: 'Sacred Pujo Rituals',
       description: 'Come stand before Maa, offer your prayers, and become part of rituals that fill every heart with hope, gratitude, and blessings.',
       imageSrc: '/assets/img/icons/lotus-1.png',
+      link: '/pujo-days',
       fallbackIcon: (
         <svg viewBox="0 0 24 24" className="w-12 h-12 text-primary" fill="currentColor" aria-hidden="true">
           <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zm-1-17h2v6h-2V5zm0 8h2v4h-2v-4z" />
@@ -61,7 +64,7 @@ export const SpiritSection: React.FC = () => {
           <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 tracking-wide font-fraunces">
             Experience The Spirit Of Durga Pujo
           </h2>
-          <p className="font-fraunces font-light italic text-2xl text-muted">
+          <p className="font-fraunces font-light italic text-2xl text-muted text-center">
             Free &amp; Open to Everyone
           </p>
         </div>
@@ -109,12 +112,22 @@ export const SpiritSection: React.FC = () => {
                     {offering.description}
                   </p>
                 </div>
-                
+
                 {/* Arrow Icon */}
-                <div className="flex items-center text-accent-text group-hover:text-primary transition-colors text-sm font-semibold gap-1 select-none">
-                  <span>Learn More</span>
-                  <FaArrowRight className="text-xs transition-transform duration-300 group-hover:translate-x-1.5" />
-                </div>
+                {offering.link ? (
+                  <Link
+                    to={offering.link}
+                    className="flex items-center text-accent-text group-hover:text-primary transition-colors text-sm font-semibold gap-1 select-none"
+                  >
+                    <span>Learn More</span>
+                    <FaArrowRight className="text-xs transition-transform duration-300 group-hover:translate-x-1.5" />
+                  </Link>
+                ) : (
+                  <div className="flex items-center text-accent-text group-hover:text-primary transition-colors text-sm font-semibold gap-1 select-none">
+                    <span>Learn More</span>
+                    <FaArrowRight className="text-xs transition-transform duration-300 group-hover:translate-x-1.5" />
+                  </div>
+                )}
               </div>
             </div>
           ))}

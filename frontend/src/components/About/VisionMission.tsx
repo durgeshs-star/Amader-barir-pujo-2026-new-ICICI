@@ -21,7 +21,7 @@ const VisionMission = () => {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
-        className="uppercase tracking-widest text-secondary text-[10px] font-medium"
+        className="uppercase tracking-widest text-secondary text-[11px] font-medium"
       >
         Keeping Traditions Alive, Celebrating Together
       </motion.p>

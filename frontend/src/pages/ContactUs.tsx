@@ -1,6 +1,7 @@
 ﻿import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaClock, FaUsers, FaHandshake, FaFacebook, FaInstagram, FaYoutube } from 'react-icons/fa';
+import PageHero from '../components/common/PageHero';
 import Button from '../components/ui/Button';
 import SEO from '../components/ui/SEO';
 
@@ -91,35 +92,99 @@ export const ContactUs: React.FC = () => {
   };
 
   return (
-    <div className="pt-10 md:pt-14 pb-20 bg-light-bg/30 min-h-screen">
+    <>
       <SEO
         title="Contact Us"
         description="Get in touch with the Amader Barir Pujo organizing committee. Call, email, or visit us in Wakad, Pune during the Durga Puja celebrations."
         keywords="Contact Amader Barir Pujo, Durga Puja Pune contact, Bengali community Wakad Pune"
       />
-      <div className="max-w-6xl mx-auto px-6">
-        {/* Title */}
-        <motion.div 
-          className="text-center mb-12"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-        >
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-950 font-fraunces mb-3">
-            Contact Us
-          </h1>
-          <p className="text-sm text-muted font-medium">
-            Have questions? Feel free to reach out to our organizing committee.
-          </p>
-          <motion.div 
-            className="w-16 h-1 bg-accent mx-auto mt-4 rounded-full"
-            initial={{ width: 0 }}
-            animate={{ width: 64 }}
-            transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
-          />
-        </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+      <PageHero
+        title="Contact Us"
+        subtitle="Have questions? Feel free to reach out to our organizing committee."
+        height="h-[40vh] md:h-[60vh]"
+      />
+
+      {/* Why Contact Us Section */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <h2 className="font-fraunces text-3xl md:text-5xl font-bold text-primary mb-4">
+              Why Contact Us?
+            </h2>
+            <p className="text-text-secondary max-w-2xl mx-auto text-lg">
+              We're here to help with any questions about Durga Puja, volunteering, bhog booking, or general inquiries.
+            </p>
+            <div className="w-16 h-1 bg-accent mx-auto mt-6 rounded-full" />
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                icon: <FaHandshake size={32} />,
+                title: "Partnership Inquiries",
+                description: "Interested in sponsoring or partnering with us for Durga Puja? We'd love to discuss opportunities."
+              },
+              {
+                icon: <FaUsers size={32} />,
+                title: "Volunteer Information",
+                description: "Want to join our volunteer team? Contact us to learn about available roles and requirements."
+              },
+              {
+                icon: <FaClock size={32} />,
+                title: "Event Details",
+                description: "Need specific information about puja timings, bhog booking, or cultural programs? We're here to help."
+              }
+            ].map((item, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                className="bg-light-bg/30 rounded-xl p-8 text-center hover:shadow-lg transition-shadow border border-gray-100"
+              >
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto text-primary mb-6">
+                  {item.icon}
+                </div>
+                <h3 className="font-fraunces text-xl font-bold text-primary mb-3">
+                  {item.title}
+                </h3>
+                <p className="text-text-secondary text-sm leading-relaxed">
+                  {item.description}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section className="py-16 md:py-24 bg-light-bg/50">
+        <div className="max-w-7xl mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12"
+          >
+            <h2 className="font-fraunces text-3xl md:text-5xl font-bold text-primary mb-4">
+              Get In Touch
+            </h2>
+            <p className="text-text-secondary max-w-2xl mx-auto text-lg text-center">
+              Reach out to us through any of the following channels
+            </p>
+            <div className="w-16 h-1 bg-accent mx-auto mt-6 rounded-full" />
+          </motion.div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           
           {/* Left Column: Details & Map */}
           <motion.div 
@@ -306,7 +371,8 @@ export const ContactUs: React.FC = () => {
         </div>
 
       </div>
-    </div>
+      </section>
+    </>
   );
 };
 

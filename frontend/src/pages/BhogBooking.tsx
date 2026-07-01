@@ -80,7 +80,7 @@ export const BhogBooking: React.FC = () => {
           <h1 className="text-4xl md:text-6xl font-bold text-gray-950 font-fraunces mb-3">
             Bhog Booking
           </h1>
-          <p className="text-sm text-muted font-medium font-sans">
+          <p className="text-sm text-muted font-medium text-center font-sans">
             Book your sacred Prasad lunch box for pick-up or dine-in
           </p>
           <div className="w-16 h-1 bg-accent mx-auto mt-4 rounded-full" />

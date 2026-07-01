@@ -1,9 +1,9 @@
 ﻿import React from 'react';
 import { motion } from 'framer-motion';
 import SEO from '../components/ui/SEO';
-import { ScheduleHero } from '../components/schedule';
 import { AnudanCard } from '../components/ui/AnudanCard';
 import { anudanCards } from '../assets/data/anudanData';
+import { PageHero } from '../components/common/PageHero';
 
 export const Anudan: React.FC = () => {
   return (
@@ -14,7 +14,7 @@ export const Anudan: React.FC = () => {
         keywords="Anudan, Durga Puja donation, Amader Barir Pujo contribution, Puja items sponsorship"
         ogImage="/assets/img/banner/1.webp"
       />
-      <ScheduleHero
+      <PageHero
         title="Anudan"
         subtitle="Durga Pujo 2026 · Offer Your Contribution"
         backgroundImage="/assets/img/culture-2.webp"

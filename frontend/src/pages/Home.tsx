@@ -1,7 +1,6 @@
 import React from 'react';
 import Hero from '../components/Hero/Hero';
 import SpiritSection from '../components/Sections/SpiritSection';
-import PujoDaysSection from '../components/Sections/PujoDaysSection';
 import TestimonialsSection from '../components/Sections/TestimonialsSection';
 import SEO from '../components/ui/SEO';
 
@@ -15,7 +14,6 @@ export const Home: React.FC = () => {
       />
       <Hero />
       <SpiritSection />
-      <PujoDaysSection />
       <TestimonialsSection />
     </div>
   );

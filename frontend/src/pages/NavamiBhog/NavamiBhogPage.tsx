@@ -1,6 +1,6 @@
 import React from "react";
 import SEO from "../../components/ui/SEO";
-import { ScheduleHero } from "../../components/schedule";
+import PageHero from "../../components/common/PageHero";
 import BhogBookingSection from "../../components/ui/BhogBookingSection";
 import type { BhogBookingCategory } from "../../types/bhog";
 
@@ -45,10 +45,9 @@ const NavamiBhogPage: React.FC = () => {
         ogImage="/assets/img/banner/1.webp"
       />
 
-      <ScheduleHero
+      <PageHero
         title="Navami Bhog"
         subtitle="Durga Pujo 2026 · Bhog Booking"
-        backgroundImage="/assets/img/culture-2.webp"
         height="h-[45vh] md:h-[70vh]"
       />
 
