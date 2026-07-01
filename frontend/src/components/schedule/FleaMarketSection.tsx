@@ -1,5 +1,4 @@
 import React from "react";
-import { motion } from "framer-motion";
 import SectionHeading from "../common/SectionHeading";
 import FleaMarketCarousel from "../ui/FleaMarketCarousel";
 import { fleaMarketImages } from "../../assets/data/scheduleShared";
@@ -15,16 +14,12 @@ export const FleaMarketSection: React.FC = () => {
         />
         <div className="w-12 h-1 bg-accent mt-4 rounded-full" />
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-base md:text-lg text-secondary leading-relaxed mt-6 max-w-3xl"
+        <p
+          className="text-base md:text-lg text-secondary leading-relaxed mt-6 max-w-3xl animate-fade-in-up"
         >
           Explore handcrafted art, decor, and treasures from local creators.
           Shop, snack, and soak in the spirit of Bangaliana with every step.
-        </motion.p>
+        </p>
 
         <FleaMarketCarousel
           images={fleaMarketImages}

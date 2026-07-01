@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import FleaMarketCard from "./FleaMarketCard";
 import type { FleaMarketCarouselProps } from "../../types/schedule";
@@ -97,15 +96,9 @@ const FleaMarketCarousel = ({
     >
       {/* Carousel */}
       <div className="overflow-hidden rounded-3xl">
-        <motion.div
-          className="flex"
-          animate={{
-            x: `-${active * 100}%`,
-          }}
-          transition={{
-            duration: 0.7,
-            ease: [0.22, 1, 0.36, 1],
-          }}
+        <div
+          className="flex transition-transform duration-700 ease-in-out"
+          style={{ transform: `translateX(-${active * 100}%)` }}
         >
           {Array.from({ length: pages }).map((_, pageIndex) => (
             <div
@@ -135,7 +128,7 @@ const FleaMarketCarousel = ({
                 ))}
             </div>
           ))}
-        </motion.div>
+        </div>
       </div>
 
       {/* Left Arrow */}

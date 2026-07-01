@@ -17,6 +17,7 @@ const Anudan         = lazy(() => import('./pages/Anudan'));
 const BhogBooking    = lazy(() => import('./pages/BhogBooking'));
 const Gallery        = lazy(() => import('./pages/Gallery'));
 const ContactUs      = lazy(() => import('./pages/ContactUs'));
+const News           = lazy(() => import('./pages/News'));
 const TermsAndConditions = lazy(() => import('./pages/TermsAndConditions'));
 const PrivacyPolicy  = lazy(() => import('./pages/PrivacyPolicy'));
 const PanchamiPage   = lazy(() => import('./pages/Panchami/PanchamiPage'));
@@ -79,6 +80,7 @@ export const App: React.FC = () => {
 
               <Route path="/gallery" element={<Gallery />} />
               <Route path="/contact-us" element={<ContactUs />} />
+              <Route path="/news" element={<News />} />
 
               {/* Legal policies */}
               <Route path="/terms-and-conditions" element={<TermsAndConditions />} />

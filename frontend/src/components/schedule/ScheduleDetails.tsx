@@ -1,5 +1,4 @@
 import React from "react";
-import { motion } from "framer-motion";
 import { Clock } from "lucide-react";
 import type { ScheduleBlock, ScheduleDetailsProps } from "../../types/schedule";
 
@@ -66,13 +65,7 @@ export const ScheduleDetails: React.FC<ScheduleDetailsProps> = ({
     <section className="py-14 md:py-20 bg-white">
       <div className="max-w-7xl mx-auto px-6 md:px-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="relative group"
-          >
+          <div className="relative group animate-fade-in-up">
             <div className="absolute -inset-3 rounded-2xl bg-linear-to-br from-primary/20 via-accent/10 to-primary-light/20 opacity-70 group-hover:opacity-100 transition-opacity duration-500" />
             <div className="relative overflow-hidden rounded-xl shadow-xl ring-1 ring-black/5">
               <img
@@ -84,15 +77,9 @@ export const ScheduleDetails: React.FC<ScheduleDetailsProps> = ({
                 className="block w-full h-64 sm:h-80 md:h-96 object-cover transition-transform duration-700 group-hover:scale-105"
               />
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
-            className="md:pl-2"
-          >
+          <div className="md:pl-2 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
             {hasSimpleLayout && (
               <>
                 <p className="uppercase tracking-[0.4em] text-accent-text text-xs md:text-sm font-semibold">
@@ -134,7 +121,7 @@ export const ScheduleDetails: React.FC<ScheduleDetailsProps> = ({
             {blocks?.map((block) => (
               <ScheduleBlockContent key={block.subtitle} block={block} />
             ))}
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

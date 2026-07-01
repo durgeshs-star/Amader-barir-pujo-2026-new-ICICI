@@ -98,6 +98,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
               <div className="flex flex-col leading-none">
                 <span className="text-base font-bold font-fraunces text-primary tracking-wide">Amader Barir Pujo</span>
                 <span className="text-[10px] text-accent-text font-semibold tracking-wider">2026</span>
+                <span className="text-[9px] text-primary font-medium mt-0.5 leading-tight">Initiative by ProPlus Data Foundation</span>
               </div>
             </div>
           </Link>

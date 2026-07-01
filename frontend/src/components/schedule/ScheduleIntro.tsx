@@ -1,17 +1,11 @@
 import React from "react";
-import { motion } from "framer-motion";
 import type { ScheduleIntroProps } from "../../types/schedule";
 
 export const ScheduleIntro: React.FC<ScheduleIntroProps> = ({ paragraph }) => {
   return (
     <section className="py-14 md:py-20 bg-light-bg/60">
       <div className="max-w-4xl mx-auto px-6 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6 }}
-        >
+        <div className="animate-fade-in-up">
           <span className="font-fraunces text-5xl md:text-6xl text-primary/20 leading-none select-none">
             &ldquo;
           </span>
@@ -23,7 +17,7 @@ export const ScheduleIntro: React.FC<ScheduleIntroProps> = ({ paragraph }) => {
             <span className="h-2 w-2 rounded-full bg-accent" />
             <span className="h-px w-12 bg-accent/60" />
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

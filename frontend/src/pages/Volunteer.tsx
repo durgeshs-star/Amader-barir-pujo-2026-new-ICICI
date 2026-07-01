@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
+import { LazyMotion, domAnimation, m } from "framer-motion";
 import { FaUser, FaEnvelope, FaPhone, FaArrowRight, FaHeart, FaUsers, FaHandHoldingHeart, FaCalendarAlt } from "react-icons/fa";
 import PageHero from "../components/common/PageHero";
 import Button from "../components/ui/Button";
@@ -22,6 +22,14 @@ const inputCls = (hasError: boolean) =>
   }`;
 
 export const Volunteer: React.FC = () => {
+  return (
+    <LazyMotion features={domAnimation} strict>
+      <VolunteerContent />
+    </LazyMotion>
+  );
+};
+
+const VolunteerContent: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
@@ -110,7 +118,7 @@ export const Volunteer: React.FC = () => {
       {/* Why Volunteer Section */}
       <section className="py-16 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -124,7 +132,7 @@ export const Volunteer: React.FC = () => {
               Join our family of dedicated volunteers and experience the joy of serving Maa Durga while building lifelong connections.
             </p>
             <div className="w-16 h-1 bg-accent mx-auto mt-6 rounded-full" />
-          </motion.div>
+          </m.div>
 
           <div className="grid md:grid-cols-3 gap-8">
             {[
@@ -144,7 +152,7 @@ export const Volunteer: React.FC = () => {
                 description: "Your contribution helps create memorable celebrations and brings joy to thousands of devotees."
               }
             ].map((item, idx) => (
-              <motion.div
+              <m.div
                 key={idx}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -161,7 +169,7 @@ export const Volunteer: React.FC = () => {
                 <p className="text-text-secondary text-sm leading-relaxed">
                   {item.description}
                 </p>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
@@ -170,7 +178,7 @@ export const Volunteer: React.FC = () => {
       {/* Form Section */}
       <section className="py-16 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -184,11 +192,11 @@ export const Volunteer: React.FC = () => {
               Fill out the form below and we'll get in touch with you about upcoming opportunities.
             </p>
             <div className="w-16 h-1 bg-accent mx-auto mt-6 rounded-full" />
-          </motion.div>
+          </m.div>
 
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             {/* Left Side - Info */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -249,17 +257,17 @@ export const Volunteer: React.FC = () => {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </m.div>
 
             {/* Right Side - Form */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
           {submitted ? (
-            <motion.div
+            <m.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.4 }}
@@ -282,9 +290,9 @@ export const Volunteer: React.FC = () => {
               >
                 Submit another response
               </button>
-            </motion.div>
+            </m.div>
           ) : (
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
@@ -403,9 +411,9 @@ export const Volunteer: React.FC = () => {
                   {isSubmitting ? "Submitting…" : "Submit"}
                 </Button>
               </form>
-            </motion.div>
+            </m.div>
           )}
-            </motion.div>
+            </m.div>
           </div>
         </div>
       </section>

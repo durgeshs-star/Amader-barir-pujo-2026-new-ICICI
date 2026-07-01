@@ -1,5 +1,3 @@
-import { motion } from "framer-motion";
-
 const items = [
   {
     title: "Vision",
@@ -17,20 +15,14 @@ const VisionMission = () => {
   return (
     <section className="h-full flex flex-col justify-center">
 
-      <motion.p
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        className="uppercase tracking-widest text-secondary text-[11px] font-medium"
+      <p
+        className="uppercase tracking-widest text-secondary text-[11px] font-medium animate-fade-in"
       >
         Keeping Traditions Alive, Celebrating Together
-      </motion.p>
+      </p>
 
-      <motion.h2
-        initial={{ opacity: 0, y: 25 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="font-fraunces text-3xl lg:text-4xl font-bold leading-tight mt-2"
+      <h2
+        className="font-fraunces text-3xl lg:text-4xl font-bold leading-tight mt-2 animate-fade-in-up"
       >
         <span className="text-primary">
           A Celebration of
@@ -41,36 +33,24 @@ const VisionMission = () => {
         <span className="italic text-secondary font-medium">
           Faith, Culture & Togetherness
         </span>
-      </motion.h2>
+      </h2>
 
-      <motion.p
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        className="text-dark-bg text-sm leading-6 mt-4 mb-4"
+      <p
+        className="text-dark-bg text-sm leading-6 mt-4 mb-4 animate-fade-in"
       >
         Welcome to a place where the divine blessings of Maa Durga inspire
         devotion, strengthen community bonds, and keep our cherished
         traditions alive. Together, we celebrate the spirit of Durga Pujo
         with pride, joy, and a shared sense of belonging.
-      </motion.p>
+      </p>
 
       <div className="space-y-4">
 
         {items.map((item, index) => (
-          <motion.div
+          <div
             key={item.title}
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{
-              delay: index * 0.2,
-              duration: 0.5,
-            }}
-            whileHover={{
-              x: 8,
-            }}
-            className="border-l-4 border-primary pl-5 py-1.5 transition-all duration-300 hover:border-secondary"
+            className="border-l-4 border-primary pl-5 py-1.5 transition-all duration-300 hover:border-secondary hover:translate-x-2 animate-fade-in-up"
+            style={{ animationDelay: `${index * 0.2}s` }}
           >
 
             <h3 className="font-fraunces text-xl text-primary font-bold mb-2">
@@ -81,7 +61,7 @@ const VisionMission = () => {
               {item.description}
             </p>
 
-          </motion.div>
+          </div>
         ))}
 
       </div>

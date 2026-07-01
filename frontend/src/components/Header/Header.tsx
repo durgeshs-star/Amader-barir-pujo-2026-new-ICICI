@@ -122,19 +122,24 @@ export const Header: React.FC<HeaderProps> = ({
             {/* Logo */}
             <div className="shrink-0 select-none">
               <Link to="/" aria-label="Amader Barir Pujo — Home">
-                <div className={`rounded-full bg-white flex items-center justify-center transition-all duration-300 ${isSticky ? 'w-24 h-24' : 'w-24 h-24'}`}>
-                  <img
-                    src="/assets/img/Logo-puja-160.webp"
-                    srcSet="
-                      /assets/img/Logo-puja-96.webp   96w,
-                      /assets/img/Logo-puja-160.webp 160w,
-                      /assets/img/Logo-puja-256.webp 256w"
-                    sizes="96px"
-                    alt="Amader Barir Pujo logo"
-                    className="w-full h-full object-contain"
-                    loading="eager"
-                    decoding="async"
-                  />
+                <div className="flex flex-col items-center">
+                  <div className={`rounded-full bg-white flex items-center justify-center transition-all duration-300 ${isSticky ? 'w-24 h-24' : 'w-24 h-24'}`}>
+                    <img
+                      src="/assets/img/Logo-puja-160.webp"
+                      srcSet="
+                        /assets/img/Logo-puja-96.webp   96w,
+                        /assets/img/Logo-puja-160.webp 160w,
+                        /assets/img/Logo-puja-256.webp 256w"
+                      sizes="96px"
+                      alt="Amader Barir Pujo logo"
+                      className="w-full h-full object-contain"
+                      loading="eager"
+                      decoding="async"
+                    />
+                  </div>
+                  <p className="text-[10px] text-primary font-semibold mt-1 text-center leading-tight">
+                    Initiative by ProPlus Data Foundation
+                  </p>
                 </div>
               </Link>
             </div>

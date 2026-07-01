@@ -19,14 +19,14 @@ export const Hero: React.FC = () => {
           Visual result is identical: object-cover + object-position matches
           the old backgroundPosition: 'center 20%'. */}
       <img
-        src="/assets/img/puja/35.webp"
+        src="/assets/img/puja/35-480.webp"
         srcSet="
           /assets/img/puja/35-480.webp   480w,
           /assets/img/puja/35-768.webp   768w,
           /assets/img/puja/35-1280.webp 1280w,
           /assets/img/puja/35-1920.webp 1920w"
-        sizes="100vw"
-        alt="Amader Barir Pujo celebration with traditional Durga Puja decorations and festive atmosphere"
+        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 768px, (max-width: 1280px) 1024px, 1280px"
+        alt="Amader Barir Pujo celebration with traditional Durga Pujo decorations and festive atmosphere"
         aria-hidden="true"
         fetchPriority="high"
         loading="eager"
@@ -38,7 +38,7 @@ export const Hero: React.FC = () => {
       <div
         className="absolute inset-0 z-[1]"
         style={{
-          background: 'linear-gradient(105deg, rgba(42,10,20,0.80) 0%, rgba(42,10,20,0.60) 35%, rgba(0,0,0,0.0) 65%)',
+          background: 'linear-gradient(to right, rgba(42,10,20,0.85) 0%, rgba(42,10,20,0.65) 40%, rgba(0,0,0,0) 70%)',
         }}
         aria-hidden="true"
       />
@@ -48,15 +48,13 @@ export const Hero: React.FC = () => {
         <div className="max-w-2xl">
 
           {/* Title — large display, two visual lines */}
-          <h1 className="font-fraunces leading-none mb-6 select-text" style={{ textShadow: '0 2px 12px rgba(0,0,0,0.5)' }}>
-            <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-6xl font-bold text-white">
-              Amader Barir Pujo
-            </span>
+          <h1 className="font-fraunces leading-none mb-6 select-text text-4xl sm:text-5xl md:text-6xl font-bold text-white" style={{ textShadow: '0 2px 12px rgba(0,0,0,0.5)' }}>
+            Amader Barir Pujo
           </h1>
 
           {/* Body text */}
           <p
-            className="text-sm md:text-base text-text-on-primary font-sans leading-relaxed mb-8 max-w-md select-text"
+            className="text-sm md:text-base text-white font-sans leading-relaxed mb-8 max-w-md select-text"
             style={{ textShadow: '0 1px 6px rgba(0,0,0,0.6)' }}
           >
             A vibrant Bengali community celebration, Amader Barir Pujo has been a cherished home away
@@ -69,7 +67,7 @@ export const Hero: React.FC = () => {
               Explore Pujo
             </Button>
             <a href="/volunteer">
-              <Button variant="outline" size="md" className="text-text-on-primary border-text-on-primary/80 hover:bg-text-on-primary hover:!text-primary">
+              <Button variant="outline" size="md" className="text-white border-white/80 hover:bg-white hover:!text-primary">
                 Become a Volunteer
               </Button>
             </a>

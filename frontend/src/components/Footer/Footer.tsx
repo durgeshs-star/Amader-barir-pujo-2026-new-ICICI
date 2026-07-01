@@ -107,6 +107,11 @@ export const Footer: React.FC = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/news" className="hover:text-accent transition-colors block py-1 text-text-on-primary">
+                  News
+                </Link>
+              </li>
+              <li>
                 <Link to="/contact-us" className="hover:text-accent transition-colors block py-1 text-text-on-primary">
                   Contact Us
                 </Link>
@@ -164,20 +169,23 @@ export const Footer: React.FC = () => {
           </div>
 
           {/* Logo brand */}
-          <div className="select-none flex items-center gap-2.5">
-            <img
-              src="/assets/img/Logo-puja-96.webp"
-              srcSet="/assets/img/Logo-puja-96.webp 96w"
-              sizes="32px"
-              alt="Amader Barir Pujo"
-              className="h-8 w-8 object-contain"
-              width={32}
-              height={32}
-              loading="lazy"
-              decoding="async"
-            />
-            <span className="text-lg font-bold font-fraunces text-white tracking-wide">Amader Barir Pujo</span>
-            <span className="text-[10px] bg-accent/20 text-accent font-semibold px-2 py-0.5 rounded">2026</span>
+          <div className="select-none flex flex-col items-center gap-1">
+            <div className="flex items-center gap-2.5">
+              <img
+                src="/assets/img/Logo-puja-96.webp"
+                srcSet="/assets/img/Logo-puja-96.webp 96w"
+                sizes="32px"
+                alt="Amader Barir Pujo"
+                className="h-8 w-8 object-contain"
+                width={32}
+                height={32}
+                loading="lazy"
+                decoding="async"
+              />
+              <span className="text-lg font-bold font-fraunces text-white tracking-wide">Amader Barir Pujo</span>
+              <span className="text-[10px] bg-accent/20 text-accent font-semibold px-2 py-0.5 rounded">2026</span>
+            </div>
+            <span className="text-[10px] text-text-inverse-muted font-medium">Initiative by ProPlus Data Foundation</span>
           </div>
 
           {/* Socials */}

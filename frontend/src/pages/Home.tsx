@@ -1,9 +1,9 @@
 import React, { Suspense } from 'react';
 import Hero from '../components/Hero/Hero';
-import SpiritSection from '../components/Sections/SpiritSection';
 import SEO from '../components/ui/SEO';
 
 // Lazy load below-fold sections to reduce initial JS bundle
+const SpiritSection = React.lazy(() => import('../components/Sections/SpiritSection'));
 const TestimonialsSection = React.lazy(() => import('../components/Sections/TestimonialsSection'));
 
 const SectionSkeleton: React.FC = () => (
@@ -26,7 +26,9 @@ export const Home: React.FC = () => {
         canonical="https://www.abp.proplusdatafoundation.com/"
       />
       <Hero />
-      <SpiritSection />
+      <Suspense fallback={<SectionSkeleton />}>
+        <SpiritSection />
+      </Suspense>
       <Suspense fallback={<SectionSkeleton />}>
         <TestimonialsSection />
       </Suspense>

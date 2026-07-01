@@ -1,5 +1,3 @@
-import { motion } from "framer-motion";
-
 export interface PageHeroProps {
   title: string;
   subtitle?: string;
@@ -27,17 +25,14 @@ export const PageHero: React.FC<PageHeroProps> = ({
         className="absolute inset-0 w-full h-full object-cover"
         loading="lazy"
         decoding="async"
+        width={1920}
+        height={1080}
       />
 
       <div className={`absolute inset-0 ${overlay}`} />
 
       <div className="relative z-10 h-full flex items-end justify-center pb-16 md:pb-24">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center px-6"
-        >
+        <div className="text-center px-6 animate-fade-in-up">
           <h1 className="font-fraunces text-5xl md:text-7xl text-white font-bold">
             {title}
           </h1>
@@ -47,7 +42,7 @@ export const PageHero: React.FC<PageHeroProps> = ({
               {subtitle}
             </p>
           )}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
