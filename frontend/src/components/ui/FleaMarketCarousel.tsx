@@ -15,11 +15,29 @@ const FleaMarketCarousel = ({
 }: FleaMarketCarouselProps) => {
   const [active, setActive] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [currentSlidesPerView, setCurrentSlidesPerView] = useState(slidesPerView);
 
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
 
-  const pages = Math.ceil(images.length / slidesPerView);
+  // Responsive slides per view
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setCurrentSlidesPerView(1);
+      } else if (window.innerWidth < 1024) {
+        setCurrentSlidesPerView(2);
+      } else {
+        setCurrentSlidesPerView(slidesPerView);
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [slidesPerView]);
+
+  const pages = Math.ceil(images.length / currentSlidesPerView);
 
   const goNext = useCallback(() => {
     setActive((prev) => (prev + 1) % pages);
@@ -92,21 +110,27 @@ const FleaMarketCarousel = ({
           {Array.from({ length: pages }).map((_, pageIndex) => (
             <div
               key={pageIndex}
-              className="min-w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-1"
+              className={`min-w-full grid gap-8 px-1 ${
+                currentSlidesPerView === 1
+                  ? 'grid-cols-1'
+                  : currentSlidesPerView === 2
+                  ? 'grid-cols-1 sm:grid-cols-2'
+                  : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
+              }`}
             >
               {images
                 .slice(
-                  pageIndex * slidesPerView,
-                  pageIndex * slidesPerView + slidesPerView
+                  pageIndex * currentSlidesPerView,
+                  pageIndex * currentSlidesPerView + currentSlidesPerView
                 )
                 .map((image, index) => (
                   <FleaMarketCard
                     key={image}
                     image={image}
                     alt={`${altPrefix} ${
-                      pageIndex * slidesPerView + index + 1
+                      pageIndex * currentSlidesPerView + index + 1
                     }`}
-                    index={pageIndex * slidesPerView + index}
+                    index={pageIndex * currentSlidesPerView + index}
                   />
                 ))}
             </div>

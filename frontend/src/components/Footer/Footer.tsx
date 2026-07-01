@@ -40,7 +40,7 @@ export const Footer: React.FC = () => {
           
           {/* Column 1: About details */}
           <div className="flex flex-col gap-4">
-            <h5 className="text-xl font-bold font-fraunces text-white border-b-2 border-accent pb-2 w-20">
+            <h5 className="text-xl font-bold font-fraunces text-white border-b-2 border-accent pb-2 w-24">
               About Us
             </h5>
             <p className="text-sm leading-relaxed text-text-inverse-muted">

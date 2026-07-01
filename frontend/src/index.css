@@ -72,6 +72,7 @@
 
   body {
     overflow-x: hidden;
+    text-align: justify;
   }
 
   h1,
@@ -83,6 +84,11 @@
     font-family: var(--font-fraunces);
     color: var(--color-text);
     font-weight: 700;
+    text-align: inherit;
+  }
+
+  p {
+    text-align: justify;
   }
 }
 
