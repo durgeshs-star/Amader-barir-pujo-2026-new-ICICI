@@ -72,7 +72,7 @@ const NavamiBhogPage: React.FC = () => {
         </div>
       </section>
 
-      <section className="py-14 md:py-20 bg-white">
+      <section className="py-4 bg-white">
         <div className="max-w-5xl mx-auto px-6">
           <BhogBookingSection
             title="Book Navami Bhog"

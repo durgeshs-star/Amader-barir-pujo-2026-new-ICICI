@@ -14,7 +14,7 @@ const pujoScheduleDays: NavItem[] = [
   { name: 'Navami', path: '/navami' },
   { name: 'Dashami', path: '/dashami' },
   { name: 'Lakshmi Puja', path: '/lakshmi-puja' },
-  { name: 'Sharodiya Puja', path: '/Sharodiya Puja' },
+  { name: 'Saraswati Puja', path: '/saraswati-puja' },
 ];
 
 const bhogBookingDays: NavItem[] = [
@@ -22,7 +22,7 @@ const bhogBookingDays: NavItem[] = [
   { name: 'Ashtami', path: '/bhog-booking/ashtami' },
   { name: 'Navami', path: '/bhog-booking/navami' },
   { name: 'Lakshmi Puja', path: '/bhog-booking/lakshmi-puja' },
-  { name: 'Sharodiya Puja', path: '/bhog-booking/Sharodiya Puja' },
+  { name: 'Saraswati Puja', path: '/bhog-booking/saraswati-puja' },
 ];
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>

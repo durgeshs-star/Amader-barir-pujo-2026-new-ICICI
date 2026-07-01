@@ -6,7 +6,7 @@ import { fleaMarketImages } from "../../assets/data/scheduleShared";
 
 export const FleaMarketSection: React.FC = () => {
   return (
-    <section className="py-14 md:py-20 bg-gradient-to-b from-light-bg/40 to-white">
+    <section className="py-14 md:py-10 bg-linear-to-b from-light-bg/40 to-white">
       <div className="max-w-7xl mx-auto px-6 md:px-10">
         <SectionHeading
           title="Flea Market Bonanza"

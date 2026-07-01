@@ -1,5 +1,5 @@
 ﻿import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { LazyMotion, domAnimation, m } from 'framer-motion';
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaClock, FaUsers, FaHandshake } from 'react-icons/fa';
 import PageHero from '../components/common/PageHero';
 import Button from '../components/ui/Button';
@@ -92,7 +92,7 @@ export const ContactUs: React.FC = () => {
   };
 
   return (
-    <>
+    <LazyMotion features={domAnimation} strict>
       <SEO
         title="Contact Us"
         description="Get in touch with the Amader Barir Pujo organizing committee. Call, email, or visit us in Wakad, Pune during the Durga Puja celebrations."
@@ -110,7 +110,7 @@ export const ContactUs: React.FC = () => {
       {/* Why Contact Us Section */}
       <section className="py-16 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -124,7 +124,7 @@ export const ContactUs: React.FC = () => {
               We're here to help with any questions about Durga Puja, volunteering, bhog booking, or general inquiries.
             </p>
             <div className="w-16 h-1 bg-accent mx-auto mt-6 rounded-full" />
-          </motion.div>
+          </m.div>
 
           <div className="grid md:grid-cols-3 gap-8">
             {[
@@ -144,7 +144,7 @@ export const ContactUs: React.FC = () => {
                 description: "Need specific information about puja timings, bhog booking, or cultural programs? We're here to help."
               }
             ].map((item, idx) => (
-              <motion.div
+              <m.div
                 key={idx}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -161,7 +161,7 @@ export const ContactUs: React.FC = () => {
                 <p className="text-text-secondary text-sm leading-relaxed">
                   {item.description}
                 </p>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
@@ -170,7 +170,7 @@ export const ContactUs: React.FC = () => {
       {/* Contact Section */}
       <section className="py-16 md:py-24 bg-light-bg/50">
         <div className="max-w-7xl mx-auto px-6">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -184,12 +184,12 @@ export const ContactUs: React.FC = () => {
               Reach out to us through any of the following channels
             </p>
             <div className="w-16 h-1 bg-accent mx-auto mt-6 rounded-full" />
-          </motion.div>
+          </m.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           
           {/* Left Column: Details & Map */}
-          <motion.div 
+          <m.div 
             className="space-y-6 select-text"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -248,17 +248,17 @@ export const ContactUs: React.FC = () => {
                 title="Amader Barir Pujo Location"
               />
             </div>
-          </motion.div>
+          </m.div>
 
           {/* Right Column: Message Form */}
-          <motion.div 
+          <m.div 
             className="bg-white rounded-xl p-6 md:p-8 border border-gray-100 shadow-sm self-start"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.5, ease: "easeOut" }}
           >
             {submitted ? (
-              <motion.div 
+              <m.div 
                 className="text-center py-10 space-y-4"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -274,7 +274,7 @@ export const ContactUs: React.FC = () => {
                 <button onClick={() => setSubmitted(false)} className="text-xs text-accent-text hover:underline bg-transparent border-0 cursor-pointer">
                   Send another message
                 </button>
-              </motion.div>
+              </m.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5 select-text">
                 <div className="flex flex-col gap-1.5">
@@ -368,13 +368,13 @@ export const ContactUs: React.FC = () => {
                 </Button>
               </form>
             )}
-          </motion.div>
+          </m.div>
 
         </div>
 
       </div>
       </section>
-    </>
+    </LazyMotion>
   );
 };
 

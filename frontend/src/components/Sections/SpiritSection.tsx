@@ -56,7 +56,7 @@ export const SpiritSection: React.FC = () => {
   ];
 
   return (
-    <section id="experience-section" className="py-20 md:py-28 bg-white scroll-mt-10" style={{ contentVisibility: 'auto', containIntrinsicSize: '0 500px' }}>
+    <section id="experience-section" className="py-20 bg-white scroll-mt-10" style={{ contentVisibility: 'auto', containIntrinsicSize: '0 500px' }}>
       <div className="max-w-7xl mx-auto px-6">
         
         {/* Section Title */}

@@ -73,7 +73,7 @@ export const ScheduleDetails: React.FC<ScheduleDetailsProps> = ({
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="relative group"
           >
-            <div className="absolute -inset-3 rounded-2xl bg-gradient-to-br from-primary/20 via-accent/10 to-primary-light/20 opacity-70 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="absolute -inset-3 rounded-2xl bg-linear-to-br from-primary/20 via-accent/10 to-primary-light/20 opacity-70 group-hover:opacity-100 transition-opacity duration-500" />
             <div className="relative overflow-hidden rounded-xl shadow-xl ring-1 ring-black/5">
               <img
                 src={image}

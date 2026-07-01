@@ -4,6 +4,33 @@
   to   { opacity: 1; }
 }
 
+@keyframes fadeInDown {
+  from { 
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to   { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from { 
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to   { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes expandWidth {
+  from { width: 0; }
+  to   { width: 64px; }
+}
+
 @keyframes slideInRight {
   from { transform: translateX(100%); }
   to   { transform: translateX(0); }
@@ -17,6 +44,18 @@
 /* ── Custom Utility Classes for Animations ───────────────────────── */
 .animate-fade-in {
   animation: fadeIn 0.3s ease-out forwards;
+}
+
+.animate-fade-in-down {
+  animation: fadeInDown 0.6s ease-out forwards;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out 0.2s forwards;
+}
+
+.animate-expand-width {
+  animation: expandWidth 0.8s ease-out 0.3s forwards;
 }
 
 .animate-slide-left {

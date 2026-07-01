@@ -92,7 +92,6 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
                   width={40}
                   height={40}
                   loading="eager"
-                  fetchPriority="high"
                   decoding="async"
                 />
               </div>

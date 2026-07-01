@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 import BhogBookingCard from './BhogBookingCard';
 import type { BhogBookingSectionProps, BhogBookingState } from '../../types/bhog';
 
@@ -95,16 +94,14 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
             <span>{totalCount === 1 ? 'booking selected' : 'bookings selected'}</span>
           </p>
         </div>
-        <motion.button
+        <button
           type="button"
           onClick={handlePayNow}
           disabled={totalCount === 0}
-          className="min-w-[150px] px-6 py-2.5 bg-primary text-text-on-primary font-semibold rounded-md border-0 cursor-pointer transition-all duration-300 hover:bg-primary-dark hover:shadow-lg disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-muted"
-          whileHover={{ scale: totalCount > 0 ? 1.05 : 1 }}
-          whileTap={{ scale: totalCount > 0 ? 0.95 : 1 }}
+          className="min-w-[150px] px-6 py-2.5 bg-primary text-text-on-primary font-semibold rounded-md border-0 cursor-pointer transition-all duration-300 hover:bg-primary-dark hover:shadow-lg hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-muted disabled:hover:scale-100"
         >
           Pay Now
-        </motion.button>
+        </button>
       </div>
     </section>
   );

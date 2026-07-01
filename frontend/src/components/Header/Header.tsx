@@ -133,7 +133,6 @@ export const Header: React.FC<HeaderProps> = ({
                     alt="Amader Barir Pujo logo"
                     className="w-full h-full object-contain"
                     loading="eager"
-                    fetchPriority="high"
                     decoding="async"
                   />
                 </div>
