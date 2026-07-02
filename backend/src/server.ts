@@ -4,13 +4,17 @@ import cors from 'cors';
 import compression from 'compression';
 import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
+import { connectDatabase } from './config/database';
+import { initializePaymentConfig } from './config/payment.config';
 import { ContactRepository } from './repositories/ContactRepository';
 import { VolunteerRepository } from './repositories/VolunteerRepository';
+import { PaymentRepository } from './repositories/PaymentRepository';
 import { EmailService } from './services/EmailService';
 import { ContactController } from './controllers/ContactController';
 import { VolunteerController } from './controllers/VolunteerController';
 import { createContactRoutes } from './routes/contactRoutes';
 import { createVolunteerRoutes } from './routes/volunteerRoutes';
+import { createPaymentRoutes } from './routes/paymentRoutes';
 import { errorHandler } from './middleware/errorHandler';
 
 dotenv.config();
@@ -58,6 +62,7 @@ app.use(compression());
 // Initialize dependencies
 const contactRepository = new ContactRepository();
 const volunteerRepository = new VolunteerRepository();
+const paymentRepository = new PaymentRepository();
 const emailService = new EmailService();
 const contactController = new ContactController(contactRepository, emailService);
 const volunteerController = new VolunteerController(volunteerRepository, emailService);
@@ -65,10 +70,19 @@ const volunteerController = new VolunteerController(volunteerRepository, emailSe
 // Routes
 app.use('/api', createContactRoutes(contactController));
 app.use('/api', createVolunteerRoutes(volunteerController));
+app.use('/api/payment', createPaymentRoutes(paymentRepository));
 
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+// Mock payment page redirect (for mock payment provider)
+// This route redirects to the frontend mock payment page
+app.get('/mock-payment/:transactionId', (req, res) => {
+  const { transactionId } = req.params;
+  const frontendUrl = process.env.PAYMENT_REDIRECT_URL?.split('/payment/result')[0] || 'http://localhost:5173';
+  res.redirect(`${frontendUrl}/mock-payment?transactionId=${transactionId}`);
 });
 
 // Error handling middleware
@@ -80,7 +94,23 @@ app.use((req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-});
+const startServer = async () => {
+  try {
+    // Connect to database
+    await connectDatabase();
+
+    // Initialize payment configuration
+    initializePaymentConfig();
+
+    // Start Express server
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+      console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+    });
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
+};
+
+startServer();

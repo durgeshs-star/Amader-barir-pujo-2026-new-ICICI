@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import BhogBookingCard from './BhogBookingCard';
+import { PaymentButton } from '../Payment';
 import type { BhogBookingSectionProps, BhogBookingState } from '../../types/bhog';
 
 export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
@@ -7,7 +8,6 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
   subtitle,
   description,
   categories,
-  paymentUrl,
   disclaimer,
 }) => {
   const [bookings, setBookings] = useState<BhogBookingState>(() => {
@@ -16,6 +16,18 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
       initialState[cat.id] = 0;
     });
     return initialState;
+  });
+
+  const [customerInfo, setCustomerInfo] = useState({
+    name: '',
+    email: '',
+    phone: '',
+  });
+
+  const [errors, setErrors] = useState({
+    name: '',
+    email: '',
+    phone: '',
   });
 
   const handleValueChange = (categoryId: string, value: number) => {
@@ -40,10 +52,42 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
 
   const { totalAmount, totalCount } = calculateTotal();
 
-  const handlePayNow = () => {
-    if (totalCount > 0) {
-      window.open(paymentUrl, '_blank');
-    }
+  const handlePaymentSuccess = (orderId: string, transactionId: string) => {
+    // Store booking details in sessionStorage for receipt generation
+    const bookingDetails = {
+      orderId,
+      transactionId,
+      title,
+      categories: categories.map(cat => ({
+        ...cat,
+        quantity: bookings[cat.id] || 0
+      })).filter(cat => cat.quantity > 0),
+      totalAmount,
+      totalCount,
+      timestamp: new Date().toISOString()
+    };
+    sessionStorage.setItem('bhogReceipt', JSON.stringify(bookingDetails));
+    
+    // Navigate to payment success page
+    window.location.href = `/payment/success?orderId=${orderId}&transactionId=${transactionId}&amount=${totalAmount}&currency=INR&fromBhog=true`;
+  };
+
+  const getBhogMetadata = () => {
+    return {
+      type: 'bhog_booking',
+      title,
+      categories: categories.map(cat => ({
+        ...cat,
+        quantity: bookings[cat.id] || 0
+      })).filter(cat => cat.quantity > 0),
+      totalAmount,
+      totalCount,
+    };
+  };
+
+  const handlePaymentError = (error: string) => {
+    console.error('Payment failed:', error);
+    alert(`Payment failed: ${error}`);
   };
 
   return (
@@ -94,14 +138,18 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
             <span>{totalCount === 1 ? 'booking selected' : 'bookings selected'}</span>
           </p>
         </div>
-        <button
-          type="button"
-          onClick={handlePayNow}
+        <PaymentButton
+          customerId={`BHOG-${Date.now()}`}
+          amount={totalAmount}
+          currency="INR"
+          metadata={getBhogMetadata()}
+          onSuccess={handlePaymentSuccess}
+          onError={handlePaymentError}
           disabled={totalCount === 0}
           className="min-w-[150px] px-6 py-2.5 bg-primary text-text-on-primary font-semibold rounded-md border-0 cursor-pointer transition-all duration-300 hover:bg-primary-dark hover:shadow-lg hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-muted disabled:hover:scale-100"
         >
           Pay Now
-        </button>
+        </PaymentButton>
       </div>
     </section>
   );

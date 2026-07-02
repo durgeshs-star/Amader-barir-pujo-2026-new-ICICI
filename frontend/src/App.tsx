@@ -29,6 +29,10 @@ const DashamiPage    = lazy(() => import('./pages/Dashami/DashamiPage'));
 const SaptamiBhogPage = lazy(() => import('./pages/SaptamiBhog/SaptamiBhogPage'));
 const AshtamiBhogPage = lazy(() => import('./pages/AshtamiBhog/AshtamiBhogPage'));
 const NavamiBhogPage  = lazy(() => import('./pages/NavamiBhog/NavamiBhogPage'));
+const MockPayment     = lazy(() => import('./components/Payment/MockPayment'));
+const PaymentSuccess  = lazy(() => import('./components/Payment/PaymentSuccess'));
+const PaymentFailure  = lazy(() => import('./components/Payment/PaymentFailure'));
+const PaymentPending  = lazy(() => import('./components/Payment/PaymentPending'));
 
 const PageSkeleton: React.FC = () => (
   <div
@@ -85,6 +89,12 @@ export const App: React.FC = () => {
               {/* Legal policies */}
               <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+
+              {/* Payment routes */}
+              <Route path="/mock-payment/:transactionId" element={<MockPayment />} />
+              <Route path="/payment/success" element={<PaymentSuccess />} />
+              <Route path="/payment/failure" element={<PaymentFailure />} />
+              <Route path="/payment/pending" element={<PaymentPending />} />
 
               {/* Fallback redirect or homepage display */}
               <Route path="*" element={<Home />} />
