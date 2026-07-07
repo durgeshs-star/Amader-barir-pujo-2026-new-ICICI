@@ -10,11 +10,14 @@ import { ContactRepository } from './repositories/ContactRepository';
 import { VolunteerRepository } from './repositories/VolunteerRepository';
 import { PaymentRepository } from './repositories/PaymentRepository';
 import { EmailService } from './services/EmailService';
+import { GoogleSheetsService } from './services/GoogleSheetsService';
 import { ContactController } from './controllers/ContactController';
 import { VolunteerController } from './controllers/VolunteerController';
+import { BhogController } from './controllers/BhogController';
 import { createContactRoutes } from './routes/contactRoutes';
 import { createVolunteerRoutes } from './routes/volunteerRoutes';
 import { createPaymentRoutes } from './routes/paymentRoutes';
+import { createBhogRoutes } from './routes/bhogRoutes';
 import { errorHandler } from './middleware/errorHandler';
 
 dotenv.config();
@@ -64,13 +67,16 @@ const contactRepository = new ContactRepository();
 const volunteerRepository = new VolunteerRepository();
 const paymentRepository = new PaymentRepository();
 const emailService = new EmailService();
+const sheetsService = new GoogleSheetsService();
 const contactController = new ContactController(contactRepository, emailService);
 const volunteerController = new VolunteerController(volunteerRepository, emailService);
+const bhogController = new BhogController(sheetsService);
 
 // Routes
 app.use('/api', createContactRoutes(contactController));
 app.use('/api', createVolunteerRoutes(volunteerController));
 app.use('/api/payment', createPaymentRoutes(paymentRepository));
+app.use('/api/bhog', createBhogRoutes(bhogController));
 
 // Health check endpoint
 app.get('/health', (req, res) => {
