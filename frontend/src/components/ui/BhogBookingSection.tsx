@@ -18,18 +18,6 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
     return initialState;
   });
 
-  const [customerInfo, setCustomerInfo] = useState({
-    name: '',
-    email: '',
-    phone: '',
-  });
-
-  const [errors, setErrors] = useState({
-    name: '',
-    email: '',
-    phone: '',
-  });
-
   const handleValueChange = (categoryId: string, value: number) => {
     setBookings((prev) => ({
       ...prev,

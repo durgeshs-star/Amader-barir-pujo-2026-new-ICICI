@@ -10,9 +10,9 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 interface PaymentPendingProps {
-  transactionId: string;
-  orderId: string;
-  amount: number;
+  transactionId?: string;
+  orderId?: string;
+  amount?: number;
   currency?: string;
   onStatusChange?: (status: string) => void;
 }
@@ -104,7 +104,7 @@ export const PaymentPending: React.FC<PaymentPendingProps> = ({
             <div className="flex justify-between">
               <span className="text-gray-600">Amount:</span>
               <span className="font-semibold text-gray-900">
-                {currency} {amount.toFixed(2)}
+                {currency} {amount?.toFixed(2)}
               </span>
             </div>
           </div>

@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import FleaMarketCard from "./FleaMarketCard";
 import type { FleaMarketCarouselProps } from "../../types/schedule";
 
@@ -8,7 +7,6 @@ const FleaMarketCarousel = ({
   autoPlay = true,
   interval = 4000,
   showDots = true,
-  showArrows = true,
   slidesPerView = 3,
   altPrefix = "Flea Market",
 }: FleaMarketCarouselProps) => {

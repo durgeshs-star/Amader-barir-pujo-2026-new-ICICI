@@ -162,7 +162,7 @@ export const PaymentHistory: React.FC<PaymentHistoryProps> = ({
                       {payment.orderId}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {payment.currency} {payment.amount.toFixed(2)}
+                      {payment.currency} {payment?.amount?.toFixed(2)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(payment.status)}`}>

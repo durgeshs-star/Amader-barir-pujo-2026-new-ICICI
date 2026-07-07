@@ -135,7 +135,7 @@ export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propRecei
               </tr>
             </thead>
             <tbody>
-              {receiptData.categories.map((category) => (
+              {receiptData.categories.map((category: any) => (
                 <tr key={category.id} className="border-b border-gray-200">
                   <td className="px-4 py-2">
                     <div className="font-semibold">{category.title}</div>

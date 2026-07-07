@@ -60,7 +60,6 @@ const SaraswatiPuja: React.FC = () => {
                   slidesPerView={1}
                   altPrefix="Saraswati Puja"
                   showDots={true}
-                  showArrows={true}
                 />
               </div>
             </div>

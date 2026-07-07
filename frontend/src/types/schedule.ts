@@ -3,7 +3,6 @@ export interface FleaMarketCarouselProps {
   autoPlay?: boolean;
   interval?: number;
   showDots?: boolean;
-  showArrows?: boolean;
   slidesPerView?: number;
   altPrefix?: string;
 }

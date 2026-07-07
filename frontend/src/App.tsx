@@ -96,7 +96,7 @@ export const App: React.FC = () => {
               <Route path="/mock-payment/:transactionId" element={<MockPayment />} />
               <Route path="/payment/success" element={<PaymentSuccess />} />
               <Route path="/payment/failure" element={<PaymentFailure />} />
-              <Route path="/payment/pending" element={<PaymentPending />} />
+              <Route path="/payment/pending" element={<PaymentPending transactionId="" orderId="" amount={0} />} />
 
               {/* Fallback redirect or homepage display */}
               <Route path="*" element={<Home />} />
