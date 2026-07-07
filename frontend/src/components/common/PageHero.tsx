@@ -4,6 +4,7 @@ export interface PageHeroProps {
   backgroundImage?: string;
   overlay?: string;
   height?: string;
+  objectPosition?: string;
 }
 
 const DEFAULT_BACKGROUND = "/assets/img/culture-2.webp";
@@ -16,13 +17,15 @@ export const PageHero: React.FC<PageHeroProps> = ({
   backgroundImage = DEFAULT_BACKGROUND,
   overlay = DEFAULT_OVERLAY,
   height = DEFAULT_HEIGHT,
+  objectPosition = "center",
 }) => {
   return (
     <section className={`relative ${height} overflow-hidden`}>
       <img
         src={backgroundImage}
         alt=""
-        className="absolute inset-0 w-full h-full object-cover"
+        className={`absolute inset-0 w-full h-full object-cover`}
+        style={{ objectPosition }}
         loading="lazy"
         decoding="async"
         width={1920}

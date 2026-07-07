@@ -31,12 +31,12 @@ export const Hero: React.FC = () => {
         fetchPriority="high"
         loading="eager"
         decoding="async"
-        className="absolute inset-0 w-full h-full object-cover object-[center_20%] z-0"
+        className="absolute inset-0 w-full h-full object-cover object-[90%_20%] z-0"
       />
 
       {/* Gradient — only at the bottom-left to make text readable, rest of image stays clear */}
       <div
-        className="absolute inset-0 z-[1]"
+        className="absolute inset-0 z-1"
         style={{
           background: 'linear-gradient(to right, rgba(42,10,20,0.85) 0%, rgba(42,10,20,0.65) 40%, rgba(0,0,0,0) 70%)',
         }}
@@ -53,13 +53,14 @@ export const Hero: React.FC = () => {
           </h1>
 
           {/* Body text */}
-          <p
-            className="text-sm md:text-base text-white font-sans leading-relaxed mb-8 max-w-md select-text"
+          <div
+            className="text-sm md:text-base text-white font-sans leading-relaxed mb-8 max-w-md select-text space-y-4"
             style={{ textShadow: '0 1px 6px rgba(0,0,0,0.6)' }}
           >
-            A vibrant Bengali community celebration, Amader Barir Pujo has been a cherished home away
-            from home — keeping alive the warmth, traditions, and festive spirit of Bengal.
-          </p>
+            <p>More than a celebration, it's a feeling we carry with us.</p>
+            <p>A place where strangers become friends, children grow up making memories, and the familiar rhythm of dhaak, laughter, and adda brings Bengal a little closer to home.</p>
+            <p className="font-bold text-accent">Free for all. Just as Pujo should be.</p>
+          </div>
 
           {/* CTA buttons */}
           <div className="flex flex-wrap gap-3">

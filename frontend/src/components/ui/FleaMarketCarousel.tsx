@@ -22,7 +22,9 @@ const FleaMarketCarousel = ({
   // Responsive slides per view
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 640) {
+      if (slidesPerView === 1) {
+        setCurrentSlidesPerView(1);
+      } else if (window.innerWidth < 640) {
         setCurrentSlidesPerView(1);
       } else if (window.innerWidth < 1024) {
         setCurrentSlidesPerView(2);
@@ -87,7 +89,7 @@ const FleaMarketCarousel = ({
 
   return (
     <section
-      className="relative mt-12"
+      className="relative h-full"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onTouchStart={handleTouchStart}
@@ -95,15 +97,15 @@ const FleaMarketCarousel = ({
       onTouchEnd={handleTouchEnd}
     >
       {/* Carousel */}
-      <div className="overflow-hidden rounded-3xl">
+      <div className="overflow-hidden rounded-3xl h-full">
         <div
-          className="flex transition-transform duration-700 ease-in-out"
+          className="flex transition-transform duration-700 ease-in-out h-full"
           style={{ transform: `translateX(-${active * 100}%)` }}
         >
           {Array.from({ length: pages }).map((_, pageIndex) => (
             <div
               key={pageIndex}
-              className={`min-w-full grid gap-8 px-1 ${
+              className={`min-w-full grid gap-8 px-1 h-full ${
                 currentSlidesPerView === 1
                   ? 'grid-cols-1'
                   : currentSlidesPerView === 2
@@ -130,40 +132,6 @@ const FleaMarketCarousel = ({
           ))}
         </div>
       </div>
-
-      {/* Left Arrow */}
-      {showArrows && pages > 1 && (
-        <button
-          onClick={goPrev}
-          aria-label="Previous"
-          className="absolute left-0 lg:-left-7 top-1/2 -translate-y-1/2 z-20
-          h-14 w-14 rounded-full
-          bg-white shadow-xl border border-gray-200
-          flex items-center justify-center
-          text-primary
-          hover:bg-primary-dark hover:text-text-on-primary
-          transition-all duration-300 hover:scale-110"
-        >
-          <ChevronLeft size={22} />
-        </button>
-      )}
-
-      {/* Right Arrow */}
-      {showArrows && pages > 1 && (
-        <button
-          onClick={goNext}
-          aria-label="Next"
-          className="absolute right-0 lg:-right-7 top-1/2 -translate-y-1/2 z-20
-          h-14 w-14 rounded-full
-          bg-white shadow-xl border border-gray-200
-          flex items-center justify-center
-          text-primary
-          hover:bg-primary-dark hover:text-text-on-primary
-          transition-all duration-300 hover:scale-110"
-        >
-          <ChevronRight size={22} />
-        </button>
-      )}
 
       {/* Dots */}
       {showDots && pages > 1 && (

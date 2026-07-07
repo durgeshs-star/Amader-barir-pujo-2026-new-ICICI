@@ -29,6 +29,7 @@ const DashamiPage    = lazy(() => import('./pages/Dashami/DashamiPage'));
 const SaptamiBhogPage = lazy(() => import('./pages/SaptamiBhog/SaptamiBhogPage'));
 const AshtamiBhogPage = lazy(() => import('./pages/AshtamiBhog/AshtamiBhogPage'));
 const NavamiBhogPage  = lazy(() => import('./pages/NavamiBhog/NavamiBhogPage'));
+const SaraswatiPuja   = lazy(() => import('./pages/SaraswatiPuja'));
 const MockPayment     = lazy(() => import('./components/Payment/MockPayment'));
 const PaymentSuccess  = lazy(() => import('./components/Payment/PaymentSuccess'));
 const PaymentFailure  = lazy(() => import('./components/Payment/PaymentFailure'));
@@ -73,6 +74,7 @@ export const App: React.FC = () => {
               <Route path="/dashami" element={<DashamiPage />} />
 
               <Route path="/anudan" element={<Anudan />} />
+              <Route path="/saraswati-puja" element={<SaraswatiPuja />} />
 
               {/* Day specific bhog booking paths */}
               <Route path="/bhog-booking/saptami" element={<SaptamiBhogPage />} />
