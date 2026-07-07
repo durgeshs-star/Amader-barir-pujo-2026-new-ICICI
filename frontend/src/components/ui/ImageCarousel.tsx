@@ -23,6 +23,7 @@ const ImageCarousel = ({
 }: ImageCarouselProps) => {
   const [active, setActive] = useState(0);
   const [isInView, setIsInView] = useState(false);
+  const [imageError, setImageError] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Lazy initialize when in viewport
@@ -62,15 +63,22 @@ const ImageCarousel = ({
       style={{ height: height ?? "100%" }}
     >
       {/* Panel */}
-      <div
-        className="w-full h-full transition-all duration-700 ease-in-out"
+      <img
+        src={image}
+        alt="Carousel image"
+        className="w-full h-full object-cover transition-all duration-700 ease-in-out"
         style={{
-          backgroundImage: `url(${image})`,
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backgroundPosition: positions[active],
+          objectPosition: positions[active],
         }}
+        onError={() => setImageError(true)}
       />
+
+      {/* Error fallback */}
+      {imageError && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-200">
+          <p className="text-gray-500">Image failed to load: {image}</p>
+        </div>
+      )}
 
       {/* Indicators */}
       <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-3">

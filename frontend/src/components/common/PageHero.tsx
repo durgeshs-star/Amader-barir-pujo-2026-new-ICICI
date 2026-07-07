@@ -8,7 +8,7 @@ export interface PageHeroProps {
 }
 
 const DEFAULT_BACKGROUND = "/assets/img/culture-2.webp";
-const DEFAULT_OVERLAY = "bg-black/60";
+const DEFAULT_OVERLAY = "bg-black/30";
 const DEFAULT_HEIGHT = "h-[40vh] md:h-[80vh]";
 
 export const PageHero: React.FC<PageHeroProps> = ({

@@ -1,21 +1,25 @@
 import AboutCarousel from "./AboutCarousel";
-import VisionMission from "./VisionMission";
+import CarouselContentSection from "../common/CarouselContentSection";
 
 const AboutSection = () => {
   return (
-    <section className="bg-white py-10 lg:py-14 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 lg:px-10">
-
-        <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-16 items-stretch">
-
-          <AboutCarousel />
-
-          <VisionMission />
-
-        </div>
-
-      </div>
-    </section>
+    <CarouselContentSection
+      label="Keeping Traditions Alive, Celebrating Together"
+      headingPrimary="A Celebration of"
+      headingSecondary="Faith, Culture & Togetherness"
+      description="Welcome to a place where the divine blessings of Maa Durga inspire devotion, strengthen community bonds, and keep our cherished traditions alive. Together, we celebrate the spirit of Durga Pujo with pride, joy, and a shared sense of belonging."
+      items={[
+        {
+          title: "Vision",
+          description: "To preserve the cultural and spiritual legacy of Durga Puja, fostering a vibrant and inclusive community for generations to come.",
+        },
+        {
+          title: "Mission",
+          description: "To honor Maa Durga through meaningful celebrations, uphold timeless traditions, and create a welcoming environment where everyone can experience the joy of faith, culture, and unity.",
+        },
+      ]}
+      carousel={<AboutCarousel />}
+    />
   );
 };
 

@@ -12,20 +12,14 @@ export const Hero: React.FC = () => {
   return (
     <div className="relative h-[78vh] md:h-[82vh] flex items-end overflow-hidden bg-dark-bg text-white select-none">
 
-      {/* ── LCP Hero Image ─────────────────────────────────────────────────
-          Using a real <img> instead of CSS background-image so the browser
-          preloader can discover and fetch it at the highest priority via the
-          <link rel="preload"> in index.html.
-          Visual result is identical: object-cover + object-position matches
-          the old backgroundPosition: 'center 20%'. */}
       <img
-        src="/assets/img/puja/35-480.webp"
-        srcSet="
-          /assets/img/puja/35-480.webp   480w,
-          /assets/img/puja/35-768.webp   768w,
-          /assets/img/puja/35-1280.webp 1280w,
-          /assets/img/puja/35-1920.webp 1920w"
-        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 768px, (max-width: 1280px) 1024px, 1280px"
+        src="/assets/img/puja/35.webp"
+        // srcSet="
+        //   /assets/img/puja/35-480.webp   480w,
+        //   /assets/img/puja/35-768.webp   768w,
+        //   /assets/img/puja/35-1280.webp 1280w,
+        //   /assets/img/puja/35-1920.webp 1920w"
+        // sizes="(max-width: 768px) 100vw, (max-width: 1024px) 768px, (max-width: 1280px) 1024px, 1280px"
         alt="Amader Barir Pujo celebration with traditional Durga Pujo decorations and festive atmosphere"
         aria-hidden="true"
         fetchPriority="high"
@@ -68,7 +62,7 @@ export const Hero: React.FC = () => {
               Explore Pujo
             </Button>
             <a href="/volunteer">
-              <Button variant="outline" size="md" className="text-white border-white/80 hover:bg-white hover:!text-primary">
+              <Button variant="outline" size="md" className="text-white border-white/80 hover:bg-white hover:text-primary!">
                 Become a Volunteer
               </Button>
             </a>
