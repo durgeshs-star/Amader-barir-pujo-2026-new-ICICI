@@ -27,7 +27,7 @@ export const PaymentButton: React.FC<PaymentButtonProps> = ({
   metadata,
   onSuccess,
   onError,
-  children = 'Pay Now',
+  children = 'Book Bhog',
   className = '',
   disabled = false,
 }) => {

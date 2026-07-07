@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import BhogBookingCard from './BhogBookingCard';
 import { PaymentButton } from '../Payment';
+import BhogSuccessModal from './BhogSuccessModal';
 import type { BhogBookingSectionProps, BhogBookingState } from '../../types/bhog';
 
 export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
@@ -17,6 +19,12 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
     });
     return initialState;
   });
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [successModalData, setSuccessModalData] = useState<{
+    title: string;
+    categories: Array<{ id: string; title: string; quantity: number; price: number }>;
+    totalCount: number;
+  } | null>(null);
 
   const handleValueChange = (categoryId: string, value: number) => {
     setBookings((prev) => ({
@@ -40,6 +48,57 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
 
   const { totalAmount, totalCount } = calculateTotal();
 
+  const isFreeBooking = () => {
+    // Check if only children-0-5 category is selected with > 0 count
+    const children05Count = bookings['children-0-5'] || 0;
+    const otherCategoriesSelected = categories
+      .filter(cat => cat.id !== 'children-0-5')
+      .some(cat => (bookings[cat.id] || 0) > 0);
+    
+    return children05Count > 0 && !otherCategoriesSelected;
+  };
+
+  const handleFreeBooking = async () => {
+    try {
+      const bookingDetails = {
+        title,
+        categories: categories.map(cat => ({
+          ...cat,
+          quantity: bookings[cat.id] || 0
+        })).filter(cat => cat.quantity > 0),
+        totalAmount: 0,
+        totalCount,
+        timestamp: new Date().toISOString(),
+        isFree: true
+      };
+
+      // Call backend to record free booking in Excel sheet
+      const response = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}/api/bhog/free-booking`, bookingDetails);
+
+      if (response.data.success) {
+        // Show success modal
+        setSuccessModalData({
+          title,
+          categories: bookingDetails.categories,
+          totalCount,
+        });
+        setShowSuccessModal(true);
+
+        // Reset bookings
+        const resetState: BhogBookingState = {};
+        categories.forEach((cat) => {
+          resetState[cat.id] = 0;
+        });
+        setBookings(resetState);
+      } else {
+        throw new Error('Failed to record free booking');
+      }
+    } catch (err: any) {
+      console.error('Free booking failed:', err);
+      alert(`Failed to record free booking: ${err.response?.data?.error || err.message || 'Unknown error'}`);
+    }
+  };
+
   const handlePaymentSuccess = (orderId: string, transactionId: string) => {
     // Store booking details in sessionStorage for receipt generation
     const bookingDetails = {
@@ -55,7 +114,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
       timestamp: new Date().toISOString()
     };
     sessionStorage.setItem('bhogReceipt', JSON.stringify(bookingDetails));
-    
+
     // Navigate to payment success page
     window.location.href = `/payment/success?orderId=${orderId}&transactionId=${transactionId}&amount=${totalAmount}&currency=INR&fromBhog=true`;
   };
@@ -126,19 +185,40 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
             <span>{totalCount === 1 ? 'booking selected' : 'bookings selected'}</span>
           </p>
         </div>
-        <PaymentButton
-          customerId={`BHOG-${Date.now()}`}
-          amount={totalAmount}
-          currency="INR"
-          metadata={getBhogMetadata()}
-          onSuccess={handlePaymentSuccess}
-          onError={handlePaymentError}
-          disabled={totalCount === 0}
-          className="min-w-[150px] px-6 py-2.5 bg-primary text-text-on-primary font-semibold rounded-md border-0 cursor-pointer transition-all duration-300 hover:bg-primary-dark hover:shadow-lg hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-muted disabled:hover:scale-100"
-        >
-          Pay Now
-        </PaymentButton>
+        {isFreeBooking() ? (
+          <button
+            onClick={handleFreeBooking}
+            disabled={totalCount === 0}
+            className="min-w-[150px] px-6 py-2.5 bg-primary text-text-on-primary font-semibold rounded-md border-0 cursor-pointer transition-all duration-300 hover:bg-primary-dark hover:shadow-lg hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-muted disabled:hover:scale-100"
+          >
+            Book Bhog
+          </button>
+        ) : (
+          <PaymentButton
+            customerId={`BHOG-${Date.now()}`}
+            amount={totalAmount}
+            currency="INR"
+            metadata={getBhogMetadata()}
+            onSuccess={handlePaymentSuccess}
+            onError={handlePaymentError}
+            disabled={totalCount === 0}
+            className="min-w-[150px] px-6 py-2.5 bg-primary text-text-on-primary font-semibold rounded-md border-0 cursor-pointer transition-all duration-300 hover:bg-primary-dark hover:shadow-lg hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-muted disabled:hover:scale-100"
+          >
+            Book Bhog
+          </PaymentButton>
+        )}
       </div>
+
+      {/* Success Modal */}
+      {successModalData && (
+        <BhogSuccessModal
+          isOpen={showSuccessModal}
+          onClose={() => setShowSuccessModal(false)}
+          title={successModalData.title}
+          categories={successModalData.categories}
+          totalCount={successModalData.totalCount}
+        />
+      )}
     </section>
   );
 };
