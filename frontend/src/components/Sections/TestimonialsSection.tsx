@@ -100,7 +100,7 @@ export const TestimonialsSection: React.FC = () => {
   }, [isInView]);
 
   return (
-    <section ref={sectionRef} className="py-20 bg-white" style={{ contentVisibility: 'auto', containIntrinsicSize: '0 400px' }}>
+    <section ref={sectionRef} className="pb-10 bg-white" style={{ contentVisibility: 'auto', containIntrinsicSize: '0 400px' }}>
       <div className="max-w-4xl mx-auto px-6">
         
         {/* Section Heading */}

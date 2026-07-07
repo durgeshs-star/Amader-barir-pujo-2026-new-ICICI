@@ -44,7 +44,7 @@ export const Hero: React.FC = () => {
       />
 
       {/* Content — bottom-left, matching reference layout */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 pb-14 md:pb-20">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-6 pb-14 md:pb-20">
         <div className="max-w-2xl">
 
           {/* Title — large display, two visual lines */}

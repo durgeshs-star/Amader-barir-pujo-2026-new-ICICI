@@ -43,12 +43,25 @@ const SaraswatiPuja: React.FC = () => {
       </section>
 
       {/* Hathe Khori Section */}
-      <section className="py-8 md:py-12 bg-light-bg/50">
-        <div className="max-w-7xl mx-auto px-6 md:px-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-stretch">
-            <div className="relative group animate-fade-in-up flex items-end">
-              <div className="absolute -inset-3 rounded-2xl bg-linear-to-br from-primary/20 via-accent/10 to-primary-light/20 opacity-70 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="relative overflow-hidden rounded-xl shadow-xl ring-1 ring-black/5 w-full h-full min-h-162.5 md:min-h-full">
+      <section className="bg-white py-10 lg:py-14 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 lg:px-10">
+          <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-16 items-stretch">
+            <div className="relative min-h-112.5 flex items-center justify-center animate-fade-in-up">
+              {/* Decorative Corners */}
+              <span className="absolute -top-5 -left-5 z-10 text-4xl text-accent-text">
+                ❦
+              </span>
+              <span className="absolute -top-5 -right-5 z-10 rotate-90 text-4xl text-accent-text">
+                ❦
+              </span>
+              <span className="absolute -bottom-5 -left-5 z-10 -rotate-90 text-4xl text-accent-text">
+                ❦
+              </span>
+              <span className="absolute -bottom-5 -right-5 z-10 rotate-180 text-4xl text-accent-text">
+                ❦
+              </span>
+
+              <div className="relative overflow-hidden rounded-xl shadow-xl w-full h-[450px]">
                 <FleaMarketCarousel
                   images={[
                     "/assets/img/saraswati-puja15.webp",
@@ -64,65 +77,47 @@ const SaraswatiPuja: React.FC = () => {
               </div>
             </div>
 
-            <div className="md:pl-2 animate-fade-in-up flex flex-col" style={{ animationDelay: '0.1s' }}>
-              <p className="uppercase tracking-[0.4em] text-accent-text text-xs md:text-sm font-semibold">
-                Sacred Tradition
+            <div className="h-full flex flex-col justify-center animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+              <p className="uppercase tracking-widest text-secondary text-[11px] font-medium animate-fade-in">
+                Sacred Tradition of Learning
               </p>
-              <h3 className="font-fraunces text-3xl md:text-5xl font-bold text-primary mt-3 leading-tight">
-                HatheKhori (Vidyarambham)
-              </h3>
-              <div className="w-12 h-1 bg-accent mt-5 rounded-full" />
-              
-              <span className="inline-block px-4 py-2 bg-light-bg border border-accent/25 rounded-full text-sm font-semibold text-primary mt-6 w-fit">
-                Vasant Panchami 2026
-              </span>
+              <h2 className="font-fraunces text-3xl lg:text-4xl font-bold leading-tight mt-2 animate-fade-in-up">
+                <span className="text-primary">
+                  Hathe Khori
+                </span>
+                <br />
+                <span className="italic text-secondary font-medium">
+                  (Vidyarambham)
+                </span>
+              </h2>
+              <p className="text-dark-bg text-sm leading-6 mt-4 mb-4 animate-fade-in">
+                The sacred initiation of young children into the world of learning, where they are guided by the priest or elders to write their first letters on a slate under the blessings of Maa Saraswati.
+              </p>
 
-              <div className="mt-8 space-y-6 flex-grow">
-                <div>
-                  <h4 className="font-fraunces text-xl md:text-2xl font-bold text-primary leading-tight mb-3">
-                    Sacred Tradition
-                  </h4>
-                  <ul className="space-y-2">
-                    {[
-                      "The sacred initiation of young children into the world of learning",
-                      "Children are guided by the priest or elders to write their first letters on a slate",
-                      "Symbolizes the beginning of their educational journey under the blessings of Maa Saraswati",
-                      "Families gather to participate in prayers, devotional hymns, and community worship",
-                    ].map((line, idx) => (
-                      <li
-                        key={idx}
-                        className="flex items-start gap-3 text-secondary text-base md:text-lg leading-relaxed"
-                      >
-                        <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
-                        <span>{line}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div>
-                  <p className="uppercase tracking-[0.35em] text-accent-text text-xs md:text-sm font-semibold mb-3">
-                    Offerings & Blessings
-                  </p>
-                  <h4 className="font-fraunces text-xl md:text-2xl font-bold text-primary leading-tight mb-3">
-                    Sacred Offerings
-                  </h4>
-                  <ul className="space-y-2">
-                    {[
-                      "Students place their books, notebooks, musical instruments, and educational tools before the goddess",
-                      "Praying for wisdom, success, and excellence in academics and the arts",
-                      "Devotional hymns and community worship create a spiritual atmosphere",
-                    ].map((line, idx) => (
-                      <li
-                        key={idx}
-                        className="flex items-start gap-3 text-secondary text-base md:text-lg leading-relaxed"
-                      >
-                        <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
-                        <span>{line}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+              <div className="space-y-4">
+                {[
+                  {
+                    title: "Sacred Tradition",
+                    description: "The sacred initiation of young children into the world of learning, symbolizing the beginning of their educational journey under the blessings of Maa Saraswati."
+                  },
+                  {
+                    title: "Sacred Offerings",
+                    description: "Students place their books, notebooks, musical instruments, and educational tools before the goddess, praying for wisdom, success, and excellence in academics and the arts."
+                  }
+                ].map((item, index) => (
+                  <div
+                    key={item.title}
+                    className="border-l-4 border-primary pl-5 py-1.5 transition-all duration-300 hover:border-secondary hover:translate-x-2 animate-fade-in-up"
+                    style={{ animationDelay: `${index * 0.2}s` }}
+                  >
+                    <h3 className="font-fraunces text-xl text-primary font-bold mb-2">
+                      {item.title}
+                    </h3>
+                    <p className="text-dark-bg text-sm leading-6">
+                      {item.description}
+                    </p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
