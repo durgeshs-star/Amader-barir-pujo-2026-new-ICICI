@@ -13,5 +13,8 @@ export const createBhogRoutes = (bhogController: BhogController): Router => {
   // Free bhog booking endpoint
   router.post('/free-booking', (req, res) => bhogController.handleFreeBooking(req, res));
 
+  // Paid bhog booking endpoint
+  router.post('/paid-booking', (req, res) => bhogController.handlePaidBooking(req, res));
+
   return router;
 };
