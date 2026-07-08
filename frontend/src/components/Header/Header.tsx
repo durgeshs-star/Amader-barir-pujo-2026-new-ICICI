@@ -4,6 +4,7 @@ import { FaPhoneAlt, FaEnvelope, FaFacebookF, FaInstagram } from 'react-icons/fa
 import Navigation from './Navigation';
 import HamburgerButton from './HamburgerButton';
 import MobileMenu from './MobileMenu';
+import CountdownTimer from '../ui/CountdownTimer';
 
 export interface HeaderProps {
   /** Override the top-bar phone number */
@@ -98,6 +99,9 @@ export const Header: React.FC<HeaderProps> = ({
                 </li>
               </ul>
               <ul className="flex items-center gap-3 list-none p-0 m-0">
+                <li>
+                  <CountdownTimer />
+                </li>
                 <li>
                   <a href={facebookUrl} target="_blank" rel="noopener noreferrer" aria-label="Follow us on Facebook"
                     className="flex items-center justify-center w-6 h-6 rounded bg-white/20 hover:bg-accent-dark transition-all text-text-on-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaTimes, FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import CountdownTimer from '../ui/CountdownTimer';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -109,6 +110,11 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
           >
             <FaTimes size={16} />
           </button>
+        </div>
+
+        {/* Countdown Timer */}
+        <div className="px-4 py-3 border-b border-gray-100 flex justify-center">
+          <CountdownTimer />
         </div>
 
         {/* Menu Navigation Links */}

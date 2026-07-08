@@ -14,7 +14,7 @@ export const SpiritSection: React.FC = () => {
   const offerings: Offering[] = [
     {
       title: 'Cultural Offerings',
-      description: "We'd love for you to celebrate with us. Every song, every dance, and every performance is offered to Maa Durga with devotion, bringing our entire community together in joy.",
+      description: "Maa Loves Every Song. We Hope You Do Too. We'd love for you to celebrate with us. Every song, every dance, and every performance is offered to Maa Durga with devotion, bringing our entire community together in joy.",
       imageSrc: '/assets/img/icons/woman.png',
       fallbackIcon: (
         <svg viewBox="0 0 24 24" className="w-12 h-12 text-primary" fill="currentColor" aria-hidden="true">
@@ -24,7 +24,7 @@ export const SpiritSection: React.FC = () => {
     },
     {
       title: 'Bhog',
-      description: "There's always a place for you at Maa's table. Join us for Prasad, served with love after being offered to Maa, and share in the warmth of our Pujo family.",
+      description: "Calories Don't Count When It's Maa's Bhog. Pull up a chair, meet someone new, catch up with someone familiar, and enjoy a meal that has brought our community together for generations",
       imageSrc: '/assets/img/icons/meal.png',
       fallbackIcon: (
         <svg viewBox="0 0 24 24" className="w-12 h-12 text-primary" fill="currentColor" aria-hidden="true">
@@ -34,7 +34,7 @@ export const SpiritSection: React.FC = () => {
     },
     {
       title: 'Sacred Pujo Rituals',
-      description: 'Come stand before Maa, offer your prayers, and become part of rituals that fill every heart with hope, gratitude, and blessings.',
+      description: `Fold Your Hands. Leave the Rest to Maa. Whether you're joining the Pushpanjali for the first time or returning to a tradition you've cherished for years, there's always a place for you before Maa.`,
       imageSrc: '/assets/img/icons/lotus-1.png',
       link: '/pujo-days',
       fallbackIcon: (
@@ -45,7 +45,7 @@ export const SpiritSection: React.FC = () => {
     },
     {
       title: 'Community & Volunteers',
-      description: "Amader Barir Pujo has always been about people. Whether you're joining us for the first time or returning once again, you'll always find a family waiting to welcome you.",
+      description: "Come Help Us Create Someone Else's Favourite Pujo Memory. Years from now, someone will remember this Pujo as one of their happiest. The best part? You could be one of the reasons why.",
       imageSrc: '/assets/img/icons/volunteer.png',
       fallbackIcon: (
         <svg viewBox="0 0 24 24" className="w-12 h-12 text-primary" fill="currentColor" aria-hidden="true">
@@ -60,13 +60,10 @@ export const SpiritSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6">
         
         {/* Section Title */}
-        <div className="text-center mb-16 max-w-2xl mx-auto">
-          <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 tracking-wide font-fraunces">
-            Experience The Spirit Of Durga Pujo
+        <div className="text-center mb-16 mx-auto ">
+          <h2 className="text-3xl md:text-5xl font-bold text-primary mb-4 tracking-wide font-fraunces leading-9 md:leading-[1.4]">
+            Maa Doesn't Ask for Membership. <br />Neither Do We.
           </h2>
-          <p className="font-fraunces font-light italic text-2xl text-muted text-center">
-            Free &amp; Open to Everyone
-          </p>
         </div>
 
         {/* Offerings Grid */}

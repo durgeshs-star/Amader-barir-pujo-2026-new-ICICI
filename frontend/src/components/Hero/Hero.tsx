@@ -10,10 +10,10 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <div className="relative h-[78vh] md:h-[82vh] flex items-end overflow-hidden bg-dark-bg text-white select-none">
+    <div className="relative h-screen flex items-end overflow-hidden bg-dark-bg text-white select-none">
 
       <img
-        src="/assets/img/puja/35.webp"
+        src="/assets/img/hero-image.png"
         // srcSet="
         //   /assets/img/puja/35-480.webp   480w,
         //   /assets/img/puja/35-768.webp   768w,
@@ -42,7 +42,7 @@ export const Hero: React.FC = () => {
         <div className="max-w-2xl">
 
           {/* Title — large display, two visual lines */}
-          <h1 className="font-fraunces leading-none mb-6 select-text text-4xl sm:text-5xl md:text-6xl font-bold text-white" style={{ textShadow: '0 2px 12px rgba(0,0,0,0.5)' }}>
+          <h1 className="font-fraunces-italic leading-none mb-6 select-text text-4xl sm:text-5xl md:text-5xl font-bold text-white" style={{ textShadow: '0 2px 12px rgba(0,0,0,0.5)' }}>
             Amader Barir Pujo
           </h1>
 
@@ -52,7 +52,7 @@ export const Hero: React.FC = () => {
             style={{ textShadow: '0 1px 6px rgba(0,0,0,0.6)' }}
           >
             <p>More than a celebration, it's a feeling we carry with us.</p>
-            <p>A place where strangers become friends, children grow up making memories, and the familiar rhythm of dhaak, laughter, and adda brings Bengal a little closer to home.</p>
+            <p>A place where strangers become friends, children grow up making memories, and with Maa at the heart of it all, the familiar rhythm of dhaak, laughter, and adda reminds us what together feels like.</p>
             <p className="font-bold text-accent">Free for all. Just as Pujo should be.</p>
           </div>
 

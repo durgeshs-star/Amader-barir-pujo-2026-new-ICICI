@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { FaStar, FaRegStar, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 interface Testimonial {
   name: string;
   quote: string;
   image: string;
-  rating: number;
 }
 
 export const TestimonialsSection: React.FC = () => {
@@ -17,19 +16,16 @@ export const TestimonialsSection: React.FC = () => {
       name: 'Rajesh Singh',
       quote: 'The daily aartis were breathtaking! The devotion and energy were palpable, making me feel so connected to Maa Durga.',
       image: '/assets/img/testimonials/boy.png',
-      rating: 4,
     },
     {
       name: 'Sneha Gupta',
       quote: "A truly divine experience! The atmosphere during Durga Pujo was magical, and the rituals were performed beautifully. Can't wait for next year!",
       image: '/assets/img/testimonials/girl.png',
-      rating: 4,
     },
     {
       name: 'Mukesh Singh',
       quote: 'The sense of community here is unmatched. Celebrating with family and friends made it all the more special. Thank you for a wonderful celebration!',
       image: '/assets/img/testimonials/boy.png',
-      rating: 5,
     },
   ];
 
@@ -106,7 +102,7 @@ export const TestimonialsSection: React.FC = () => {
         {/* Section Heading */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-wide font-fraunces">
-            What Devotees Say
+            The Smiles We Carried Home
           </h2>
         </div>
 
@@ -152,15 +148,6 @@ export const TestimonialsSection: React.FC = () => {
 
                 {/* Testimonial Quote details */}
                 <div className="flex-1 text-center md:text-left flex flex-col justify-center">
-                  
-                  {/* Star Rating Icons */}
-                  <div className="flex justify-center md:justify-start gap-1 mb-4">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <span key={i} className="text-amber-500">
-                        {i < item.rating ? <FaStar size={14} /> : <FaRegStar size={14} />}
-                      </span>
-                    ))}
-                  </div>
 
                   {/* Body Quote */}
                   <blockquote className="text-base md:text-lg text-secondary italic font-sans leading-relaxed mb-4">
