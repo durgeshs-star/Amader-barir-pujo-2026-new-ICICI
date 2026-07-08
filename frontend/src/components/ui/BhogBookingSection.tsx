@@ -79,7 +79,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
       };
 
       // Call backend to record free booking in Excel sheet
-      const response = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}/api/bhog/free-booking`, bookingDetails);
+      const response = await axios.post(`${import.meta.env.VITE_API_URL || 'https://amader-barir-pujo-2026-new.onrender.com'}/api/bhog/free-booking`, bookingDetails);
 
       if (response.data.success) {
         // Show success modal
@@ -128,7 +128,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
 
     try {
       // Call backend to record paid booking in Google Sheets
-      const response = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}/api/bhog/paid-booking`, bookingDetails);
+      const response = await axios.post(`${import.meta.env.VITE_API_URL || 'https://amader-barir-pujo-2026-new.onrender.com'}/api/bhog/paid-booking`, bookingDetails);
 
       if (response.data.success) {
         // Store booking details in sessionStorage for receipt generation
