@@ -29,7 +29,7 @@ export class GoogleSheetsService {
       scopes: ['https://www.googleapis.com/auth/spreadsheets'],
     });
 
-    this.sheets = google.sheets({ version: 'v4', auth: this.auth });
+    this.sheets = google.sheets({ version: 'v4', auth: this.auth as any });
   }
 
   /**
