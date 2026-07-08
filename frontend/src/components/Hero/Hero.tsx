@@ -25,7 +25,7 @@ export const Hero: React.FC = () => {
         fetchPriority="high"
         loading="eager"
         decoding="async"
-        className="absolute inset-0 w-full h-full object-cover object-[90%_20%] z-0"
+        className="absolute inset-0 w-full h-full object-cover object-[90%_45%] z-0"
       />
 
       {/* Gradient — only at the bottom-left to make text readable, rest of image stays clear */}
@@ -38,7 +38,7 @@ export const Hero: React.FC = () => {
       />
 
       {/* Content — bottom-left, matching reference layout */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-6 pb-14 md:pb-20">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-6 pb-8 md:pb-36">
         <div className="max-w-2xl">
 
           {/* Title — large display, two visual lines */}

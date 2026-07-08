@@ -75,12 +75,12 @@ export const CountdownTimer: React.FC = () => {
     <div className="relative group">
       <div className="flex items-center gap-2 bg-linear-to-r from-orange-400 via-orange-500 to-red-500 text-white lg:bg-white lg:bg-none lg:from-transparent lg:via-transparent lg:to-transparent lg:text-primary px-4 py-1.5 rounded-full transition-all duration-300 hover:scale-105">
         <span className="text-xs font-bold tracking-wide">
-          {daysRemaining} {daysRemaining === 1 ? 'day' : 'days'} to go
+          {daysRemaining} {daysRemaining === 1 ? 'Day' : 'Days'} to Go
         </span>
         <div ref={lottieRef} className="w-6 h-6" />
       </div>
     </div>
-  );
+  );  
 };
 
 export default CountdownTimer;
