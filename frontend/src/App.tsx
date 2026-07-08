@@ -29,6 +29,9 @@ const DashamiPage    = lazy(() => import('./pages/Dashami/DashamiPage'));
 const SaptamiBhogPage = lazy(() => import('./pages/SaptamiBhog/SaptamiBhogPage'));
 const AshtamiBhogPage = lazy(() => import('./pages/AshtamiBhog/AshtamiBhogPage'));
 const NavamiBhogPage  = lazy(() => import('./pages/NavamiBhog/NavamiBhogPage'));
+const DurgaPujaBhogPage = lazy(() => import('./pages/DurgaPujaBhog/DurgaPujaBhogPage'));
+const LakshmiPujaBhogPage = lazy(() => import('./pages/LakshmiPujaBhog/LakshmiPujaBhogPage'));
+const SaraswatiPujaBhogPage = lazy(() => import('./pages/SaraswatiPujaBhog/SaraswatiPujaBhogPage'));
 const SaraswatiPuja   = lazy(() => import('./pages/SaraswatiPuja'));
 const MockPayment     = lazy(() => import('./components/Payment/MockPayment'));
 const PaymentSuccess  = lazy(() => import('./components/Payment/PaymentSuccess'));
@@ -75,11 +78,15 @@ export const App: React.FC = () => {
 
               <Route path="/anudan" element={<Anudan />} />
               <Route path="/saraswati-puja" element={<SaraswatiPuja />} />
+              <Route path="/saraswati-puja-bhog" element={<SaraswatiPujaBhogPage />} />
 
               {/* Day specific bhog booking paths */}
               <Route path="/bhog-booking/saptami" element={<SaptamiBhogPage />} />
               <Route path="/bhog-booking/ashtami" element={<AshtamiBhogPage />} />
               <Route path="/bhog-booking/navami" element={<NavamiBhogPage />} />
+              <Route path="/bhog-booking/lakshmi-puja" element={<LakshmiPujaBhogPage />} />
+              <Route path="/bhog-booking/saraswati-puja" element={<SaraswatiPujaBhogPage />} />
+              <Route path="/durga-puja-bhog" element={<DurgaPujaBhogPage />} />
               <Route path="/bhog-booking/:day" element={<BhogBooking />} />
               {/* Fallback bhog booking page */}
               <Route path="/bhog-booking" element={<BhogBooking />} />

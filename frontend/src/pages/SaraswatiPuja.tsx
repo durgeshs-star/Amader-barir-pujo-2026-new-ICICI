@@ -7,6 +7,7 @@ import ImageGrid from "../components/ui/ImageGrid";
 import CarouselContentSection from "../components/common/CarouselContentSection";
 
 const SaraswatiPuja: React.FC = () => {
+
   return (
     <>
       <SEO

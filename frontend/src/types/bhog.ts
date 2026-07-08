@@ -26,3 +26,9 @@ export interface BhogBookingSectionProps {
   paymentUrl: string;
   disclaimer?: string;
 }
+
+export interface BhogBookingUserInfo {
+  name: string;
+  phone: string;
+  email: string;
+}

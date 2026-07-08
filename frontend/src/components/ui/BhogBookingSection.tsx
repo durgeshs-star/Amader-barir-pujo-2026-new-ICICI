@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import BhogBookingCard from './BhogBookingCard';
-import { PaymentButton } from '../Payment';
 import BhogSuccessModal from './BhogSuccessModal';
+import UserInfoForm from './UserInfoForm';
 import type { BhogBookingSectionProps, BhogBookingState } from '../../types/bhog';
 
 export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
@@ -19,6 +19,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
     });
     return initialState;
   });
+  const [userInfo, setUserInfo] = useState<{ name: string; phone: string; email: string } | null>(null);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [successModalData, setSuccessModalData] = useState<{
     title: string;
@@ -59,6 +60,10 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
   };
 
   const handleFreeBooking = async () => {
+    if (!userInfo) {
+      return;
+    }
+
     try {
       const bookingDetails = {
         title,
@@ -69,7 +74,8 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
         totalAmount: 0,
         totalCount,
         timestamp: new Date().toISOString(),
-        isFree: true
+        isFree: true,
+        userInfo
       };
 
       // Call backend to record free booking in Excel sheet
@@ -84,12 +90,13 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
         });
         setShowSuccessModal(true);
 
-        // Reset bookings
+        // Reset bookings and user info
         const resetState: BhogBookingState = {};
         categories.forEach((cat) => {
           resetState[cat.id] = 0;
         });
         setBookings(resetState);
+        setUserInfo(null);
       } else {
         throw new Error('Failed to record free booking');
       }
@@ -99,8 +106,11 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
     }
   };
 
-  const handlePaymentSuccess = (orderId: string, transactionId: string) => {
-    // Store booking details in sessionStorage for receipt generation
+  const handlePaymentSuccess = async (orderId: string, transactionId: string) => {
+    if (!userInfo) {
+      return;
+    }
+
     const bookingDetails = {
       orderId,
       transactionId,
@@ -111,30 +121,41 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
       })).filter(cat => cat.quantity > 0),
       totalAmount,
       totalCount,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      isFree: false,
+      userInfo
     };
-    sessionStorage.setItem('bhogReceipt', JSON.stringify(bookingDetails));
 
-    // Navigate to payment success page
-    window.location.href = `/payment/success?orderId=${orderId}&transactionId=${transactionId}&amount=${totalAmount}&currency=INR&fromBhog=true`;
+    try {
+      // Call backend to record paid booking in Google Sheets
+      const response = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}/api/bhog/paid-booking`, bookingDetails);
+
+      if (response.data.success) {
+        // Store booking details in sessionStorage for receipt generation
+        sessionStorage.setItem('bhogReceipt', JSON.stringify(bookingDetails));
+
+        // Navigate to payment success page
+        window.location.href = `/payment/success?orderId=${orderId}&transactionId=${transactionId}&amount=${totalAmount}&currency=INR&fromBhog=true`;
+      } else {
+        throw new Error('Failed to record paid booking');
+      }
+    } catch (err: any) {
+      console.error('Paid booking failed:', err);
+      alert(`Failed to record paid booking: ${err.response?.data?.error || err.message || 'Unknown error'}`);
+    }
   };
 
-  const getBhogMetadata = () => {
-    return {
-      type: 'bhog_booking',
-      title,
-      categories: categories.map(cat => ({
-        ...cat,
-        quantity: bookings[cat.id] || 0
-      })).filter(cat => cat.quantity > 0),
-      totalAmount,
-      totalCount,
-    };
-  };
+  const handleDummyPayment = () => {
+    if (!userInfo) {
+      return;
+    }
 
-  const handlePaymentError = (error: string) => {
-    console.error('Payment failed:', error);
-    alert(`Payment failed: ${error}`);
+    // Generate dummy order and transaction IDs
+    const orderId = `BHOG-${Date.now()}`;
+    const transactionId = `TXN-${Date.now()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
+    
+    // Call the same success handler as real payment
+    handlePaymentSuccess(orderId, transactionId);
   };
 
   return (
@@ -174,6 +195,9 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
         </p>
       )}
 
+      {/* User Information Form */}
+      <UserInfoForm onSubmit={setUserInfo} disabled={totalCount === 0} />
+
       <div className="flex items-center justify-between gap-4.5 mt-5.5 pt-5.5 border-t border-primary/14">
         <div>
           <p className="text-base font-bold text-gray-900 mb-0">
@@ -194,18 +218,13 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
             Book Bhog
           </button>
         ) : (
-          <PaymentButton
-            customerId={`BHOG-${Date.now()}`}
-            amount={totalAmount}
-            currency="INR"
-            metadata={getBhogMetadata()}
-            onSuccess={handlePaymentSuccess}
-            onError={handlePaymentError}
+          <button
+            onClick={handleDummyPayment}
             disabled={totalCount === 0}
             className="min-w-[150px] px-6 py-2.5 bg-primary text-text-on-primary font-semibold rounded-md border-0 cursor-pointer transition-all duration-300 hover:bg-primary-dark hover:shadow-lg hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-muted disabled:hover:scale-100"
           >
             Book Bhog
-          </PaymentButton>
+          </button>
         )}
       </div>
 

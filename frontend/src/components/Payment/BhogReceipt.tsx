@@ -26,6 +26,11 @@ interface BhogReceiptData {
   totalAmount: number;
   totalCount: number;
   timestamp: string;
+  userInfo?: {
+    name: string;
+    phone: string;
+    email: string;
+  };
 }
 
 interface BhogReceiptProps {
@@ -64,10 +69,18 @@ export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propRecei
     });
   };
 
-  const handleDownloadReceipt = () => {
-    if (!receiptRef.current) return;
+  const handleDownloadReceipt = async () => {
+    console.log('Download button clicked');
+    
+    if (!receiptRef.current) {
+      console.error('Receipt ref is not available');
+      alert('Unable to generate receipt. Please try again.');
+      return;
+    }
 
+    console.log('Receipt ref found:', receiptRef.current);
     const element = receiptRef.current;
+    
     const opt = {
       margin: 10,
       filename: `Receipt-${receiptData.orderId}.pdf`,
@@ -75,7 +88,8 @@ export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propRecei
       html2canvas: { 
         scale: 2,
         useCORS: true,
-        logging: false,
+        logging: true,
+        allowTaint: true,
       },
       jsPDF: { 
         unit: 'mm' as const, 
@@ -84,66 +98,99 @@ export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propRecei
       },
     };
 
-    // Generate and download PDF
-    html2pdf().set(opt).from(element).save();
+    try {
+      console.log('Starting PDF generation with options:', opt);
+      await html2pdf().set(opt).from(element).save();
+      console.log('PDF generated successfully');
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      alert('Failed to generate receipt. Please try again.');
+    }
   };
 
   return (
     <div className="bhog-receipt">
       {/* Printable Receipt */}
-      <div ref={receiptRef} className="bg-white border-2 border-amber-600 rounded-lg p-8 shadow-lg max-w-2xl mx-auto">
+      <div 
+        ref={receiptRef} 
+        style={{ 
+          backgroundColor: '#ffffff',
+          border: '2px solid #d97706',
+          borderRadius: '8px',
+          padding: '32px',
+          boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+          maxWidth: '672px',
+          margin: '0 auto'
+        }}
+      >
         {/* Header */}
-        <div className="text-center border-b-2 border-amber-600 pb-6 mb-6">
+        <div style={{ textAlign: 'center', borderBottom: '2px solid #d97706', paddingBottom: '24px', marginBottom: '24px' }}>
           <img 
             src="/assets/img/Logo-puja.webp" 
             alt="Amader Barir Pujo Logo" 
-            className="w-24 h-24 mx-auto mb-4"
+            style={{ width: '96px', height: '96px', margin: '0 auto 16px auto' }}
           />
-          <h1 className="text-3xl font-bold text-amber-800 font-serif mb-2">
+          <h1 style={{ fontSize: '24px', fontWeight: 'bold', color: '#92400e', fontFamily: 'serif', marginBottom: '8px' }}>
             অমাদের বাড়ির পুজো
           </h1>
-          <h2 className="text-xl text-amber-600 font-serif">Amader Barir Pujo</h2>
-          <p className="text-sm text-gray-600 mt-2">Durga Puja 2026 - Wakad, Pune</p>
-          <p className="text-xs text-amber-700 mt-1 italic">A Community Initiative by ProPlus Data Foundation</p>
+          <h2 style={{ fontSize: '20px', color: '#d97706', fontFamily: 'serif' }}>Amader Barir Pujo</h2>
+          <p style={{ fontSize: '14px', color: '#4b5563', marginTop: '8px' }}>Durga Puja 2026 - Wakad, Pune</p>
+          <p style={{ fontSize: '12px', color: '#b45309', marginTop: '4px', fontStyle: 'italic' }}>A Community Initiative by ProPlus Data Foundation</p>
         </div>
 
         {/* Receipt Details */}
-        <div className="mb-6 space-y-2 text-sm">
-          <p>
+        <div style={{ marginBottom: '24px' }}>
+          <p style={{ fontSize: '14px', marginBottom: '8px' }}>
             <strong>Receipt No:</strong> {receiptData.orderId}
           </p>
-          <p>
+          <p style={{ fontSize: '14px', marginBottom: '8px' }}>
             <strong>Transaction ID:</strong> {receiptData.transactionId}
           </p>
-          <p>
+          <p style={{ fontSize: '14px', marginBottom: '8px' }}>
             <strong>Date & Time:</strong> {formatDate(receiptData.timestamp)}
           </p>
-          <p>
+          <p style={{ fontSize: '14px', marginBottom: '8px' }}>
             <strong>Event:</strong> {receiptData.title}
           </p>
         </div>
 
+        {/* User Information */}
+        {receiptData.userInfo && (
+          <div style={{ marginBottom: '24px', padding: '16px', backgroundColor: '#fef3c7', borderRadius: '4px' }}>
+            <h3 style={{ fontSize: '16px', fontWeight: 'bold', color: '#92400e', marginBottom: '12px' }}>Customer Information</h3>
+            <p style={{ fontSize: '14px', marginBottom: '8px' }}>
+              <strong>Name:</strong> {receiptData.userInfo.name}
+            </p>
+            <p style={{ fontSize: '14px', marginBottom: '8px' }}>
+              <strong>Phone:</strong> {receiptData.userInfo.phone}
+            </p>
+            <p style={{ fontSize: '14px', marginBottom: '8px' }}>
+              <strong>Email:</strong> {receiptData.userInfo.email}
+            </p>
+          </div>
+        )}
+
         {/* Items Table */}
-        <div className="mb-6">
-          <table className="w-full border-collapse">
+        <div style={{ marginBottom: '24px' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
-              <tr className="bg-amber-600 text-white">
-                <th className="px-4 py-2 text-left">Item</th>
-                <th className="px-4 py-2 text-center">Qty</th>
-                <th className="px-4 py-2 text-right">Price</th>
-                <th className="px-4 py-2 text-right">Total</th>
+              <tr style={{ backgroundColor: '#d97706', color: '#ffffff' }}>
+                <th style={{ padding: '8px 16px', textAlign: 'left' }}>Item</th>
+                <th style={{ padding: '8px 16px', textAlign: 'center' }}>Qty</th>
+                <th style={{ padding: '8px 16px', textAlign: 'right' }}>Price</th>
+                <th style={{ padding: '8px 16px', textAlign: 'right' }}>Total</th>
               </tr>
             </thead>
             <tbody>
               {receiptData.categories.map((category: any) => (
-                <tr key={category.id} className="border-b border-gray-200">
-                  <td className="px-4 py-2">
-                    <div className="font-semibold">{category.title}</div>
-                    <div className="text-xs text-gray-500">{category.description}</div>
+                <tr key={category.id} style={{ borderBottom: '1px solid #e5e7eb' }}>
+                  <td style={{ padding: '8px 16px' }}>
+                    <div style={{ fontWeight: '600' }}>{category.title}</div>
+                    <div style={{ fontSize: '12px', color: '#6b7280' }}>{category.description}</div>
                   </td>
-                  <td className="px-4 py-2 text-center">{category.quantity}</td>
-                  <td className="px-4 py-2 text-right">₹{category.price}</td>
-                  <td className="px-4 py-2 text-right font-semibold">
+                  <td style={{ padding: '8px 16px', textAlign: 'center' }}>{category.quantity}</td>
+                  <td style={{ padding: '8px 16px', textAlign: 'right' }}>₹{category.price}</td>
+                  <td style={{ padding: '8px 16px', textAlign: 'right', fontWeight: '600' }}>
                     ₹{category.price * category.quantity}
                   </td>
                 </tr>
@@ -153,19 +200,19 @@ export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propRecei
         </div>
 
         {/* Total */}
-        <div className="border-t-2 border-amber-600 pt-4 text-right">
-          <p className="text-lg text-gray-600 mb-1">Total Amount</p>
-          <p className="text-3xl font-bold text-amber-800">₹{receiptData.totalAmount}</p>
-          <p className="text-sm text-gray-500 mt-1">
+        <div style={{ borderTop: '2px solid #d97706', paddingTop: '16px', textAlign: 'right' }}>
+          <p style={{ fontSize: '18px', color: '#4b5563', marginBottom: '4px' }}>Total Amount</p>
+          <p style={{ fontSize: '30px', fontWeight: 'bold', color: '#92400e' }}>₹{receiptData.totalAmount}</p>
+          <p style={{ fontSize: '14px', color: '#6b7280', marginTop: '4px' }}>
             {receiptData.totalCount} {receiptData.totalCount === 1 ? 'item' : 'items'}
           </p>
         </div>
 
         {/* Footer */}
-        <div className="mt-6 pt-4 border-t border-gray-200 text-center text-xs text-gray-500">
-          <p className="mb-2">This is a computer-generated receipt. No signature required.</p>
+        <div style={{ marginTop: '24px', paddingTop: '16px', borderTop: '1px solid #e5e7eb', textAlign: 'center', fontSize: '12px', color: '#6b7280' }}>
+          <p style={{ marginBottom: '8px' }}>This is a computer-generated receipt. No signature required.</p>
           <p>Thank you for your contribution to Amader Barir Pujo!</p>
-          <p className="mt-2">For queries, contact: info@abp.proplusdatafoundation.com</p>
+          <p style={{ marginTop: '8px' }}>For queries, contact: info@abp.proplusdatafoundation.com</p>
         </div>
       </div>
 
