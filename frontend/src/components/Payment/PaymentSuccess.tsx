@@ -30,6 +30,7 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [isBhogBooking, setIsBhogBooking] = useState(false);
+  const [isAnudanPayment, setIsAnudanPayment] = useState(false);
 
   // Get values from URL params if not provided as props
   const orderId = propOrderId || searchParams.get('orderId') || '';
@@ -38,7 +39,34 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
   const fromBhog = searchParams.get('fromBhog') === 'true';
 
   useEffect(() => {
-    setIsBhogBooking(fromBhog && sessionStorage.getItem('bhogReceipt') !== null);
+    const receipt = sessionStorage.getItem('bhogReceipt');
+    const isBhog = fromBhog && receipt !== null;
+    setIsBhogBooking(isBhog);
+
+    if (isBhog && receipt) {
+      try {
+        const data = JSON.parse(receipt);
+        // Detect Anudan payment by orderId prefix
+        if (data.orderId?.startsWith('ANUDAN-') && data.cardDay) {
+          setIsAnudanPayment(true);
+
+          // Guard against double execution — React StrictMode runs effects twice in dev.
+          // We mark the orderId as processed in sessionStorage to ensure we only
+          // write to localStorage once per payment, even across StrictMode double-invocations.
+          const processedKey = `anudanProcessed_${data.orderId}`;
+          if (!sessionStorage.getItem(processedKey)) {
+            sessionStorage.setItem(processedKey, '1');
+            const stored: Record<string, number> = JSON.parse(
+              localStorage.getItem('anudanPaidAmounts') || '{}'
+            );
+            stored[data.cardDay] = (stored[data.cardDay] || 0) + (data.totalAmount || 0);
+            localStorage.setItem('anudanPaidAmounts', JSON.stringify(stored));
+          }
+        }
+      } catch (e) {
+        console.error('Failed to parse bhogReceipt:', e);
+      }
+    }
   }, [fromBhog]);
 
   const handleContinue = () => {
@@ -70,10 +98,12 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
               </svg>
             </div>
             <h2 className="text-3xl font-bold text-gray-900 mb-2">
-              Bhog Booking Successful!
+              {isAnudanPayment ? 'Anudan Contribution Successful!' : 'Bhog Booking Successful!'}
             </h2>
             <p className="text-gray-600">
-              Thank you for your bhog booking. Your payment has been completed successfully.
+              {isAnudanPayment
+                ? 'Thank you for your generous Anudan. Your contribution has been recorded successfully.'
+                : 'Thank you for your bhog booking. Your payment has been completed successfully.'}
             </p>
           </div>
 

@@ -6,7 +6,7 @@ import {
   ScheduleDetails,
   FleaMarketSection,
 } from "../../components/schedule";
-import { scheduleIntroParagraph } from "../../assets/data/scheduleShared";
+import { saptamiIntroParagraph } from "../../assets/data/scheduleShared";
 
 const SaptamiPage: React.FC = () => {
   return (
@@ -25,7 +25,7 @@ const SaptamiPage: React.FC = () => {
         height="h-[45vh] md:h-[70vh]"
       />
 
-      <ScheduleIntro paragraph={scheduleIntroParagraph} />
+      <ScheduleIntro paragraph={saptamiIntroParagraph} />
 
       <ScheduleDetails
         image="/assets/img/saptami.webp"

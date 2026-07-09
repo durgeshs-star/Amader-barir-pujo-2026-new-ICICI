@@ -2,7 +2,7 @@ import React from "react";
 
 export interface LegalSection {
   title: string;
-  content?: string | string[];
+  content?: string | React.ReactNode | (string | React.ReactNode)[];
   list?: (string | React.ReactNode)[];
 }
 
@@ -40,12 +40,9 @@ export const LegalContent: React.FC<LegalContentProps> = ({
             <h2 className="font-fraunces text-xl font-semibold text-primary mb-3">
               {section.title}
             </h2>
-            {typeof section.content === "string" ? (
-              <p className="text-base text-text-secondary leading-relaxed mb-4">
-                {section.content}
-              </p>
-            ) : (
-              section?.content?.map((paragraph, pIdx) => (
+            
+            {Array.isArray(section.content) ? (
+              section.content.map((paragraph, pIdx) => (
                 <p
                   key={pIdx}
                   className="text-base text-text-secondary leading-relaxed mb-4"
@@ -53,7 +50,12 @@ export const LegalContent: React.FC<LegalContentProps> = ({
                   {paragraph}
                 </p>
               ))
-            )}
+            ) : section.content ? (
+              <p className="text-base text-text-secondary leading-relaxed mb-4">
+                {section.content}
+              </p>
+            ) : null}
+
             {section.list && (
               <ul className="list-disc list-inside space-y-2 ml-4">
                 {section.list.map((item, lIdx) => (

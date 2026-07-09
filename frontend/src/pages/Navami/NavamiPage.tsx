@@ -6,7 +6,7 @@ import {
   ScheduleDetails,
   FleaMarketSection,
 } from "../../components/schedule";
-import { scheduleIntroParagraph } from "../../assets/data/scheduleShared";
+import { navamiIntroParagraph } from "../../assets/data/scheduleShared";
 
 const NavamiPage: React.FC = () => {
   return (
@@ -25,7 +25,7 @@ const NavamiPage: React.FC = () => {
         height="h-[45vh] md:h-[70vh]"
       />
 
-      <ScheduleIntro paragraph={scheduleIntroParagraph} />
+      <ScheduleIntro paragraph={navamiIntroParagraph} />
 
       <ScheduleDetails
         image="/assets/img/navami.webp"

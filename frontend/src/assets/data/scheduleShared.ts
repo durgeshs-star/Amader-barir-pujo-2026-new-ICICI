@@ -1,5 +1,20 @@
-export const scheduleIntroParagraph =
-  "We are pleased to invite all for Durga Pujo 2026 as we stepped into our 3rd year celebration. The lights are being strung, the dhaks are tuning up, the preparations are in full swing. This year, we will bring back the soul of Bangaliana, tradition, culture, and emotion woven into every moment. From 15th October to 20th October, we'll spend joyful days with Maa Durga, sharing stories, laughter and heartfelt connections.";
+export const panchamiIntroParagraph =
+  "<strong>Shubho Panchami!</strong> Every Pujo begins with two familiar words: <strong>Esho, bosho</strong>. It's more than an invitation. It's a way of saying, you're one of us. As the <strong>dhaak</strong> finds its rhythm, the <strong>para</strong> lights up, and old friends become new conversations, we're delighted to welcome you to celebrate with us.";
+
+export const shashthiIntroParagraph =
+  "<strong>Shubho Shashthi!</strong> Every Shashthi begins with <strong>Bodhon</strong>, the ceremonial awakening of Maa Durga, and with it, the awakening of every heart waiting for Pujo. Between the rhythm of the <strong>dhaak</strong>, the fragrance of <strong>dhuno</strong>, and the warmth of familiar faces, the celebration gently reminds us that the best traditions are the ones we share.";
+
+export const saptamiIntroParagraph =
+  "<strong>Shubho Saptami!</strong> Wrapped in a simple white sari, <strong>Kolabou</strong> arrives without grandeur, yet every Bengali heart knows what she brings. The promise that the days ahead will be filled with devotion, laughter, bhog, and endless <strong>adda</strong>. Through the sacred <strong>Nabapatrika</strong>, Saptami reminds us that the oldest traditions are often the gentlest ones.";
+
+export const ashtamiIntroParagraph =
+  "<strong>Shubho Ashtami!</strong> Ulululululu... <strong>Uludhwani</strong> fills the air, the <strong>shankh</strong> echoes, and the <strong>dhaak</strong> finds its loudest rhythm. Yet, somehow, it's the quiet of <strong>Pushpanjali</strong> that stays with us the longest. In that shared silence, with flowers in our hands and Maa before our eyes, every prayer feels a little lighter and every heart a little closer.";
+
+export const navamiIntroParagraph =
+  "<strong>Shubho Navami!</strong> The <strong>dhaak</strong> hasn't slowed down. Neither has the laughter. Yet Navami has a quiet way of reminding us that beautiful things are precious because they don't last forever. So stay for one more conversation, one more photograph, one more moment before Maa.";
+
+export const dashamiIntroParagraph =
+  "<strong>Shubho Bijoya Dashami!</strong> No Bengali really says goodbye to Maa. We simply say, <strong>Abar Esho Maa</strong>. Between the colours of <strong>Sindoor Khela</strong>, the final beat of the <strong>dhaak</strong>, and folded hands before <strong>Bisorjon</strong>, Dashami reminds us that every farewell carries the promise of another homecoming.";
 
 export const fleaMarketImages: string[] = [
   "/assets/img/flea-market/SJP_4242.webp",

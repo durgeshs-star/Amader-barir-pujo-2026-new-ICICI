@@ -41,7 +41,7 @@ export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propRecei
   const [searchParams] = useSearchParams();
   const receiptRef = useRef<HTMLDivElement>(null);
   const fromBhog = searchParams.get('fromBhog') === 'true';
-  
+
   // Get receipt data from sessionStorage if not provided as prop
   const receiptData = propReceiptData || (fromBhog ? JSON.parse(sessionStorage.getItem('bhogReceipt') || '{}') : null);
 
@@ -71,7 +71,7 @@ export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propRecei
 
   const handleDownloadReceipt = async () => {
     console.log('Download button clicked');
-    
+
     if (!receiptRef.current) {
       console.error('Receipt ref is not available');
       alert('Unable to generate receipt. Please try again.');
@@ -80,21 +80,21 @@ export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propRecei
 
     console.log('Receipt ref found:', receiptRef.current);
     const element = receiptRef.current;
-    
+
     const opt = {
       margin: 10,
       filename: `Receipt-${receiptData.orderId}.pdf`,
       image: { type: 'jpeg' as const, quality: 0.98 },
-      html2canvas: { 
+      html2canvas: {
         scale: 2,
         useCORS: true,
         logging: true,
         allowTaint: true,
       },
-      jsPDF: { 
-        unit: 'mm' as const, 
-        format: 'a4' as const, 
-        orientation: 'portrait' as const 
+      jsPDF: {
+        unit: 'mm' as const,
+        format: 'a4' as const,
+        orientation: 'portrait' as const
       },
     };
 
@@ -111,9 +111,9 @@ export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propRecei
   return (
     <div className="bhog-receipt">
       {/* Printable Receipt */}
-      <div 
-        ref={receiptRef} 
-        style={{ 
+      <div
+        ref={receiptRef}
+        style={{
           backgroundColor: '#ffffff',
           border: '2px solid #d97706',
           borderRadius: '8px',
@@ -125,9 +125,9 @@ export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propRecei
       >
         {/* Header */}
         <div style={{ textAlign: 'center', borderBottom: '2px solid #d97706', paddingBottom: '24px', marginBottom: '24px' }}>
-          <img 
-            src="/assets/img/Logo-puja.webp" 
-            alt="Amader Barir Pujo Logo" 
+          <img
+            src="/assets/img/Logo-puja.webp"
+            alt="Amader Barir Pujo Logo"
             style={{ width: '96px', height: '96px', margin: '0 auto 16px auto' }}
           />
           <h1 style={{ fontSize: '24px', fontWeight: 'bold', color: '#92400e', fontFamily: 'serif', marginBottom: '8px' }}>
@@ -135,7 +135,7 @@ export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propRecei
           </h1>
           <h2 style={{ fontSize: '20px', color: '#d97706', fontFamily: 'serif' }}>Amader Barir Pujo</h2>
           <p style={{ fontSize: '14px', color: '#4b5563', marginTop: '8px' }}>Durga Puja 2026 - Wakad, Pune</p>
-          <p style={{ fontSize: '12px', color: '#b45309', marginTop: '4px', fontStyle: 'italic' }}>A Community Initiative by ProPlus Data Foundation</p>
+          <p style={{ fontSize: '12px', color: '#b45309', marginTop: '4px', fontStyle: 'italic' }}>An Initiative by <br />ProPlus Data Foundation</p>
         </div>
 
         {/* Receipt Details */}

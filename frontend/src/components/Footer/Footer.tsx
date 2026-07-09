@@ -33,11 +33,11 @@ export const Footer: React.FC = () => {
 
   return (
     <footer className="bg-dark-bg text-text-inverse-muted select-text">
-      
+
       {/* Middle Footer */}
       <div className="border-b border-white/10 py-16 px-6">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-          
+
           {/* Column 1: About details */}
           <div className="flex flex-col gap-4">
             <h5 className="text-xl font-bold font-fraunces text-white border-b-2 border-accent pb-2 w-24">
@@ -141,7 +141,7 @@ export const Footer: React.FC = () => {
                   <div className="shrink-0 w-16 h-12 bg-white/5 rounded overflow-hidden flex items-center justify-center">
                     <PostImageWithFallback src={post.image} alt="post" />
                   </div>
-                  
+
                   {/* Post details */}
                   <div className="flex-1 flex flex-col justify-start">
                     <span className="text-[10px] text-accent flex items-center gap-1.5 uppercase font-semibold">
@@ -185,7 +185,7 @@ export const Footer: React.FC = () => {
               <span className="text-lg font-bold font-fraunces text-white tracking-wide">Amader Barir Pujo</span>
               <span className="text-[10px] bg-accent/20 text-accent font-semibold px-2 py-0.5 rounded">2026</span>
             </div>
-            <span className="text-[10px] text-text-inverse-muted font-medium">Initiative by ProPlus Data Foundation</span>
+            <span className="text-[10px] text-text-inverse-muted font-medium">An Initiative by <br />ProPlus Data Foundation</span>
           </div>
 
           {/* Socials */}

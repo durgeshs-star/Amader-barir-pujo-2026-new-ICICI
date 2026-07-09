@@ -6,7 +6,7 @@ import {
   ScheduleDetails,
   FleaMarketSection,
 } from "../../components/schedule";
-import { scheduleIntroParagraph } from "../../assets/data/scheduleShared";
+import { dashamiIntroParagraph } from "../../assets/data/scheduleShared";
 
 const DashamiPage: React.FC = () => {
   return (
@@ -25,7 +25,7 @@ const DashamiPage: React.FC = () => {
         height="h-[45vh] md:h-[70vh]"
       />
 
-      <ScheduleIntro paragraph={scheduleIntroParagraph} />
+      <ScheduleIntro paragraph={dashamiIntroParagraph} />
 
       <ScheduleDetails
         image="/assets/img/dashami.webp"

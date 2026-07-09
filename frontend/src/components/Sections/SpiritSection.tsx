@@ -68,10 +68,20 @@ export const SpiritSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6">
 
         {/* Section Title */}
-        <div className="text-center mb-16 mx-auto ">
+        <div className="text-center mb-16 mx-auto">
           <h2 className="text-3xl md:text-5xl font-bold text-primary mb-4 tracking-wide font-fraunces leading-9 md:leading-[1.4]">
-            Blessings Doesn't Ask for Membership. <br />Neither Do We.
+            Blessings Don't Ask for Membership. <br />
+            Neither Do We.
           </h2>
+
+          <p className="max-w-4xl mx-auto text-base md:text-lg leading-8 text-gray-700">
+            Perhaps that's the true gift of Maa Durga. <em>Shokti</em> to lift each
+            other. <em>Shanti</em> to embrace one another. And a quiet sense of
+            Belonging that asks for nothing in return. It's this spirit that has
+            touched generations, transcended borders, and earned Durga Puja
+            recognition as a <strong>UNESCO</strong> Intangible Cultural Heritage of
+            Humanity.
+          </p>
         </div>
 
         {/* Offerings Grid */}

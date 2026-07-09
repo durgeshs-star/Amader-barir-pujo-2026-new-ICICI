@@ -15,7 +15,7 @@ export const FleaMarketSection: React.FC = () => {
         <div className="w-12 h-1 bg-accent mt-4 rounded-full" />
 
         <p
-          className="text-base md:text-lg text-secondary leading-relaxed mt-6 max-w-3xl animate-fade-in-up"
+          className="text-base md:text-lg text-secondary leading-relaxed mt-6 mb-6 max-w-3xl animate-fade-in-up"
         >
           Explore handcrafted art, decor, and treasures from local creators.
           Shop, snack, and soak in the spirit of Bangaliana with every step.

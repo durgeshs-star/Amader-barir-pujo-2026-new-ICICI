@@ -1,11 +1,41 @@
-﻿import React from 'react';
+import React, { useState } from 'react';
 import { LazyMotion, domAnimation, m } from 'framer-motion';
 import SEO from '../components/ui/SEO';
 import { AnudanCard } from '../components/ui/AnudanCard';
+import { AnudanFormModal } from '../components/ui/AnudanFormModal';
 import { anudanCards } from '../assets/data/anudanData';
 import { PageHero } from '../components/common/PageHero';
+import type { AnudanCard as AnudanCardType } from '../types/anudan.types';
 
 export const Anudan: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState<AnudanCardType | null>(null);
+
+  // Load paid amounts from localStorage — keyed by card.day
+  const [paidAmounts] = useState<Record<string, number>>(() => {
+    try {
+      return JSON.parse(localStorage.getItem('anudanPaidAmounts') || '{}');
+    } catch {
+      return {};
+    }
+  });
+
+  // Compute remaining for selected card to pass into the modal
+  const getCardTotalCost = (card: AnudanCardType) =>
+    card.items.reduce((acc, item) => {
+      const num = parseInt(item.cost.replace(/\D/g, ''), 10) || 0;
+      return acc + num;
+    }, 0);
+
+  const selectedCardRemaining = selectedCard
+    ? Math.max(0, getCardTotalCost(selectedCard) - (paidAmounts[selectedCard.day] || 0))
+    : undefined;
+
+  const handleOfferClick = (card: AnudanCardType) => {
+    setSelectedCard(card);
+    setIsModalOpen(true);
+  };
+
   return (
     <LazyMotion features={domAnimation} strict>
       <SEO
@@ -76,19 +106,28 @@ export const Anudan: React.FC = () => {
             </h2>
             <div className="w-20 h-1 bg-accent mx-auto rounded-full animate-expand-width" />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="flex flex-col gap-6">
             {anudanCards && anudanCards?.map((card) => (
               <div key={card.day}>
-                <AnudanCard card={card} />
+                <AnudanCard
+                  card={card}
+                  paidAmount={paidAmounts[card.day] || 0}
+                  onOfferClick={handleOfferClick}
+                />
               </div>
             ))}
           </div>
         </div>
       </section>
+
+      <AnudanFormModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        card={selectedCard}
+        remainingAmount={selectedCardRemaining}
+      />
     </LazyMotion>
   );
 };
 
 export default Anudan;
-
-

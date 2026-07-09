@@ -142,7 +142,7 @@ export const Header: React.FC<HeaderProps> = ({
                     />
                   </div>
                   <p className="text-[10px] text-primary font-semibold mt-1 text-center leading-tight">
-                    Initiative by ProPlus Data Foundation
+                    An Initiative by <br />ProPlus Data Foundation
                   </p>
                 </div>
               </Link>
