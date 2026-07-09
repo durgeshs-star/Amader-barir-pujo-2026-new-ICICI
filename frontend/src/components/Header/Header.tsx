@@ -178,6 +178,11 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
           </div>
         </div>
+
+        {/* Darpan ID */}
+        <div className="absolute bottom-1 right-3 lg:right-6 text-[9px] lg:text-[10px] text-primary font-semibold select-none pointer-events-none">
+          Darpan ID : MH/2025/0627499
+        </div>
       </header>
 
       <MobileMenu isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
