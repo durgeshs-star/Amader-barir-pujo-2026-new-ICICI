@@ -7,7 +7,8 @@ interface Offering {
   description: string;
   imageSrc: string;
   fallbackIcon: React.ReactNode;
-  link?: string;
+  link: string;
+  linkText: string;
 }
 
 export const SpiritSection: React.FC = () => {
@@ -16,6 +17,8 @@ export const SpiritSection: React.FC = () => {
       title: 'Cultural Offerings',
       description: "Maa Loves Every Song. We Hope You Do Too. We'd love for you to celebrate with us. Every song, every dance, and every performance is offered to Maa Durga with devotion, bringing our entire community together in joy.",
       imageSrc: '/assets/img/icons/woman.png',
+      link: '/gallery?category=cultural',
+      linkText: "See Last Year's Highlights",
       fallbackIcon: (
         <svg viewBox="0 0 24 24" className="w-12 h-12 text-primary" fill="currentColor" aria-hidden="true">
           <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" />
@@ -26,6 +29,8 @@ export const SpiritSection: React.FC = () => {
       title: 'Bhog',
       description: "Calories Don't Count When It's Maa's Bhog. Pull up a chair, meet someone new, catch up with someone familiar, and enjoy a meal that has brought our community together for generations",
       imageSrc: '/assets/img/icons/meal.png',
+      link: '/gallery',
+      linkText: 'Relive the Bhog Moments',
       fallbackIcon: (
         <svg viewBox="0 0 24 24" className="w-12 h-12 text-primary" fill="currentColor" aria-hidden="true">
           <path d="M2 19h20v2H2v-2zm12-14.8c0-.66-.54-1.2-1.2-1.2h-.6v-1h-1v1h-.6C10.54 3 10 3.54 10 4.2v2h4v-2zm-5.4 6.8c-.88 0-1.6.72-1.6 1.6V17h14v-4.4c0-.88-.72-1.6-1.6-1.6H8.6z" />
@@ -36,7 +41,8 @@ export const SpiritSection: React.FC = () => {
       title: 'Sacred Pujo Rituals',
       description: `Fold Your Hands. Leave the Rest to Maa. Whether you're joining the Pushpanjali for the first time or returning to a tradition you've cherished for years, there's always a place for you before Maa.`,
       imageSrc: '/assets/img/icons/lotus-1.png',
-      link: '/pujo-days',
+      link: '/gallery',
+      linkText: "Step Into Last Year's Pujo",
       fallbackIcon: (
         <svg viewBox="0 0 24 24" className="w-12 h-12 text-primary" fill="currentColor" aria-hidden="true">
           <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zm-1-17h2v6h-2V5zm0 8h2v4h-2v-4z" />
@@ -47,6 +53,8 @@ export const SpiritSection: React.FC = () => {
       title: 'Community & Volunteers',
       description: "Come Help Us Create Someone Else's Favourite Pujo Memory. Years from now, someone will remember this Pujo as one of their happiest. The best part? You could be one of the reasons why.",
       imageSrc: '/assets/img/icons/volunteer.png',
+      link: '/gallery',
+      linkText: 'See the Hearts Behind the Pujo',
       fallbackIcon: (
         <svg viewBox="0 0 24 24" className="w-12 h-12 text-primary" fill="currentColor" aria-hidden="true">
           <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.48 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
@@ -58,11 +66,11 @@ export const SpiritSection: React.FC = () => {
   return (
     <section id="experience-section" className="py-20 bg-white scroll-mt-10" style={{ contentVisibility: 'auto', containIntrinsicSize: '0 500px' }}>
       <div className="max-w-7xl mx-auto px-6">
-        
+
         {/* Section Title */}
         <div className="text-center mb-16 mx-auto ">
           <h2 className="text-3xl md:text-5xl font-bold text-primary mb-4 tracking-wide font-fraunces leading-9 md:leading-[1.4]">
-            Maa Doesn't Ask for Membership. <br />Neither Do We.
+            Blessings Doesn't Ask for Membership. <br />Neither Do We.
           </h2>
         </div>
 
@@ -112,20 +120,13 @@ export const SpiritSection: React.FC = () => {
                 </div>
 
                 {/* Arrow Icon */}
-                {offering.link ? (
-                  <Link
-                    to={offering.link}
-                    className="flex items-center text-accent-text group-hover:text-primary transition-colors text-sm font-semibold gap-1 select-none"
-                  >
-                    <span>Learn More</span>
-                    <FaArrowRight className="text-xs transition-transform duration-300 group-hover:translate-x-1.5" />
-                  </Link>
-                ) : (
-                  <div className="flex items-center text-accent-text group-hover:text-primary transition-colors text-sm font-semibold gap-1 select-none">
-                    <span>Learn More</span>
-                    <FaArrowRight className="text-xs transition-transform duration-300 group-hover:translate-x-1.5" />
-                  </div>
-                )}
+                <Link
+                  to={offering.link}
+                  className="flex items-center text-accent-text group-hover:text-primary transition-colors text-sm font-semibold gap-1 select-none"
+                >
+                  <span>{offering.linkText}</span>
+                  <FaArrowRight className="text-xs transition-transform duration-300 group-hover:translate-x-1.5" />
+                </Link>
               </div>
             </div>
           ))}

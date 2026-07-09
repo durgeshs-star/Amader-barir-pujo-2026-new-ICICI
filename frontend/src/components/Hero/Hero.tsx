@@ -13,13 +13,13 @@ export const Hero: React.FC = () => {
     <div className="relative h-screen flex items-end overflow-hidden bg-dark-bg text-white select-none">
 
       <img
-        src="/assets/img/hero-image.png"
+        src="/assets/img/hero-image.webp"
         // srcSet="
         //   /assets/img/puja/35-480.webp   480w,
         //   /assets/img/puja/35-768.webp   768w,
         //   /assets/img/puja/35-1280.webp 1280w,
         //   /assets/img/puja/35-1920.webp 1920w"
-        // sizes="(max-width: 768px) 100vw, (max-width: 1024px) 768px, (max-width: 1280px) 1024px, 1280px"
+        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 768px, (max-width: 1280px) 1024px, 1280px"
         alt="Amader Barir Pujo celebration with traditional Durga Pujo decorations and festive atmosphere"
         aria-hidden="true"
         fetchPriority="high"

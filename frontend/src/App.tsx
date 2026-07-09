@@ -6,37 +6,37 @@ import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import WhatsAppBtn from './components/Sections/WhatsAppBtn';
 import BackToTop from './components/Sections/BackToTop';
+import Preloader from './components/ui/Preloader';
 
 import Home from './pages/Home';
 
-const AboutUs        = lazy(() => import('./pages/AboutUs'));
-const Volunteer      = lazy(() => import('./pages/Volunteer'));
-const PujoDays       = lazy(() => import('./pages/PujoDays'));
-const Schedule       = lazy(() => import('./pages/Schedule'));
-const Anudan         = lazy(() => import('./pages/Anudan'));
-const BhogBooking    = lazy(() => import('./pages/BhogBooking'));
-const Gallery        = lazy(() => import('./pages/Gallery'));
-const ContactUs      = lazy(() => import('./pages/ContactUs'));
-const News           = lazy(() => import('./pages/News'));
+const AboutUs = lazy(() => import('./pages/AboutUs'));
+const Volunteer = lazy(() => import('./pages/Volunteer'));
+const Schedule = lazy(() => import('./pages/Schedule'));
+const Anudan = lazy(() => import('./pages/Anudan'));
+const BhogBooking = lazy(() => import('./pages/BhogBooking'));
+const Gallery = lazy(() => import('./pages/Gallery'));
+const ContactUs = lazy(() => import('./pages/ContactUs'));
+const News = lazy(() => import('./pages/News'));
 const TermsAndConditions = lazy(() => import('./pages/TermsAndConditions'));
-const PrivacyPolicy  = lazy(() => import('./pages/PrivacyPolicy'));
-const PanchamiPage   = lazy(() => import('./pages/Panchami/PanchamiPage'));
-const ShashtiPage    = lazy(() => import('./pages/Shashti/ShashtiPage'));
-const SaptamiPage    = lazy(() => import('./pages/Saptami/SaptamiPage'));
-const AshtamiPage    = lazy(() => import('./pages/Ashtami/AshtamiPage'));
-const NavamiPage     = lazy(() => import('./pages/Navami/NavamiPage'));
-const DashamiPage    = lazy(() => import('./pages/Dashami/DashamiPage'));
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
+const PanchamiPage = lazy(() => import('./pages/Panchami/PanchamiPage'));
+const ShashtiPage = lazy(() => import('./pages/Shashti/ShashtiPage'));
+const SaptamiPage = lazy(() => import('./pages/Saptami/SaptamiPage'));
+const AshtamiPage = lazy(() => import('./pages/Ashtami/AshtamiPage'));
+const NavamiPage = lazy(() => import('./pages/Navami/NavamiPage'));
+const DashamiPage = lazy(() => import('./pages/Dashami/DashamiPage'));
 const SaptamiBhogPage = lazy(() => import('./pages/SaptamiBhog/SaptamiBhogPage'));
 const AshtamiBhogPage = lazy(() => import('./pages/AshtamiBhog/AshtamiBhogPage'));
-const NavamiBhogPage  = lazy(() => import('./pages/NavamiBhog/NavamiBhogPage'));
+const NavamiBhogPage = lazy(() => import('./pages/NavamiBhog/NavamiBhogPage'));
 const DurgaPujaBhogPage = lazy(() => import('./pages/DurgaPujaBhog/DurgaPujaBhogPage'));
 const LakshmiPujaBhogPage = lazy(() => import('./pages/LakshmiPujaBhog/LakshmiPujaBhogPage'));
 const SaraswatiPujaBhogPage = lazy(() => import('./pages/SaraswatiPujaBhog/SaraswatiPujaBhogPage'));
-const SaraswatiPuja   = lazy(() => import('./pages/SaraswatiPuja'));
-const MockPayment     = lazy(() => import('./components/Payment/MockPayment'));
-const PaymentSuccess  = lazy(() => import('./components/Payment/PaymentSuccess'));
-const PaymentFailure  = lazy(() => import('./components/Payment/PaymentFailure'));
-const PaymentPending  = lazy(() => import('./components/Payment/PaymentPending'));
+const SaraswatiPuja = lazy(() => import('./pages/SaraswatiPuja'));
+const MockPayment = lazy(() => import('./components/Payment/MockPayment'));
+const PaymentSuccess = lazy(() => import('./components/Payment/PaymentSuccess'));
+const PaymentFailure = lazy(() => import('./components/Payment/PaymentFailure'));
+const PaymentPending = lazy(() => import('./components/Payment/PaymentPending'));
 
 const PageSkeleton: React.FC = () => (
   <div
@@ -50,6 +50,7 @@ const PageSkeleton: React.FC = () => (
 export const App: React.FC = () => {
   return (
     <BrowserRouter>
+      <Preloader>
       <div className="flex flex-col min-h-screen bg-light-bg/10 relative">
         {/* Navigation Header */}
         <Header />
@@ -60,7 +61,6 @@ export const App: React.FC = () => {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/about-us" element={<AboutUs />} />
-              <Route path="/pujo-days" element={<PujoDays />} />
               <Route path="/volunteer" element={<Volunteer />} />
 
               {/* Day specific schedule paths */}
@@ -118,6 +118,7 @@ export const App: React.FC = () => {
         <WhatsAppBtn />
         <BackToTop />
       </div>
+      </Preloader>
     </BrowserRouter>
   );
 };

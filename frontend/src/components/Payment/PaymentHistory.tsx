@@ -5,8 +5,9 @@
  * Shows payment status, amount, and other details in a table format.
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_URL } from '../../config/api';
 
 interface Payment {
   transactionId: string;
@@ -47,7 +48,7 @@ export const PaymentHistory: React.FC<PaymentHistoryProps> = ({
 
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL || 'http://localhost:3001'}/api/payment/history`,
+        `${API_URL}/api/payment/history`,
         {
           params: {
             customerId,

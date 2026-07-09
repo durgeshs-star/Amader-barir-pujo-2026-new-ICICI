@@ -1,9 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
-
-interface UserInfoFormProps {
-  onSubmit: (userInfo: UserInfo) => void;
-  disabled?: boolean;
-}
+import { useState, forwardRef, useImperativeHandle } from 'react';
 
 export interface UserInfo {
   name: string;
@@ -11,12 +6,21 @@ export interface UserInfo {
   email: string;
 }
 
-export const UserInfoForm: React.FC<UserInfoFormProps> = ({ onSubmit, disabled = false }) => {
+export interface UserInfoFormRef {
+  validateForm: () => boolean;
+  getUserInfo: () => UserInfo;
+}
+
+interface UserInfoFormProps {
+  onFormChange: (isFilled: boolean) => void;
+  disabled?: boolean;
+}
+
+export const UserInfoForm = forwardRef<UserInfoFormRef, UserInfoFormProps>(({ onFormChange, disabled = false }, ref) => {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [errors, setErrors] = useState<Partial<Record<keyof UserInfo, string>>>({});
-  const lastSubmittedRef = useRef<string>('');
 
   const validateField = (field: keyof UserInfo, value: string): string | null => {
     switch (field) {
@@ -52,40 +56,40 @@ export const UserInfoForm: React.FC<UserInfoFormProps> = ({ onSubmit, disabled =
     return Object.keys(newErrors).length === 0;
   };
 
+  useImperativeHandle(ref, () => ({
+    validateForm,
+    getUserInfo: () => ({ name, phone, email })
+  }));
+
   const handleFieldChange = (field: keyof UserInfo, value: string) => {
     // Clear error for this field when user starts typing
     setErrors(prev => ({ ...prev, [field]: null }));
     
+    let newName = name;
+    let newPhone = phone;
+    let newEmail = email;
+
     switch (field) {
       case 'name':
+        newName = value;
         setName(value);
         break;
       case 'phone':
+        newPhone = value;
         setPhone(value);
         break;
       case 'email':
+        newEmail = value;
         setEmail(value);
         break;
     }
+
+    const isFilled = newName.trim() !== '' && newPhone.trim() !== '' && newEmail.trim() !== '';
+    onFormChange(isFilled);
   };
 
-  // Auto-submit when form becomes valid
-  useEffect(() => {
-    if (name && phone && email) {
-      const isValid = validateForm();
-      if (isValid) {
-        const currentData = JSON.stringify({ name, phone, email });
-        // Only submit if data has changed since last submission
-        if (lastSubmittedRef.current !== currentData) {
-          lastSubmittedRef.current = currentData;
-          onSubmit({ name, phone, email });
-        }
-      }
-    }
-  }, [name, phone, email]);
-
   return (
-    <form className="mt-6 p-6 border border-primary/14 rounded-lg bg-gradient-to-br from-white to-orange-50/50 shadow-lg">
+    <div className="mt-6 p-6 border border-primary/14 rounded-lg bg-gradient-to-br from-white to-orange-50/50 shadow-lg">
       <h5 className="text-lg font-bold text-primary mb-4 font-fraunces">Contact Information</h5>
       <p className="text-sm text-secondary mb-4">Please fill in your contact details to proceed with the booking.</p>
       
@@ -144,8 +148,8 @@ export const UserInfoForm: React.FC<UserInfoFormProps> = ({ onSubmit, disabled =
           {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
         </div>
       </div>
-    </form>
+    </div>
   );
-};
+});
 
 export default UserInfoForm;

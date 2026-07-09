@@ -3,7 +3,9 @@ import axios from 'axios';
 import BhogBookingCard from './BhogBookingCard';
 import BhogSuccessModal from './BhogSuccessModal';
 import UserInfoForm from './UserInfoForm';
+import type { UserInfoFormRef, UserInfo } from './UserInfoForm';
 import type { BhogBookingSectionProps, BhogBookingState } from '../../types/bhog';
+import { API_URL } from '../../config/api';
 
 export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
   title,
@@ -19,13 +21,16 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
     });
     return initialState;
   });
-  const [userInfo, setUserInfo] = useState<{ name: string; phone: string; email: string } | null>(null);
+
+  const userInfoFormRef = React.useRef<UserInfoFormRef>(null);
+  const [isUserInfoFilled, setIsUserInfoFilled] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [successModalData, setSuccessModalData] = useState<{
     title: string;
     categories: Array<{ id: string; title: string; quantity: number; price: number }>;
     totalCount: number;
   } | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleValueChange = (categoryId: string, value: number) => {
     setBookings((prev) => ({
@@ -55,14 +60,17 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
     const otherCategoriesSelected = categories
       .filter(cat => cat.id !== 'children-0-5')
       .some(cat => (bookings[cat.id] || 0) > 0);
-    
+
     return children05Count > 0 && !otherCategoriesSelected;
   };
 
   const handleFreeBooking = async () => {
-    if (!userInfo) {
-      return;
-    }
+    if (!userInfoFormRef.current) return;
+    if (!userInfoFormRef.current.validateForm()) return;
+
+    const userInfo = userInfoFormRef.current.getUserInfo();
+
+    setIsLoading(true);
 
     try {
       const bookingDetails = {
@@ -79,7 +87,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
       };
 
       // Call backend to record free booking in Excel sheet
-      const response = await axios.post(`${import.meta.env.VITE_API_URL || 'https://amader-barir-pujo-2026-new.onrender.com'}/api/bhog/free-booking`, bookingDetails);
+      const response = await axios.post(`${API_URL}/api/bhog/free-booking`, bookingDetails);
 
       if (response.data.success) {
         // Show success modal
@@ -90,26 +98,26 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
         });
         setShowSuccessModal(true);
 
-        // Reset bookings and user info
+        // Reset bookings and user info state flag
         const resetState: BhogBookingState = {};
         categories.forEach((cat) => {
           resetState[cat.id] = 0;
         });
         setBookings(resetState);
-        setUserInfo(null);
+        setIsUserInfoFilled(false);
       } else {
         throw new Error('Failed to record free booking');
       }
     } catch (err: any) {
       console.error('Free booking failed:', err);
       alert(`Failed to record free booking: ${err.response?.data?.error || err.message || 'Unknown error'}`);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const handlePaymentSuccess = async (orderId: string, transactionId: string) => {
-    if (!userInfo) {
-      return;
-    }
+  const handlePaymentSuccess = async (orderId: string, transactionId: string, userInfo: UserInfo) => {
+    setIsLoading(true);
 
     const bookingDetails = {
       orderId,
@@ -128,7 +136,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
 
     try {
       // Call backend to record paid booking in Google Sheets
-      const response = await axios.post(`${import.meta.env.VITE_API_URL || 'https://amader-barir-pujo-2026-new.onrender.com'}/api/bhog/paid-booking`, bookingDetails);
+      const response = await axios.post(`${API_URL}/api/bhog/paid-booking`, bookingDetails);
 
       if (response.data.success) {
         // Store booking details in sessionStorage for receipt generation
@@ -142,20 +150,22 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
     } catch (err: any) {
       console.error('Paid booking failed:', err);
       alert(`Failed to record paid booking: ${err.response?.data?.error || err.message || 'Unknown error'}`);
+      setIsLoading(false);
     }
   };
 
   const handleDummyPayment = () => {
-    if (!userInfo) {
-      return;
-    }
+    if (!userInfoFormRef.current) return;
+    if (!userInfoFormRef.current.validateForm()) return;
+
+    const userInfo = userInfoFormRef.current.getUserInfo();
 
     // Generate dummy order and transaction IDs
     const orderId = `BHOG-${Date.now()}`;
     const transactionId = `TXN-${Date.now()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
-    
+
     // Call the same success handler as real payment
-    handlePaymentSuccess(orderId, transactionId);
+    handlePaymentSuccess(orderId, transactionId, userInfo);
   };
 
   return (
@@ -196,7 +206,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
       )}
 
       {/* User Information Form */}
-      <UserInfoForm onSubmit={setUserInfo} disabled={totalCount === 0} />
+      <UserInfoForm ref={userInfoFormRef} onFormChange={setIsUserInfoFilled} disabled={totalCount === 0} />
 
       <div className="flex items-center justify-between gap-4.5 mt-5.5 pt-5.5 border-t border-primary/14">
         <div>
@@ -212,18 +222,38 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
         {isFreeBooking() ? (
           <button
             onClick={handleFreeBooking}
-            disabled={totalCount === 0}
-            className="min-w-[150px] px-6 py-2.5 bg-primary text-text-on-primary font-semibold rounded-md border-0 cursor-pointer transition-all duration-300 hover:bg-primary-dark hover:shadow-lg hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-muted disabled:hover:scale-100"
+            disabled={totalCount === 0 || !isUserInfoFilled || isLoading}
+            className="min-w-[150px] px-6 py-2.5 bg-primary text-text-on-primary font-semibold rounded-md border-0 cursor-pointer transition-all duration-300 hover:bg-primary-dark hover:shadow-lg hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-muted disabled:hover:scale-100 flex items-center justify-center gap-2"
           >
-            Book Bhog
+            {isLoading ? (
+              <>
+                <svg className="animate-spin h-5 w-5 text-text-on-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Processing...
+              </>
+            ) : (
+              'Book Bhog'
+            )}
           </button>
         ) : (
           <button
             onClick={handleDummyPayment}
-            disabled={totalCount === 0}
-            className="min-w-[150px] px-6 py-2.5 bg-primary text-text-on-primary font-semibold rounded-md border-0 cursor-pointer transition-all duration-300 hover:bg-primary-dark hover:shadow-lg hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-muted disabled:hover:scale-100"
+            disabled={totalCount === 0 || !isUserInfoFilled || isLoading}
+            className="min-w-[150px] px-6 py-2.5 bg-primary text-text-on-primary font-semibold rounded-md border-0 cursor-pointer transition-all duration-300 hover:bg-primary-dark hover:shadow-lg hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-muted disabled:hover:scale-100 flex items-center justify-center gap-2"
           >
-            Book Bhog
+            {isLoading ? (
+              <>
+                <svg className="animate-spin h-5 w-5 text-text-on-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Processing...
+              </>
+            ) : (
+              'Book Bhog'
+            )}
           </button>
         )}
       </div>

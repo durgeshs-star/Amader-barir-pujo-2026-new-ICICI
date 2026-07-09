@@ -8,6 +8,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { API_URL } from '../../config/api';
 
 interface PaymentPendingProps {
   transactionId?: string;
@@ -32,7 +33,7 @@ export const PaymentPending: React.FC<PaymentPendingProps> = ({
     const pollStatus = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL || 'http://localhost:3001'}/api/payment/status/${transactionId}`
+          `${API_URL}/api/payment/status/${transactionId}`
         );
 
         if (response.data.success) {

@@ -9,6 +9,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
+import { API_URL } from '../../config/api';
 
 export const MockPayment: React.FC = () => {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ export const MockPayment: React.FC = () => {
     try {
       // Call backend callback API
       await axios.post(
-        `${import.meta.env.VITE_API_URL || 'http://localhost:3001'}/api/payment/callback`,
+        `${API_URL}/api/payment/callback`,
         {
           transactionId,
           status,

@@ -77,7 +77,7 @@ const SaptamiBhogPage: React.FC = () => {
           <BhogBookingSection
             title="Book Saptami Bhog"
             subtitle="Bhog Booking"
-            description="Select the number of bhog plate."
+            description="Select the number of bhog."
             categories={categories}
             paymentUrl="https://www.abp.proplusdatafoundation.com"
             disclaimer="ID card verification is mandatory for children aged 0 to 5 years and senior citizens."

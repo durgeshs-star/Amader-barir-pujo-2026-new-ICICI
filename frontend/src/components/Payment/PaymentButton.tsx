@@ -7,6 +7,7 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
+import { API_URL } from '../../config/api';
 
 interface PaymentButtonProps {
   customerId: string;
@@ -40,7 +41,7 @@ export const PaymentButton: React.FC<PaymentButtonProps> = ({
 
     try {
       // Call backend to create order
-      const response = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}/api/payment/create-order`, {
+      const response = await axios.post(`${API_URL}/api/payment/create-order`, {
         customerId,
         amount,
         currency,
@@ -63,7 +64,7 @@ export const PaymentButton: React.FC<PaymentButtonProps> = ({
     } catch (err: any) {
       const errorMessage = err.response?.data?.error?.message || err.message || 'Payment initiation failed';
       setError(errorMessage);
-      
+
       if (onError) {
         onError(errorMessage);
       }

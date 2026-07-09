@@ -116,9 +116,6 @@ export const Navigation: React.FC = () => (
       <li>
         <NavLink to="/about-us" className={navLinkClass}>About</NavLink>
       </li>
-      <li>
-        <NavLink to="/pujo-days" className={navLinkClass}>Pujo Days</NavLink>
-      </li>
 
       <DropdownMenu label="Pujo Schedule" items={pujoScheduleDays} />
 

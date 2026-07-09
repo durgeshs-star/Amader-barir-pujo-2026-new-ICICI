@@ -1,48 +1,96 @@
-﻿import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import SEO from '../components/ui/SEO';
 import ImageGrid from '../components/ui/ImageGrid';
-import { galleryImages } from '../assets/data/galleryData';
+import { galleryImages, type GalleryImage } from '../assets/data/galleryData';
+
+type CategoryFilter = 'all' | 'pujo' | 'cultural' | 'bhog' | 'volunteer';
+
+/** Fisher-Yates shuffle (returns a new array) */
+function shuffleArray<T>(arr: T[]): T[] {
+  const shuffled = [...arr];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
+const VALID_CATEGORIES: CategoryFilter[] = ['all', 'pujo', 'cultural', 'bhog', 'volunteer'];
 
 export const Gallery: React.FC = () => {
-  const [filter, setFilter] = useState<'all' | '2024' | '2025'>('all');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initialCategory = (searchParams.get('category') as CategoryFilter) || 'all';
 
-  const filteredImages = filter === 'all' ? galleryImages : galleryImages.filter(img => img.year === filter);
+  const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>(
+    VALID_CATEGORIES.includes(initialCategory) ? initialCategory : 'all'
+  );
+
+  // Shuffle all images once per page mount for the "All" view
+  const shuffledAllImages = useMemo(() => shuffleArray(galleryImages), []);
+
+  // Sync category filter from URL on mount
+  useEffect(() => {
+    const cat = searchParams.get('category') as CategoryFilter;
+    if (cat && VALID_CATEGORIES.includes(cat)) {
+      setCategoryFilter(cat);
+    }
+  }, [searchParams]);
+
+  const handleCategoryChange = (cat: CategoryFilter) => {
+    setCategoryFilter(cat);
+    if (cat === 'all') {
+      searchParams.delete('category');
+    } else {
+      searchParams.set('category', cat);
+    }
+    setSearchParams(searchParams, { replace: true });
+  };
+
+  const filteredImages: GalleryImage[] = categoryFilter === 'all'
+    ? shuffledAllImages
+    : galleryImages.filter(img => img.category === categoryFilter);
 
   return (
     <div className="pt-10 md:pt-14 pb-20 bg-light-bg/30 min-h-screen">
       <SEO title="Gallery" description="Browse photos from Amader Barir Pujo celebrations in Wakad, Pune — Durga Puja rituals, Bhog, cultural programs, and community moments." keywords="Durga Puja gallery Pune, Amader Barir Pujo photos, Bengali festival photos Wakad" canonical="https://www.abp.proplusdatafoundation.com/gallery" />
       <div className="max-w-6xl mx-auto px-6">
-        
+
         {/* Title - CSS animation instead of framer-motion */}
         <div className="text-center mb-10 animate-fade-in-down">
           <h1 className="text-4xl md:text-6xl font-bold text-gray-950 font-fraunces mb-3">
             Pujo Gallery
           </h1>
           <p className="text-sm text-muted font-medium text-center">
-            Visual memories of spiritual moments and celebrations
+            Memories of spiritual moments and celebrations
           </p>
           <div className="w-16 h-1 bg-accent mx-auto mt-4 rounded-full animate-expand-width" />
         </div>
 
-        {/* Categories controls - CSS animation */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mb-10 select-none animate-fade-in-up">
-          {(['all', '2024', '2025'] as const).map((year) => (
+        {/* Category Filter */}
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-4 select-none animate-fade-in-up">
+          {([
+            { key: 'all' as CategoryFilter, label: 'All' },
+            { key: 'pujo' as CategoryFilter, label: 'Pujo' },
+            { key: 'cultural' as CategoryFilter, label: 'Cultural' },
+            { key: 'bhog' as CategoryFilter, label: 'Bhog' },
+            { key: 'volunteer' as CategoryFilter, label: 'Volunteers' },
+          ]).map(({ key, label }) => (
             <button
-              key={year}
-              onClick={() => setFilter(year)}
-              className={`px-4 py-2 rounded-md text-xs md:text-sm font-semibold transition-all duration-200 cursor-pointer hover:scale-105 active:scale-95 ${
-                filter === year
-                    ? 'bg-primary text-text-on-primary shadow'
-                    : 'bg-white text-secondary hover:bg-light-bg hover:text-primary border border-border'
-              }`}
+              key={key}
+              onClick={() => handleCategoryChange(key)}
+              className={`px-4 py-2 rounded-md text-xs md:text-sm font-semibold transition-all duration-200 cursor-pointer hover:scale-105 active:scale-95 ${categoryFilter === key
+                ? 'bg-primary text-text-on-primary shadow'
+                : 'bg-white text-secondary hover:bg-light-bg hover:text-primary border border-border'
+                }`}
             >
-              {year === 'all' ? 'All' : year}
+              {label}
             </button>
           ))}
         </div>
 
         {/* Image Grid */}
-        <ImageGrid 
+        <ImageGrid
           images={filteredImages}
           showYear={true}
           columns={{ mobile: 1, tablet: 2, desktop: 3 }}
@@ -54,5 +102,3 @@ export const Gallery: React.FC = () => {
 };
 
 export default Gallery;
-
-
