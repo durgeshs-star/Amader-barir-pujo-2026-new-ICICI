@@ -103,7 +103,7 @@ const VolunteerContent: React.FC = () => {
   return (
     <>
       <SEO
-        title="Volunteers"
+        title="Volunteer"
         description="Join Amader Barir Pujo as a volunteer. Sign up to serve the community during Durga Puja 2026 in Wakad, Pune."
         keywords="Volunteer Durga Puja Pune, Amader Barir Pujo volunteer, community seva Wakad"
         ogImage="/assets/img/banner/1.webp"
@@ -111,7 +111,7 @@ const VolunteerContent: React.FC = () => {
       />
 
       <PageHero
-        title="Volunteers"
+        title="Volunteer"
         height="h-[40vh] md:h-[60vh]"
       />
 
@@ -126,10 +126,12 @@ const VolunteerContent: React.FC = () => {
             className="text-center mb-16"
           >
             <h2 className="font-fraunces text-3xl md:text-5xl font-bold text-primary mb-4">
-              Why Volunteer With Us?
+              Become Part of Our Pujo Story
             </h2>
-            <p className="text-text-secondary max-w-2xl mx-auto text-lg">
-              Join our family of dedicated volunteers and experience the joy of serving Maa Durga while building lifelong connections.
+            <p className="text-text-secondary max-w-2xl mx-auto text-lg text-center">
+              Maa brings us together.
+Come with your time, your talent, or simply your heart. Together, let's create a Pujo that every visitor will remember and every volunteer will cherish.
+
             </p>
             <div className="w-16 h-1 bg-accent mx-auto mt-6 rounded-full" />
           </m.div>
@@ -188,7 +190,7 @@ const VolunteerContent: React.FC = () => {
             <h2 className="font-fraunces text-3xl md:text-5xl font-bold text-primary mb-4">
               Join Our Volunteer Team
             </h2>
-            <p className="text-text-secondary max-w-2xl mx-auto text-lg">
+            <p className="text-text-secondary max-w-2xl mx-auto text-lg text-center">
               Fill out the form below and we'll get in touch with you about upcoming opportunities.
             </p>
             <div className="w-16 h-1 bg-accent mx-auto mt-6 rounded-full" />

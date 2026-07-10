@@ -50,7 +50,7 @@ export const SpiritSection: React.FC = () => {
       )
     },
     {
-      title: 'Community & Volunteers',
+      title: 'Community & Volunteer',
       description: "Come Help Us Create Someone Else's Favourite Pujo Memory. Years from now, someone will remember this Pujo as one of their happiest. The best part? You could be one of the reasons why.",
       imageSrc: '/assets/img/icons/volunteer.png',
       link: '/gallery?category=volunteer',

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+﻿import React, { useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import SEO from '../components/ui/SEO';
 import ImageGrid from '../components/ui/ImageGrid';
@@ -74,7 +74,7 @@ export const Gallery: React.FC = () => {
             { key: 'pujo' as CategoryFilter, label: 'Pujo' },
             { key: 'cultural' as CategoryFilter, label: 'Cultural' },
             { key: 'bhog' as CategoryFilter, label: 'Bhog' },
-            { key: 'volunteer' as CategoryFilter, label: 'Volunteers' },
+            { key: 'volunteer' as CategoryFilter, label: 'Volunteer' },
           ]).map(({ key, label }) => (
             <button
               key={key}
