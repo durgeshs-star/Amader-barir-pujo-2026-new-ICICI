@@ -29,7 +29,7 @@ export const SpiritSection: React.FC = () => {
       title: 'Bhog',
       description: "Calories Don't Count When It's Maa's Bhog. Pull up a chair, meet someone new, catch up with someone familiar, and enjoy a meal that has brought our community together for generations",
       imageSrc: '/assets/img/icons/meal.png',
-      link: '/gallery',
+      link: '/gallery?category=bhog',
       linkText: 'Relive the Bhog Moments',
       fallbackIcon: (
         <svg viewBox="0 0 24 24" className="w-12 h-12 text-primary" fill="currentColor" aria-hidden="true">
@@ -41,7 +41,7 @@ export const SpiritSection: React.FC = () => {
       title: 'Sacred Pujo Rituals',
       description: `Fold Your Hands. Leave the Rest to Maa. Whether you're joining the Pushpanjali for the first time or returning to a tradition you've cherished for years, there's always a place for you before Maa.`,
       imageSrc: '/assets/img/icons/lotus-1.png',
-      link: '/gallery',
+      link: '/gallery?category=pujo',
       linkText: "Step Into Last Year's Pujo",
       fallbackIcon: (
         <svg viewBox="0 0 24 24" className="w-12 h-12 text-primary" fill="currentColor" aria-hidden="true">
@@ -53,7 +53,7 @@ export const SpiritSection: React.FC = () => {
       title: 'Community & Volunteers',
       description: "Come Help Us Create Someone Else's Favourite Pujo Memory. Years from now, someone will remember this Pujo as one of their happiest. The best part? You could be one of the reasons why.",
       imageSrc: '/assets/img/icons/volunteer.png',
-      link: '/gallery',
+      link: '/gallery?category=volunteer',
       linkText: 'See the Hearts Behind the Pujo',
       fallbackIcon: (
         <svg viewBox="0 0 24 24" className="w-12 h-12 text-primary" fill="currentColor" aria-hidden="true">
@@ -74,7 +74,7 @@ export const SpiritSection: React.FC = () => {
             Neither Do We.
           </h2>
 
-          <p className="max-w-4xl mx-auto text-base md:text-lg leading-8 text-gray-700">
+          <p className="max-w-4xl mx-auto text-base md:text-lg leading-8 text-gray-700 text-center">
             Perhaps that's the true gift of Maa Durga. <em>Shokti</em> to lift each
             other. <em>Shanti</em> to embrace one another. And a quiet sense of
             Belonging that asks for nothing in return. It's this spirit that has

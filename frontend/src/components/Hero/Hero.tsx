@@ -10,7 +10,7 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <div className="relative h-screen flex items-end overflow-hidden bg-dark-bg text-white select-none">
+    <div className="relative min-h-[70vh] sm:min-h-[75vh] md:min-h-[5vh] lg:h-screen flex items-center overflow-hidden bg-dark-bg text-white">
 
       <img
         src="/assets/img/hero-image.webp"
@@ -25,7 +25,12 @@ export const Hero: React.FC = () => {
         fetchPriority="high"
         loading="eager"
         decoding="async"
-        className="absolute inset-0 w-full h-full object-cover object-[90%_45%] z-0"
+        className="absolute inset-0 w-full h-full object-cover
+object-[50%_0%]
+sm:object-[50%_5%]
+md:object-[50%_10%]
+lg:object-[50%_85%]
+z-0"
       />
 
       {/* Gradient — only at the bottom-left to make text readable, rest of image stays clear */}
@@ -38,12 +43,12 @@ export const Hero: React.FC = () => {
       />
 
       {/* Content — bottom-left, matching reference layout */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-6 pb-8 md:pb-36">
+      <div className="relative z-10 w-full max-w-7xl mx-auto lg:px-8">
         <div className="max-w-2xl">
 
           {/* Title — large display, two visual lines */}
-          <h1 className="font-fraunces-italic leading-none mb-6 select-text text-4xl sm:text-5xl md:text-5xl font-bold text-white" style={{ textShadow: '0 2px 12px rgba(0,0,0,0.5)' }}>
-            Amader Barir Pujo
+          <h1 className="font-fraunces-italic leading-none mb-6 select-text text-4xl sm:text-5xl md:text-5xl font-bold text-white text-left" style={{ textShadow: '0 2px 12px rgba(0,0,0,0.5)' }}>
+            Amader Barir Pujo<sup className="text-2xl md:text-3xl font-normal">&reg;</sup>
           </h1>
 
           {/* Body text */}
@@ -57,10 +62,15 @@ export const Hero: React.FC = () => {
           </div>
 
           {/* CTA buttons */}
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-col sm:flex-row gap-4">
             <Button variant="accent" size="md" onClick={handleScrollToContent}>
               Explore Pujo
             </Button>
+            <a href="/gallery?category=bhog">
+              <Button variant="outline" size="md" className="text-white border-white/80 hover:bg-white hover:text-primary!">
+                View Bhog Gallery
+              </Button>
+            </a>
             <a href="/volunteer">
               <Button variant="outline" size="md" className="text-white border-white/80 hover:bg-white hover:text-primary!">
                 Become a Volunteer

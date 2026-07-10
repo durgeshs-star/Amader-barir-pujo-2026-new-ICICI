@@ -58,4 +58,14 @@ export const galleryImages: GalleryImage[] = [
   { id: 38, year: '2025', src: '/assets/img/cultural-assets/SJP_3036.webp', alt: 'Community celebration', category: 'cultural' },
   { id: 39, year: '2025', src: '/assets/img/cultural-assets/SJP_3049.webp', alt: 'Festive moments', category: 'cultural' },
   { id: 40, year: '2025', src: '/assets/img/cultural-assets/SJP_3061.webp', alt: 'Cultural evening', category: 'cultural' },
+
+  // Bhog Offerings
+  { id: 41, year: '2025', src: '/assets/img/bhog-assets/SJP_4320.webp', alt: 'Bhog distribution', category: 'bhog' },
+  { id: 42, year: '2025', src: '/assets/img/bhog-assets/SJP_4321.webp', alt: 'Bhog preparation', category: 'bhog' },
+  { id: 43, year: '2025', src: '/assets/img/bhog-assets/0d64acaa-fe73-4e97-bb2e-779c11a0022e.webp', alt: 'Bhog serving', category: 'bhog' },
+
+  // Volunteer Activities
+  { id: 44, year: '2025', src: '/assets/img/volunteer-assets/DSC_1210.webp', alt: 'Volunteer teamwork', category: 'volunteer' },
+  { id: 45, year: '2025', src: '/assets/img/volunteer-assets/SJP_4236.webp', alt: 'Volunteer service', category: 'volunteer' },
+  { id: 46, year: '2025', src: '/assets/img/volunteer-assets/SJP_4319.webp', alt: 'Community volunteers', category: 'volunteer' },
 ];

@@ -20,7 +20,7 @@ export const LegalContent: React.FC<LegalContentProps> = ({
   sections,
 }) => {
   return (
-    <div className="max-w-4xl mx-auto px-6 py-6">
+    <div className="legal-content-wrapper max-w-4xl mx-auto px-6 py-6 text-left">
       <h1 className="font-fraunces text-3xl md:text-4xl font-bold text-primary mb-4">
         {title}
       </h1>

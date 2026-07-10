@@ -93,16 +93,17 @@ const SaraswatiPuja: React.FC = () => {
 
           <ImageGrid
             images={[
-              { id: "1", src: "/assets/img/saraswati-puja2.webp", alt: "Traditional Saraswati Puja decoration" },
-              { id: "2", src: "/assets/img/saraswati-puja3.webp", alt: "Devotees offering prayers" },
-              { id: "3", src: "/assets/img/saraswati-puja5.webp", alt: "Community celebration" },
-              { id: "4", src: "/assets/img/saraswati-puja6.webp", alt: "Saraswati Puja celebration" },
-              { id: "5", src: "/assets/img/saraswati-puja7.webp", alt: "Traditional rituals" },
-              { id: "6", src: "/assets/img/saraswati-puja8.webp", alt: "Festive atmosphere" },
-              { id: "7", src: "/assets/img/saraswati-puja9.webp", alt: "Devotional offerings" },
-              { id: "8", src: "/assets/img/saraswati-puja10.webp", alt: "Saraswati Puja ceremony" },
-              { id: "9", src: "/assets/img/saraswati-puja12.webp", alt: "Traditional celebration" },
+
+              { id: "1", src: "/assets/img/saraswati-puja10.webp", alt: "Saraswati Puja ceremony" },
+              { id: "2", src: "/assets/img/saraswati-puja9.webp", alt: "Devotional offerings" },
               { id: "11", src: "/assets/img/saraswati-puja14.webp", alt: "Sacred offerings" },
+              { id: "3", src: "/assets/img/saraswati-puja12.webp", alt: "Traditional celebration" },
+              { id: "4", src: "/assets/img/saraswati-puja2.webp", alt: "Traditional Saraswati Puja decoration" },
+              { id: "5", src: "/assets/img/saraswati-puja3.webp", alt: "Devotees offering prayers" },
+              { id: "6", src: "/assets/img/saraswati-puja5.webp", alt: "Community celebration" },
+              { id: "7", src: "/assets/img/saraswati-puja6.webp", alt: "Saraswati Puja celebration" },
+              { id: "8", src: "/assets/img/saraswati-puja7.webp", alt: "Traditional rituals" },
+              { id: "9", src: "/assets/img/saraswati-puja8.webp", alt: "Festive atmosphere" },
             ]}
             showYear={false}
             columns={{ mobile: 1, tablet: 2, desktop: 3, xl: 4 }}
