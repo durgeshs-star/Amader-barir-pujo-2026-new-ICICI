@@ -44,7 +44,7 @@ export const Footer: React.FC = () => {
               About Us
             </h5>
             <p className="text-sm leading-relaxed text-text-inverse-muted">
-              Join us in the grand celebration of Durga Puja—experience devotion, joy, and togetherness!
+              Join us in the grand celebration of Durga Pujo—experience devotion, joy, and togetherness!
             </p>
             <ul className="space-y-3 text-sm list-none p-0 m-0 pt-2">
               <li className="flex items-start gap-3">

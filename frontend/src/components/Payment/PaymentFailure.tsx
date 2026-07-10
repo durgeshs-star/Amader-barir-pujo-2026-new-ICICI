@@ -54,7 +54,7 @@ export const PaymentFailure: React.FC<PaymentFailureProps> = ({
         <h2 className="text-3xl font-bold text-gray-900 mb-2">
           Payment Failed
         </h2>
-        <p className="text-gray-600 mb-6">
+        <p className="text-gray-600 mb-6 text-center">
           {errorMessage}
         </p>
 

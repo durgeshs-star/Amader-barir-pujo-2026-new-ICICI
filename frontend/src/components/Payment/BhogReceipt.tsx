@@ -117,80 +117,74 @@ export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propRecei
           backgroundColor: '#ffffff',
           border: '2px solid #d97706',
           borderRadius: '8px',
-          padding: '32px',
+          padding: '16px 24px',
           boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
           maxWidth: '672px',
           margin: '0 auto'
         }}
       >
         {/* Header */}
-        <div style={{ textAlign: 'center', borderBottom: '2px solid #d97706', paddingBottom: '24px', marginBottom: '24px' }}>
+        <div style={{ textAlign: 'center', borderBottom: '2px solid #d97706', paddingBottom: '12px', marginBottom: '12px' }}>
           <img
             src="/assets/img/Logo-puja.webp"
             alt="Amader Barir Pujo Logo"
-            style={{ width: '96px', height: '96px', margin: '0 auto 16px auto' }}
+            style={{ width: '64px', height: '64px', margin: '0 auto 8px auto' }}
           />
-          <h1 style={{ fontSize: '24px', fontWeight: 'bold', color: '#92400e', fontFamily: 'serif', marginBottom: '8px' }}>
+          <h1 style={{ fontSize: '22px', fontWeight: 'bold', color: '#92400e', fontFamily: 'serif', marginBottom: '4px' }}>
             অমাদের বাড়ির পুজো
           </h1>
-          <h2 style={{ fontSize: '20px', color: '#d97706', fontFamily: 'serif' }}>Amader Barir Pujo</h2>
-          <p style={{ fontSize: '14px', color: '#4b5563', marginTop: '8px' }}>Durga Puja 2026 - Wakad, Pune</p>
-          <p style={{ fontSize: '12px', color: '#b45309', marginTop: '4px', fontStyle: 'italic' }}>An Initiative by <br />ProPlus Data Foundation</p>
+          <h2 style={{ fontSize: '18px', color: '#d97706', fontFamily: 'serif', marginBottom: '4px' }}>Amader Barir Pujo</h2>
+          <p style={{ fontSize: '13px', color: '#4b5563' }}>Durga Puja 2026 - Wakad, Pune</p>
+          <p style={{ fontSize: '12px', color: '#b45309', marginTop: '2px', fontStyle: 'italic' }}>An Initiative by ProPlus Data Foundation</p>
+          <p style={{ fontSize: '12px', color: '#b45309', fontWeight: 'bold' }}>NGO Darpan ID: MH/2025/0627499</p>
         </div>
 
         {/* Receipt Details */}
-        <div style={{ marginBottom: '24px' }}>
-          <p style={{ fontSize: '14px', marginBottom: '8px' }}>
-            <strong>Receipt No:</strong> {receiptData.orderId}
-          </p>
-          <p style={{ fontSize: '14px', marginBottom: '8px' }}>
-            <strong>Transaction ID:</strong> {receiptData.transactionId}
-          </p>
-          <p style={{ fontSize: '14px', marginBottom: '8px' }}>
-            <strong>Date & Time:</strong> {formatDate(receiptData.timestamp)}
-          </p>
-          <p style={{ fontSize: '14px', marginBottom: '8px' }}>
-            <strong>Event:</strong> {receiptData.title}
-          </p>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px', flexWrap: 'wrap' }}>
+          <div style={{ flex: '1', minWidth: '200px' }}>
+            <p style={{ fontSize: '13px', marginBottom: '4px' }}><strong>Receipt No:</strong> {receiptData.orderId}</p>
+            <p style={{ fontSize: '13px', marginBottom: '4px' }}><strong>Transaction ID:</strong> {receiptData.transactionId}</p>
+          </div>
+          <div style={{ flex: '1', minWidth: '200px', textAlign: 'right' }}>
+            <p style={{ fontSize: '13px', marginBottom: '4px' }}><strong>Date & Time:</strong> {formatDate(receiptData.timestamp)}</p>
+            <p style={{ fontSize: '13px', marginBottom: '4px' }}><strong>Event:</strong> {receiptData.title}</p>
+          </div>
         </div>
 
         {/* User Information */}
         {receiptData.userInfo && (
-          <div style={{ marginBottom: '24px', padding: '16px', backgroundColor: '#fef3c7', borderRadius: '4px' }}>
-            <h3 style={{ fontSize: '16px', fontWeight: 'bold', color: '#92400e', marginBottom: '12px' }}>Customer Information</h3>
-            <p style={{ fontSize: '14px', marginBottom: '8px' }}>
-              <strong>Name:</strong> {receiptData.userInfo.name}
-            </p>
-            <p style={{ fontSize: '14px', marginBottom: '8px' }}>
-              <strong>Phone:</strong> {receiptData.userInfo.phone}
-            </p>
-            <p style={{ fontSize: '14px', marginBottom: '8px' }}>
-              <strong>Email:</strong> {receiptData.userInfo.email}
-            </p>
+          <div style={{ marginBottom: '12px', padding: '8px 12px', backgroundColor: '#fef3c7', borderRadius: '4px', display: 'flex', justifyContent: 'space-between' }}>
+            <div>
+              <p style={{ fontSize: '13px', marginBottom: '4px' }}><strong>Name:</strong> {receiptData.userInfo.name}</p>
+              <p style={{ fontSize: '13px', marginBottom: '0' }}><strong>Phone:</strong> {receiptData.userInfo.phone}</p>
+            </div>
+            <div style={{ textAlign: 'right' }}>
+              <p style={{ fontSize: '13px', marginBottom: '0' }}><strong>Email:</strong> {receiptData.userInfo.email}</p>
+            </div>
           </div>
         )}
 
         {/* Items Table */}
-        <div style={{ marginBottom: '24px' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <div style={{ marginBottom: '12px' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
             <thead>
               <tr style={{ backgroundColor: '#d97706', color: '#ffffff' }}>
-                <th style={{ padding: '8px 16px', textAlign: 'left' }}>Item</th>
-                <th style={{ padding: '8px 16px', textAlign: 'center' }}>Qty</th>
-                <th style={{ padding: '8px 16px', textAlign: 'right' }}>Price</th>
-                <th style={{ padding: '8px 16px', textAlign: 'right' }}>Total</th>
+                <th style={{ padding: '6px 12px', textAlign: 'left' }}>Item</th>
+                <th style={{ padding: '6px 12px', textAlign: 'center' }}>Qty</th>
+                <th style={{ padding: '6px 12px', textAlign: 'right' }}>Price</th>
+                <th style={{ padding: '6px 12px', textAlign: 'right' }}>Total</th>
               </tr>
             </thead>
             <tbody>
               {receiptData.categories.map((category: any) => (
                 <tr key={category.id} style={{ borderBottom: '1px solid #e5e7eb' }}>
-                  <td style={{ padding: '8px 16px' }}>
+                  <td style={{ padding: '4px 12px' }}>
                     <div style={{ fontWeight: '600' }}>{category.title}</div>
-                    <div style={{ fontSize: '12px', color: '#6b7280' }}>{category.description}</div>
+                    <div style={{ fontSize: '11px', color: '#6b7280', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '250px' }}>{category.description}</div>
                   </td>
-                  <td style={{ padding: '8px 16px', textAlign: 'center' }}>{category.quantity}</td>
-                  <td style={{ padding: '8px 16px', textAlign: 'right' }}>₹{category.price}</td>
-                  <td style={{ padding: '8px 16px', textAlign: 'right', fontWeight: '600' }}>
+                  <td style={{ padding: '4px 12px', textAlign: 'center' }}>{category.quantity}</td>
+                  <td style={{ padding: '4px 12px', textAlign: 'right' }}>₹{category.price}</td>
+                  <td style={{ padding: '4px 12px', textAlign: 'right', fontWeight: '600' }}>
                     ₹{category.price * category.quantity}
                   </td>
                 </tr>
@@ -200,19 +194,23 @@ export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propRecei
         </div>
 
         {/* Total */}
-        <div style={{ borderTop: '2px solid #d97706', paddingTop: '16px', textAlign: 'right' }}>
-          <p style={{ fontSize: '18px', color: '#4b5563', marginBottom: '4px' }}>Total Amount</p>
-          <p style={{ fontSize: '30px', fontWeight: 'bold', color: '#92400e' }}>₹{receiptData.totalAmount}</p>
-          <p style={{ fontSize: '14px', color: '#6b7280', marginTop: '4px' }}>
-            {receiptData.totalCount} {receiptData.totalCount === 1 ? 'item' : 'items'}
-          </p>
+        <div style={{ borderTop: '2px solid #d97706', paddingTop: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <p style={{ fontSize: '13px', color: '#6b7280' }}>
+              {receiptData.totalCount} {receiptData.totalCount === 1 ? 'item' : 'items'}
+            </p>
+          </div>
+          <div style={{ textAlign: 'right' }}>
+            <p style={{ fontSize: '14px', color: '#4b5563', marginBottom: '2px' }}>Total Amount</p>
+            <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#92400e' }}>₹{receiptData.totalAmount}</p>
+          </div>
         </div>
 
         {/* Footer */}
-        <div style={{ marginTop: '24px', paddingTop: '16px', borderTop: '1px solid #e5e7eb', textAlign: 'center', fontSize: '12px', color: '#6b7280' }}>
-          <p style={{ marginBottom: '8px' }}>This is a computer-generated receipt. No signature required.</p>
-          <p>Thank you for your contribution to Amader Barir Pujo!</p>
-          <p style={{ marginTop: '8px' }}>For queries, contact: info@abp.proplusdatafoundation.com</p>
+        <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: '1px solid #e5e7eb', textAlign: 'center', fontSize: '11px', color: '#6b7280' }}>
+          <p style={{ marginBottom: '4px' }}>This is a computer-generated receipt. No signature required.</p>
+          <p style={{ marginBottom: '4px' }}>Thank you for your contribution to Amader Barir Pujo!</p>
+          <p>For queries, contact: info@abp.proplusdatafoundation.com</p>
         </div>
       </div>
 

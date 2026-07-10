@@ -97,10 +97,10 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
               </svg>
             </div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">
+            <h2 className="text-3xl font-bold text-gray-900 mb-2 text-center">
               {isAnudanPayment ? 'Anudan Contribution Successful!' : 'Bhog Booking Successful!'}
             </h2>
-            <p className="text-gray-600">
+            <p className="text-gray-600 text-center">
               {isAnudanPayment
                 ? 'Thank you for your generous Anudan. Your contribution has been recorded successfully.'
                 : 'Thank you for your bhog booking. Your payment has been completed successfully.'}
@@ -136,7 +136,7 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
         </div>
 
         {/* Success Message */}
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">
+        <h2 className="text-3xl font-bold text-gray-900 mb-2 text-center">
           Payment Successful!
         </h2>
         <p className="text-gray-600 mb-6">
