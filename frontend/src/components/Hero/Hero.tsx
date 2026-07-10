@@ -66,11 +66,11 @@ z-0"
             <Button variant="accent" size="md" onClick={handleScrollToContent}>
               Explore Pujo
             </Button>
-            <a href="/gallery?category=bhog">
+            {/* <a href="/gallery?category=bhog">
               <Button variant="outline" size="md" className="text-white border-white/80 hover:bg-white hover:text-primary!">
                 View Bhog Gallery
               </Button>
-            </a>
+            </a> */}
             <a href="/volunteer">
               <Button variant="outline" size="md" className="text-white border-white/80 hover:bg-white hover:text-primary!">
                 Become a Volunteer
