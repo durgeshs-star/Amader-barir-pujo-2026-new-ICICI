@@ -23,42 +23,22 @@ export const CountdownTimer: React.FC = () => {
     // Check if script already exists
     const existingScript = document.querySelector('script[src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.14/dist/dotlottie-wc.js"]');
 
-    const loadLottie = () => {
-      if (existingScript) {
-        createLottie();
-        setIsLoaded(true);
-        return;
-      }
-
-      const script = document.createElement('script');
-      script.src = 'https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.14/dist/dotlottie-wc.js';
-      script.type = 'module';
-      script.onload = () => {
-        createLottie();
-        setIsLoaded(true);
-      };
-      document.head.appendChild(script);
-    };
-
-    // Use IntersectionObserver to lazy load Lottie only when in viewport
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !isLoaded) {
-            loadLottie();
-            observer.disconnect();
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    if (lottieRef.current) {
-      observer.observe(lottieRef.current);
+    if (existingScript) {
+      createLottie();
+      setIsLoaded(true);
+      return;
     }
 
+    const script = document.createElement('script');
+    script.src = 'https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.14/dist/dotlottie-wc.js';
+    script.type = 'module';
+    script.onload = () => {
+      createLottie();
+      setIsLoaded(true);
+    };
+    document.head.appendChild(script);
+
     return () => {
-      observer.disconnect();
       if (!existingScript && !isLoaded) {
         const script = document.querySelector('script[src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.14/dist/dotlottie-wc.js"]');
         if (script) {

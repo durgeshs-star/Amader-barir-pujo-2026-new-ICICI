@@ -8,8 +8,7 @@ import WhatsAppBtn from './components/Sections/WhatsAppBtn';
 import BackToTop from './components/Sections/BackToTop';
 // import Preloader from './components/ui/Preloader';
 
-import Home from './pages/Home';
-
+const Home = lazy(() => import('./pages/Home'));
 const AboutUs = lazy(() => import('./pages/AboutUs'));
 const Volunteer = lazy(() => import('./pages/Volunteer'));
 const Schedule = lazy(() => import('./pages/Schedule'));

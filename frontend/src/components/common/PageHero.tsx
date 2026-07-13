@@ -4,6 +4,8 @@ export interface PageHeroProps {
   title: string;
   subtitle?: string;
   backgroundImage?: string;
+  srcset?: string;
+  sizes?: string;
   overlay?: string;
   height?: string;
   objectPosition?: string;
@@ -17,6 +19,8 @@ export const PageHero: React.FC<PageHeroProps> = React.memo(({
   title,
   subtitle,
   backgroundImage = DEFAULT_BACKGROUND,
+  srcset,
+  sizes,
   overlay = DEFAULT_OVERLAY,
   height = DEFAULT_HEIGHT,
   objectPosition = "center",
@@ -25,6 +29,8 @@ export const PageHero: React.FC<PageHeroProps> = React.memo(({
     <section className={`relative ${height} overflow-hidden`} style={{ minHeight: '320px' }}>
       <img
         src={backgroundImage}
+        srcSet={srcset}
+        sizes={sizes}
         alt={`${title} - Background image`}
         className={`absolute inset-0 w-full h-full object-cover`}
         style={{ objectPosition }}

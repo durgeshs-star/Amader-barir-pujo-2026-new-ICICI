@@ -6,15 +6,18 @@ export const BackToTop: React.FC = () => {
 
   // Monitor scroll height to show/hide button
   useEffect(() => {
+    let ticking = false;
     const toggleVisibility = () => {
-      if (window.scrollY > 300) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(() => {
+          setIsVisible(window.scrollY > 300);
+          ticking = false;
+        });
       }
     };
 
-    window.addEventListener('scroll', toggleVisibility);
+    window.addEventListener('scroll', toggleVisibility, { passive: true });
     return () => {
       window.removeEventListener('scroll', toggleVisibility);
     };

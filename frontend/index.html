@@ -51,6 +51,14 @@
       crossorigin
     />
 
+    <!-- Preload LCP hero image to reduce load delay (SPA without SSR) -->
+    <link
+      rel="preload"
+      as="image"
+      href="/assets/img/culture-2-1920w.webp"
+      fetchpriority="high"
+    />
+
     <!-- Critical CSS - Inlined to prevent render-blocking -->
     <style>
       @font-face {
