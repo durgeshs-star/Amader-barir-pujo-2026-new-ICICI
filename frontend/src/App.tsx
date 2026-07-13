@@ -6,7 +6,7 @@ import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import WhatsAppBtn from './components/Sections/WhatsAppBtn';
 import BackToTop from './components/Sections/BackToTop';
-import Preloader from './components/ui/Preloader';
+// import Preloader from './components/ui/Preloader';
 
 import Home from './pages/Home';
 
