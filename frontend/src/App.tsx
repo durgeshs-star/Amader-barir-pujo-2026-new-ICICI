@@ -49,16 +49,16 @@ const PageSkeleton: React.FC = () => (
 
 const AppShell: React.FC = () => {
   const location = useLocation();
-  const isQuestionairRoute = location.pathname === '/questionair';
+  const isWelcomeToAbpWaFamilyRoute = location.pathname === '/welcome-to-abp-wa-family';
   const siteLive = (import.meta.env.VITE_SITE_LIVE || import.meta.env.REACT_APP_SITE_LIVE || 'false').toLowerCase() === 'true';
 
-  if (!siteLive && !isQuestionairRoute) {
-    return <Navigate to="/questionair" replace />;
+  if (!siteLive && !isWelcomeToAbpWaFamilyRoute) {
+    return <Navigate to="/welcome-to-abp-wa-family" replace />;
   }
 
   return (
     <div className="flex min-h-screen flex-col bg-light-bg/10 relative">
-      {!isQuestionairRoute ? <Header /> : null}
+      {!isWelcomeToAbpWaFamilyRoute ? <Header /> : null}
 
       <main className="grow">
         <Suspense fallback={<PageSkeleton />}>
@@ -66,7 +66,7 @@ const AppShell: React.FC = () => {
             <Route path="/" element={<Home />} />
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/volunteer" element={<Volunteer />} />
-            <Route path="/questionair" element={<Questionair />} />
+            <Route path="/welcome-to-abp-wa-family" element={<Questionair />} />
 
             {/* Day specific schedule paths */}
             <Route path="/pujo-schedule/:day" element={<Schedule />} />
@@ -116,9 +116,9 @@ const AppShell: React.FC = () => {
         </Suspense>
       </main>
 
-      {!isQuestionairRoute ? <Footer /> : null}
-      {!isQuestionairRoute ? <WhatsAppBtn /> : null}
-      {!isQuestionairRoute ? <BackToTop /> : null}
+      {!isWelcomeToAbpWaFamilyRoute ? <Footer /> : null}
+      {!isWelcomeToAbpWaFamilyRoute ? <WhatsAppBtn /> : null}
+      {!isWelcomeToAbpWaFamilyRoute ? <BackToTop /> : null}
     </div>
   );
 };
