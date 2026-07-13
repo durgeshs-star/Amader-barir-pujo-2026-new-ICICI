@@ -1,3 +1,5 @@
+import React from 'react';
+
 export interface PageHeroProps {
   title: string;
   subtitle?: string;
@@ -11,7 +13,7 @@ const DEFAULT_BACKGROUND = "/assets/img/culture-2.webp";
 const DEFAULT_OVERLAY = "bg-black/30";
 const DEFAULT_HEIGHT = "h-[40vh] md:h-[80vh]";
 
-export const PageHero: React.FC<PageHeroProps> = ({
+export const PageHero: React.FC<PageHeroProps> = React.memo(({
   title,
   subtitle,
   backgroundImage = DEFAULT_BACKGROUND,
@@ -20,10 +22,10 @@ export const PageHero: React.FC<PageHeroProps> = ({
   objectPosition = "center",
 }) => {
   return (
-    <section className={`relative ${height} overflow-hidden`}>
+    <section className={`relative ${height} overflow-hidden`} style={{ minHeight: '320px' }}>
       <img
         src={backgroundImage}
-        alt=""
+        alt={`${title} - Background image`}
         className={`absolute inset-0 w-full h-full object-cover`}
         style={{ objectPosition }}
         loading="lazy"
@@ -49,6 +51,6 @@ export const PageHero: React.FC<PageHeroProps> = ({
       </div>
     </section>
   );
-};
+});
 
 export default PageHero;

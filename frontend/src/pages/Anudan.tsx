@@ -39,9 +39,9 @@ export const Anudan: React.FC = () => {
   return (
     <LazyMotion features={domAnimation} strict>
       <SEO
-        title="Anudan"
-        description="Offer Your Anudan (অনুদান) – Support the Spirit of Amader Barir Pujo. Browse our list of Pujo items and select an offering that resonates with you."
-        keywords="Anudan, Durga Puja donation, Amader Barir Pujo contribution, Puja items sponsorship"
+        title="Anudan | Amader Barir Pujo"
+        description="Offer your Anudan (অনুদান) to Amader Barir Pujo 2026 in Wakad, Pune. Support devotional services, sacred festivals, Bhog distribution, and spiritual community programs through your generous contribution."
+        keywords="Anudan Durga Puja Pune, Durga Puja donation, Amader Barir Pujo contribution, Puja items sponsorship, Bengali festival donation Wakad, seva donation Pune"
         ogImage="/assets/img/banner/1.webp"
         canonical="https://www.abp.proplusdatafoundation.com/anudan"
       />
@@ -79,7 +79,7 @@ export const Anudan: React.FC = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
               >
-                <h5 className="text-xl font-bold text-primary font-fraunces mb-3 flex items-center gap-2">
+                <h3 className="text-xl font-bold text-primary font-fraunces mb-3 flex items-center gap-2">
                   <m.span
                     animate={{ rotate: [0, 10, -10, 0] }}
                     transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
@@ -87,7 +87,7 @@ export const Anudan: React.FC = () => {
                     🪔
                   </m.span>
                   How You Can Participate
-                </h5>
+                </h3>
                 <p className="text-base text-secondary leading-relaxed">
                   Browse our list of Pujo items and select an offering that resonates with you. Every contribution, regardless of its value, helps us preserve and celebrate our cherished traditions with devotion and joy.
                 </p>

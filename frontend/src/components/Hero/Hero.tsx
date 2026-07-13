@@ -24,6 +24,8 @@ export const Hero: React.FC = React.memo(() => {
           fetchPriority="high"
           loading="eager"
           decoding="async"
+          width={1920}
+          height={1080}
           className="absolute inset-0 w-full h-full object-cover
 object-[50%_0%]
 sm:object-[50%_5%]

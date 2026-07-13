@@ -21,15 +21,15 @@ const inputCls = (hasError: boolean) =>
       : "border-gray-200 focus:ring-primary/40 focus:border-primary"
   }`;
 
-export const Volunteer: React.FC = () => {
+export const Volunteer: React.FC = React.memo(() => {
   return (
     <LazyMotion features={domAnimation} strict>
       <VolunteerContent />
     </LazyMotion>
   );
-};
+});
 
-const VolunteerContent: React.FC = () => {
+const VolunteerContent: React.FC = React.memo(() => {
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
@@ -103,9 +103,9 @@ const VolunteerContent: React.FC = () => {
   return (
     <>
       <SEO
-        title="Volunteer"
-        description="Join Amader Barir Pujo as a volunteer. Sign up to serve the community during Durga Puja 2026 in Wakad, Pune."
-        keywords="Volunteer Durga Puja Pune, Amader Barir Pujo volunteer, community seva Wakad"
+        title="Volunteer | Amader Barir Pujo"
+        description="Join Amader Barir Pujo as a volunteer to serve the community during Durga Puja 2026 in Wakad, Pune. Offer your seva, build community connections, and make a difference in our vibrant Bengali celebration."
+        keywords="Volunteer Durga Puja Pune, Amader Barir Pujo volunteer, community seva Wakad, Bengali festival volunteer Pune, Durga Puja seva opportunities"
         ogImage="/assets/img/banner/1.webp"
         canonical="https://www.abp.proplusdatafoundation.com/volunteer"
       />
@@ -421,6 +421,6 @@ Come with your time, your talent, or simply your heart. Together, let's create a
       </section>
     </>
   );
-};
+});
 
 export default Volunteer;

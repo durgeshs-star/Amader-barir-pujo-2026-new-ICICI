@@ -10,7 +10,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   children: React.ReactNode;
 }
 
-export const Button: React.FC<ButtonProps> = ({
+export const Button: React.FC<ButtonProps> = React.memo(({
   variant = 'primary',
   size = 'md',
   fullWidth = false,
@@ -66,6 +66,6 @@ export const Button: React.FC<ButtonProps> = ({
       {!loading && rightIcon && <span className="inline-flex shrink-0">{rightIcon}</span>}
     </button>
   );
-};
+});
 
 export default Button;

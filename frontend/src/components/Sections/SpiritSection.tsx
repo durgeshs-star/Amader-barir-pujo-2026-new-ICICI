@@ -96,7 +96,7 @@ export const SpiritSection: React.FC = () => {
                 {/* Try rendering actual png image first, otherwise show stylized svg vector */}
                 <img
                   src={offering.imageSrc}
-                  alt=""
+                  alt={`${offering.title} icon`}
                   width="50"
                   height="50"
                   loading="lazy"

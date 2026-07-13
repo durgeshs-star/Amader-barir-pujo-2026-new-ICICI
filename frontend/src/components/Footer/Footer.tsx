@@ -40,9 +40,9 @@ export const Footer: React.FC = () => {
 
           {/* Column 1: About details */}
           <div className="flex flex-col gap-4">
-            <h5 className="text-xl font-bold font-fraunces text-white border-b-2 border-accent pb-2 w-24">
+            <h3 className="text-xl font-bold font-fraunces text-white border-b-2 border-accent pb-2 w-24">
               About Us
-            </h5>
+            </h3>
             <p className="text-sm leading-relaxed text-text-inverse-muted">
               Join us in the grand celebration of Durga Pujo—experience devotion, joy, and togetherness!
             </p>
@@ -68,9 +68,9 @@ export const Footer: React.FC = () => {
 
           {/* Column 2: Information Links */}
           <div className="flex flex-col gap-4">
-            <h5 className="text-xl font-bold font-fraunces text-white border-b-2 border-accent pb-2 w-28">
+            <h3 className="text-xl font-bold font-fraunces text-white border-b-2 border-accent pb-2 w-28">
               Information
-            </h5>
+            </h3>
             <ul className="space-y-2 text-sm list-none p-0 m-0">
               <li>
                 <Link to="/panchami" className="text-text-on-primary hover:text-accent transition-colors block py-1">
@@ -97,9 +97,9 @@ export const Footer: React.FC = () => {
 
           {/* Column 3: Others Links */}
           <div className="flex flex-col gap-4">
-            <h5 className="text-xl font-bold font-fraunces text-white border-b-2 border-accent pb-2 w-14">
+            <h3 className="text-xl font-bold font-fraunces text-white border-b-2 border-accent pb-2 w-14">
               Others
-            </h5>
+            </h3>
             <ul className="space-y-2 text-sm list-none p-0 m-0">
               <li>
                 <Link to="/gallery" className="hover:text-accent transition-colors block py-1 text-text-on-primary">
@@ -131,9 +131,9 @@ export const Footer: React.FC = () => {
 
           {/* Column 4: Recent Posts (Hidden on smaller mobile sizes) */}
           <div className="hidden lg:flex flex-col gap-4">
-            <h5 className="text-xl font-bold font-fraunces text-white border-b-2 border-accent pb-2 w-28">
+            <h3 className="text-xl font-bold font-fraunces text-white border-b-2 border-accent pb-2 w-28">
               Recent Posts
-            </h5>
+            </h3>
             <div className="flex flex-col gap-4">
               {recentPosts.map((post, idx) => (
                 <Link key={idx} to={post.route} className="flex gap-3.5 group items-start select-none">

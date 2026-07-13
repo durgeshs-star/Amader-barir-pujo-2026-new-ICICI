@@ -18,7 +18,7 @@ function shuffleArray<T>(arr: T[]): T[] {
 
 const VALID_CATEGORIES: CategoryFilter[] = ['all', 'pujo', 'cultural', 'bhog', 'volunteer'];
 
-export const Gallery: React.FC = () => {
+export const Gallery: React.FC = React.memo(() => {
   const [searchParams, setSearchParams] = useSearchParams();
   const initialCategory = (searchParams.get('category') as CategoryFilter) || 'all';
 
@@ -53,7 +53,7 @@ export const Gallery: React.FC = () => {
 
   return (
     <div className="pt-10 md:pt-14 pb-20 bg-light-bg/30 min-h-screen">
-      <SEO title="Gallery" description="Browse photos from Amader Barir Pujo celebrations in Wakad, Pune — Durga Puja rituals, Bhog, cultural programs, and community moments." keywords="Durga Puja gallery Pune, Amader Barir Pujo photos, Bengali festival photos Wakad" canonical="https://www.abp.proplusdatafoundation.com/gallery" />
+      <SEO title="Gallery | Amader Barir Pujo" description="Browse photos from Amader Barir Pujo celebrations in Wakad, Pune — Durga Puja rituals, Bhog distribution, cultural programs, and community moments captured during our vibrant Bengali festival." keywords="Durga Puja gallery Pune, Amader Barir Pujo photos, Bengali festival photos Wakad, Puja celebration images, Bhog photos Pune" canonical="https://www.abp.proplusdatafoundation.com/gallery" />
       <div className="max-w-6xl mx-auto px-6">
 
         {/* Title - CSS animation instead of framer-motion */}
@@ -99,6 +99,6 @@ export const Gallery: React.FC = () => {
       </div>
     </div>
   );
-};
+});
 
 export default Gallery;

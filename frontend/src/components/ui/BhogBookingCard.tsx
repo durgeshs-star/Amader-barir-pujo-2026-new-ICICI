@@ -16,9 +16,9 @@ export const BhogBookingCard: React.FC<BhogBookingCardProps> = ({
   return (
     <div className="flex items-center justify-between gap-4 p-4.5 border border-primary/12 rounded-lg bg-white">
       <div>
-        <h5 className="text-lg font-semibold text-gray-900 mb-1">
+        <h3 className="text-lg font-semibold text-gray-900 mb-1">
           {category.title}
-        </h5>
+        </h3>
         <p className="text-sm leading-relaxed text-secondary">
           {category.price === 0 ? 'Free of cost' : `₹${category.price} ${category.description}`}
         </p>
