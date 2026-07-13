@@ -169,34 +169,35 @@ export const Footer: React.FC = () => {
           </div>
 
           {/* Logo brand */}
-          <div className="select-none flex flex-col items-center gap-1">
-            <div className="flex items-center gap-2.5">
+          <div className="select-none flex flex-col items-center gap-1" style={{ minHeight: '48px' }}>
+            <div className="flex items-center gap-2.5" style={{ minHeight: '32px' }}>
               <img
                 src="/assets/img/Logo-puja-96.webp"
                 srcSet="/assets/img/Logo-puja-96.webp 96w, /assets/img/Logo-puja-128.webp 128w"
                 sizes="32px"
                 alt="Amader Barir Pujo"
-                className="h-8 w-8 object-contain"
+                className="h-8 w-8 object-contain shrink-0"
                 width={32}
                 height={32}
                 loading="lazy"
                 decoding="async"
               />
-              <span className="text-lg font-bold font-fraunces text-white tracking-wide">Amader Barir Pujo</span>
-              <span className="text-[10px] bg-accent/20 text-accent font-semibold px-2 py-0.5 rounded">2026</span>
+              <span className="text-lg font-bold font-fraunces text-white tracking-wide whitespace-nowrap">Amader Barir Pujo</span>
+              <span className="text-[10px] bg-accent/20 text-accent font-semibold px-2 py-0.5 rounded shrink-0">2026</span>
             </div>
-            <span className="text-[10px] text-text-inverse-muted font-medium">An Initiative by <br />ProPlus Data Foundation</span>
+            <span className="text-[10px] text-text-inverse-muted font-medium whitespace-nowrap">An Initiative by <br />ProPlus Data Foundation</span>
           </div>
 
           {/* Socials */}
-          <ul className="flex items-center gap-4 list-none p-0 m-0 select-none">
+          <ul className="flex items-center gap-4 list-none p-0 m-0 select-none" style={{ minHeight: '32px' }}>
             <li>
               <a
                 href="https://www.facebook.com/people/Amader-Barir-Pujo/61571741439510/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Follow Amader Barir Pujo on Facebook"
-                className="flex items-center justify-center w-8 h-8 rounded-full bg-white/10 hover:bg-accent-dark text-text-on-primary transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                className="flex items-center justify-center w-8 h-8 rounded-full bg-white/10 hover:bg-accent-dark text-text-on-primary transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent shrink-0"
+                style={{ aspectRatio: '1/1' }}
               >
                 <FaFacebookF size={12} aria-hidden="true" />
               </a>
@@ -207,7 +208,8 @@ export const Footer: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Follow Amader Barir Pujo on Instagram"
-                className="flex items-center justify-center w-8 h-8 rounded-full bg-white/10 hover:bg-accent-dark text-text-on-primary transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                className="flex items-center justify-center w-8 h-8 rounded-full bg-white/10 hover:bg-accent-dark text-text-on-primary transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent shrink-0"
+                style={{ aspectRatio: '1/1' }}
               >
                 <FaInstagram size={12} aria-hidden="true" />
               </a>

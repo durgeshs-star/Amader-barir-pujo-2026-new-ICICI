@@ -51,13 +51,97 @@
       crossorigin
     />
 
+    <!-- Critical CSS - Inlined to prevent render-blocking -->
+    <style>
+      @font-face {
+        font-family: 'Fraunces';
+        font-style: normal;
+        font-weight: 700;
+        font-display: swap;
+        src: url('/assets/fonts/local/Fraunces-700.woff2') format('woff2');
+      }
+      @font-face {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url('/assets/fonts/local/Inter-400.woff2') format('woff2');
+      }
+      @font-face {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 500;
+        font-display: swap;
+        src: url('/assets/fonts/local/Inter-500.woff2') format('woff2');
+      }
+      @font-face {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 600;
+        font-display: swap;
+        src: url('/assets/fonts/local/Inter-600.woff2') format('woff2');
+      }
+      @font-face {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 700;
+        font-display: swap;
+        src: url('/assets/fonts/local/Inter-700.woff2') format('woff2');
+      }
+      html {
+        scroll-behavior: smooth;
+        font-family: "Inter", sans-serif;
+        color: #2A0A14;
+        background-color: #FFFFFF;
+      }
+      body {
+        overflow-x: hidden;
+        text-align: justify;
+      }
+      a, button, input[type="submit"], input[type="button"], [role="button"], [onclick], [role="link"] {
+        cursor: pointer;
+      }
+      .sigma_preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #FCE6F3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+      }
+      .sigma_preloader.hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+      .sigma_preloader-img {
+        max-width: 60vw;
+        max-height: 60vh;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+        animation: preloader-pulse 1.2s ease-in-out infinite;
+      }
+      @keyframes preloader-pulse {
+        0%, 100% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.04); opacity: 0.85; }
+      }
+      @media (min-width: 768px) {
+        .sigma_preloader-img { max-width: 320px; max-height: 320px; }
+      }
+      @media (min-width: 1024px) {
+        .sigma_preloader-img { max-width: 414px; max-height: 414px; }
+      }
+    </style>
+
     <!-- Preload CSS and load asynchronously to prevent render-blocking -->
     <link rel="preload" href="/assets/index.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
     <noscript><link rel="stylesheet" href="/assets/index.css" /></noscript>
-
-    <!-- Preconnect to third-party origins -->
-    <link rel="preconnect" href="https://unpkg.com" crossorigin />
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
 
     <!-- Favicon & Touch Icons -->
     <link rel="icon" type="image/webp" href="/assets/img/Logo-puja.webp" />

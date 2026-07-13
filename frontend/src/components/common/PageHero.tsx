@@ -25,12 +25,6 @@ export const PageHero: React.FC<PageHeroProps> = React.memo(({
     <section className={`relative ${height} overflow-hidden`} style={{ minHeight: '320px' }}>
       <img
         src={backgroundImage}
-        srcSet={`
-          ${backgroundImage} 1100w,
-          ${backgroundImage} 1350w,
-          ${backgroundImage} 1920w
-        `}
-        sizes="(max-width: 768px) 1100px, (max-width: 1200px) 1350px, 1920px"
         alt={`${title} - Background image`}
         className={`absolute inset-0 w-full h-full object-cover`}
         style={{ objectPosition }}
