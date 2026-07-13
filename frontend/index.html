@@ -3,21 +3,30 @@
   <head>
     <meta charset="UTF-8" />
 
-    <!-- Non-blocking Google Fonts with preload -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
     <!-- ═══ Critical Resource Hints ═══════════════════════════════════════ -->
     <!-- Preload the LCP hero image so the browser fetches it at the highest priority,
          before any CSS or JS is parsed. This is the single biggest LCP win. -->
     <link
       rel="preload"
       as="image"
-      href="/assets/img/puja/35-480.webp"
-      imagesrcset="/assets/img/puja/35-480.webp 480w, /assets/img/puja/35-768.webp 768w, /assets/img/puja/35-1280.webp 1280w, /assets/img/puja/35-1920.webp 1920w"
-      imagesizes="(max-width: 768px) 100vw, (max-width: 1024px) 768px, (max-width: 1280px) 1024px, 1280px"
+      href="/assets/img/hero-image.webp"
       fetchpriority="high"
+    />
+
+    <!-- Preload critical fonts -->
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="/assets/fonts/local/Fraunces-700.woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="/assets/fonts/local/Inter-400.woff2"
+      crossorigin
     />
 
     <!-- Favicon & Touch Icons -->

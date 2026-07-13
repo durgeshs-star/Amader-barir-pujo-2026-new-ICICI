@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '../ui/Button';
 
-export const Hero: React.FC = () => {
+export const Hero: React.FC = React.memo(() => {
   const handleScrollToContent = () => {
     const contentEl = document.getElementById('experience-section');
     if (contentEl) {
@@ -12,26 +12,26 @@ export const Hero: React.FC = () => {
   return (
     <div className="relative min-h-[70vh] sm:min-h-[75vh] md:min-h-[5vh] lg:h-screen flex items-center overflow-hidden bg-dark-bg text-white">
 
-      <img
-        src="/assets/img/hero-image.webp"
-        // srcSet="
-        //   /assets/img/puja/35-480.webp   480w,
-        //   /assets/img/puja/35-768.webp   768w,
-        //   /assets/img/puja/35-1280.webp 1280w,
-        //   /assets/img/puja/35-1920.webp 1920w"
-        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 768px, (max-width: 1280px) 1024px, 1280px"
-        alt="Amader Barir Pujo celebration with traditional Durga Pujo decorations and festive atmosphere"
-        aria-hidden="true"
-        fetchPriority="high"
-        loading="eager"
-        decoding="async"
-        className="absolute inset-0 w-full h-full object-cover
+      <picture>
+        <source
+          srcSet="/assets/img/hero-image.webp"
+          type="image/webp"
+        />
+        <img
+          src="/assets/img/hero-image.webp"
+          alt="Amader Barir Pujo celebration with traditional Durga Pujo decorations and festive atmosphere"
+          aria-hidden="true"
+          fetchPriority="high"
+          loading="eager"
+          decoding="async"
+          className="absolute inset-0 w-full h-full object-cover
 object-[50%_0%]
 sm:object-[50%_5%]
 md:object-[50%_10%]
 lg:object-[50%_85%]
 z-0"
-      />
+        />
+      </picture>
 
       {/* Gradient — only at the bottom-left to make text readable, rest of image stays clear */}
       <div
@@ -82,6 +82,6 @@ z-0"
 
     </div>
   );
-};
+});
 
 export default Hero;

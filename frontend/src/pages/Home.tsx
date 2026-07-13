@@ -16,7 +16,7 @@ const SectionSkeleton: React.FC = () => (
   />
 );
 
-export const Home: React.FC = () => {
+export const Home: React.FC = React.memo(() => {
   return (
     <div className="relative">
       <SEO
@@ -34,6 +34,6 @@ export const Home: React.FC = () => {
       </Suspense>
     </div>
   );
-};
+});
 
 export default Home;
