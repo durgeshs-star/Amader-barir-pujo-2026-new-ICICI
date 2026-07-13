@@ -50,7 +50,7 @@ const PageSkeleton: React.FC = () => (
 export const App: React.FC = () => {
   return (
     <BrowserRouter>
-      <Preloader>
+      {/* <Preloader> */}
       <div className="flex flex-col min-h-screen bg-light-bg/10 relative">
         {/* Navigation Header */}
         <Header />
@@ -118,7 +118,7 @@ export const App: React.FC = () => {
         <WhatsAppBtn />
         <BackToTop />
       </div>
-      </Preloader>
+      {/* </Preloader> */}
     </BrowserRouter>
   );
 };

@@ -5,6 +5,7 @@ const DURGA_PUJO_DATE = new Date('2026-10-15T00:00:00+05:30'); // October 15, 20
 export const CountdownTimer: React.FC = () => {
   const [daysRemaining, setDaysRemaining] = useState<number | null>(null);
   const lottieRef = useRef<HTMLDivElement>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const createLottie = () => {
@@ -21,34 +22,51 @@ export const CountdownTimer: React.FC = () => {
 
     // Check if script already exists
     const existingScript = document.querySelector('script[src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.14/dist/dotlottie-wc.js"]');
-    
-    if (existingScript) {
-      // Script already loaded, wait for ref to be ready then create lottie
-      const checkRef = setInterval(() => {
-        if (lottieRef.current) {
-          createLottie();
-          clearInterval(checkRef);
-        }
-      }, 50);
-      return () => clearInterval(checkRef);
+
+    const loadLottie = () => {
+      if (existingScript) {
+        createLottie();
+        setIsLoaded(true);
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.src = 'https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.14/dist/dotlottie-wc.js';
+      script.type = 'module';
+      script.onload = () => {
+        createLottie();
+        setIsLoaded(true);
+      };
+      document.head.appendChild(script);
+    };
+
+    // Use IntersectionObserver to lazy load Lottie only when in viewport
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !isLoaded) {
+            loadLottie();
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (lottieRef.current) {
+      observer.observe(lottieRef.current);
     }
 
-    // Load the dotlottie script
-    const script = document.createElement('script');
-    script.src = 'https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.14/dist/dotlottie-wc.js';
-    script.type = 'module';
-    script.onload = () => {
-      createLottie();
-    };
-    document.head.appendChild(script);
-
     return () => {
-      // Only remove script if we added it
-      if (!existingScript) {
-        document.head.removeChild(script);
+      observer.disconnect();
+      if (!existingScript && !isLoaded) {
+        const script = document.querySelector('script[src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.14/dist/dotlottie-wc.js"]');
+        if (script) {
+          document.head.removeChild(script);
+        }
       }
     };
-  }, []);
+  }, [isLoaded]);
 
   useEffect(() => {
     const calculateDaysRemaining = () => {

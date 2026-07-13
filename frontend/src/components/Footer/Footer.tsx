@@ -138,7 +138,7 @@ export const Footer: React.FC = () => {
               {recentPosts.map((post, idx) => (
                 <Link key={idx} to={post.route} className="flex gap-3.5 group items-start select-none">
                   {/* Image container */}
-                  <div className="shrink-0 w-16 h-12 bg-white/5 rounded overflow-hidden flex items-center justify-center">
+                  <div className="shrink-0 w-16 h-12 bg-white/5 rounded overflow-hidden flex items-center justify-center" style={{ aspectRatio: '4/3' }}>
                     <PostImageWithFallback src={post.image} alt="post" />
                   </div>
 
@@ -173,7 +173,7 @@ export const Footer: React.FC = () => {
             <div className="flex items-center gap-2.5">
               <img
                 src="/assets/img/Logo-puja-96.webp"
-                srcSet="/assets/img/Logo-puja-96.webp 96w"
+                srcSet="/assets/img/Logo-puja-96.webp 96w, /assets/img/Logo-puja-128.webp 128w"
                 sizes="32px"
                 alt="Amader Barir Pujo"
                 className="h-8 w-8 object-contain"

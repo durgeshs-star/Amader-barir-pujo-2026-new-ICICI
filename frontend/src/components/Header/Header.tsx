@@ -133,8 +133,9 @@ export const Header: React.FC<HeaderProps> = ({
                       srcSet="
                         /assets/img/Logo-puja-96.webp   96w,
                         /assets/img/Logo-puja-160.webp 160w,
+                        /assets/img/Logo-puja-168.webp 168w,
                         /assets/img/Logo-puja-256.webp 256w"
-                      sizes="96px"
+                      sizes="(max-width: 768px) 168px, 96px"
                       alt="Amader Barir Pujo logo"
                       className="w-full h-full object-contain"
                       loading="eager"
