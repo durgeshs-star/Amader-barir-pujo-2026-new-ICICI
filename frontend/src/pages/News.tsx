@@ -36,8 +36,6 @@ export const News: React.FC = () => {
         title="News & Media"
         subtitle="Stay updated with the latest news and media coverage about Amader Barir Pujo"
         backgroundImage="/assets/img/culture-2.webp"
-        srcset="/assets/img/culture-2-1100w.webp 1100w, /assets/img/culture-2-1350w.webp 1350w, /assets/img/culture-2-1920w.webp 1920w"
-        sizes="(max-width: 768px) 1100px, (max-width: 1200px) 1350px, 1920px"
         height="h-[40vh] md:h-[60vh]"
       />
 
