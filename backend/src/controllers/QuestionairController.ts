@@ -18,7 +18,7 @@ export class QuestionairController {
   async submit(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const payload = req.body as QuestionairSubmission;
-      const sheetName = 'Questionair';
+      const sheetName = 'WhatsApp Requests';
       const headers = [
         'Timestamp',
         'Name',
