@@ -14,10 +14,12 @@ import { GoogleSheetsService } from './services/GoogleSheetsService';
 import { ContactController } from './controllers/ContactController';
 import { VolunteerController } from './controllers/VolunteerController';
 import { BhogController } from './controllers/BhogController';
+import { QuestionairController } from './controllers/QuestionairController';
 import { createContactRoutes } from './routes/contactRoutes';
 import { createVolunteerRoutes } from './routes/volunteerRoutes';
 import { createPaymentRoutes } from './routes/paymentRoutes';
 import { createBhogRoutes } from './routes/bhogRoutes';
+import { createQuestionairRoutes } from './routes/questionairRoutes';
 import { errorHandler } from './middleware/errorHandler';
 
 dotenv.config();
@@ -71,12 +73,14 @@ const sheetsService = new GoogleSheetsService();
 const contactController = new ContactController(contactRepository, emailService);
 const volunteerController = new VolunteerController(volunteerRepository, emailService);
 const bhogController = new BhogController(sheetsService);
+const questionairController = new QuestionairController(sheetsService);
 
 // Routes
 app.use('/api', createContactRoutes(contactController));
 app.use('/api', createVolunteerRoutes(volunteerController));
 app.use('/api/payment', createPaymentRoutes(paymentRepository));
 app.use('/api/bhog', createBhogRoutes(bhogController));
+app.use('/api', createQuestionairRoutes(questionairController));
 
 // Health check endpoint
 app.get('/health', (req, res) => {
