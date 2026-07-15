@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-route
 // Layout & UI Global features — always eager (above the fold)
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
-import WhatsAppBtn from './components/Sections/WhatsAppBtn';
+// import WhatsAppBtn from './components/Sections/WhatsAppBtn';
 import BackToTop from './components/Sections/BackToTop';
 // import Preloader from './components/ui/Preloader';
 
@@ -117,7 +117,7 @@ const AppShell: React.FC = () => {
       </main>
 
       {!isWelcomeToAbpWaFamilyRoute ? <Footer /> : null}
-      {!isWelcomeToAbpWaFamilyRoute ? <WhatsAppBtn /> : null}
+      {/* {!isWelcomeToAbpWaFamilyRoute ? <WhatsAppBtn /> : null} */}
       {!isWelcomeToAbpWaFamilyRoute ? <BackToTop /> : null}
     </div>
   );
