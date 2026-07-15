@@ -50,7 +50,7 @@ const PageSkeleton: React.FC = () => (
 const AppShell: React.FC = () => {
   const location = useLocation();
   const isWelcomeToAbpWaFamilyRoute = location.pathname === '/welcome-to-abp-wa-family';
-  const siteLive = (import.meta.env.VITE_SITE_LIVE || import.meta.env.REACT_APP_SITE_LIVE || 'false').toLowerCase() === 'true';
+  const siteLive = (import.meta.env.VITE_SITE_LIVE || import.meta.env.REACT_APP_SITE_LIVE || 'false').toLowerCase() === 'false';
 
   if (!siteLive && !isWelcomeToAbpWaFamilyRoute) {
     return <Navigate to="/welcome-to-abp-wa-family" replace />;
