@@ -53,8 +53,16 @@ const AshtamiBhogPage: React.FC = () => {
       />
 
       <section className="py-14 md:py-20 bg-light-bg/60">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <p className="text-base md:text-lg text-secondary leading-relaxed md:leading-loose">
+        <div className="max-w-4xl mx-auto px-6">
+          {/* Payment Gateway Disclaimer */}
+          <div className="mb-8 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+            <p className="text-amber-800 text-sm font-semibold text-center">
+              ⚠️ Payment Gateway Integration is in Progress.
+            </p>
+          </div>
+
+          <div className="text-center">
+            <p className="text-base md:text-lg text-secondary leading-relaxed md:leading-loose">
             Join us in celebrating Durga Pujo through the sacred tradition of Bhog.{' '}
             <strong>Saptami, Ashtami, Navami</strong> three days of soulful offerings, shared with love. First{' '}
             <strong>400 bookings</strong> get <strong>20% off</strong>! Book your{' '}
@@ -68,7 +76,8 @@ const AshtamiBhogPage: React.FC = () => {
               www.abp.proplusdatafoundation.com
             </a>{' '}
             till <strong>20<sup>th</sup> October.</strong>
-          </p>
+            </p>
+          </div>
         </div>
       </section>
 

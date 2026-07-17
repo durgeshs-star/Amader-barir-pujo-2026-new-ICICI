@@ -2,15 +2,10 @@ import React, { useState } from 'react';
 import { LazyMotion, domAnimation, m } from 'framer-motion';
 import SEO from '../components/ui/SEO';
 import { AnudanCard } from '../components/ui/AnudanCard';
-import { AnudanFormModal } from '../components/ui/AnudanFormModal';
 import { anudanCards } from '../assets/data/anudanData';
 import { PageHero } from '../components/common/PageHero';
-import type { AnudanCard as AnudanCardType } from '../types/anudan.types';
 
 export const Anudan: React.FC = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedCard, setSelectedCard] = useState<AnudanCardType | null>(null);
-
   // Load paid amounts from localStorage — keyed by card.day
   const [paidAmounts] = useState<Record<string, number>>(() => {
     try {
@@ -19,22 +14,6 @@ export const Anudan: React.FC = () => {
       return {};
     }
   });
-
-  // Compute remaining for selected card to pass into the modal
-  const getCardTotalCost = (card: AnudanCardType) =>
-    card.items.reduce((acc, item) => {
-      const num = parseInt(item.cost.replace(/\D/g, ''), 10) || 0;
-      return acc + num;
-    }, 0);
-
-  const selectedCardRemaining = selectedCard
-    ? Math.max(0, getCardTotalCost(selectedCard) - (paidAmounts[selectedCard.day] || 0))
-    : undefined;
-
-  const handleOfferClick = (card: AnudanCardType) => {
-    setSelectedCard(card);
-    setIsModalOpen(true);
-  };
 
   return (
     <LazyMotion features={domAnimation} strict>
@@ -55,6 +34,13 @@ export const Anudan: React.FC = () => {
       {/* Intro Section */}
       <section className="py-14 md:py-20 bg-light-bg/60">
         <div className="max-w-4xl mx-auto px-6">
+          {/* Payment Gateway Disclaimer */}
+          <div className="mb-8 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+            <p className="text-amber-800 text-sm font-semibold text-center">
+              ⚠️ Payment Gateway Integration is in Progress.
+            </p>
+          </div>
+
           <div className="text-center mb-8 animate-fade-in-down">
             <p className="text-lg md:text-xl text-secondary leading-relaxed md:leading-loose font-medium">
               🙏 Offer Your Anudan (অনুদান) – Support the Spirit of Amader Barir Pujo
@@ -102,7 +88,7 @@ export const Anudan: React.FC = () => {
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12 animate-fade-in-down">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-950 font-fraunces mb-3">
-              Contribution Categories
+              Offerings
             </h2>
             <div className="w-20 h-1 bg-accent mx-auto rounded-full animate-expand-width" />
           </div>
@@ -112,20 +98,12 @@ export const Anudan: React.FC = () => {
                 <AnudanCard
                   card={card}
                   paidAmount={paidAmounts[card.day] || 0}
-                  onOfferClick={handleOfferClick}
                 />
               </div>
             ))}
           </div>
         </div>
       </section>
-
-      <AnudanFormModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        card={selectedCard}
-        remainingAmount={selectedCardRemaining}
-      />
     </LazyMotion>
   );
 };

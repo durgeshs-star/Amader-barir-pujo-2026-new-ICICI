@@ -20,7 +20,6 @@ export const AnudanFormModal: React.FC<AnudanFormModalProps> = ({
   const [amount, setAmount] = useState('');
   const [remark, setRemark] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [isLoading, setIsLoading] = useState(false);
 
   if (!isOpen || !card) return null;
 
@@ -57,8 +56,6 @@ export const AnudanFormModal: React.FC<AnudanFormModalProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
-
-    setIsLoading(true);
 
     // Simulate Payment Flow
     setTimeout(() => {
@@ -122,9 +119,16 @@ export const AnudanFormModal: React.FC<AnudanFormModalProps> = ({
           <h3 className="font-fraunces text-2xl font-bold text-primary mb-2">
             Offer Anudan
           </h3>
-          <p className="text-secondary mb-6 text-sm">
+          <p className="text-secondary mb-4 text-sm">
             For {card.day}
           </p>
+
+          {/* Payment Gateway Disclaimer */}
+          <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+            <p className="text-amber-800 text-sm font-semibold text-center">
+              ⚠️ Payment Gateway Integration is in Progress.
+            </p>
+          </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
@@ -240,20 +244,10 @@ export const AnudanFormModal: React.FC<AnudanFormModalProps> = ({
 
             <button
               type="submit"
-              disabled={isLoading}
-              className="w-full mt-6 px-6 py-3 bg-gradient-to-r from-orange-500 to-red-600 text-white font-semibold rounded-lg shadow-lg hover:from-orange-600 hover:to-red-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              disabled={true}
+              className="w-full mt-6 px-6 py-3 bg-gray-400 text-white font-semibold rounded-lg shadow-lg cursor-not-allowed flex items-center justify-center gap-2"
             >
-              {isLoading ? (
-                <>
-                  <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  Processing...
-                </>
-              ) : (
-                'Proceed to Payment'
-              )}
+              Payment Disabled
             </button>
           </form>
         </div>

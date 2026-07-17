@@ -53,8 +53,16 @@ const SaraswatiPujaBhogPage: React.FC = () => {
       />
 
       <section className="py-14 md:py-20 bg-light-bg/60">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <p className="text-base md:text-lg text-secondary leading-relaxed md:leading-loose">
+        <div className="max-w-4xl mx-auto px-6">
+          {/* Payment Gateway Disclaimer */}
+          <div className="mb-8 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+            <p className="text-amber-800 text-sm font-semibold text-center">
+              ⚠️ Payment Gateway Integration is in Progress.
+            </p>
+          </div>
+
+          <div className="text-center">
+            <p className="text-base md:text-lg text-secondary leading-relaxed md:leading-loose">
             Join us in celebrating Saraswati Puja through the sacred tradition of Bhog.{' '}
             <strong>Book your Bhog</strong> and partake in the sacred prasadam. First{' '}
             <strong>100 bookings</strong> get <strong>15% off</strong>! Book your{' '}
@@ -68,7 +76,8 @@ const SaraswatiPujaBhogPage: React.FC = () => {
               www.abp.proplusdatafoundation.com
             </a>{' '}
             till the event day.
-          </p>
+            </p>
+          </div>
         </div>
       </section>
 

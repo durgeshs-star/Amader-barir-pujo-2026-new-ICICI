@@ -4,10 +4,9 @@ import type { AnudanCard as AnudanCardType } from '../../types/anudan.types';
 interface AnudanCardProps {
   card: AnudanCardType;
   paidAmount?: number;
-  onOfferClick?: (card: AnudanCardType) => void;
 }
 
-export const AnudanCard: React.FC<AnudanCardProps> = ({ card, paidAmount = 0, onOfferClick }) => {
+export const AnudanCard: React.FC<AnudanCardProps> = ({ card, paidAmount = 0 }) => {
   // Calculate total sum of all items in this section
   const totalCost = card.items.reduce((acc, item) => {
     const num = parseInt(item.cost.replace(/\D/g, ''), 10) || 0;
@@ -111,10 +110,10 @@ export const AnudanCard: React.FC<AnudanCardProps> = ({ card, paidAmount = 0, on
                 </span>
               )}
               <button
-                onClick={() => onOfferClick && onOfferClick(card)}
-                className="mt-2 md:mt-4 px-6 py-2 bg-primary text-text-on-primary text-sm font-semibold rounded-lg hover:bg-primary-dark transition-colors shadow-md w-full md:w-auto text-center cursor-pointer border-0"
+                disabled={true}
+                className="mt-2 md:mt-4 px-6 py-2 bg-gray-400 text-text-on-primary text-sm font-semibold rounded-lg cursor-not-allowed shadow-md w-full md:w-auto text-center border-0"
               >
-                Offer Anudan
+                Payment Disabled
               </button>
             </>
           )}

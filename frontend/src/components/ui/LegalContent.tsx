@@ -8,7 +8,7 @@ export interface LegalSection {
 
 export interface LegalContentProps {
   title: string;
-  subtitle: string;
+  subtitle: string | React.ReactNode;
   effectiveDate: string;
   sections: LegalSection[];
 }

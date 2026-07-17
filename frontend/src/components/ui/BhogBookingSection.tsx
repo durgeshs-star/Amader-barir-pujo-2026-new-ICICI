@@ -3,7 +3,7 @@ import axios from 'axios';
 import BhogBookingCard from './BhogBookingCard';
 import BhogSuccessModal from './BhogSuccessModal';
 import UserInfoForm from './UserInfoForm';
-import type { UserInfoFormRef, UserInfo } from './UserInfoForm';
+import type { UserInfoFormRef } from './UserInfoForm';
 import type { BhogBookingSectionProps, BhogBookingState } from '../../types/bhog';
 import { API_URL } from '../../config/api';
 
@@ -116,58 +116,6 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
     }
   };
 
-  const handlePaymentSuccess = async (orderId: string, transactionId: string, userInfo: UserInfo) => {
-    setIsLoading(true);
-
-    const bookingDetails = {
-      orderId,
-      transactionId,
-      title,
-      categories: categories.map(cat => ({
-        ...cat,
-        quantity: bookings[cat.id] || 0
-      })).filter(cat => cat.quantity > 0),
-      totalAmount,
-      totalCount,
-      timestamp: new Date().toISOString(),
-      isFree: false,
-      userInfo
-    };
-
-    try {
-      // Call backend to record paid booking in Google Sheets
-      const response = await axios.post(`${API_URL}/api/bhog/paid-booking`, bookingDetails);
-
-      if (response.data.success) {
-        // Store booking details in sessionStorage for receipt generation
-        sessionStorage.setItem('bhogReceipt', JSON.stringify(bookingDetails));
-
-        // Navigate to payment success page
-        window.location.href = `/payment/success?orderId=${orderId}&transactionId=${transactionId}&amount=${totalAmount}&currency=INR&fromBhog=true`;
-      } else {
-        throw new Error('Failed to record paid booking');
-      }
-    } catch (err: any) {
-      console.error('Paid booking failed:', err);
-      alert(`Failed to record paid booking: ${err.response?.data?.error || err.message || 'Unknown error'}`);
-      setIsLoading(false);
-    }
-  };
-
-  const handleDummyPayment = () => {
-    if (!userInfoFormRef.current) return;
-    if (!userInfoFormRef.current.validateForm()) return;
-
-    const userInfo = userInfoFormRef.current.getUserInfo();
-
-    // Generate dummy order and transaction IDs
-    const orderId = `BHOG-${Date.now()}`;
-    const transactionId = `TXN-${Date.now()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
-
-    // Call the same success handler as real payment
-    handlePaymentSuccess(orderId, transactionId, userInfo);
-  };
-
   return (
     <section
       className="mt-9 p-7 border border-primary/14 rounded-lg bg-gradient-to-br from-white to-orange-50/50 shadow-lg"
@@ -205,6 +153,13 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
         </p>
       )}
 
+      {/* Payment Gateway Disclaimer */}
+      <div className="mt-5 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+        <p className="text-amber-800 text-sm font-semibold text-center">
+          ⚠️ Payment Gateway Integration is in Progress.
+        </p>
+      </div>
+
       {/* User Information Form */}
       <UserInfoForm ref={userInfoFormRef} onFormChange={setIsUserInfoFilled} disabled={totalCount === 0} />
 
@@ -239,21 +194,10 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
           </button>
         ) : (
           <button
-            onClick={handleDummyPayment}
-            disabled={totalCount === 0 || !isUserInfoFilled || isLoading}
-            className="min-w-[150px] px-6 py-2.5 bg-primary text-text-on-primary font-semibold rounded-md border-0 cursor-pointer transition-all duration-300 hover:bg-primary-dark hover:shadow-lg hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-muted disabled:hover:scale-100 flex items-center justify-center gap-2"
+            disabled={true}
+            className="min-w-[150px] px-6 py-2.5 bg-gray-400 text-text-on-primary font-semibold rounded-md border-0 cursor-not-allowed transition-all duration-300 flex items-center justify-center gap-2"
           >
-            {isLoading ? (
-              <>
-                <svg className="animate-spin h-5 w-5 text-text-on-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                Processing...
-              </>
-            ) : (
-              'Book Bhog'
-            )}
+            Payment Disabled
           </button>
         )}
       </div>

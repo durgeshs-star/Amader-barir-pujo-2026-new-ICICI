@@ -23,10 +23,12 @@ const PanchamiPage = lazy(() => import('./pages/Panchami/PanchamiPage'));
 const ShashtiPage = lazy(() => import('./pages/Shashti/ShashtiPage'));
 const SaptamiPage = lazy(() => import('./pages/Saptami/SaptamiPage'));
 const AshtamiPage = lazy(() => import('./pages/Ashtami/AshtamiPage'));
+const AshtamiSandhiPujaPage = lazy(() => import('./pages/AshtamiSandhiPuja/AshtamiSandhiPujaPage'));
 const NavamiPage = lazy(() => import('./pages/Navami/NavamiPage'));
 const DashamiPage = lazy(() => import('./pages/Dashami/DashamiPage'));
 const SaptamiBhogPage = lazy(() => import('./pages/SaptamiBhog/SaptamiBhogPage'));
 const AshtamiBhogPage = lazy(() => import('./pages/AshtamiBhog/AshtamiBhogPage'));
+const AshtamiBhogSandhiPujaPage = lazy(() => import('./pages/AshtamiBhogSandhiPuja/AshtamiBhogSandhiPujaPage'));
 const NavamiBhogPage = lazy(() => import('./pages/NavamiBhog/NavamiBhogPage'));
 const DurgaPujaBhogPage = lazy(() => import('./pages/DurgaPujaBhog/DurgaPujaBhogPage'));
 const LakshmiPujaBhogPage = lazy(() => import('./pages/LakshmiPujaBhog/LakshmiPujaBhogPage'));
@@ -78,6 +80,7 @@ const AppShell: React.FC = () => {
             <Route path="/shashti" element={<ShashtiPage />} />
             <Route path="/saptami" element={<SaptamiPage />} />
             <Route path="/ashtami" element={<AshtamiPage />} />
+            <Route path="/ashtami-sandhi-puja" element={<AshtamiSandhiPujaPage />} />
             <Route path="/navami" element={<NavamiPage />} />
             <Route path="/dashami" element={<DashamiPage />} />
 
@@ -88,6 +91,7 @@ const AppShell: React.FC = () => {
             {/* Day specific bhog booking paths */}
             <Route path="/bhog-booking/saptami" element={<SaptamiBhogPage />} />
             <Route path="/bhog-booking/ashtami" element={<AshtamiBhogPage />} />
+            <Route path="/bhog-booking/ashtami-sandhi-puja" element={<AshtamiBhogSandhiPujaPage />} />
             <Route path="/bhog-booking/navami" element={<NavamiBhogPage />} />
             <Route path="/bhog-booking/lakshmi-puja" element={<LakshmiPujaBhogPage />} />
             <Route path="/bhog-booking/saraswati-puja" element={<SaraswatiPujaBhogPage />} />

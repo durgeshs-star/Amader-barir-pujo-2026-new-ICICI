@@ -6,8 +6,8 @@ export interface CarouselContentItem {
 }
 
 export interface CarouselContentSectionProps {
-  label: string;
-  headingPrimary: string;
+  label?: string;
+  headingPrimary?: string;
   headingSecondary?: string;
   description: string;
   items: CarouselContentItem[];
@@ -16,17 +16,15 @@ export interface CarouselContentSectionProps {
 }
 
 const CarouselContentSection: React.FC<CarouselContentSectionProps> = ({
-  label,
-  headingPrimary,
-  headingSecondary,
   description,
   items,
   carousel,
   showDecorativeCorners = true,
 }) => {
   return (
-    <section className="bg-white py-10 lg:py-14 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 lg:px-10">
+    <section className="bg-white overflow-hidden">
+      {/* Content with carousel on left and text on right */}
+      <div className="max-w-7xl mx-auto px-6 lg:px-10 py-10 lg:py-14">
         <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-16 items-stretch">
           <div className="relative min-h-112.5 flex items-center justify-center animate-fade-in-up">
             {showDecorativeCorners && (
@@ -50,23 +48,7 @@ const CarouselContentSection: React.FC<CarouselContentSectionProps> = ({
           </div>
 
           <div className="h-full flex flex-col justify-center animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-            <p className="uppercase tracking-widest text-secondary text-[11px] font-medium animate-fade-in">
-              {label}
-            </p>
-            <h2 className="font-fraunces text-3xl lg:text-4xl font-bold leading-tight mt-2 animate-fade-in-up">
-              <span className="text-primary">
-                {headingPrimary}
-              </span>
-              {headingSecondary && (
-                <>
-                  <br />
-                  <span className="italic text-secondary font-medium">
-                    {headingSecondary}
-                  </span>
-                </>
-              )}
-            </h2>
-            <p className="text-dark-bg text-sm leading-6 mt-4 mb-4 animate-fade-in">
+            <p className="text-dark-bg text-sm leading-6 mb-6 animate-fade-in">
               {description}
             </p>
 

@@ -4,13 +4,13 @@ import PageHero from "../../components/common/PageHero";
 import BhogBookingSection from "../../components/ui/BhogBookingSection";
 import type { BhogBookingCategory } from "../../types/bhog";
 
-const LakshmiPujaBhogPage: React.FC = () => {
+const AshtamiBhogSandhiPujaPage: React.FC = () => {
   const categories: BhogBookingCategory[] = [
     {
       id: "adult",
       title: "Adult Booking",
       description: "per person",
-      price: 150,
+      price: 200,
       max: 10,
     },
     {
@@ -24,7 +24,7 @@ const LakshmiPujaBhogPage: React.FC = () => {
       id: "children-5-plus",
       title: "Children aged 5 and Above",
       description: "per child",
-      price: 150,
+      price: 200,
       max: 5,
     },
     {
@@ -39,16 +39,16 @@ const LakshmiPujaBhogPage: React.FC = () => {
   return (
     <>
       <SEO
-        title="Lakshmi Puja Bhog Schedule"
-        description="Lakshmi Puja Bhog Schedule — Learn about our Lakshmi Puja Bhog offerings, procedures, and their spiritual significance at Amader Barir Pujo."
-        keywords="Lakshmi Puja bhog, Lakshmi Puja 2026 bhog booking, Amader Barir Pujo Lakshmi Puja Bhog"
+        title="Ashtami Sandhi Puja Bhog Booking"
+        description="Ashtami Sandhi Puja Bhog Booking — Experience the sacred transition through our specially prepared Sandhi Puja Prasad at Amader Barir Pujo."
+        keywords="Ashtami Sandhi Puja bhog, Sandhi Puja bhog booking, Durga Puja 2026 bhog, Amader Barir Pujo Ashtami Sandhi Bhog"
         ogImage="/assets/img/banner/1.webp"
-        canonical="https://www.abp.proplusdatafoundation.com/lakshmi-puja-bhog"
+        canonical="https://www.abp.proplusdatafoundation.com/bhog-booking/ashtami-sandhi-puja"
       />
 
       <PageHero
-        title="Lakshmi Puja Bhog"
-        subtitle="Lakshmi Puja 2026 · Bhog Booking"
+        title="Ashtami Sandhi Puja Bhog"
+        subtitle="Durga Pujo 2026 · Sacred Transition Bhog"
         height="h-[45vh] md:h-[70vh]"
       />
 
@@ -63,10 +63,10 @@ const LakshmiPujaBhogPage: React.FC = () => {
 
           <div className="text-center">
             <p className="text-base md:text-lg text-secondary leading-relaxed md:leading-loose">
-            Join us in celebrating Lakshmi Puja through the sacred tradition of Bhog.{' '}
-            <strong>Book your Bhog</strong> and partake in the sacred prasadam. First{' '}
-            <strong>100 bookings</strong> get <strong>15% off</strong>! Book your{' '}
-            <strong> Bhog at ₹150/- </strong> per person. Book your Bhog through{' '}
+            Join us in celebrating the sacred <strong>Sandhi Puja</strong>, the holy transition between Ashtami and Navami through blessed Bhog.{' '}
+            <strong>Experience the spiritual essence</strong> of this momentous occasion with our specially prepared Prasad. First{' '}
+            <strong>200 bookings</strong> get <strong>20% off</strong>! Book your{' '}
+            <strong> Bhog at ₹200/- </strong> per person. Book your Bhog through{' '}
             <a
               href="https://www.abp.proplusdatafoundation.com"
               target="_blank"
@@ -75,7 +75,7 @@ const LakshmiPujaBhogPage: React.FC = () => {
             >
               www.abp.proplusdatafoundation.com
             </a>{' '}
-            till the event day.
+            till <strong>20<sup>th</sup> October.</strong>
             </p>
           </div>
         </div>
@@ -84,8 +84,8 @@ const LakshmiPujaBhogPage: React.FC = () => {
       <section className="py-4 bg-white">
         <div className="max-w-5xl mx-auto px-6">
           <BhogBookingSection
-            title="Book Lakshmi Puja Bhog"
-            subtitle="Bhog Booking"
+            title="Book Ashtami Sandhi Puja Bhog"
+            subtitle="Sacred Transition Bhog Booking"
             description="Select the number of bhog."
             categories={categories}
             paymentUrl="https://www.abp.proplusdatafoundation.com"
@@ -97,4 +97,4 @@ const LakshmiPujaBhogPage: React.FC = () => {
   );
 };
 
-export default LakshmiPujaBhogPage;
+export default AshtamiBhogSandhiPujaPage;

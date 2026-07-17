@@ -75,7 +75,7 @@ z-0"
             </a> */}
             <a href="/volunteer">
               <Button variant="outline" size="md" className="text-white border-white/80 hover:bg-white hover:text-primary!">
-                Become a Volunteer
+                Be a Bari Member
               </Button>
             </a>
           </div>

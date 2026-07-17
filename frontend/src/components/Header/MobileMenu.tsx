@@ -99,7 +99,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
               <div className="flex flex-col leading-none">
                 <span className="text-base font-bold font-fraunces text-primary tracking-wide">Amader Barir Pujo</span>
                 <span className="text-[10px] text-accent-text font-semibold tracking-wider">2026</span>
-                <span className="text-[9px] text-primary font-medium mt-0.5 leading-tight">An Initiative by <br />ProPlus Data Foundation</span>
+                <span className="text-[9px] text-primary font-medium mt-0.5 leading-tight">An Initiative by <br /><a href="https://proplusdatafoundation.com/" target="_blank" rel="noopener noreferrer" className="hover:underline transition-colors duration-200">ProPlus Data Foundation</a></span>
               </div>
             </div>
           </Link>
@@ -251,7 +251,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
                 onClick={handleLinkClick}
                 className="block text-center py-3 text-sm font-semibold text-text-on-primary bg-primary hover:bg-primary-dark rounded-md transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               >
-                Become a Volunteer
+                Be a Bari Member
               </Link>
             </li>
           </ul>

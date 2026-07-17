@@ -101,7 +101,7 @@ const PrivacyPolicy: React.FC = () => {
 
       <LegalContent
         title="Privacy Policy"
-        subtitle='ProPlus Data ("we," "us," or "our") is committed to protecting your privacy. This Privacy Policy outlines how we collect, use, and protect your information when you use our services, which include Contact Discovery, Technographics, Email Data Management (EDM), Demand Generation, and other related services ("Services"). By using our Services, you agree to the collection and use of your information as described in this policy.'
+        subtitle={<>ProPlus Data (<a href="https://proplusdatafoundation.com/" target="_blank" rel="noopener noreferrer" style={{ color: '#dc2626', textDecoration: 'underline' }}>https://proplusdatafoundation.com</a>) ("we," "us," or "our") is committed to protecting your privacy. This Privacy Policy outlines how we collect, use, and protect your information when you use our services, which include Contact Discovery, Technographics, Email Data Management (EDM), Demand Generation, and other related services ("Services"). By using our Services, you agree to the collection and use of your information as described in this policy.</>}
         effectiveDate="August 04, 2025"
         sections={sections}
       />

@@ -38,6 +38,15 @@ export const BhogBooking: React.FC = () => {
         suggestedContribution: 'â‚¹200 per plate',
       }
     },
+    'ashtami-sandhi-puja': {
+      title: 'Ashtami Sandhi Puja Bhog',
+      date: 'October 18, 2026',
+      menu: {
+        title: 'Sandhi Puja Sacred Prasad',
+        items: ['Gobindobhog Rice Khichuri', 'Cholar Dal with Coconut', 'Alur Dom', 'Beguni', 'Anarash (Pineapple) Chutney', 'Rosogolla', 'Payesh'],
+        suggestedContribution: 'â‚¹200 per plate',
+      }
+    },
     navami: {
       title: 'Navami Bhog',
       date: 'October 19, 2026',
@@ -86,6 +95,13 @@ export const BhogBooking: React.FC = () => {
             Book your sacred Prasad lunch box for pick-up or dine-in
           </p>
           <div className="w-16 h-1 bg-accent mx-auto mt-4 rounded-full" />
+        </div>
+
+        {/* Payment Gateway Disclaimer */}
+        <div className="mb-8 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+          <p className="text-amber-800 text-sm font-semibold text-center">
+            ⚠️ Payment Gateway Integration is in Progress.
+          </p>
         </div>
 
         {/* Days Tab Controls */}
