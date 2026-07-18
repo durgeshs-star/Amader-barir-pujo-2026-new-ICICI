@@ -10,14 +10,22 @@ export class AnudanController {
   }
 
   /**
-   * Handle paid anudan booking
+   * Handle paid anudan booking (single or multiple categories)
    */
   async handlePaidAnudan(req: Request, res: Response): Promise<void> {
     try {
-      const { day, amount, remark, userInfo, orderId, transactionId, timestamp } = req.body;
+      const { categories, userInfo, orderId, transactionId, timestamp } = req.body;
 
       // Validate required fields
-      if (!day || !amount || !userInfo || !orderId || !transactionId) {
+      if (!categories || !Array.isArray(categories) || categories.length === 0) {
+        res.status(400).json({
+          success: false,
+          error: 'Invalid booking data. Missing categories array.'
+        });
+        return;
+      }
+
+      if (!userInfo || !orderId || !transactionId) {
         res.status(400).json({
           success: false,
           error: 'Invalid booking data. Missing required fields.'
@@ -40,28 +48,30 @@ export class AnudanController {
       ];
       await this.sheetsService.createSheetIfNotExists(this.SHEET_NAME, headers);
 
-      const rowData = [
-        timestamp || new Date().toISOString(),
-        orderId,
-        transactionId,
-        userInfo.name || '',
-        userInfo.phone || '',
-        userInfo.email || '',
-        day,
-        amount,
-        remark || ''
-      ];
-      await this.sheetsService.appendRow(this.SHEET_NAME, rowData);
+      // Add each category as a separate row
+      for (const category of categories) {
+        const rowData = [
+          timestamp || new Date().toISOString(),
+          orderId,
+          transactionId,
+          userInfo.name || '',
+          userInfo.phone || '',
+          userInfo.email || '',
+          category.day,
+          category.amount,
+          category.remark || ''
+        ];
+        await this.sheetsService.appendRow(this.SHEET_NAME, rowData);
+      }
 
-      // We don't necessarily need a strict summary at the bottom like Bhog, 
-      // but let's keep it simple for now, we just fetch status dynamically.
+      const totalAmount = categories.reduce((sum, cat) => sum + cat.amount, 0);
 
       res.status(200).json({
         success: true,
         message: 'Anudan contribution recorded successfully',
         data: {
-          day,
-          amount,
+          categories,
+          totalAmount,
           timestamp,
           userInfo,
           orderId,
