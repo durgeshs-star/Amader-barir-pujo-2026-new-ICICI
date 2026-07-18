@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { AnudanCard as AnudanCardType } from '../../types/anudan.types';
 
 interface AnudanCardProps {
   card: AnudanCardType;
   paidAmount?: number;
+  onAddToBasket?: (card: AnudanCardType, amount: number) => void;
 }
 
-export const AnudanCard: React.FC<AnudanCardProps> = ({ card, paidAmount = 0 }) => {
+export const AnudanCard: React.FC<AnudanCardProps> = ({ card, paidAmount = 0, onAddToBasket }) => {
   // Calculate total sum of all items in this section
   const totalCost = card.items.reduce((acc, item) => {
     const num = parseInt(item.cost.replace(/\D/g, ''), 10) || 0;
@@ -16,6 +17,27 @@ export const AnudanCard: React.FC<AnudanCardProps> = ({ card, paidAmount = 0 }) 
   const remainingAmount = Math.max(0, totalCost - paidAmount);
   const isFullyFunded = remainingAmount <= 0;
   const progressPercent = totalCost > 0 ? Math.min(100, (paidAmount / totalCost) * 100) : 0;
+
+  const [inputAmount, setInputAmount] = useState<string>('');
+  const [error, setError] = useState<string>('');
+
+  const handleOfferAnudan = () => {
+    const amount = parseInt(inputAmount, 10);
+
+    if (!inputAmount || isNaN(amount) || amount <= 0) {
+      setError('Please enter a valid amount');
+      return;
+    }
+
+    if (amount > remainingAmount) {
+      setError(`Amount cannot exceed remaining amount of ₹${remainingAmount.toLocaleString('en-IN')}`);
+      return;
+    }
+
+    setError('');
+    onAddToBasket?.(card, amount);
+    setInputAmount('');
+  };
 
   return (
     <div className={`bg-white border rounded-2xl p-6 md:p-8 transition-all duration-300 shadow-sm relative overflow-hidden group ${
@@ -109,12 +131,32 @@ export const AnudanCard: React.FC<AnudanCardProps> = ({ card, paidAmount = 0 }) 
                   Total: ₹{totalCost.toLocaleString('en-IN')}
                 </span>
               )}
-              <button
-                disabled={true}
-                className="mt-2 md:mt-4 px-6 py-2 bg-gray-400 text-text-on-primary text-sm font-semibold rounded-lg cursor-not-allowed shadow-md w-full md:w-auto text-center border-0"
-              >
-                Payment Disabled
-              </button>
+              <div className="mt-2 md:mt-4 w-full md:w-auto">
+                <input
+                  type="number"
+                  placeholder="Enter amount"
+                  value={inputAmount}
+                  onChange={(e) => setInputAmount(e.target.value)}
+                  disabled={isFullyFunded}
+                  className={`w-full px-4 py-2 border rounded-lg text-sm mb-2 ${
+                    error ? 'border-red-500' : 'border-gray-300'
+                  } ${isFullyFunded ? 'bg-gray-100 cursor-not-allowed' : ''}`}
+                  max={remainingAmount}
+                  min="1"
+                />
+                {error && <p className="text-red-500 text-xs mb-2">{error}</p>}
+                <button
+                  onClick={handleOfferAnudan}
+                  disabled={isFullyFunded || !inputAmount}
+                  className={`w-full px-6 py-2 text-sm font-semibold rounded-lg shadow-md text-center border-0 transition-all ${
+                    isFullyFunded || !inputAmount
+                      ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                      : 'bg-primary text-white hover:bg-primary/90 cursor-pointer'
+                  }`}
+                >
+                  {isFullyFunded ? 'Fully Funded' : 'Offer Anudan'}
+                </button>
+              </div>
             </>
           )}
         </div>

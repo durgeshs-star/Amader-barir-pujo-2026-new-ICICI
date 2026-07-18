@@ -4,11 +4,13 @@
  * Displays a success message after a successful payment.
  * Shows payment details and provides options to continue or view history.
  * For bhog bookings, also displays the receipt with download option.
+ * For anudan contributions, displays the anudan receipt with download option.
  */
 
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { BhogReceipt } from './BhogReceipt';
+import { AnudanReceipt } from './AnudanReceipt';
 
 interface PaymentSuccessProps {
   orderId?: string;
@@ -108,7 +110,7 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
           </div>
 
           {/* Receipt */}
-          <BhogReceipt />
+          {isAnudanPayment ? <AnudanReceipt /> : <BhogReceipt />}
 
           {/* Action Buttons */}
           <div className="max-w-md mx-auto mt-8 space-y-3">

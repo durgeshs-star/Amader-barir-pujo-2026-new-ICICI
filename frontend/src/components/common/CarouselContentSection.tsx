@@ -24,21 +24,21 @@ const CarouselContentSection: React.FC<CarouselContentSectionProps> = ({
   return (
     <section className="bg-white overflow-hidden">
       {/* Content with carousel on left and text on right */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-10 py-10 lg:py-14">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10 pb-6 lg:pb-10">
         <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-16 items-stretch">
-          <div className="relative min-h-112.5 flex items-center justify-center animate-fade-in-up">
+          <div className="relative min-h-112.5 flex items-center justify-center animate-fade-in-up p-8">
             {showDecorativeCorners && (
               <>
-                <span className="absolute -top-5 -left-5 z-10 text-4xl  text-primary">
+                <span className="absolute top-0 left-0 z-10 text-4xl text-primary">
                   ❦
                 </span>
-                <span className="absolute -top-5 -right-5 z-10 rotate-90 text-4xl text-primary">
+                <span className="absolute top-0 right-0 z-10 rotate-90 text-4xl text-primary">
                   ❦
                 </span>
-                <span className="absolute -bottom-5 -left-5 z-10 -rotate-90 text-4xl  text-primary">
+                <span className="absolute bottom-0 left-0 z-10 -rotate-90 text-4xl text-primary">
                   ❦
                 </span>
-                <span className="absolute -bottom-5 -right-5 z-10 rotate-180 text-4xl  text-primary">
+                <span className="absolute bottom-0 right-0 z-10 rotate-180 text-4xl text-primary">
                   ❦
                 </span>
               </>
@@ -47,7 +47,7 @@ const CarouselContentSection: React.FC<CarouselContentSectionProps> = ({
             {carousel}
           </div>
 
-          <div className="h-full flex flex-col justify-center animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+          <div className="min-h-112.5 flex flex-col" style={{ animationDelay: '0.1s' }}>
             <p className="text-dark-bg text-sm leading-6 mb-6 animate-fade-in">
               {description}
             </p>
