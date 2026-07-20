@@ -1,6 +1,9 @@
 {
   "name": "amader-barir-pujo-backend",
   "version": "1.0.0",
+  "engines": {
+    "node": "22.x"
+  },
   "description": "Backend API for Amader Barir Pujo",
   "main": "dist/server.js",
   "scripts": {
