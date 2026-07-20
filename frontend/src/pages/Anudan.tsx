@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { LazyMotion, domAnimation, m } from 'framer-motion';
 import SEO from '../components/ui/SEO';
 import { AnudanCard } from '../components/ui/AnudanCard';
@@ -11,7 +11,6 @@ import { AnudanAmountChangedModal } from '../components/AnudanAmountChangedModal
 import type { AnudanCard as AnudanCardType } from '../types/anudan.types';
 import { API_URL } from '../config/api';
 import { useAnudanRemaining } from '../hooks/useAnudanRemaining';
-import { useNavigate } from 'react-router-dom';
 
 interface BasketItem {
   card: AnudanCardType;
@@ -21,34 +20,42 @@ interface BasketItem {
 export const Anudan: React.FC = () => {
   const userInfoFormRef = useRef<UserInfoFormRef>(null);
   const userInfoSectionRef = useRef<HTMLDivElement>(null);
-  const navigate = useNavigate();
   
   // Modal state for insufficient amount error
   const [showAmountChangedModal, setShowAmountChangedModal] = useState(false);
   const [modalData, setModalData] = useState<{ remaining: number; requested: number } | null>(null);
   
+  // Fetch all remaining amounts
+  const [allRemainingAmounts, setAllRemainingAmounts] = useState<Record<string, number>>({});
+
   // Use SSE hook for real-time remaining amounts (for each category)
   // We'll use the first category as default for the hook
   const defaultCampaignId = anudanCards[0]?.day || 'default';
-  const { remainingAmount: defaultRemaining, refresh } = useAnudanRemaining({
+  const { refresh } = useAnudanRemaining({
     campaignId: defaultCampaignId,
     apiBaseUrl: API_URL,
     enabled: true,
   });
-  
-  // Paid amounts keyed by card.day (computed from remaining amounts)
-  const paidAmounts = useMemo(() => {
-    const amounts: Record<string, number> = {};
-    anudanCards.forEach(card => {
-      const totalCost = card.items.reduce((acc, item) => {
-        const num = parseInt(item.cost.replace(/\D/g, ''), 10) || 0;
-        return acc + num;
-      }, 0);
-      // For now, use a simple calculation - in production this would come from the hook
-      amounts[card.day] = 0; // This will be updated by SSE
-    });
-    return amounts;
-  }, []);
+
+  // Fetch all remaining amounts on mount and periodically
+  useEffect(() => {
+    const fetchAllRemaining = async () => {
+      try {
+        const response = await fetch(`${API_URL}/api/anudan/remaining`);
+        const data = await response.json();
+        if (data.success && data.data && data.data.remainingAmounts) {
+          setAllRemainingAmounts(data.data.remainingAmounts);
+        }
+      } catch (error) {
+        console.error('Failed to fetch remaining amounts:', error);
+      }
+    };
+
+    fetchAllRemaining();
+    const interval = setInterval(fetchAllRemaining, 15000); // Refresh every 15 seconds
+
+    return () => clearInterval(interval);
+  }, [API_URL]);
 
   // Basket state
   const [basket, setBasket] = useState<BasketItem[]>([]);
@@ -74,20 +81,6 @@ export const Anudan: React.FC = () => {
       const updatedBasket = [...basket];
       const currentAmount = updatedBasket[existingItemIndex].amount;
       const newTotalAmount = currentAmount + amount;
-      
-      // Calculate total cost from items
-      const totalCost = card.items.reduce((acc, item) => {
-        const num = parseInt(item.cost.replace(/\D/g, ''), 10) || 0;
-        return acc + num;
-      }, 0);
-      
-      // Check if new total exceeds remaining amount using real-time MongoDB data
-      const remainingAmount = totalCost - (paidAmounts[card.day] || 0);
-      if (newTotalAmount > remainingAmount) {
-        setNotification({ show: true, message: `Amount cannot exceed remaining amount of ₹${remainingAmount.toLocaleString('en-IN')}` });
-        setTimeout(() => setNotification({ show: false, message: '' }), 3000);
-        return;
-      }
       
       updatedBasket[existingItemIndex] = { card, amount: newTotalAmount };
       setBasket(updatedBasket);
@@ -139,11 +132,6 @@ export const Anudan: React.FC = () => {
         let exceededItem: { day: string; remaining: number; requested: number } | null = null;
         
         for (const item of basket) {
-          const totalCost = item.card.items.reduce((acc, i) => {
-            const num = parseInt(i.cost.replace(/\D/g, ''), 10) || 0;
-            return acc + num;
-          }, 0);
-          
           const remainingAmount = latestData.data.remainingAmounts[item.card.day] || 0;
           if (item.amount > remainingAmount) {
             exceededItem = { day: item.card.day, remaining: remainingAmount, requested: item.amount };
@@ -207,15 +195,6 @@ export const Anudan: React.FC = () => {
       const responseData = await response.json();
 
       if (response.ok) {
-        // Update local state with paid amounts immediately
-        setPaidAmounts(prev => {
-          const next = { ...prev };
-          categories.forEach(cat => {
-            next[cat.day] = (next[cat.day] || 0) + cat.amount;
-          });
-          return next;
-        });
-
         // Clear basket and hide user info form
         setBasket([]);
         setShowUserInfoForm(false);
@@ -320,6 +299,7 @@ export const Anudan: React.FC = () => {
             </h2>
             <div className="w-20 h-1 bg-accent mx-auto rounded-full animate-expand-width" />
           </div>
+
           <div className="grid lg:grid-cols-[1fr_350px] gap-8">
             {/* Cards Column */}
             <div className="flex flex-col gap-6">
@@ -327,7 +307,7 @@ export const Anudan: React.FC = () => {
                 <div key={card.day}>
                   <AnudanCard
                     card={card}
-                    paidAmount={paidAmounts[card.day] || 0}
+                    remainingAmount={allRemainingAmounts[card.day] || 0}
                     onAddToBasket={addToBasket}
                   />
                 </div>

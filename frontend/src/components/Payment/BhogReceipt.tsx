@@ -5,8 +5,7 @@
  * Provides download functionality as PDF with logo and styling.
  */
 
-import React, { useEffect, useRef } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import React, { useRef } from 'react';
 import html2pdf from 'html2pdf.js';
 
 interface BhogCategory {
@@ -38,9 +37,7 @@ interface BhogReceiptProps {
 }
 
 export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propReceiptData }) => {
-  const [searchParams] = useSearchParams();
   const receiptRef = useRef<HTMLDivElement>(null);
-  const fromBhog = searchParams.get('fromBhog') === 'true';
 
   // If not provided as prop, we don't have it (storage removed)
   const receiptData = propReceiptData || null;

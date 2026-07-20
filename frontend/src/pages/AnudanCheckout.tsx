@@ -54,15 +54,6 @@ export const AnudanCheckout: React.FC = () => {
       remark: ''
     }));
 
-    const anudanReceiptData = {
-      orderId,
-      transactionId,
-      categories,
-      totalAmount,
-      timestamp,
-      userInfo
-    };
-
     try {
       // Call backend to record anudan payment
       const response = await fetch(`${API_URL}/api/anudan/paid-booking`, {

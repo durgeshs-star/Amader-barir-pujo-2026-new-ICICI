@@ -44,7 +44,7 @@ export function useSmartPolling<T = any>({
   const abortControllerRef = useRef<AbortController | null>(null);
   const backoffRef = useRef(5000); // 5s initial backoff
   
-  const inactivityTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const inactivityTimerRef = useRef<number | null>(null);
   const isInactiveRef = useRef(false);
 
   // Core fetch function
@@ -161,7 +161,7 @@ export function useSmartPolling<T = any>({
 
   // Recursive polling loop to prevent interval drift and overlapping execution
   useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
+    let timeoutId: number;
     let isCancelled = false;
     
     const tick = async () => {

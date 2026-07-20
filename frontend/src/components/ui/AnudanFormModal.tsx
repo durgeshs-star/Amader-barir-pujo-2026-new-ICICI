@@ -64,27 +64,6 @@ export const AnudanFormModal: React.FC<AnudanFormModalProps> = ({
 
       const numAmount = Number(amount);
 
-      const anudanReceiptData = {
-        orderId,
-        transactionId,
-        title: `Anudan Offering - ${card.day}`,
-        cardDay: card.day,
-        categories: [
-          {
-            id: 'anudan-contribution',
-            title: 'Anudan Contribution',
-            price: numAmount,
-            description: remark,
-            max: 1,
-            quantity: 1,
-          }
-        ],
-        totalAmount: numAmount,
-        totalCount: 1,
-        timestamp: new Date().toISOString(),
-        userInfo: { name, phone, email }
-      };
-
       // Redirect to payment success page
       window.location.href = `/payment/success?orderId=${orderId}&transactionId=${transactionId}&amount=${numAmount}&currency=INR&fromBhog=true`;
     }, 1500);
