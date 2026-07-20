@@ -2,6 +2,7 @@ import { Router, Request, Response, NextFunction } from "express";
 import { body, validationResult } from 'express-validator';
 import xss from 'xss';
 import { ContactController } from '../controllers/ContactController';
+import { contactLimiter } from '../middleware/rateLimit';
 
 export function createContactRoutes(contactController: ContactController): Router {
   const router = Router();
@@ -42,6 +43,7 @@ export function createContactRoutes(contactController: ContactController): Route
 
   router.post(
   "/contact",
+  contactLimiter,
   contactValidation,
   (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);

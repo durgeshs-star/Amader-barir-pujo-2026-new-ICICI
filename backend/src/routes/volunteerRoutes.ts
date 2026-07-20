@@ -2,6 +2,7 @@ import { Router, Request, Response, NextFunction } from 'express';
 import { body, validationResult } from 'express-validator';
 import xss from 'xss';
 import { VolunteerController } from '../controllers/VolunteerController';
+import { volunteerLimiter } from '../middleware/rateLimit';
 
 export function createVolunteerRoutes(volunteerController: VolunteerController): Router {
   const router = Router();
@@ -41,6 +42,7 @@ export function createVolunteerRoutes(volunteerController: VolunteerController):
 
   router.post(
     '/volunteer',
+    volunteerLimiter,
     volunteerValidation,
     (req: Request, res: Response, next: NextFunction) => {
       const errors = validationResult(req);

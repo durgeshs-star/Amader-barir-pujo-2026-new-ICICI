@@ -16,7 +16,7 @@ import {
   validatePaymentHistory,
 } from '../middleware/paymentValidator';
 import { paymentConfig } from '../config/payment.config';
-import rateLimit from 'express-rate-limit';
+import { paymentLimiter, noLimiter } from '../middleware/rateLimit';
 
 /**
  * Create payment routes
@@ -28,22 +28,13 @@ export const createPaymentRoutes = (paymentRepository: IPaymentRepository): Rout
   const router = Router();
   const paymentController = new PaymentController(paymentRepository);
 
-  // Payment-specific rate limiting (stricter than general API)
-  const paymentRateLimiter = rateLimit({
-    windowMs: paymentConfig.rateLimitWindowMs,
-    max: paymentConfig.rateLimitMaxRequests,
-    message: 'Too many payment requests, please try again later.',
-    standardHeaders: true,
-    legacyHeaders: false,
-  });
-
   /**
    * POST /api/payment/create-order
    * Create a new payment order
    */
   router.post(
     '/create-order',
-    paymentRateLimiter,
+    paymentLimiter,
     validateCreateOrder,
     paymentController.createOrder
   );
@@ -77,6 +68,7 @@ export const createPaymentRoutes = (paymentRepository: IPaymentRepository): Rout
    */
   router.get(
     '/status/:transactionId',
+    paymentLimiter,
     validateTransactionStatus,
     paymentController.getTransactionStatus
   );
@@ -87,7 +79,7 @@ export const createPaymentRoutes = (paymentRepository: IPaymentRepository): Rout
    */
   router.post(
     '/refund',
-    paymentRateLimiter,
+    paymentLimiter,
     validateRefund,
     paymentController.processRefund
   );
@@ -98,6 +90,7 @@ export const createPaymentRoutes = (paymentRepository: IPaymentRepository): Rout
    */
   router.get(
     '/history',
+    paymentLimiter,
     validatePaymentHistory,
     paymentController.getPaymentHistory
   );

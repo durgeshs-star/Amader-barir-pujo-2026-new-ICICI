@@ -23,9 +23,9 @@ let sheetsService: GoogleSheetsService | null = null;
  */
 export const connectMongoDB = async (): Promise<void> => {
   try {
-    const mongoUri = process.env.MONGODB_UR;
+    const mongoUri = process.env.MONGODB_URI;
     if (!mongoUri) {
-      throw new Error('MONGODB_UR is not defined in environment variables');
+      throw new Error('MONGODB_URI is not defined in environment variables');
     }
 
     await mongoose.connect(mongoUri);
