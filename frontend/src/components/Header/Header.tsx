@@ -237,7 +237,7 @@ export const Header: React.FC<HeaderProps> = ({
               {showCTA && (
                 <Link
                   to={ctaHref}
-                  className="inline-block text-sm font-medium uppercase tracking-wider px-6 py-2.5 rounded-md bg-primary text-text-on-primary border-2 border-transparent hover:bg-primary-dark hover:shadow-lg transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 text-center"
+                  className="inline-block text-sm font-bold uppercase tracking-wider px-6 py-2.5 rounded-md bg-primary text-text-on-primary border-2 border-transparent hover:bg-primary-dark hover:shadow-lg transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 text-center"
                 >
                   {ctaLabel}
                 </Link>

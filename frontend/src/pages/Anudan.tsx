@@ -195,6 +195,17 @@ export const Anudan: React.FC = () => {
       const responseData = await response.json();
 
       if (response.ok) {
+        // Refresh remaining amounts after successful payment
+        try {
+          const remainingResponse = await fetch(`${API_URL}/api/anudan/remaining`);
+          const remainingData = await remainingResponse.json();
+          if (remainingData.success && remainingData.data && remainingData.data.remainingAmounts) {
+            setAllRemainingAmounts(remainingData.data.remainingAmounts);
+          }
+        } catch (error) {
+          console.error('Failed to refresh remaining amounts after payment:', error);
+        }
+
         // Clear basket and hide user info form
         setBasket([]);
         setShowUserInfoForm(false);
