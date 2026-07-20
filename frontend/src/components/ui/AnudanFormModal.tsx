@@ -68,7 +68,6 @@ export const AnudanFormModal: React.FC<AnudanFormModalProps> = ({
         orderId,
         transactionId,
         title: `Anudan Offering - ${card.day}`,
-        // cardDay is used by PaymentSuccess to track remaining amount in localStorage
         cardDay: card.day,
         categories: [
           {
@@ -85,9 +84,6 @@ export const AnudanFormModal: React.FC<AnudanFormModalProps> = ({
         timestamp: new Date().toISOString(),
         userInfo: { name, phone, email }
       };
-
-      // Store in sessionStorage to be read by BhogReceipt / PaymentSuccess
-      sessionStorage.setItem('bhogReceipt', JSON.stringify(anudanReceiptData));
 
       // Redirect to payment success page
       window.location.href = `/payment/success?orderId=${orderId}&transactionId=${transactionId}&amount=${numAmount}&currency=INR&fromBhog=true`;

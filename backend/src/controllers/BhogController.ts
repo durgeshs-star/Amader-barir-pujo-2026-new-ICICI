@@ -6,12 +6,15 @@
 
 import { Request, Response } from 'express';
 import { GoogleSheetsService } from '../services/GoogleSheetsService';
+import { BhogRepository } from '../repositories/BhogRepository';
 
 export class BhogController {
   private sheetsService: GoogleSheetsService;
+  private bhogRepository: BhogRepository;
 
   constructor(sheetsService: GoogleSheetsService) {
     this.sheetsService = sheetsService;
+    this.bhogRepository = new BhogRepository();
   }
 
   /**
@@ -136,6 +139,21 @@ export class BhogController {
       ];
       await this.sheetsService.appendRow(sheetName, rowData);
 
+      // Store booking in MongoDB
+      await this.bhogRepository.createPayment({
+        orderId: '',
+        transactionId: '',
+        timestamp: timestamp || new Date().toISOString(),
+        userInfo: userInfo || { name: '', phone: '', email: '' },
+        bookings: [{
+          day: title,
+          amount: totalAmount,
+          quantity: totalCount,
+          remark: 'Free booking'
+        }],
+        totalAmount
+      });
+
       // Update summary calculations at the end of the sheet
       await this.updateSheetSummary(sheetName);
 
@@ -230,6 +248,21 @@ export class BhogController {
         isFree ? 'Free' : 'Paid'
       ];
       await this.sheetsService.appendRow(sheetName, rowData);
+
+      // Store booking in MongoDB
+      await this.bhogRepository.createPayment({
+        orderId: orderId || '',
+        transactionId: transactionId || '',
+        timestamp: timestamp || new Date().toISOString(),
+        userInfo: userInfo || { name: '', phone: '', email: '' },
+        bookings: [{
+          day: title,
+          amount: totalAmount,
+          quantity: totalCount,
+          remark: 'Paid booking'
+        }],
+        totalAmount
+      });
 
       // Update summary calculations at the end of the sheet
       await this.updateSheetSummary(sheetName);

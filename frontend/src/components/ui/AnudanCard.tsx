@@ -133,16 +133,19 @@ export const AnudanCard: React.FC<AnudanCardProps> = ({ card, paidAmount = 0, on
               )}
               <div className="mt-2 md:mt-4 w-full md:w-auto">
                 <input
-                  type="number"
+                  type="text"
+                  inputMode="numeric"
                   placeholder="Enter amount"
                   value={inputAmount}
-                  onChange={(e) => setInputAmount(e.target.value)}
+                  onChange={(e) => {
+                    // Only allow digits
+                    const val = e.target.value.replace(/\D/g, '');
+                    setInputAmount(val);
+                  }}
                   disabled={isFullyFunded}
                   className={`w-full px-4 py-2 border rounded-lg text-sm mb-2 ${
                     error ? 'border-red-500' : 'border-gray-300'
                   } ${isFullyFunded ? 'bg-gray-100 cursor-not-allowed' : ''}`}
-                  max={remainingAmount}
-                  min="1"
                 />
                 {error && <p className="text-red-500 text-xs mb-2">{error}</p>}
                 <button

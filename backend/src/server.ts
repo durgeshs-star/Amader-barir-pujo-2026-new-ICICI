@@ -11,15 +11,18 @@ import { VolunteerRepository } from './repositories/VolunteerRepository';
 import { PaymentRepository } from './repositories/PaymentRepository';
 import { EmailService } from './services/EmailService';
 import { GoogleSheetsService } from './services/GoogleSheetsService';
+import { anudanStateService } from './services/anudanState.service';
 import { ContactController } from './controllers/ContactController';
 import { VolunteerController } from './controllers/VolunteerController';
 import { BhogController } from './controllers/BhogController';
 import { QuestionairController } from './controllers/QuestionairController';
+import { AnudanController } from './controllers/AnudanController';
 import { createContactRoutes } from './routes/contactRoutes';
 import { createVolunteerRoutes } from './routes/volunteerRoutes';
 import { createPaymentRoutes } from './routes/paymentRoutes';
 import { createBhogRoutes } from './routes/bhogRoutes';
 import { createQuestionairRoutes } from './routes/questionairRoutes';
+import { createAnudanRoutes } from './routes/anudanRoutes';
 import { errorHandler } from './middleware/errorHandler';
 
 dotenv.config();
@@ -74,6 +77,7 @@ const contactController = new ContactController(contactRepository, emailService)
 const volunteerController = new VolunteerController(volunteerRepository, emailService);
 const bhogController = new BhogController(sheetsService);
 const questionairController = new QuestionairController(sheetsService);
+const anudanController = new AnudanController(sheetsService);
 
 // Routes
 app.use('/api', createContactRoutes(contactController));
@@ -81,6 +85,7 @@ app.use('/api', createVolunteerRoutes(volunteerController));
 app.use('/api/payment', createPaymentRoutes(paymentRepository));
 app.use('/api/bhog', createBhogRoutes(bhogController));
 app.use('/api', createQuestionairRoutes(questionairController));
+app.use('/api/anudan', createAnudanRoutes(sheetsService));
 
 // Health check endpoint
 app.get('/health', (req, res) => {
@@ -111,6 +116,9 @@ const startServer = async () => {
 
     // Initialize payment configuration
     initializePaymentConfig();
+
+    // Initialize Anudan state service (loads from MongoDB)
+    await anudanStateService.initialize();
 
     // Start Express server
     app.listen(PORT, () => {

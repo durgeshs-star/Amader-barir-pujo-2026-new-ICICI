@@ -14,3 +14,4 @@ export { PaymentPending } from './PaymentPending';
 export { MockPayment } from './MockPayment';
 export { PaymentHistory } from './PaymentHistory';
 export { BhogReceipt } from './BhogReceipt';
+export { AnudanReceipt } from './AnudanReceipt';

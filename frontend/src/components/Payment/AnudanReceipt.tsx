@@ -35,15 +35,7 @@ interface AnudanReceiptProps {
 export const AnudanReceipt: React.FC<AnudanReceiptProps> = ({ receiptData: propReceiptData }) => {
   const receiptRef = useRef<HTMLDivElement>(null);
 
-  // Get receipt data from sessionStorage if not provided as prop
-  const receiptData = propReceiptData || JSON.parse(sessionStorage.getItem('anudanReceipt') || '{}');
-
-  useEffect(() => {
-    // Clear sessionStorage after component unmounts
-    return () => {
-      sessionStorage.removeItem('anudanReceipt');
-    };
-  }, []);
+  const receiptData = propReceiptData || null;
 
   if (!receiptData || !receiptData.orderId) {
     return null;

@@ -89,9 +89,8 @@ export const UserInfoForm = forwardRef<UserInfoFormRef, UserInfoFormProps>(({ on
   };
 
   return (
-    <div className="mt-6 p-6 border border-primary/14 rounded-lg bg-gradient-to-br from-white to-orange-50/50 shadow-lg">
+    <div className="p-4 border border-primary/14 rounded-lg bg-gradient-to-br from-white to-orange-50/50 shadow-lg">
       <h3 className="text-lg font-bold text-primary mb-4 font-fraunces">Contact Information</h3>
-      <p className="text-sm text-secondary mb-4">Please fill in your contact details to proceed with the booking.</p>
       
       <div className="space-y-4">
         <div>

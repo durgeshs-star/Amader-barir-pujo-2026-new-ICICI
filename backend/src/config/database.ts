@@ -1,10 +1,11 @@
 /**
  * Database Configuration
  * 
- * Handles Google Sheets initialization for data storage.
- * Provides initialization and error handling for the database.
+ * Handles MongoDB and Google Sheets initialization for data storage.
+ * Provides initialization and error handling for both databases.
  */
 
+import mongoose from 'mongoose';
 import { GoogleSheetsService } from '../services/GoogleSheetsService';
 import dotenv from 'dotenv';
 
@@ -16,11 +17,46 @@ dotenv.config();
 let sheetsService: GoogleSheetsService | null = null;
 
 /**
+ * Connect to MongoDB
+ * 
+ * @returns Promise that resolves when connection is established
+ */
+export const connectMongoDB = async (): Promise<void> => {
+  try {
+    const mongoUri = process.env.MONGODB_UR;
+    if (!mongoUri) {
+      throw new Error('MONGODB_UR is not defined in environment variables');
+    }
+
+    await mongoose.connect(mongoUri);
+    console.log('MongoDB connected successfully');
+  } catch (error) {
+    console.error('MongoDB connection error:', error);
+    throw error;
+  }
+};
+
+/**
+ * Disconnect from MongoDB
+ * 
+ * @returns Promise that resolves when connection is closed
+ */
+export const disconnectMongoDB = async (): Promise<void> => {
+  try {
+    await mongoose.disconnect();
+    console.log('MongoDB disconnected successfully');
+  } catch (error) {
+    console.error('MongoDB disconnection error:', error);
+    throw error;
+  }
+};
+
+/**
  * Connect to Google Sheets
  * 
  * @returns Promise that resolves when connection is established
  */
-export const connectDatabase = async (): Promise<void> => {
+export const connectGoogleSheets = async (): Promise<void> => {
   try {
     sheetsService = new GoogleSheetsService();
     await sheetsService.initialize();
@@ -36,7 +72,7 @@ export const connectDatabase = async (): Promise<void> => {
  * 
  * @returns Promise that resolves when connection is closed
  */
-export const disconnectDatabase = async (): Promise<void> => {
+export const disconnectGoogleSheets = async (): Promise<void> => {
   try {
     sheetsService = null;
     console.log('Google Sheets disconnected successfully');
@@ -47,12 +83,45 @@ export const disconnectDatabase = async (): Promise<void> => {
 };
 
 /**
+ * Connect to all databases (MongoDB and Google Sheets)
+ * 
+ * @returns Promise that resolves when all connections are established
+ */
+export const connectDatabase = async (): Promise<void> => {
+  try {
+    await connectMongoDB();
+    await connectGoogleSheets();
+  } catch (error) {
+    console.error('Database connection error:', error);
+    throw error;
+  }
+};
+
+/**
+ * Disconnect from all databases
+ * 
+ * @returns Promise that resolves when all connections are closed
+ */
+export const disconnectDatabase = async (): Promise<void> => {
+  try {
+    await disconnectMongoDB();
+    await disconnectGoogleSheets();
+  } catch (error) {
+    console.error('Database disconnection error:', error);
+    throw error;
+  }
+};
+
+/**
  * Get database connection status
  * 
  * @returns Connection status (true = connected, false = disconnected)
  */
-export const getDatabaseStatus = (): boolean => {
-  return sheetsService !== null;
+export const getDatabaseStatus = (): { mongo: boolean; sheets: boolean } => {
+  return {
+    mongo: mongoose.connection.readyState === 1,
+    sheets: sheetsService !== null,
+  };
 };
 
 /**
@@ -67,7 +136,7 @@ export const getSheetsService = (): GoogleSheetsService => {
 
 /**
  * Handle application termination
- * Close database connection gracefully when process exits
+ * Close database connections gracefully when process exits
  */
 process.on('SIGINT', async () => {
   await disconnectDatabase();

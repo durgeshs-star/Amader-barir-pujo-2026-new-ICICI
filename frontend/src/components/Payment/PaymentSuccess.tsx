@@ -41,35 +41,21 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
   const fromBhog = searchParams.get('fromBhog') === 'true';
 
   useEffect(() => {
-    const receipt = sessionStorage.getItem('bhogReceipt');
-    const isBhog = fromBhog && receipt !== null;
-    setIsBhogBooking(isBhog);
-
-    if (isBhog && receipt) {
-      try {
-        const data = JSON.parse(receipt);
-        // Detect Anudan payment by orderId prefix
-        if (data.orderId?.startsWith('ANUDAN-') && data.cardDay) {
-          setIsAnudanPayment(true);
-
-          // Guard against double execution — React StrictMode runs effects twice in dev.
-          // We mark the orderId as processed in sessionStorage to ensure we only
-          // write to localStorage once per payment, even across StrictMode double-invocations.
-          const processedKey = `anudanProcessed_${data.orderId}`;
-          if (!sessionStorage.getItem(processedKey)) {
-            sessionStorage.setItem(processedKey, '1');
-            const stored: Record<string, number> = JSON.parse(
-              localStorage.getItem('anudanPaidAmounts') || '{}'
-            );
-            stored[data.cardDay] = (stored[data.cardDay] || 0) + (data.totalAmount || 0);
-            localStorage.setItem('anudanPaidAmounts', JSON.stringify(stored));
-          }
-        }
-      } catch (e) {
-        console.error('Failed to parse bhogReceipt:', e);
+    if (fromBhog) {
+      setIsBhogBooking(true);
+      // We can't detect Anudan vs Bhog from receipt if there's no storage,
+      // but we can check orderId from URL if available, or just assume it's Anudan
+      // if fromAnudan param was passed (though AnudanCheckout passes fromAnudan=true)
+      if (orderId && orderId.startsWith('ANUDAN-')) {
+        setIsAnudanPayment(true);
       }
     }
-  }, [fromBhog]);
+    const fromAnudan = searchParams.get('fromAnudan') === 'true';
+    if (fromAnudan) {
+      setIsBhogBooking(true); // Since UI uses this for the special layout
+      setIsAnudanPayment(true);
+    }
+  }, [fromBhog, orderId, searchParams]);
 
   const handleContinue = () => {
     if (onContinue) {

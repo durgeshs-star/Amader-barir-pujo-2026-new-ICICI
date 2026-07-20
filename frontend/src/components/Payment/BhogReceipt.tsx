@@ -42,17 +42,8 @@ export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propRecei
   const receiptRef = useRef<HTMLDivElement>(null);
   const fromBhog = searchParams.get('fromBhog') === 'true';
 
-  // Get receipt data from sessionStorage if not provided as prop
-  const receiptData = propReceiptData || (fromBhog ? JSON.parse(sessionStorage.getItem('bhogReceipt') || '{}') : null);
-
-  useEffect(() => {
-    // Clear sessionStorage after component unmounts
-    return () => {
-      if (fromBhog) {
-        sessionStorage.removeItem('bhogReceipt');
-      }
-    };
-  }, [fromBhog]);
+  // If not provided as prop, we don't have it (storage removed)
+  const receiptData = propReceiptData || null;
 
   if (!receiptData || !receiptData.orderId) {
     return null;
