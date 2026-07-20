@@ -110,7 +110,7 @@ const startServer = async () => {
 
     // Start Express server
     app.listen(PORT, () => {
-      console.log(`Server running on the port ${PORT}`);
+      console.log(`Server running on thee port ${PORT}`);
       console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
     });
   } catch (error) {
