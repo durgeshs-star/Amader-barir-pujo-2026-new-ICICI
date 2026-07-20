@@ -36,16 +36,16 @@ export class AnudanPaymentService {
 
   /**
    * Confirm payment with mutex-protected flow
-   * 
+   *
    * Flow:
    * 1. Verify signature (existing ICICI logic - to be called from controller)
    * 2. Check for duplicate transaction (idempotency)
-   * 3. Try to reserve amount from in-memory state (mutex-protected)
-   * 4. If reservation fails, return insufficient amount error
-   * 5. If reservation succeeds, save to MongoDB
-   * 6. If DB save fails, rollback reservation
-   * 7. If DB save succeeds, broadcast update via SSE
-   * 8. Return success with new remaining amount
+   * 3. Try to reserve amount for all categories from in-memory state (mutex-protected)
+   * 4. If any reservation fails, rollback all and return insufficient amount error
+   * 5. If all reservations succeed, save to MongoDB as single payment record
+   * 6. If DB save fails, rollback all reservations
+   * 7. If DB save succeeds, broadcast updates via SSE for each category
+   * 8. Return success with new remaining amounts
    */
   async confirmPayment(paymentPayload: PaymentPayload): Promise<any> {
     const { categories, userInfo, orderId, transactionId, timestamp, totalAmount } = paymentPayload;
@@ -57,59 +57,71 @@ export class AnudanPaymentService {
       return duplicateTransactionError(transactionId);
     }
 
-    // Process each category separately
-    const results = [];
+    // Step 3: Reserve amounts for all categories
+    const reservations = [];
     for (const category of categories) {
       const campaignId = category.day;
       const amount = category.amount;
 
-      // Step 3: Try to reserve amount from in-memory state (mutex-protected)
       const reserveResult = await anudanStateService.tryReserve(campaignId, amount);
 
       if (!reserveResult.ok) {
-        // Step 4: Reservation failed - insufficient remaining amount
+        // Step 4: Reservation failed - rollback all previous reservations
         console.log(`Insufficient remaining amount for ${campaignId}: requested ₹${amount}, remaining ₹${reserveResult.remaining}`);
+        
+        // Rollback all previous successful reservations
+        for (const prevReservation of reservations) {
+          await anudanStateService.rollback(prevReservation.campaignId, prevReservation.amount);
+        }
+        
         return insufficientAmountError(reserveResult.remaining, amount);
       }
 
-      try {
-        // Step 5: Save to MongoDB
-        await this.anudanRepository.createPayment({
-          orderId,
-          transactionId,
-          timestamp: timestamp || new Date().toISOString(),
-          userInfo,
-          categories: [category],
-          totalAmount: amount,
-        });
-
-        // Step 7: Broadcast update via SSE (before mutex release)
-        anudanStateService.broadcast(campaignId, reserveResult.remaining);
-
-        results.push({
-          campaignId,
-          amount,
-          remaining: reserveResult.remaining,
-          status: 'success',
-        });
-
-        console.log(`Payment confirmed for ${campaignId}: ₹${amount}, remaining: ₹${reserveResult.remaining}`);
-      } catch (dbError) {
-        // Step 6: DB save failed - rollback reservation
-        console.error(`DB save failed for ${campaignId}, rolling back reservation:`, dbError);
-        await anudanStateService.rollback(campaignId, amount);
-        throw dbError;
-      }
+      reservations.push({
+        campaignId,
+        amount,
+        remaining: reserveResult.remaining
+      });
     }
 
-    return successResponse({
-      categories: results,
-      totalAmount,
-      timestamp,
-      userInfo,
-      orderId,
-      transactionId,
-    });
+    try {
+      // Step 5: Save to MongoDB as single payment record with all categories
+      await this.anudanRepository.createPayment({
+        orderId,
+        transactionId,
+        timestamp: timestamp || new Date().toISOString(),
+        userInfo,
+        categories,
+        totalAmount,
+      });
+
+      // Step 7: Broadcast updates via SSE for each category
+      for (const reservation of reservations) {
+        anudanStateService.broadcast(reservation.campaignId, reservation.remaining);
+        console.log(`Payment confirmed for ${reservation.campaignId}: ₹${reservation.amount}, remaining: ₹${reservation.remaining}`);
+      }
+
+      return successResponse({
+        categories: reservations.map(r => ({
+          campaignId: r.campaignId,
+          amount: r.amount,
+          remaining: r.remaining,
+          status: 'success',
+        })),
+        totalAmount,
+        timestamp,
+        userInfo,
+        orderId,
+        transactionId,
+      });
+    } catch (dbError) {
+      // Step 6: DB save failed - rollback all reservations
+      console.error('DB save failed, rolling back all reservations:', dbError);
+      for (const reservation of reservations) {
+        await anudanStateService.rollback(reservation.campaignId, reservation.amount);
+      }
+      throw dbError;
+    }
   }
 
   /**

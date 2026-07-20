@@ -50,89 +50,63 @@ export class AnudanController {
         return;
       }
 
-      await this.sheetsService.initialize();
-
-      const headers = [
-        'Timestamp',
-        'Order ID',
-        'Transaction ID',
-        'Customer Name',
-        'Mobile Number',
-        'Email',
-        'Category',
-        'Amount (₹)',
-        'Remark',
-      ];
-      await this.sheetsService.createSheetIfNotExists(this.SHEET_NAME, headers);
-
-      // Add each category as a separate row, but only show payer info once
-      const rowPromises = categories.map((category, index) => {
-        const rowData = [
-          timestamp || new Date().toISOString(),
-          orderId,
-          transactionId,
-          index === 0 ? userInfo.name || '' : '', // Only show name on first row
-          index === 0 ? userInfo.phone || '' : '', // Only show phone on first row
-          index === 0 ? userInfo.email || '' : '', // Only show email on first row
-          category.day,
-          category.amount,
-          category.remark || ''
-        ];
-        return this.sheetsService.appendRow(this.SHEET_NAME, rowData);
-      });
-      await Promise.all(rowPromises);
-
       const totalAmount = categories.reduce((sum, cat) => sum + cat.amount, 0);
 
-      // Store payment in MongoDB
-      await this.anudanRepository.createPayment({
+      // Use payment service to process payment (updates in-memory state)
+      const paymentResult = await anudanPaymentService.confirmPayment({
+        categories,
+        userInfo,
         orderId,
         transactionId,
         timestamp: timestamp || new Date().toISOString(),
-        userInfo,
-        categories: categories.map(cat => {
-          let parsedItems = [];
-          if (Array.isArray(cat.items)) {
-            // Check if the array contains a single stringified JSON
-            if (cat.items.length > 0 && typeof cat.items[0] === 'string' && cat.items[0].startsWith('[')) {
-              try {
-                parsedItems = JSON.parse(cat.items[0]);
-              } catch (e) {
-                console.error("Failed to parse items array string", cat.items[0]);
-              }
-            } else {
-              parsedItems = cat.items;
-            }
-          } else if (typeof cat.items === 'string') {
-            try {
-              parsedItems = JSON.parse(cat.items);
-            } catch (e) {
-              console.error("Failed to parse items string", cat.items);
-            }
-          }
-          
-          return {
-            day: cat.day,
-            amount: cat.amount,
-            items: parsedItems,
-            remark: cat.remark || ''
-          };
-        }),
         totalAmount
       });
 
-      res.status(200).json({
-        success: true,
-        message: 'Anudan contribution recorded successfully',
-        data: {
-          categories,
-          totalAmount,
-          timestamp,
-          userInfo,
-          orderId,
-          transactionId
-        }
-      });
+      // If payment service returned an error, forward it
+      if (!paymentResult.success) {
+        res.status(paymentResult.statusCode || 400).json(paymentResult);
+        return;
+      }
+
+      // Add to Google Sheets (non-critical, don't fail if this errors)
+      try {
+        await this.sheetsService.initialize();
+
+        const headers = [
+          'Timestamp',
+          'Order ID',
+          'Transaction ID',
+          'Customer Name',
+          'Mobile Number',
+          'Email',
+          'Category',
+          'Amount (₹)',
+          'Remark',
+        ];
+        await this.sheetsService.createSheetIfNotExists(this.SHEET_NAME, headers);
+
+        // Add each category as a separate row, but only show payer info once
+        const rowPromises = categories.map((category, index) => {
+          const rowData = [
+            timestamp || new Date().toISOString(),
+            orderId,
+            transactionId,
+            index === 0 ? userInfo.name || '' : '', // Only show name on first row
+            index === 0 ? userInfo.phone || '' : '', // Only show phone on first row
+            index === 0 ? userInfo.email || '' : '', // Only show email on first row
+            category.day,
+            category.amount,
+            category.remark || ''
+          ];
+          return this.sheetsService.appendRow(this.SHEET_NAME, rowData);
+        });
+        await Promise.all(rowPromises);
+      } catch (sheetsError) {
+        console.error('Failed to add to Google Sheets (non-critical):', sheetsError);
+        // Don't fail the payment if sheets update fails
+      }
+
+      res.status(200).json(paymentResult);
     } catch (error: any) {
       console.error('Error handling anudan payment:', error);
       res.status(500).json({
