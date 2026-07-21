@@ -12,13 +12,13 @@ export const ANUDAN_CONFIG = {
   // Total cost targets for each Anudan category (same as frontend data)
   TOTAL_COSTS: {
     'Panchami': 6000,
-    'Sasthi': 35000,
+    'Soshti': 35000,
     'Saptami': 43000,
     'Ashtami': 47000,
     'Sondhi Pujo': 24500,
     'Navami': 50500,
     'Dasami': 18500,
-    '5 Days': 134000
+    'Panchadin Anudan': 134000
   },
   
   // SSE heartbeat interval in milliseconds (25 seconds to keep connections alive through proxies)
