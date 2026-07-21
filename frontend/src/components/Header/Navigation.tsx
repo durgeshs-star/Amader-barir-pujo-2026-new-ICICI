@@ -8,7 +8,7 @@ interface NavItem {
 
 const pujoScheduleDays: NavItem[] = [
   { name: 'Panchami', path: '/panchami' },
-  { name: 'Sosthi', path: '/shashti' },
+  { name: 'Soshti', path: '/shashti' },
   { name: 'Saptami', path: '/saptami' },
   { name: 'Ashtami', path: '/ashtami' },
   {name: 'Ashtami Sandhi Puja', path: '/ashtami-sandhi-puja' },

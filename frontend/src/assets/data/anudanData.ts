@@ -8,7 +8,7 @@ export const anudanCards: AnudanCard[] = [
     ],
   },
   {
-    day: 'Sasthi',
+    day: 'Soshti',
     items: [
       { name: 'Flowers (Mala + Loose Flowers)', cost: '₹ 14000' },
       { name: 'Fruits', cost: '₹ 3000' },
@@ -71,13 +71,13 @@ export const anudanCards: AnudanCard[] = [
     ],
   },
   {
-    day: '5 Days',
+    day: 'Panchadin Anudan',
     items: [
       { name: 'Bhojji', cost: '₹ 15000' },
       { name: 'Dasakarma', cost: '₹ 4000' },
       { name: 'Matir Saranjam', cost: '₹ 5000' },
       { name: 'Purohit Dokkhina (2)', cost: '₹ 45000' },
-      { name: 'Dakhi Dokkhina (4)', cost: '₹ 60000' },
+      { name: 'Dhaki Dokkhina (4)', cost: '₹ 60000' },
       { name: 'Water Bottle', cost: '₹ 5000' },
     ],
   },

@@ -10,7 +10,7 @@ const SaptamiBhogPage: React.FC = () => {
       id: "adult",
       title: "Adult Booking",
       description: "per person",
-      price: 200,
+      price: 315,
       max: 10,
     },
     {
@@ -24,7 +24,7 @@ const SaptamiBhogPage: React.FC = () => {
       id: "children-5-plus",
       title: "Children aged 5 and Above",
       description: "per child",
-      price: 200,
+      price: 315,
       max: 5,
     },
     {

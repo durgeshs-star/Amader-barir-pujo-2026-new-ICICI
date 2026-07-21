@@ -71,6 +71,7 @@ export const Anudan: React.FC = () => {
   const [showUserInfoForm, setShowUserInfoForm] = useState(false);
   const [showReceipt, setShowReceipt] = useState(false);
   const [receiptData, setReceiptData] = useState<any>(null);
+  const [isConfirmed, setIsConfirmed] = useState(false);
 
 
   const addToBasket = (card: AnudanCardType, amount: number) => {
@@ -466,11 +467,25 @@ export const Anudan: React.FC = () => {
                   onFormChange={setIsUserInfoFilled}
                 />
 
+                <div className="mt-4">
+                  <label className="flex items-start gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={isConfirmed}
+                      onChange={(e) => setIsConfirmed(e.target.checked)}
+                      className="mt-1 w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary"
+                    />
+                    <span className="text-sm text-gray-700 leading-relaxed">
+                      I confirm that I have reviewed my submission and understand that the payment is non-refundable under any circumstances.
+                    </span>
+                  </label>
+                </div>
+
                 <button
                   onClick={handlePayment}
-                  disabled={!isUserInfoFilled || isProcessing || basket.length === 0}
+                  disabled={!isUserInfoFilled || !isConfirmed || isProcessing || basket.length === 0}
                   className={`w-full mt-4 px-6 py-3 font-semibold rounded-lg transition-all ${
-                    !isUserInfoFilled || isProcessing || basket.length === 0
+                    !isUserInfoFilled || !isConfirmed || isProcessing || basket.length === 0
                       ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                       : 'bg-primary text-white hover:bg-primary/90 cursor-pointer'
                   }`}

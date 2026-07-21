@@ -57,7 +57,7 @@ export const AnudanCard: React.FC<AnudanCardProps> = ({ card, remainingAmount = 
           <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
           </svg>
-          Fully Sponsored
+          Offering Fulfilled
         </div>
       )}
 
@@ -110,7 +110,7 @@ export const AnudanCard: React.FC<AnudanCardProps> = ({ card, remainingAmount = 
           {isFullySponsored ? (
             <>
               <span className="text-xs text-green-600 uppercase tracking-wider font-semibold mb-1">
-                Fully Sponsored 🎉
+                Offering Fulfilled 🎉
               </span>
               <m.span
                 initial={{ opacity: 0, y: -10 }}
@@ -171,7 +171,7 @@ export const AnudanCard: React.FC<AnudanCardProps> = ({ card, remainingAmount = 
                       : 'bg-primary text-white hover:bg-primary/90 cursor-pointer'
                   }`}
                 >
-                  {isFullySponsored ? 'Fully Sponsored' : 'Offer Anudan'}
+                  {isFullySponsored ? 'Offering Fulfilled' : 'Offer Anudan'}
                 </button>
               </div>
             </>
