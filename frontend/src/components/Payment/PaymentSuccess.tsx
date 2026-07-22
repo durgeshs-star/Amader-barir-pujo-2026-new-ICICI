@@ -47,7 +47,7 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
   const [searchParams] = useSearchParams();
   const [isBhogBooking, setIsBhogBooking] = useState(false);
   const [isAnudanPayment, setIsAnudanPayment] = useState(false);
-  const [receiptData, setReceiptData] = useState<AnudanReceiptData | null>(null);
+  const [receiptData, setReceiptData] = useState<AnudanReceiptData | undefined>(undefined);
   const [isLoadingReceipt, setIsLoadingReceipt] = useState(false);
 
   // Get values from URL params if not provided as props
