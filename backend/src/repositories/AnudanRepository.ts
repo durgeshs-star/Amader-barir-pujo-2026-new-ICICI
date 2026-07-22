@@ -27,6 +27,12 @@ export class AnudanRepository {
       remark: string;
     }>;
     totalAmount: number;
+    paymentStatus?: 'pending' | 'success' | 'failed' | 'cancelled';
+    iciciTxnId?: string;
+    iciciPaymentId?: string;
+    iciciPaymentMode?: string;
+    iciciPaymentDateTime?: string;
+    iciciResponseCode?: string;
   }): Promise<IAnudanPayment> {
     try {
       const payment = new AnudanPayment(paymentData);

@@ -27,6 +27,12 @@ export class BhogRepository {
       remark: string;
     }>;
     totalAmount: number;
+    paymentStatus?: 'pending' | 'success' | 'failed' | 'cancelled';
+    iciciTxnId?: string;
+    iciciPaymentId?: string;
+    iciciPaymentMode?: string;
+    iciciPaymentDateTime?: string;
+    iciciResponseCode?: string;
   }): Promise<IBhogPayment> {
     try {
       const payment = new BhogPayment(paymentData);

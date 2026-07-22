@@ -22,6 +22,7 @@ import { createPaymentRoutes } from './routes/paymentRoutes';
 import { createBhogRoutes } from './routes/bhogRoutes';
 import { createQuestionairRoutes } from './routes/questionairRoutes';
 import { createAnudanRoutes } from './routes/anudanRoutes';
+import { createIciciPaymentRoutes } from './routes/iciciPaymentRoutes';
 import { errorHandler } from './middleware/errorHandler';
 
 dotenv.config();
@@ -79,6 +80,7 @@ const anudanController = new AnudanController(sheetsService);
 app.use('/api', createContactRoutes(contactController));
 app.use('/api', createVolunteerRoutes(volunteerController));
 app.use('/api/payment', createPaymentRoutes(paymentRepository));
+app.use('/api/payment', createIciciPaymentRoutes());
 app.use('/api/bhog', createBhogRoutes(bhogController));
 app.use('/api', createQuestionairRoutes(questionairController));
 app.use('/api/anudan', createAnudanRoutes(sheetsService));
@@ -118,6 +120,40 @@ const startServer = async () => {
 
     // Initialize payment configuration
     initializePaymentConfig();
+
+    // Validate ICICI PG configuration if using icici provider
+    if (process.env.PAYMENT_PROVIDER === 'icici') {
+      const returnURL = process.env.ICICI_PG_RETURN_URL;
+      const frontendURL = process.env.FRONTEND_URL;
+
+      if (!returnURL) {
+        throw new Error('ICICI_PG_RETURN_URL is not set. Required when PAYMENT_PROVIDER=icici');
+      }
+
+      if (!frontendURL) {
+        throw new Error('FRONTEND_URL is not set. Required for callback redirects');
+      }
+
+      // Prevent localhost/ngrok in production
+      if (process.env.NODE_ENV === 'production') {
+        if (returnURL.includes('localhost')) {
+          throw new Error('ICICI_PG_RETURN_URL cannot contain "localhost" in production. ICICI cannot reach localhost.');
+        }
+        if (returnURL.includes('ngrok')) {
+          throw new Error('ICICI_PG_RETURN_URL cannot contain "ngrok" in production. Use the Render domain instead.');
+        }
+      } else {
+        // Development mode: warn if not using ngrok or localhost
+        if (!returnURL.includes('ngrok') && !returnURL.includes('localhost')) {
+          console.warn('[ICICI PG] WARNING: ICICI_PG_RETURN_URL does not contain "ngrok" or "localhost".');
+          console.warn('[ICICI PG] You may be testing against the deployed Render backend from local development.');
+        }
+      }
+
+      console.log('[ICICI PG] Configuration:');
+      console.log(`[ICICI PG] ICICI_PG_RETURN_URL = ${returnURL}`);
+      console.log(`[ICICI PG] FRONTEND_URL        = ${frontendURL}`);
+    }
 
     // Initialize Anudan state service (loads from MongoDB)
     await anudanStateService.initialize();

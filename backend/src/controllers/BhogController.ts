@@ -7,6 +7,7 @@
 import { Request, Response } from 'express';
 import { GoogleSheetsService } from '../services/GoogleSheetsService';
 import { BhogRepository } from '../repositories/BhogRepository';
+import { iciciPGService, InitiateSalePayload } from '../services/iciciPG.service';
 
 export class BhogController {
   private sheetsService: GoogleSheetsService;
@@ -180,7 +181,7 @@ export class BhogController {
 
   /**
    * Handle paid bhog booking
-   * Records the booking in Google Sheets with payment
+   * Modified for ICICI PG integration - initiates payment and returns redirect URL
    */
   async handlePaidBooking(req: Request, res: Response): Promise<void> {
     try {
@@ -204,83 +205,86 @@ export class BhogController {
         return;
       }
 
-      // Initialize sheets service
-      await this.sheetsService.initialize();
-
-      // Determine sheet name based on booking title
-      const sheetName = this.getSheetNameFromTitle(title);
-
-      // Create sheet if it doesn't exist with headers
-      const headers = [
-        'Timestamp',
-        'Order ID',
-        'Transaction ID',
-        'Customer Name',
-        'Mobile Number',
-        'Email',
-        'Adult Plates',
-        'Children 0-5 Plates',
-        'Children 5+ Plates',
-        'Senior Citizen Plates',
-        'Total Plates',
-        'Total Amount Paid (₹)',
-        'Payment Status'
-      ];
-      await this.sheetsService.createSheetIfNotExists(sheetName, headers);
-
-      // Extract bhog quantities with defaults
-      const quantities = this.extractBhogQuantities(categories);
-
-      // Append booking data to sheet
-      const rowData = [
-        timestamp || new Date().toISOString(),
-        orderId || '',
-        transactionId || '',
-        userInfo?.name || '',
-        userInfo?.phone || '',
-        userInfo?.email || '',
-        quantities.adult,
-        quantities.children05,
-        quantities.children5Plus,
-        quantities.seniorCitizen,
-        totalCount,
-        totalAmount,
-        isFree ? 'Free' : 'Paid'
-      ];
-      await this.sheetsService.appendRow(sheetName, rowData);
-
-      // Store booking in MongoDB
-      await this.bhogRepository.createPayment({
-        orderId: orderId || '',
-        transactionId: transactionId || '',
-        timestamp: timestamp || new Date().toISOString(),
-        userInfo: userInfo || { name: '', phone: '', email: '' },
-        bookings: [{
-          day: title,
-          amount: totalAmount,
-          quantity: totalCount,
-          remark: 'Paid booking'
-        }],
-        totalAmount
-      });
-
-      // Update summary calculations at the end of the sheet
-      await this.updateSheetSummary(sheetName);
-
-      res.status(200).json({
-        success: true,
-        message: 'Paid bhog booking recorded successfully',
-        data: {
-          title,
-          categories,
+      // Step 1: Save to MongoDB with paymentStatus='pending'
+      try {
+        await this.bhogRepository.createPayment({
+          orderId: orderId || '',
+          transactionId: transactionId || '',
+          timestamp: timestamp || new Date().toISOString(),
+          userInfo: userInfo || { name: '', phone: '', email: '' },
+          bookings: [{
+            day: title,
+            amount: totalAmount,
+            quantity: totalCount,
+            remark: 'Paid booking'
+          }],
           totalAmount,
-          totalCount,
-          timestamp,
-          userInfo,
-          orderId,
-          transactionId
+          paymentStatus: 'pending'
+        });
+      } catch (dbError) {
+        console.error('DB save failed for bhog booking:', dbError);
+        res.status(500).json({
+          success: false,
+          error: 'Failed to save booking record'
+        });
+        return;
+      }
+
+      // Step 2: Call ICICI initiateSale API
+      try {
+        const initiateSalePayload: InitiateSalePayload = {
+          merchantTxnNo: transactionId,
+          amount: totalAmount,
+          customerEmailID: userInfo?.email || '',
+          customerName: userInfo?.name,
+          customerMobileNo: userInfo?.phone,
+          invoiceNo: orderId,
+          addlParam1: 'bhog',
+          addlParam2: title,
+        };
+
+        const iciciResponse = await iciciPGService.initiateSale(initiateSalePayload);
+
+        // Step 3: Build payment URL and return to frontend
+        const paymentUrl = `${iciciResponse.redirectURI}?tranCtx=${encodeURIComponent(iciciResponse.tranCtx || '')}`;
+
+        res.status(200).json({
+          success: true,
+          message: 'Paid bhog booking initiated successfully',
+          data: {
+            title,
+            categories,
+            totalAmount,
+            totalCount,
+            timestamp: timestamp || new Date().toISOString(),
+            userInfo,
+            orderId,
+            transactionId
+          },
+          paymentUrl,
+        });
+      } catch (iciciError: any) {
+        // ICICI API failed - mark payment as failed
+        console.error('ICICI initiateSale failed for bhog booking:', iciciError);
+        
+        // Update MongoDB payment status to failed
+        try {
+          const payment = await this.bhogRepository.getPaymentByTransactionId(transactionId);
+          if (payment) {
+            payment.paymentStatus = 'failed';
+            payment.iciciResponseCode = 'ICICI_INITIATE_FAILED';
+            await payment.save();
+          }
+        } catch (updateError) {
+          console.error('Failed to update payment status to failed:', updateError);
         }
-      });
+
+        res.status(500).json({
+          success: false,
+          error: `Failed to initiate payment: ${iciciError.message}`
+        });
+        return;
+      }
     } catch (error: any) {
       console.error('Error handling paid bhog booking:', error);
       res.status(500).json({

@@ -23,6 +23,13 @@ export interface IBhogPayment extends Document {
     remark: string;
   }>;
   totalAmount: number;
+  // ICICI PG fields
+  iciciTxnId?: string;
+  iciciPaymentId?: string;
+  iciciPaymentMode?: string;
+  iciciPaymentDateTime?: string;
+  iciciResponseCode?: string;
+  paymentStatus?: 'pending' | 'success' | 'failed' | 'cancelled';
   createdAt: Date;
   updatedAt: Date;
 }
@@ -77,6 +84,27 @@ const BhogPaymentSchema = new Schema<IBhogPayment>(
     totalAmount: {
       type: Number,
       required: true,
+    },
+    // ICICI PG fields
+    iciciTxnId: {
+      type: String,
+    },
+    iciciPaymentId: {
+      type: String,
+    },
+    iciciPaymentMode: {
+      type: String,
+    },
+    iciciPaymentDateTime: {
+      type: String,
+    },
+    iciciResponseCode: {
+      type: String,
+    },
+    paymentStatus: {
+      type: String,
+      enum: ['pending', 'success', 'failed', 'cancelled'],
+      default: 'pending',
     },
   },
   {

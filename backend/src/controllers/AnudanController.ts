@@ -4,6 +4,7 @@ import { AnudanRepository } from '../repositories/AnudanRepository';
 import { anudanPaymentService } from '../services/anudanPayment.service';
 import { anudanStateService } from '../services/anudanState.service';
 import { errorResponse } from '../utils/response.util';
+import { iciciPGService, InitiateSalePayload } from '../services/iciciPG.service';
 
 export class AnudanController {
   private sheetsService: GoogleSheetsService;
@@ -17,6 +18,7 @@ export class AnudanController {
 
   /**
    * Handle paid anudan booking (single or multiple categories)
+   * Modified for ICICI PG integration - initiates payment and returns redirect URL
    */
   handlePaidAnudan = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -41,61 +43,124 @@ export class AnudanController {
 
       const totalAmount = categories.reduce((sum, cat) => sum + cat.amount, 0);
 
-      // Use payment service to process payment (updates in-memory state)
-      const paymentResult = await anudanPaymentService.confirmPayment({
-        categories,
-        userInfo,
-        orderId,
-        transactionId,
-        timestamp: timestamp || new Date().toISOString(),
-        totalAmount
-      });
+      // Step 1: Reserve amounts from in-memory state (mutex-protected)
+      const reservations = [];
+      for (const category of categories) {
+        const campaignId = category.day;
+        const amount = category.amount;
 
-      // If payment service returned an error, forward it
-      if (!paymentResult.success) {
-        res.status(paymentResult.statusCode || 400).json(paymentResult);
+        const reserveResult = await anudanStateService.tryReserve(campaignId, amount);
+
+        if (!reserveResult.ok) {
+          // Reservation failed - rollback all previous reservations
+          console.log(`Insufficient remaining amount for ${campaignId}: requested ₹${amount}, remaining ₹${reserveResult.remaining}`);
+          
+          for (const prevReservation of reservations) {
+            await anudanStateService.rollback(prevReservation.campaignId, prevReservation.amount);
+          }
+          
+          res.status(400).json({
+            success: false,
+            errorCode: 'INSUFFICIENT_REMAINING_AMOUNT',
+            remainingAmount: reserveResult.remaining,
+            requestedAmount: amount,
+            message: `Insufficient remaining amount for ${campaignId}`
+          });
+          return;
+        }
+
+        reservations.push({
+          campaignId,
+          amount,
+          remaining: reserveResult.remaining
+        });
+      }
+
+      // Step 2: Save to MongoDB with paymentStatus='pending'
+      try {
+        await this.anudanRepository.createPayment({
+          orderId,
+          transactionId,
+          timestamp: timestamp || new Date().toISOString(),
+          userInfo,
+          categories,
+          totalAmount,
+          paymentStatus: 'pending'
+        });
+      } catch (dbError) {
+        // DB save failed - rollback all reservations
+        console.error('DB save failed, rolling back all reservations:', dbError);
+        for (const reservation of reservations) {
+          await anudanStateService.rollback(reservation.campaignId, reservation.amount);
+        }
+        res.status(500).json({
+          success: false,
+          error: 'Failed to save payment record'
+        });
         return;
       }
 
-      // Add to Google Sheets (non-critical, don't fail if this errors)
+      // Step 3: Call ICICI initiateSale API
       try {
-        await this.sheetsService.initialize();
+        const initiateSalePayload: InitiateSalePayload = {
+          merchantTxnNo: transactionId,
+          amount: totalAmount,
+          customerEmailID: userInfo.email,
+          customerName: userInfo.name,
+          customerMobileNo: userInfo.phone,
+          invoiceNo: orderId,
+          addlParam1: 'anudan',
+          addlParam2: categories[0]?.day || '', // First category for reference
+        };
 
-        const headers = [
-          'Timestamp',
-          'Order ID',
-          'Transaction ID',
-          'Customer Name',
-          'Mobile Number',
-          'Email',
-          'Category',
-          'Amount (₹)',
-          'Remark',
-        ];
-        await this.sheetsService.createSheetIfNotExists(this.SHEET_NAME, headers);
+        const iciciResponse = await iciciPGService.initiateSale(initiateSalePayload);
 
-        // Add each category as a separate row, but only show payer info once
-        const rowPromises = categories.map((category, index) => {
-          const rowData = [
-            timestamp || new Date().toISOString(),
+        // Step 4: Build payment URL and return to frontend
+        const paymentUrl = `${iciciResponse.redirectURI}?tranCtx=${encodeURIComponent(iciciResponse.tranCtx || '')}`;
+
+        res.status(200).json({
+          success: true,
+          data: {
             orderId,
             transactionId,
-            index === 0 ? userInfo.name || '' : '', // Only show name on first row
-            index === 0 ? userInfo.phone || '' : '', // Only show phone on first row
-            index === 0 ? userInfo.email || '' : '', // Only show email on first row
-            category.day,
-            category.amount,
-            category.remark || ''
-          ];
-          return this.sheetsService.appendRow(this.SHEET_NAME, rowData);
+            categories: reservations.map(r => ({
+              campaignId: r.campaignId,
+              amount: r.amount,
+              remaining: r.remaining,
+              status: 'pending',
+            })),
+            totalAmount,
+            timestamp: timestamp || new Date().toISOString(),
+            userInfo,
+          },
+          paymentUrl,
         });
-        await Promise.all(rowPromises);
-      } catch (sheetsError) {
-        console.error('Failed to add to Google Sheets (non-critical):', sheetsError);
-        // Don't fail the payment if sheets update fails
-      }
+      } catch (iciciError: any) {
+        // ICICI API failed - rollback reservations and mark payment as failed
+        console.error('ICICI initiateSale failed, rolling back reservations:', iciciError);
+        
+        for (const reservation of reservations) {
+          await anudanStateService.rollback(reservation.campaignId, reservation.amount);
+        }
 
-      res.status(200).json(paymentResult);
+        // Update MongoDB payment status to failed
+        try {
+          const payment = await this.anudanRepository.getPaymentByTransactionId(transactionId);
+          if (payment) {
+            payment.paymentStatus = 'failed';
+            payment.iciciResponseCode = 'ICICI_INITIATE_FAILED';
+            await payment.save();
+          }
+        } catch (updateError) {
+          console.error('Failed to update payment status to failed:', updateError);
+        }
+
+        res.status(500).json({
+          success: false,
+          error: `Failed to initiate payment: ${iciciError.message}`
+        });
+        return;
+      }
     } catch (error: any) {
       console.error('Error handling anudan payment:', error);
       res.status(500).json({
