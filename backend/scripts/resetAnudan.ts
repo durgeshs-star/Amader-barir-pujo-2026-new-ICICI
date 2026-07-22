@@ -8,12 +8,18 @@
 
 import mongoose from 'mongoose';
 import { AnudanPayment } from '../src/models/AnudanPayment';
-import { databaseConfig } from '../src/config/database';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 async function resetAnudan() {
   try {
     // Connect to MongoDB
-    await mongoose.connect(databaseConfig.mongoURI);
+    const mongoUri = process.env.MONGODB_URI;
+    if (!mongoUri) {
+      throw new Error('MONGODB_URI is not defined in environment variables');
+    }
+    await mongoose.connect(mongoUri);
     console.log('Connected to MongoDB');
 
     // Delete all AnudanPayment records

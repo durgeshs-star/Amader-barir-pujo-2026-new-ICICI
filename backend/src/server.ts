@@ -44,7 +44,7 @@ app.use(helmet({
 // CORS configuration
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://amader-barir-pujo-2026-new-9257.vercel.app', 'https://amader-barir-pujo-2026-new.onrender.com']
+    ? ['https://amader-barir-pujo-2026-new-9257.vercel.app', 'https://amader-barir-pujo-2026-new-icici.onrender.com/']
     : ['http://localhost:5173', 'http://localhost:3000'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true,

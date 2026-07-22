@@ -3,18 +3,7 @@ import { GoogleSheetsService } from '../services/GoogleSheetsService';
 import { AnudanRepository } from '../repositories/AnudanRepository';
 import { anudanPaymentService } from '../services/anudanPayment.service';
 import { anudanStateService } from '../services/anudanState.service';
-import { successResponse, errorResponse } from '../utils/response.util';
-
-// Define total costs for each Anudan category (same as frontend data)
-const ANUDAN_TOTAL_COSTS: Record<string, number> = {
-  'Panchami': 15000,
-  'Shashti': 25000,
-  'Saptami': 30000,
-  'Ashtami': 40000,
-  'Ashtami Sandhi Puja': 50000,
-  'Navami': 35000,
-  'Dashami': 20000,
-};
+import { errorResponse } from '../utils/response.util';
 
 export class AnudanController {
   private sheetsService: GoogleSheetsService;
