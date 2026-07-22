@@ -61,7 +61,18 @@ export class AnudanRepository {
    */
   async getPaymentByTransactionId(transactionId: string): Promise<IAnudanPayment | null> {
     try {
-      return await AnudanPayment.findOne({ transactionId });
+      const payment = await AnudanPayment.findOne({ transactionId });
+      if (payment) return payment;
+
+      // ICICI callbacks contain the alphanumeric, 20-character merchantTxnNo.
+      // Older records stored the frontend value (TXN-<timestamp>-<random>) instead.
+      const legacyParts = transactionId.match(/^([A-Za-z]+)(\d{13})([A-Za-z0-9]{4})$/);
+      if (!legacyParts) return null;
+
+      const legacyPrefix = `${legacyParts[1]}-${legacyParts[2]}-${legacyParts[3]}`;
+      return await AnudanPayment.findOne({
+        transactionId: { $regex: `^${legacyPrefix}` },
+      });
     } catch (error) {
       console.error('Error fetching Anudan payment by transaction ID:', error);
       throw error;

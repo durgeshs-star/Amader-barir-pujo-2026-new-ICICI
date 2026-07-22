@@ -8,6 +8,7 @@ import { Request, Response } from 'express';
 import { GoogleSheetsService } from '../services/GoogleSheetsService';
 import { BhogRepository } from '../repositories/BhogRepository';
 import { iciciPGService, InitiateSalePayload } from '../services/iciciPG.service';
+import { sanitizeMerchantTxnNo } from '../services/iciciHash.service';
 
 export class BhogController {
   private sheetsService: GoogleSheetsService;
@@ -186,6 +187,9 @@ export class BhogController {
   async handlePaidBooking(req: Request, res: Response): Promise<void> {
     try {
       const { title, categories, totalAmount, totalCount, timestamp, isFree, userInfo, orderId, transactionId } = req.body;
+      const merchantTxnNo = typeof transactionId === 'string'
+        ? sanitizeMerchantTxnNo(transactionId)
+        : '';
 
       // Validate required fields
       if (!title || !categories || !Array.isArray(categories) || categories.length === 0) {
@@ -197,7 +201,7 @@ export class BhogController {
       }
 
       // Validate payment info for paid bookings
-      if (isFree === false && (!orderId || !transactionId)) {
+      if (isFree === false && (!orderId || !merchantTxnNo)) {
         res.status(400).json({
           success: false,
           error: 'Order ID and Transaction ID are required for paid bookings.'
@@ -209,7 +213,7 @@ export class BhogController {
       try {
         await this.bhogRepository.createPayment({
           orderId: orderId || '',
-          transactionId: transactionId || '',
+          transactionId: merchantTxnNo,
           timestamp: timestamp || new Date().toISOString(),
           userInfo: userInfo || { name: '', phone: '', email: '' },
           bookings: [{
@@ -233,7 +237,7 @@ export class BhogController {
       // Step 2: Call ICICI initiateSale API
       try {
         const initiateSalePayload: InitiateSalePayload = {
-          merchantTxnNo: transactionId,
+          merchantTxnNo,
           amount: totalAmount,
           customerEmailID: userInfo?.email || '',
           customerName: userInfo?.name,
@@ -259,7 +263,7 @@ export class BhogController {
             timestamp: timestamp || new Date().toISOString(),
             userInfo,
             orderId,
-            transactionId
+            transactionId: merchantTxnNo
           },
           paymentUrl,
         });
@@ -269,7 +273,7 @@ export class BhogController {
         
         // Update MongoDB payment status to failed
         try {
-          const payment = await this.bhogRepository.getPaymentByTransactionId(transactionId);
+          const payment = await this.bhogRepository.getPaymentByTransactionId(merchantTxnNo);
           if (payment) {
             payment.paymentStatus = 'failed';
             payment.iciciResponseCode = 'ICICI_INITIATE_FAILED';

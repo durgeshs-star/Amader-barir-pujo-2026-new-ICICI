@@ -5,6 +5,7 @@ import { anudanPaymentService } from '../services/anudanPayment.service';
 import { anudanStateService } from '../services/anudanState.service';
 import { errorResponse } from '../utils/response.util';
 import { iciciPGService, InitiateSalePayload } from '../services/iciciPG.service';
+import { sanitizeMerchantTxnNo } from '../services/iciciHash.service';
 
 export class AnudanController {
   private sheetsService: GoogleSheetsService;
@@ -24,6 +25,9 @@ export class AnudanController {
     try {
       console.log('=== Anudan Paid Booking Request Received ===');
       const { categories, userInfo, orderId, transactionId, timestamp } = req.body;
+      const merchantTxnNo = typeof transactionId === 'string'
+        ? sanitizeMerchantTxnNo(transactionId)
+        : '';
       console.log('Request body:', { categories, userInfo, orderId, transactionId, timestamp });
 
       // Validate required fields
@@ -35,7 +39,7 @@ export class AnudanController {
         return;
       }
 
-      if (!userInfo || !orderId || !transactionId) {
+      if (!userInfo || !orderId || !merchantTxnNo) {
         res.status(400).json({
           success: false,
           error: 'Invalid booking data. Missing required fields.'
@@ -84,10 +88,10 @@ export class AnudanController {
       // Step 2: Save to MongoDB with paymentStatus='pending'
       console.log('Step 2: Saving to MongoDB with paymentStatus=pending');
       try {
-        console.log('Saving payment to MongoDB with transactionId:', transactionId);
+        console.log('Saving payment to MongoDB with ICICI merchantTxnNo:', merchantTxnNo);
         const savedPayment = await this.anudanRepository.createPayment({
           orderId,
-          transactionId,
+          transactionId: merchantTxnNo,
           timestamp: timestamp || new Date().toISOString(),
           userInfo,
           categories,
@@ -111,7 +115,7 @@ export class AnudanController {
       // Step 3: Call ICICI initiateSale API
       try {
         const initiateSalePayload: InitiateSalePayload = {
-          merchantTxnNo: transactionId,
+          merchantTxnNo,
           amount: totalAmount,
           customerEmailID: userInfo.email,
           customerName: userInfo.name,
@@ -130,7 +134,7 @@ export class AnudanController {
           success: true,
           data: {
             orderId,
-            transactionId,
+            transactionId: merchantTxnNo,
             categories: reservations.map(r => ({
               campaignId: r.campaignId,
               amount: r.amount,
@@ -153,7 +157,7 @@ export class AnudanController {
 
         // Update MongoDB payment status to failed
         try {
-          const payment = await this.anudanRepository.getPaymentByTransactionId(transactionId);
+          const payment = await this.anudanRepository.getPaymentByTransactionId(merchantTxnNo);
           if (payment) {
             payment.paymentStatus = 'failed';
             payment.iciciResponseCode = 'ICICI_INITIATE_FAILED';
