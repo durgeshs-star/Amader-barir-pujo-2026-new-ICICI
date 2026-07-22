@@ -152,9 +152,9 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
         // Redirect to payment gateway or payment page
         if (response.data.paymentUrl) {
           window.location.href = response.data.paymentUrl;
-        } else if (response.data.transactionId) {
+        } else if (response.data.data?.transactionId) {
           // Redirect to mock payment page if using mock payment
-          window.location.href = `/mock-payment?transactionId=${response.data.transactionId}`;
+          window.location.href = `/mock-payment/${response.data.data.transactionId}`;
         } else {
           throw new Error('No payment URL or transaction ID returned from backend');
         }

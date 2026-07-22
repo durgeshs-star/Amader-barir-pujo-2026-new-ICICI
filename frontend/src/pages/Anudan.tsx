@@ -197,6 +197,14 @@ export const Anudan: React.FC = () => {
       const responseData = await response.json();
 
       if (response.ok) {
+        // Check if paymentUrl is returned (ICICI PG integration)
+        if (responseData.paymentUrl) {
+          // Redirect to ICICI payment page
+          window.location.href = responseData.paymentUrl;
+          return;
+        }
+
+        // Mock payment flow - show receipt directly
         // Refresh remaining amounts after successful payment
         try {
           const remainingResponse = await fetch(`${API_URL}/api/anudan/remaining`);
