@@ -64,6 +64,12 @@ app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 app.use(compression());
 
+// Log all incoming requests for debugging
+app.use((req, res, next) => {
+  console.log(`[REQUEST] ${req.method} ${req.url}`);
+  next();
+});
+
 // Initialize dependencies
 const contactRepository = new ContactRepository();
 const volunteerRepository = new VolunteerRepository();
