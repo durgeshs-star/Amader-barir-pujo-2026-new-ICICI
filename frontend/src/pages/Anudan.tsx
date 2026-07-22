@@ -11,6 +11,7 @@ import { AnudanAmountChangedModal } from '../components/AnudanAmountChangedModal
 import type { AnudanCard as AnudanCardType } from '../types/anudan.types';
 import { API_URL } from '../config/api';
 import { useAnudanRemaining } from '../hooks/useAnudanRemaining';
+import { toast } from 'react-toastify';
 
 interface BasketItem {
   card: AnudanCardType;
@@ -100,7 +101,7 @@ export const Anudan: React.FC = () => {
 
   const handleCheckout = () => {
     if (basket.length === 0) {
-      alert('Your basket is empty');
+      toast.error('Your basket is empty');
       return;
     }
     setShowUserInfoForm(true);
@@ -116,7 +117,7 @@ export const Anudan: React.FC = () => {
     if (!userInfoFormRef.current.validateForm()) return;
 
     if (basket.length === 0) {
-      alert('Your basket is empty');
+      toast.error('Your basket is empty');
       return;
     }
 
@@ -228,7 +229,7 @@ export const Anudan: React.FC = () => {
       }
     } catch (error) {
       console.error('Payment failed:', error);
-      alert('Failed to process payment. Please try again.');
+      toast.error('Failed to process payment. Please try again.');
     } finally {
       setIsProcessing(false);
     }

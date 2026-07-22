@@ -7,6 +7,7 @@
 
 import React, { useRef } from 'react';
 import html2pdf from 'html2pdf.js';
+import { toast } from 'react-toastify';
 
 interface BhogCategory {
   id: string;
@@ -62,7 +63,7 @@ export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propRecei
 
     if (!receiptRef.current) {
       console.error('Receipt ref is not available');
-      alert('Unable to generate receipt. Please try again.');
+      toast.error('Unable to generate receipt. Please try again.');
       return;
     }
 
@@ -92,7 +93,7 @@ export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propRecei
       console.log('PDF generated successfully');
     } catch (error) {
       console.error('Error generating PDF:', error);
-      alert('Failed to generate receipt. Please try again.');
+      toast.error('Failed to generate receipt. Please try again.');
     }
   };
 

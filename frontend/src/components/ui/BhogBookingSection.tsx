@@ -6,6 +6,7 @@ import UserInfoForm from './UserInfoForm';
 import type { UserInfoFormRef } from './UserInfoForm';
 import type { BhogBookingSectionProps, BhogBookingState } from '../../types/bhog';
 import { API_URL } from '../../config/api';
+import { toast } from 'react-toastify';
 
 export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
   title,
@@ -110,7 +111,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
       }
     } catch (err: any) {
       console.error('Free booking failed:', err);
-      alert(`Failed to record free booking: ${err.response?.data?.error || err.message || 'Unknown error'}`);
+      toast.error(`Failed to record free booking: ${err.response?.data?.error || err.message || 'Unknown error'}`);
     } finally {
       setIsLoading(false);
     }
@@ -162,7 +163,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
       }
     } catch (err: any) {
       console.error('Payment initiation failed:', err);
-      alert(`Failed to initiate payment: ${err.response?.data?.error || err.message || 'Unknown error'}`);
+      toast.error(`Failed to initiate payment: ${err.response?.data?.error || err.message || 'Unknown error'}`);
     } finally {
       setIsLoading(false);
     }

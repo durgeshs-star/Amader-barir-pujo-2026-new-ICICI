@@ -7,6 +7,7 @@
 
 import React, { useRef } from 'react';
 import html2pdf from 'html2pdf.js';
+import { toast } from 'react-toastify';
 
 interface AnudanCategory {
   day: string;
@@ -54,7 +55,7 @@ export const AnudanReceipt: React.FC<AnudanReceiptProps> = ({ receiptData: propR
 
   const handleDownloadReceipt = async () => {
     if (!receiptRef.current) {
-      alert('Unable to generate receipt. Please try again.');
+      toast.error('Unable to generate receipt. Please try again.');
       return;
     }
 
@@ -81,7 +82,7 @@ export const AnudanReceipt: React.FC<AnudanReceiptProps> = ({ receiptData: propR
       await html2pdf().set(opt).from(element).save();
     } catch (error) {
       console.error('Error generating PDF:', error);
-      alert('Failed to generate receipt. Please try again.');
+      toast.error('Failed to generate receipt. Please try again.');
     }
   };
 

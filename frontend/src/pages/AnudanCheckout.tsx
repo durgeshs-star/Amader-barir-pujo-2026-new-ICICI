@@ -5,6 +5,7 @@ import SEO from '../components/ui/SEO';
 import UserInfoForm, { type UserInfoFormRef } from '../components/ui/UserInfoForm';
 import type { AnudanCard as AnudanCardType } from '../types/anudan.types';
 import { API_URL } from '../config/api';
+import { toast } from 'react-toastify';
 
 interface BasketItem {
   card: AnudanCardType;
@@ -33,7 +34,7 @@ export const AnudanCheckout: React.FC = () => {
     if (!userInfoFormRef.current.validateForm()) return;
 
     if (basket.length === 0) {
-      alert('Your basket is empty');
+      toast.error('Your basket is empty');
       return;
     }
 
@@ -80,7 +81,7 @@ export const AnudanCheckout: React.FC = () => {
       }
     } catch (error) {
       console.error('Payment failed:', error);
-      alert('Failed to process payment. Please try again.');
+      toast.error('Failed to process payment. Please try again.');
     } finally {
       setIsProcessing(false);
     }

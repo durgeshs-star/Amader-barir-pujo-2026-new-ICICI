@@ -4,6 +4,7 @@ import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaClock, FaUsers, FaHandshake }
 import PageHero from '../components/common/PageHero';
 import Button from '../components/ui/Button';
 import SEO from '../components/ui/SEO';
+import { toast } from 'react-toastify';
 
 export const ContactUs: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -80,12 +81,13 @@ export const ContactUs: React.FC = () => {
         setSubmitted(true);
         setFormData({ name: '', email: '', subject: '', message: '' });
         setErrors({});
+        toast.success('Message sent successfully!');
       } else {
-        alert('Failed to send message. Please try again.');
+        toast.error('Failed to send message. Please try again.');
       }
     } catch (error) {
       console.error('Error submitting form:', error);
-      alert('Failed to send message. Please try again.');
+      toast.error('Failed to send message. Please try again.');
     } finally {
       setIsSubmitting(false);
     }

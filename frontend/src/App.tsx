@@ -1,5 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Layout & UI Global features — always eager (above the fold)
 import Header from './components/Header/Header';
@@ -123,6 +125,21 @@ const AppShell: React.FC = () => {
       {!isWelcomeToAbpWaFamilyRoute ? <Footer /> : null}
       {/* {!isWelcomeToAbpWaFamilyRoute ? <WhatsAppBtn /> : null} */}
       {!isWelcomeToAbpWaFamilyRoute ? <BackToTop /> : null}
+      
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        toastClassName="bg-white text-gray-900 border border-gray-200 shadow-lg rounded-lg"
+        progressClassName="bg-primary"
+      />
     </div>
   );
 };

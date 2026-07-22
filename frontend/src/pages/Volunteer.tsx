@@ -4,6 +4,7 @@ import { FaUser, FaEnvelope, FaPhone, FaArrowRight, FaHeart, FaUsers, FaHandHold
 import PageHero from "../components/common/PageHero";
 import Button from "../components/ui/Button";
 import SEO from "../components/ui/SEO";
+import { toast } from 'react-toastify';
 
 interface FormData {
   name: string;
@@ -83,11 +84,12 @@ const VolunteerContent: React.FC = React.memo(() => {
         setSubmitted(true);
         setFormData({ name: "", email: "", phone: "", message: "" });
         setErrors({});
+        toast.success('Volunteer form submitted successfully!');
       } else {
-        alert("Submission failed. Please try again or contact us directly.");
+        toast.error('Submission failed. Please try again or contact us directly.');
       }
     } catch {
-      alert("Network error. Please check your connection and try again.");
+      toast.error('Network error. Please check your connection and try again.');
     } finally {
       setIsSubmitting(false);
     }
