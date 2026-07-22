@@ -22,7 +22,9 @@ export class AnudanController {
    */
   handlePaidAnudan = async (req: Request, res: Response): Promise<void> => {
     try {
+      console.log('=== Anudan Paid Booking Request Received ===');
       const { categories, userInfo, orderId, transactionId, timestamp } = req.body;
+      console.log('Request body:', { categories, userInfo, orderId, transactionId, timestamp });
 
       // Validate required fields
       if (!categories || !Array.isArray(categories) || categories.length === 0) {
@@ -42,13 +44,16 @@ export class AnudanController {
       }
 
       const totalAmount = categories.reduce((sum, cat) => sum + cat.amount, 0);
+      console.log('Total amount:', totalAmount);
 
       // Step 1: Reserve amounts from in-memory state (mutex-protected)
+      console.log('Step 1: Reserving amounts from in-memory state');
       const reservations = [];
       for (const category of categories) {
         const campaignId = category.day;
         const amount = category.amount;
 
+        console.log(`Reserving ₹${amount} for ${campaignId}`);
         const reserveResult = await anudanStateService.tryReserve(campaignId, amount);
 
         if (!reserveResult.ok) {
@@ -77,6 +82,7 @@ export class AnudanController {
       }
 
       // Step 2: Save to MongoDB with paymentStatus='pending'
+      console.log('Step 2: Saving to MongoDB with paymentStatus=pending');
       try {
         console.log('Saving payment to MongoDB with transactionId:', transactionId);
         const savedPayment = await this.anudanRepository.createPayment({
