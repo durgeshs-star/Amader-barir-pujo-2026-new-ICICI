@@ -80,6 +80,12 @@ app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
+// Get server's public IP address
+app.get('/my-ip', async (req, res) => {
+  const response = await fetch('https://api.ipify.org?format=json');
+  res.json(await response.json());
+});
+
 // Mock payment page redirect (for mock payment provider)
 // This route redirects to the frontend mock payment page
 app.get('/mock-payment/:transactionId', (req, res) => {
