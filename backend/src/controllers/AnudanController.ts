@@ -217,6 +217,46 @@ export class AnudanController {
   };
 
   /**
+   * Get payment details by transactionId
+   * GET /api/anudan/payment/:transactionId
+   */
+  getPaymentByTransactionId = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { transactionId } = req.params;
+      console.log('Fetching payment for transactionId:', transactionId);
+
+      if (!transactionId) {
+        res.status(400).json({
+          success: false,
+          error: 'transactionId is required'
+        });
+        return;
+      }
+
+      const payment = await this.anudanRepository.getPaymentByTransactionId(transactionId);
+
+      if (!payment) {
+        res.status(404).json({
+          success: false,
+          error: 'Payment not found'
+        });
+        return;
+      }
+
+      res.status(200).json({
+        success: true,
+        data: payment
+      });
+    } catch (error: any) {
+      console.error('Error fetching payment:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to fetch payment'
+      });
+    }
+  };
+
+  /**
    * Get remaining amount for a specific campaign (from in-memory state only)
    */
   getRemaining = async (req: Request, res: Response): Promise<void> => {
@@ -276,3 +316,4 @@ export class AnudanController {
     }
   };
 }
+

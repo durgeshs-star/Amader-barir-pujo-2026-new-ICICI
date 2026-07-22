@@ -29,6 +29,12 @@ export const createAnudanRoutes = (sheetsService: GoogleSheetsService): Router =
   router.get('/status', anudanController.getAnudanStatus);
 
   /**
+   * GET /api/anudan/payment/:transactionId
+   * Get payment details by transactionId
+   */
+  router.get('/payment/:transactionId', anudanController.getPaymentByTransactionId);
+
+  /**
    * GET /api/anudan/remaining
    * Get real-time remaining amounts for each Anudan category (from in-memory state only)
    */
