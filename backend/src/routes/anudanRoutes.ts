@@ -17,7 +17,10 @@ export const createAnudanRoutes = (sheetsService: GoogleSheetsService): Router =
    * POST /api/anudan/paid-booking
    * Handle paid anudan booking
    */
-  router.post('/paid-booking', paymentLimiter, anudanController.handlePaidAnudan);
+  router.post('/paid-booking', paymentLimiter, (req, res, next) => {
+    console.log('=== /api/anudan/paid-booking HIT ===');
+    anudanController.handlePaidAnudan(req, res);
+  });
 
   /**
    * GET /api/anudan/status
