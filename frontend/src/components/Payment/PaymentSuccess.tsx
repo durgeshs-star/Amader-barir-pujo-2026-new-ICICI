@@ -75,10 +75,10 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
     }
 
     // Fetch receipt data if we have a transactionId
-    if (transactionId && !fromBhog && !fromAnudan) {
+    if (transactionId) {
       fetchReceiptData(transactionId);
     }
-  }, [fromBhog, orderId, transactionId, searchParams]);
+  }, [orderId, transactionId, searchParams]);
 
   const fetchReceiptData = async (txnId: string) => {
     setIsLoadingReceipt(true);
@@ -94,6 +94,18 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
       }
     } catch (error) {
       console.error('Failed to fetch receipt data:', error);
+      // If fetch fails, still show the receipt with URL params
+      if (orderId && transactionId) {
+        setReceiptData({
+          orderId,
+          transactionId,
+          categories: [],
+          totalAmount: amount,
+          timestamp: new Date().toISOString(),
+        });
+        setIsAnudanPayment(true);
+        setIsBhogBooking(true);
+      }
     } finally {
       setIsLoadingReceipt(false);
     }
