@@ -11,6 +11,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { BhogReceipt } from './BhogReceipt';
 import { AnudanReceipt } from './AnudanReceipt';
+import { API_URL } from '../../config/api';
 
 interface PaymentSuccessProps {
   orderId?: string;
@@ -19,6 +20,19 @@ interface PaymentSuccessProps {
   currency?: string;
   onContinue?: () => void;
   onViewHistory?: () => void;
+}
+
+interface AnudanReceiptData {
+  orderId: string;
+  transactionId: string;
+  categories: any[];
+  totalAmount: number;
+  timestamp: string;
+  userInfo?: {
+    name: string;
+    phone: string;
+    email: string;
+  };
 }
 
 export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
@@ -33,6 +47,8 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
   const [searchParams] = useSearchParams();
   const [isBhogBooking, setIsBhogBooking] = useState(false);
   const [isAnudanPayment, setIsAnudanPayment] = useState(false);
+  const [receiptData, setReceiptData] = useState<AnudanReceiptData | null>(null);
+  const [isLoadingReceipt, setIsLoadingReceipt] = useState(false);
 
   // Get values from URL params if not provided as props
   const orderId = propOrderId || searchParams.get('orderId') || '';
@@ -41,6 +57,8 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
   const fromBhog = searchParams.get('fromBhog') === 'true';
 
   useEffect(() => {
+    const fromAnudan = searchParams.get('fromAnudan') === 'true';
+    
     if (fromBhog) {
       setIsBhogBooking(true);
       // We can't detect Anudan vs Bhog from receipt if there's no storage,
@@ -50,12 +68,36 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
         setIsAnudanPayment(true);
       }
     }
-    const fromAnudan = searchParams.get('fromAnudan') === 'true';
+    
     if (fromAnudan) {
       setIsBhogBooking(true); // Since UI uses this for the special layout
       setIsAnudanPayment(true);
     }
-  }, [fromBhog, orderId, searchParams]);
+
+    // Fetch receipt data if we have a transactionId
+    if (transactionId && !fromBhog && !fromAnudan) {
+      fetchReceiptData(transactionId);
+    }
+  }, [fromBhog, orderId, transactionId, searchParams]);
+
+  const fetchReceiptData = async (txnId: string) => {
+    setIsLoadingReceipt(true);
+    try {
+      const response = await fetch(`${API_URL}/api/anudan/payment/${txnId}`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success && data.data) {
+          setReceiptData(data.data);
+          setIsAnudanPayment(true);
+          setIsBhogBooking(true);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to fetch receipt data:', error);
+    } finally {
+      setIsLoadingReceipt(false);
+    }
+  };
 
   const handleContinue = () => {
     if (onContinue) {
@@ -96,7 +138,16 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
           </div>
 
           {/* Receipt */}
-          {isAnudanPayment ? <AnudanReceipt /> : <BhogReceipt />}
+          {isLoadingReceipt ? (
+            <div className="text-center py-8">
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-green-600"></div>
+              <p className="mt-2 text-gray-600">Loading receipt...</p>
+            </div>
+          ) : isAnudanPayment ? (
+            <AnudanReceipt receiptData={receiptData} />
+          ) : (
+            <BhogReceipt />
+          )}
 
           {/* Action Buttons */}
           <div className="max-w-md mx-auto mt-8 space-y-3">
