@@ -69,8 +69,12 @@ export class IciciPaymentController {
 
       // Determine flow type from addlParam1 (if available in callback)
       // Note: ICICI may not return addlParam1 in callback, so we need to look up the payment
+      console.log('Looking up payment for transactionId:', body.merchantTxnNo);
       const anudanPayment = await this.anudanRepository.getPaymentByTransactionId(body.merchantTxnNo);
       const bhogPayment = await this.bhogRepository.getPaymentByTransactionId(body.merchantTxnNo);
+
+      console.log('Anudan payment found:', !!anudanPayment);
+      console.log('Bhog payment found:', !!bhogPayment);
 
       if (anudanPayment) {
         // Anudan payment flow

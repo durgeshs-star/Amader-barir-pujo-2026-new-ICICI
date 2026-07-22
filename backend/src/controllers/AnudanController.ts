@@ -78,7 +78,8 @@ export class AnudanController {
 
       // Step 2: Save to MongoDB with paymentStatus='pending'
       try {
-        await this.anudanRepository.createPayment({
+        console.log('Saving payment to MongoDB with transactionId:', transactionId);
+        const savedPayment = await this.anudanRepository.createPayment({
           orderId,
           transactionId,
           timestamp: timestamp || new Date().toISOString(),
@@ -87,6 +88,7 @@ export class AnudanController {
           totalAmount,
           paymentStatus: 'pending'
         });
+        console.log('Payment saved successfully with _id:', savedPayment._id);
       } catch (dbError) {
         // DB save failed - rollback all reservations
         console.error('DB save failed, rolling back all reservations:', dbError);
