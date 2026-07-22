@@ -22,19 +22,6 @@ interface PaymentSuccessProps {
   onViewHistory?: () => void;
 }
 
-interface AnudanReceiptData {
-  orderId: string;
-  transactionId: string;
-  categories: any[];
-  totalAmount: number;
-  timestamp: string;
-  userInfo?: {
-    name: string;
-    phone: string;
-    email: string;
-  };
-}
-
 export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
   orderId: propOrderId,
   transactionId: propTransactionId,
@@ -47,7 +34,7 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
   const [searchParams] = useSearchParams();
   const [isBhogBooking, setIsBhogBooking] = useState(false);
   const [isAnudanPayment, setIsAnudanPayment] = useState(false);
-  const [receiptData, setReceiptData] = useState<AnudanReceiptData | undefined>(undefined);
+  const [receiptData, setReceiptData] = useState<any>(undefined);
   const [isLoadingReceipt, setIsLoadingReceipt] = useState(false);
 
   // Get values from URL params if not provided as props
@@ -83,12 +70,20 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
   const fetchReceiptData = async (txnId: string) => {
     setIsLoadingReceipt(true);
     try {
-      const response = await fetch(`${API_URL}/api/anudan/payment/${txnId}`);
+      let response = await fetch(`${API_URL}/api/anudan/payment/${encodeURIComponent(txnId)}`);
+      let paymentType: 'anudan' | 'bhog' = 'anudan';
+
+      // A successful ICICI callback may belong to either payment flow.
+      if (response.status === 404) {
+        response = await fetch(`${API_URL}/api/bhog/payment/${encodeURIComponent(txnId)}`);
+        paymentType = 'bhog';
+      }
+
       if (response.ok) {
         const data = await response.json();
         if (data.success && data.data) {
           setReceiptData(data.data);
-          setIsAnudanPayment(true);
+          setIsAnudanPayment(paymentType === 'anudan');
           setIsBhogBooking(true);
         }
       }
@@ -158,7 +153,28 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
           ) : isAnudanPayment ? (
             <AnudanReceipt receiptData={receiptData} />
           ) : (
-            <BhogReceipt />
+            <BhogReceipt
+              receiptData={receiptData ? {
+                orderId: receiptData.orderId,
+                transactionId: receiptData.transactionId,
+                title: receiptData.bookings?.[0]?.day || 'Bhog Booking',
+                categories: (receiptData.bookings || []).map((booking: any, index: number) => ({
+                  id: `booking-${index}`,
+                  title: booking.day,
+                  price: booking.quantity ? booking.amount / booking.quantity : booking.amount,
+                  description: booking.remark || '',
+                  max: booking.quantity || 0,
+                  quantity: booking.quantity || 0,
+                })),
+                totalAmount: receiptData.totalAmount,
+                totalCount: (receiptData.bookings || []).reduce(
+                  (total: number, booking: any) => total + (booking.quantity || 0),
+                  0
+                ),
+                timestamp: receiptData.timestamp,
+                userInfo: receiptData.userInfo,
+              } : undefined}
+            />
           )}
 
           {/* Action Buttons */}
