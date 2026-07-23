@@ -100,6 +100,14 @@ export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propRecei
     }
   };
 
+  // Compute sum of category line items to detect gateway charges
+  const lineItemsSum = receiptData.categories.reduce(
+    (sum, cat) => sum + cat.price * cat.quantity,
+    0
+  );
+  const gatewayCharges = receiptData.totalAmount - lineItemsSum;
+  const hasGatewayCharges = gatewayCharges > 0.005;
+
   return (
     <div className="bhog-receipt">
       {/* Printable Receipt */}
@@ -138,7 +146,7 @@ export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propRecei
             <p style={{ fontSize: '13px', marginBottom: '4px' }}><strong>Transaction ID:</strong> {receiptData.transactionId}</p>
           </div>
           <div style={{ flex: '1', minWidth: '200px', textAlign: 'right' }}>
-            <p style={{ fontSize: '13px', marginBottom: '4px' }}><strong>Date & Time:</strong> {formatDate(receiptData.timestamp)}</p>
+            <p style={{ fontSize: '13px', marginBottom: '4px' }}><strong>Date &amp; Time:</strong> {formatDate(receiptData.timestamp)}</p>
             <p style={{ fontSize: '13px', marginBottom: '4px' }}><strong>Event:</strong> {receiptData.title}</p>
           </div>
         </div>
@@ -161,7 +169,7 @@ export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propRecei
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
             <thead>
               <tr style={{ backgroundColor: '#d97706', color: '#ffffff' }}>
-                <th style={{ padding: '6px 12px', textAlign: 'left' }}>Item</th>
+                <th style={{ padding: '6px 12px', textAlign: 'left' }}>Category</th>
                 <th style={{ padding: '6px 12px', textAlign: 'center' }}>Qty</th>
                 <th style={{ padding: '6px 12px', textAlign: 'right' }}>Price</th>
                 <th style={{ padding: '6px 12px', textAlign: 'right' }}>Total</th>
@@ -181,6 +189,18 @@ export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propRecei
                   </td>
                 </tr>
               ))}
+              {/* Gateway charges row: rendered when ICICI totalAmount exceeds sum of line items */}
+              {hasGatewayCharges && (
+                <tr style={{ borderBottom: '1px solid #e5e7eb', backgroundColor: '#fef9ec' }}>
+                  <td style={{ padding: '4px 12px' }} colSpan={3}>
+                    <div style={{ fontWeight: '600', color: '#b45309' }}>Taxes / Payment Gateway Charges</div>
+                    <div style={{ fontSize: '11px', color: '#6b7280' }}>Processing fees charged by payment gateway</div>
+                  </td>
+                  <td style={{ padding: '4px 12px', textAlign: 'right', fontWeight: '600', color: '#b45309' }}>
+                    ₹{formatAmount(gatewayCharges)}
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
@@ -189,11 +209,11 @@ export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propRecei
         <div style={{ borderTop: '2px solid #d97706', paddingTop: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
             <p style={{ fontSize: '13px', color: '#6b7280' }}>
-              {receiptData.totalCount} {receiptData.totalCount === 1 ? 'item' : 'items'}
+              Total Plates: {receiptData.totalCount}
             </p>
           </div>
           <div style={{ textAlign: 'right' }}>
-            <p style={{ fontSize: '14px', color: '#4b5563', marginBottom: '2px' }}>Total Amount</p>
+            <p style={{ fontSize: '14px', color: '#4b5563', marginBottom: '2px' }}>Total Amount Paid</p>
             <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#92400e' }}>₹{formatAmount(receiptData.totalAmount)}</p>
           </div>
         </div>
@@ -205,7 +225,7 @@ export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propRecei
           <p>For queries, contact: info@abp.proplusdatafoundation.com</p>
           {receiptData.requiresIdVerification && (
             <p style={{ marginTop: '8px', color: '#92400e', fontWeight: 'bold' }}>
-              * ID card verification is mandatory for children aged 0 to 5 years and senior citizens.
+              * ID card verification is required for children aged 0 to 5 years and senior citizens.
             </p>
           )}
         </div>
@@ -226,3 +246,5 @@ export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propRecei
     </div>
   );
 };
+
+export default BhogReceipt;

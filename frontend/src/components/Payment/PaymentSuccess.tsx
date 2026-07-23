@@ -159,8 +159,8 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
                   quantity: booking.quantity || 0,
                 })),
                 totalAmount: roundCurrency(Number(receiptData.totalAmount) || 0),
-                totalCount: (receiptData.bookings || []).reduce(
-                  (total: number, booking: any) => total + (booking.quantity || 0),
+                totalCount: (receiptData.categories?.length ? receiptData.categories : receiptData.bookings || []).reduce(
+                  (total: number, category: any) => total + (category.quantity || 0),
                   0
                 ),
                 timestamp: receiptData.timestamp,

@@ -26,6 +26,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
   const userInfoFormRef = React.useRef<UserInfoFormRef>(null);
   const [isUserInfoFilled, setIsUserInfoFilled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isConfirmed, setIsConfirmed] = useState(false);
 
   const handleValueChange = (categoryId: string, value: number) => {
     setBookings((prev) => ({
@@ -194,6 +195,27 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
       {/* User Information Form */}
       <UserInfoForm ref={userInfoFormRef} onFormChange={setIsUserInfoFilled} disabled={totalCount === 0} />
 
+      {/* Payment Confirmation Checkbox — only shown for paid bookings */}
+      {!isFreeBooking() && totalCount > 0 && (
+        <div className="mt-4">
+          <label className="flex items-start gap-3 cursor-pointer select-none">
+            <input
+              id="bhog-confirm-checkbox"
+              type="checkbox"
+              checked={isConfirmed}
+              onChange={(e) => setIsConfirmed(e.target.checked)}
+              className="mt-0.5 w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary flex-shrink-0"
+            />
+            <span className="text-sm text-gray-700 leading-relaxed">
+              I confirm that I have reviewed my submission and understand that the payment is non-refundable under any circumstances.{' '}
+              <span className="text-amber-700 font-medium">
+                Note: The final payment amount (including applicable taxes/charges) will be shown on the payment screen.
+              </span>
+            </span>
+          </label>
+        </div>
+      )}
+
       <div className="flex items-center justify-between gap-4.5 mt-5.5 pt-5.5 border-t border-primary/14">
         <div>
           <p className="text-base font-bold text-gray-900 mb-0">
@@ -226,7 +248,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
         ) : (
           <button
             onClick={handlePayment}
-            disabled={totalCount === 0 || !isUserInfoFilled || isLoading}
+            disabled={totalCount === 0 || !isUserInfoFilled || !isConfirmed || isLoading}
             className="min-w-[150px] px-6 py-2.5 bg-primary text-text-on-primary font-semibold rounded-md border-0 cursor-pointer transition-all duration-300 hover:bg-primary-dark hover:shadow-lg hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-muted disabled:hover:scale-100 flex items-center justify-center gap-2"
           >
             {isLoading ? (

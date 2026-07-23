@@ -485,7 +485,10 @@ export const Anudan: React.FC = () => {
                       className="mt-1 w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary"
                     />
                     <span className="text-sm text-gray-700 leading-relaxed">
-                      I confirm that I have reviewed my submission and understand that the payment is non-refundable under any circumstances.
+                      I confirm that I have reviewed my submission and understand that the payment is non-refundable under any circumstances.{' '}
+                      <span className="text-amber-700 font-medium">
+                        Note: The final payment amount (including applicable taxes/charges) will be shown on the payment screen.
+                      </span>
                     </span>
                   </label>
                 </div>
