@@ -44,16 +44,20 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
     { name: 'Shashti', path: '/shashti' },
     { name: 'Saptami', path: '/saptami' },
     { name: 'Ashtami', path: '/ashtami' },
+    { name: 'Ashtami Sandhi Puja', path: '/ashtami-sandhi-puja' },
     { name: 'Navami', path: '/navami' },
     { name: 'Dashami', path: '/dashami' },
-    { name: 'Lakshmi Puja', path: '/lakshmi-puja' },
+    { name: 'Saraswati Puja', path: '/saraswati-puja' },
   ];
 
   const bhogBookingDays = [
     { name: 'Saptami', path: '/bhog-booking/saptami' },
     { name: 'Ashtami', path: '/bhog-booking/ashtami' },
+    { name: 'Ashtami Sandhi Puja', path: '/bhog-booking/ashtami-sandhi-puja' },
     { name: 'Navami', path: '/bhog-booking/navami' },
+    { name: 'Durga Puja', path: '/durga-puja-bhog' },
     { name: 'Lakshmi Puja', path: '/bhog-booking/lakshmi-puja' },
+    { name: 'Saraswati Puja', path: '/bhog-booking/saraswati-puja' },
   ];
 
   const handleLinkClick = () => {
@@ -205,7 +209,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
               </button>
               <ul
                 className={`list-none pl-4 space-y-1 overflow-hidden transition-all duration-300 ${
-                  bhogOpen ? 'max-h-[200px] mt-1 mb-2 opacity-100' : 'max-h-0 opacity-0'
+                  bhogOpen ? 'max-h-[300px] mt-1 mb-2 opacity-100' : 'max-h-0 opacity-0'
                 }`}
               >
                 {bhogBookingDays.map((day) => (

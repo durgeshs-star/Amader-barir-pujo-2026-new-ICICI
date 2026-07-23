@@ -264,7 +264,14 @@ export const AnudanReceipt: React.FC<AnudanReceiptProps> = ({ receiptData: propR
           <div style={{ textAlign: 'right' }}>
             <p style={{ fontSize: '14px', color: '#4b5563', marginBottom: '2px' }}>Total Amount Paid</p>
             <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#92400e' }}>
-              ₹{((receiptData as any).actualAmountCharged || receiptData.totalAmount).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              ₹{(() => {
+                const baseAmount = receiptData.categories.reduce((sum, cat) => sum + (Number(cat.amount) || 0), 0);
+                const convenienceFee = Number((receiptData as any).convenienceFee || 0);
+                const serviceTax = Number((receiptData as any).serviceTax || 0);
+                const othCharge = Number((receiptData as any).othCharge || 0);
+                const totalAmount = baseAmount + convenienceFee + serviceTax + othCharge;
+                return totalAmount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+              })()}
             </p>
           </div>
         </div>

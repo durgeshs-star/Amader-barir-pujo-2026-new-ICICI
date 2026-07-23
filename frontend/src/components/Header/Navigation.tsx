@@ -14,7 +14,6 @@ const pujoScheduleDays: NavItem[] = [
   {name: 'Ashtami Sandhi Puja', path: '/ashtami-sandhi-puja' },
   { name: 'Navami', path: '/navami' },
   { name: 'Dashami', path: '/dashami' },
-  { name: 'Lakshmi Puja', path: '/lakshmi-puja' },
   { name: 'Saraswati Puja', path: '/saraswati-puja' },
 ];
 
@@ -23,6 +22,7 @@ const bhogBookingDays: NavItem[] = [
   { name: 'Ashtami', path: '/bhog-booking/ashtami' },
   { name: 'Ashtami Sandhi Puja', path: '/bhog-booking/ashtami-sandhi-puja' },
   { name: 'Navami', path: '/bhog-booking/navami' },
+  { name: 'Durga Puja', path: '/durga-puja-bhog' },
   { name: 'Lakshmi Puja', path: '/bhog-booking/lakshmi-puja' },
   { name: 'Saraswati Puja', path: '/bhog-booking/saraswati-puja' },
 ];
