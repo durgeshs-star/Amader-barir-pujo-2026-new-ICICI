@@ -207,14 +207,24 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
               className="mt-0.5 w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary flex-shrink-0"
             />
             <span className="text-sm text-gray-700 leading-relaxed">
-              I confirm that I have reviewed my submission and understand that the payment is non-refundable under any circumstances. The final payment amount (including applicable taxes/charges) will be shown on the payment screen.
+              I confirm that I have reviewed my submission and understand that the payment is non-refundable under any circumstances.
             </span>
           </label>
         </div>
       )}
 
-      <div className="flex items-center justify-between gap-4.5 mt-5.5 pt-5.5 border-t border-primary/14">
-        <div>
+      <div className="mt-5.5 pt-5.5 border-t border-primary/14">
+        
+        {/* Payment Disclaimer - Mobile and Tablet Friendly */}
+        {!isFreeBooking() && totalCount > 0 && (
+          <div className="mb-4 px-3 py-2 bg-amber-50 border border-amber-200 rounded-md">
+            <p className="text-sm font-bold text-amber-800 text-center leading-relaxed">
+              The final payment amount (including applicable taxes/charges) will be shown on the payment screen.
+            </p>
+          </div>
+        )}
+
+        <div className="flex items-center justify-between gap-4.5">
           <p className="text-base font-bold text-gray-900 mb-0">
             Total:{' '}
             <span className="text-2xl text-primary font-fraunces">₹{totalAmount.toFixed(2)}</span>

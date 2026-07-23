@@ -270,7 +270,7 @@ export const Anudan: React.FC = () => {
           </div>
 
           <div className="text-center mb-8 animate-fade-in-down">
-            <p className="text-lg md:text-xl text-secondary leading-relaxed md:leading-loose font-medium">
+            <p className="text-lg md:text-xl text-secondary leading-relaxed md:leading-loose font-medium text-center">
               🙏 Offer Your Anudan (অনুদান) – Support the Spirit of Amader Barir Pujo
             </p>
           </div>
@@ -485,9 +485,15 @@ export const Anudan: React.FC = () => {
                       className="mt-1 w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary"
                     />
                     <span className="text-sm text-gray-700 leading-relaxed">
-                      I confirm that I have reviewed my submission and understand that the payment is non-refundable under any circumstances. The final payment amount (including applicable taxes/charges) will be shown on the payment screen.
+                      I confirm that I have reviewed my submission and understand that the payment is non-refundable under any circumstances.
                     </span>
                   </label>
+                </div>
+
+                <div className="mt-4 px-3 py-2 bg-amber-50 border border-amber-200 rounded-md">
+                  <p className="text-sm font-bold text-amber-800 text-center leading-relaxed">
+                    The final payment amount (including applicable taxes/charges) will be shown on the payment screen.
+                  </p>
                 </div>
 
                 <button
