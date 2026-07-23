@@ -49,16 +49,13 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
     
     if (fromBhog) {
       setIsBhogBooking(true);
-      // We can't detect Anudan vs Bhog from receipt if there's no storage,
-      // but we can check orderId from URL if available, or just assume it's Anudan
-      // if fromAnudan param was passed (though AnudanCheckout passes fromAnudan=true)
       if (orderId && orderId.startsWith('ANUDAN-')) {
         setIsAnudanPayment(true);
       }
     }
     
     if (fromAnudan) {
-      setIsBhogBooking(true); // Since UI uses this for the special layout
+      setIsBhogBooking(true);
       setIsAnudanPayment(true);
     }
 
@@ -83,7 +80,12 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
       if (response.ok) {
         const data = await response.json();
         if (data.success && data.data) {
-          setReceiptData(data.data);
+          const fetchedData = data.data;
+          // Ensure totalAmount incorporates amount from URL if URL amount is higher
+          if (amount > 0 && (!fetchedData.totalAmount || amount > fetchedData.totalAmount)) {
+            fetchedData.totalAmount = amount;
+          }
+          setReceiptData(fetchedData);
           setIsAnudanPayment(paymentType === 'anudan');
           setIsBhogBooking(true);
         }
@@ -126,6 +128,10 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
   // A transaction ID always represents a receipt flow. This prevents the generic
   // success card from flashing while the receipt data is being loaded.
   if (isBhogBooking || isLoadingReceipt) {
+    const finalTotalAmount = roundCurrency(
+      Math.max(Number(receiptData?.totalAmount || 0), Number(amount || 0))
+    );
+
     return (
       <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 px-4 py-8">
         <div className="max-w-4xl mx-auto">
@@ -143,7 +149,12 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
               <p className="mt-2 text-gray-600">Loading receipt...</p>
             </div>
           ) : isAnudanPayment ? (
-            <AnudanReceipt receiptData={receiptData} />
+            <AnudanReceipt
+              receiptData={receiptData ? {
+                ...receiptData,
+                totalAmount: finalTotalAmount,
+              } : undefined}
+            />
           ) : (
             <BhogReceipt
               receiptData={receiptData ? {
@@ -158,7 +169,7 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
                   max: booking.quantity || 0,
                   quantity: booking.quantity || 0,
                 })),
-                totalAmount: roundCurrency(Number(receiptData.totalAmount) || 0),
+                totalAmount: finalTotalAmount,
                 totalCount: (receiptData.categories?.length ? receiptData.categories : receiptData.bookings || []).reduce(
                   (total: number, category: any) => total + (category.quantity || 0),
                   0
@@ -168,8 +179,7 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
                 requiresIdVerification: (receiptData.categories || []).some((category: any) => {
                   const categoryId = String(category.id || '').toLowerCase();
                   return category.quantity > 0 && (categoryId === 'children-0-5' || categoryId.includes('senior'));
-                }
-                ),
+                }),
               } : undefined}
             />
           )}

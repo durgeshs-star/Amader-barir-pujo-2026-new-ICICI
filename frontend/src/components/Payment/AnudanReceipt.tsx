@@ -170,6 +170,28 @@ export const AnudanReceipt: React.FC<AnudanReceiptProps> = ({ receiptData: propR
                   </td>
                 </tr>
               ))}
+              {/* Gateway charges row: rendered when ICICI totalAmount exceeds sum of line items */}
+              {(() => {
+                const lineItemsSum = receiptData.categories.reduce(
+                  (sum, cat) => sum + (Number(cat.amount) || 0),
+                  0
+                );
+                const gatewayCharges = receiptData.totalAmount - lineItemsSum;
+                if (gatewayCharges > 0.005) {
+                  return (
+                    <tr style={{ borderBottom: '1px solid #e5e7eb', backgroundColor: '#fef9ec' }}>
+                      <td style={{ padding: '4px 12px' }}>
+                        <div style={{ fontWeight: '600', color: '#b45309' }}>Taxes / Payment Gateway Charges</div>
+                        <div style={{ fontSize: '11px', color: '#6b7280' }}>Processing fees charged by payment gateway</div>
+                      </td>
+                      <td style={{ padding: '4px 12px', textAlign: 'right', fontWeight: '600', color: '#b45309' }}>
+                        ₹{gatewayCharges.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      </td>
+                    </tr>
+                  );
+                }
+                return null;
+              })()}
             </tbody>
           </table>
         </div>
@@ -182,8 +204,8 @@ export const AnudanReceipt: React.FC<AnudanReceiptProps> = ({ receiptData: propR
             </p>
           </div>
           <div style={{ textAlign: 'right' }}>
-            <p style={{ fontSize: '14px', color: '#4b5563', marginBottom: '2px' }}>Total Amount</p>
-            <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#92400e' }}>₹{receiptData.totalAmount.toLocaleString('en-IN')}</p>
+            <p style={{ fontSize: '14px', color: '#4b5563', marginBottom: '2px' }}>Total Amount Paid</p>
+            <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#92400e' }}>₹{receiptData.totalAmount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
           </div>
         </div>
 
