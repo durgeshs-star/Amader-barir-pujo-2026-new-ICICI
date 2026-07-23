@@ -51,12 +51,8 @@ export class IciciPaymentController {
       const body = req.body as PaymentCallbackPayload;
       const receivedHash = body.secureHash;
 
-      console.log('ICICI Callback Received:', {
-        merchantTxnNo: body.merchantTxnNo,
-        responseCode: body.responseCode,
-        amount: body.amount,
-        paymentMode: body.paymentMode,
-      });
+      console.log('ICICI Callback Received Full Payload:', JSON.stringify(body, null, 2));
+
 
       // Verify secureHash
       const isValidHash = iciciPGService.verifyCallback(body);
@@ -126,12 +122,14 @@ export class IciciPaymentController {
 
       if (isSuccess) {
         // Extract the exact amount charged by ICICI (may include gateway charges/taxes)
-        const iciciChargedAmount = callbackBody.amount ? parseFloat(callbackBody.amount) : null;
-        if (iciciChargedAmount !== null && !isNaN(iciciChargedAmount)) {
+        const iciciChargedAmount = this.extractChargedAmount(callbackBody);
+        if (iciciChargedAmount !== null && !isNaN(iciciChargedAmount) && iciciChargedAmount > 0) {
           payment.totalAmount = iciciChargedAmount;
+          payment.markModified('totalAmount');
           // For single-category Anudan payments, align the category amount with the actual charged total
           if (payment.categories && payment.categories.length === 1) {
             payment.categories[0].amount = iciciChargedAmount;
+            payment.markModified('categories');
           }
           console.log(`Anudan totalAmount updated from ICICI callback: ₹${iciciChargedAmount}`);
         }
@@ -206,9 +204,10 @@ export class IciciPaymentController {
 
       if (isSuccess) {
         // Extract the exact amount charged by ICICI (may include gateway charges/taxes)
-        const iciciChargedAmount = callbackBody.amount ? parseFloat(callbackBody.amount) : null;
-        if (iciciChargedAmount !== null && !isNaN(iciciChargedAmount)) {
+        const iciciChargedAmount = this.extractChargedAmount(callbackBody);
+        if (iciciChargedAmount !== null && !isNaN(iciciChargedAmount) && iciciChargedAmount > 0) {
           payment.totalAmount = iciciChargedAmount;
+          payment.markModified('totalAmount');
           console.log(`Bhog totalAmount updated from ICICI callback: ₹${iciciChargedAmount}`);
         }
 
@@ -388,5 +387,46 @@ export class IciciPaymentController {
     } catch (error) {
       console.error(`Failed to update summary for sheet ${sheetName}:`, error);
     }
+  }
+
+  /**
+   * Helper to extract the total charged amount from ICICI/PayPhi callback payload,
+   * taking into account gateway charges, surcharges, or total amount fields.
+   */
+  private extractChargedAmount(body: any): number | null {
+    if (!body) return null;
+
+    // Check for explicit total/charged/gross/paid amount fields sent by ICICI/PayPhi
+    const candidates = [
+      body.totalAmount,
+      body.chargedAmount,
+      body.grossAmount,
+      body.paidAmount,
+      body.transactionAmount,
+      body.txnAmount,
+      body.amountPaid,
+    ];
+
+    for (const candidate of candidates) {
+      if (candidate !== undefined && candidate !== null && candidate !== '') {
+        const parsed = parseFloat(String(candidate));
+        if (!isNaN(parsed) && parsed > 0) {
+          return parsed;
+        }
+      }
+    }
+
+    // Check if base amount + surcharge / convFee / tax is present
+    const baseAmount = body.amount ? parseFloat(String(body.amount)) : null;
+    const extraFee = parseFloat(String(body.surcharge || body.convFee || body.tax || body.serviceTax || body.fee || '0'));
+
+    if (baseAmount !== null && !isNaN(baseAmount)) {
+      if (!isNaN(extraFee) && extraFee > 0) {
+        return baseAmount + extraFee;
+      }
+      return baseAmount;
+    }
+
+    return null;
   }
 }
