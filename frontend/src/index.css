@@ -172,7 +172,7 @@
     font-family: var(--font-fraunces);
     color: var(--color-text);
     font-weight: 700;
-    text-align: inherit;
+    text-align: center !important;
   }
 
   p {

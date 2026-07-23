@@ -130,19 +130,9 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
         <div className="max-w-4xl mx-auto">
           {/* Success Header */}
           <div className="text-center mb-8">
-            <div className="mx-auto mb-4 flex items-center justify-center w-20 h-20 bg-green-100 rounded-full">
-              <svg className="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-            </div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-2 text-center">
+            <h2 className="text-3xl font-bold text-gray-900 text-center">
               {isAnudanPayment ? 'Anudan Contribution Successful!' : 'Bhog Booking Successful!'}
             </h2>
-            <p className="text-gray-600 text-center">
-              {isAnudanPayment
-                ? 'Thank you for your generous Anudan. Your contribution has been recorded successfully.'
-                : 'Thank you for your bhog booking. Your payment has been completed successfully.'}
-            </p>
           </div>
 
           {/* Receipt */}
