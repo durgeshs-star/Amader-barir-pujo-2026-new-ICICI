@@ -170,27 +170,80 @@ export const AnudanReceipt: React.FC<AnudanReceiptProps> = ({ receiptData: propR
                   </td>
                 </tr>
               ))}
-              {/* Gateway charges row: rendered when ICICI totalAmount exceeds sum of line items */}
+              {/* ICICI fee breakdown: show individual fee components if present */}
               {(() => {
-                const lineItemsSum = receiptData.categories.reduce(
-                  (sum, cat) => sum + (Number(cat.amount) || 0),
-                  0
-                );
-                const gatewayCharges = receiptData.totalAmount - lineItemsSum;
-                if (gatewayCharges > 0.005) {
-                  return (
-                    <tr style={{ borderBottom: '1px solid #e5e7eb', backgroundColor: '#fef9ec' }}>
+                const convenienceFee = Number((receiptData as any).convenienceFee || 0);
+                const serviceTax = Number((receiptData as any).serviceTax || 0);
+                const othCharge = Number((receiptData as any).othCharge || 0);
+                const feeRows = [];
+                
+                if (convenienceFee > 0) {
+                  feeRows.push(
+                    <tr key="convenience-fee" style={{ borderBottom: '1px solid #e5e7eb', backgroundColor: '#fef9ec' }}>
                       <td style={{ padding: '4px 12px' }}>
-                        <div style={{ fontWeight: '600', color: '#b45309' }}>Taxes / Payment Gateway Charges</div>
-                        <div style={{ fontSize: '11px', color: '#6b7280' }}>Processing fees charged by payment gateway</div>
+                        <div style={{ fontWeight: '600', color: '#b45309' }}>Convenience Fee</div>
+                        <div style={{ fontSize: '11px', color: '#6b7280' }}>Processing fee charged by payment gateway</div>
                       </td>
                       <td style={{ padding: '4px 12px', textAlign: 'right', fontWeight: '600', color: '#b45309' }}>
-                        ₹{gatewayCharges.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        ₹{convenienceFee.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                       </td>
                     </tr>
                   );
                 }
-                return null;
+                
+                if (serviceTax > 0) {
+                  feeRows.push(
+                    <tr key="service-tax" style={{ borderBottom: '1px solid #e5e7eb', backgroundColor: '#fef9ec' }}>
+                      <td style={{ padding: '4px 12px' }}>
+                        <div style={{ fontWeight: '600', color: '#b45309' }}>Service Tax</div>
+                        <div style={{ fontSize: '11px', color: '#6b7280' }}>Tax component on payment processing</div>
+                      </td>
+                      <td style={{ padding: '4px 12px', textAlign: 'right', fontWeight: '600', color: '#b45309' }}>
+                        ₹{serviceTax.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      </td>
+                    </tr>
+                  );
+                }
+                
+                if (othCharge > 0) {
+                  feeRows.push(
+                    <tr key="other-charge" style={{ borderBottom: '1px solid #e5e7eb', backgroundColor: '#fef9ec' }}>
+                      <td style={{ padding: '4px 12px' }}>
+                        <div style={{ fontWeight: '600', color: '#b45309' }}>Other Charges</div>
+                        <div style={{ fontSize: '11px', color: '#6b7280' }}>Additional charges by payment gateway</div>
+                      </td>
+                      <td style={{ padding: '4px 12px', textAlign: 'right', fontWeight: '600', color: '#b45309' }}>
+                        ₹{othCharge.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      </td>
+                    </tr>
+                  );
+                }
+                
+                // If no individual fee components but there's a difference, show as gateway charges
+                if (feeRows.length === 0) {
+                  const lineItemsSum = receiptData.categories.reduce(
+                    (sum, cat) => sum + (Number(cat.amount) || 0),
+                    0
+                  );
+                  const actualTotal = Number((receiptData as any).actualAmountCharged || receiptData.totalAmount);
+                  const gatewayCharges = actualTotal - lineItemsSum;
+                  
+                  if (gatewayCharges > 0.005) {
+                    feeRows.push(
+                      <tr key="gateway-charges" style={{ borderBottom: '1px solid #e5e7eb', backgroundColor: '#fef9ec' }}>
+                        <td style={{ padding: '4px 12px' }}>
+                          <div style={{ fontWeight: '600', color: '#b45309' }}>Taxes / Payment Gateway Charges</div>
+                          <div style={{ fontSize: '11px', color: '#6b7280' }}>Processing fees charged by payment gateway</div>
+                        </td>
+                        <td style={{ padding: '4px 12px', textAlign: 'right', fontWeight: '600', color: '#b45309' }}>
+                          ₹{gatewayCharges.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </td>
+                      </tr>
+                    );
+                  }
+                }
+                
+                return feeRows;
               })()}
             </tbody>
           </table>
@@ -205,7 +258,9 @@ export const AnudanReceipt: React.FC<AnudanReceiptProps> = ({ receiptData: propR
           </div>
           <div style={{ textAlign: 'right' }}>
             <p style={{ fontSize: '14px', color: '#4b5563', marginBottom: '2px' }}>Total Amount Paid</p>
-            <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#92400e' }}>₹{receiptData.totalAmount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+            <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#92400e' }}>
+              ₹{((receiptData as any).actualAmountCharged || receiptData.totalAmount).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </p>
           </div>
         </div>
 

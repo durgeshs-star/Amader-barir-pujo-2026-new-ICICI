@@ -81,8 +81,12 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
         const data = await response.json();
         if (data.success && data.data) {
           const fetchedData = data.data;
-          // Ensure totalAmount incorporates amount from URL if URL amount is higher
-          if (amount > 0 && (!fetchedData.totalAmount || amount > fetchedData.totalAmount)) {
+          // The URL `amount` param always carries the definitive ICICI-charged total
+          // (base + gateway charges) set by the backend before redirecting.
+          // Always apply it when present so a stale DB read (race condition where
+          // the frontend fetches before Mongoose has fully flushed the save) never
+          // causes the receipt to show the lower base amount.
+          if (amount > 0) {
             fetchedData.totalAmount = amount;
           }
           setReceiptData(fetchedData);
@@ -170,6 +174,11 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
                   quantity: booking.quantity || 0,
                 })),
                 totalAmount: finalTotalAmount,
+                // Pass through ICICI fee breakdown fields
+                actualAmountCharged: receiptData.actualAmountCharged,
+                convenienceFee: receiptData.convenienceFee,
+                serviceTax: receiptData.serviceTax,
+                othCharge: receiptData.othCharge,
                 totalCount: (receiptData.categories?.length ? receiptData.categories : receiptData.bookings || []).reduce(
                   (total: number, category: any) => total + (category.quantity || 0),
                   0
