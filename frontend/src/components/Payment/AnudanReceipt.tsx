@@ -27,6 +27,11 @@ interface AnudanReceiptData {
     phone: string;
     email: string;
   };
+  // ICICI actual charged amount and fee breakdown
+  actualAmountCharged?: number;
+  convenienceFee?: number;
+  serviceTax?: number;
+  othCharge?: number;
 }
 
 interface AnudanReceiptProps {

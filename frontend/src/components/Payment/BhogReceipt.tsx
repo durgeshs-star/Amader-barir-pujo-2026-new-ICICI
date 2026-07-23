@@ -32,6 +32,11 @@ interface BhogReceiptData {
     email: string;
   };
   requiresIdVerification?: boolean;
+  // ICICI actual charged amount and fee breakdown
+  actualAmountCharged?: number;
+  convenienceFee?: number;
+  serviceTax?: number;
+  othCharge?: number;
 }
 
 interface BhogReceiptProps {
