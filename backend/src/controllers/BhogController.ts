@@ -95,6 +95,10 @@ export class BhogController {
   async handleFreeBooking(req: Request, res: Response): Promise<void> {
     try {
       const { title, categories, totalAmount, totalCount, timestamp, isFree, userInfo } = req.body;
+      const receiptTimestamp = timestamp || new Date().toISOString();
+      const receiptSuffix = `${Date.now()}-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
+      const orderId = `FREE-BHG-${receiptSuffix}`;
+      const transactionId = `FREE-${receiptSuffix}`;
 
       // Validate required fields
       if (!title || !categories || !Array.isArray(categories) || categories.length === 0) {
@@ -141,11 +145,11 @@ export class BhogController {
       // Extract bhog quantities with defaults
       const quantities = this.extractBhogQuantities(categories);
 
-      // Append booking data to sheet (empty Order ID and Transaction ID for free bookings)
+      // Append booking data to sheet with the receipt identifiers.
       const rowData = [
-        timestamp || new Date().toISOString(),
-        '', // Order ID (empty for free bookings)
-        '', // Transaction ID (empty for free bookings)
+        receiptTimestamp,
+        orderId,
+        transactionId,
         userInfo?.name || '',
         userInfo?.phone || '',
         userInfo?.email || '',
@@ -161,9 +165,9 @@ export class BhogController {
 
       // Store booking in MongoDB
       await this.bhogRepository.createPayment({
-        orderId: '',
-        transactionId: '',
-        timestamp: timestamp || new Date().toISOString(),
+        orderId,
+        transactionId,
+        timestamp: receiptTimestamp,
         userInfo: userInfo || { name: '', phone: '', email: '' },
         bookings: [{
           day: title,
@@ -171,7 +175,9 @@ export class BhogController {
           quantity: totalCount,
           remark: 'Free booking'
         }],
-        totalAmount
+        categories,
+        totalAmount,
+        paymentStatus: 'success'
       });
 
       // Update summary calculations at the end of the sheet
@@ -185,8 +191,10 @@ export class BhogController {
           categories,
           totalAmount,
           totalCount,
-          timestamp,
-          userInfo
+          timestamp: receiptTimestamp,
+          userInfo,
+          orderId,
+          transactionId,
         }
       });
     } catch (error: any) {
@@ -240,6 +248,7 @@ export class BhogController {
             quantity: totalCount,
             remark: 'Paid booking'
           }],
+          categories,
           totalAmount,
           paymentStatus: 'pending'
         });

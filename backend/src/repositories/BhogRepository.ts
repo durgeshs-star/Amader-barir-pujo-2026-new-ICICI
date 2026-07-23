@@ -26,6 +26,13 @@ export class BhogRepository {
       quantity: number;
       remark: string;
     }>;
+    categories?: Array<{
+      id: string;
+      title: string;
+      description?: string;
+      price: number;
+      quantity: number;
+    }>;
     totalAmount: number;
     paymentStatus?: 'pending' | 'success' | 'failed' | 'cancelled';
     iciciTxnId?: string;

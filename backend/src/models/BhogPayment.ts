@@ -22,6 +22,13 @@ export interface IBhogPayment extends Document {
     quantity: number;
     remark: string;
   }>;
+  categories?: Array<{
+    id: string;
+    title: string;
+    description?: string;
+    price: number;
+    quantity: number;
+  }>;
   totalAmount: number;
   // ICICI PG fields
   iciciTxnId?: string;
@@ -80,6 +87,13 @@ const BhogPaymentSchema = new Schema<IBhogPayment>(
         type: String,
         default: '',
       },
+    }],
+    categories: [{
+      id: { type: String, required: true },
+      title: { type: String, required: true },
+      description: { type: String, default: '' },
+      price: { type: Number, required: true },
+      quantity: { type: Number, required: true },
     }],
     totalAmount: {
       type: Number,
