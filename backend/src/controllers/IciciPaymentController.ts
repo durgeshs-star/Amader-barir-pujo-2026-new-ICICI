@@ -28,12 +28,13 @@ export class IciciPaymentController {
   }
 
   /** Build the frontend URL with the details needed to render the confirmation. */
-  private getSuccessRedirectUrl(payment: any): string {
+  private getSuccessRedirectUrl(payment: any, paymentType: 'anudan' | 'bhog'): string {
     const params = new URLSearchParams({
       orderId: String(payment.orderId || ''),
       transactionId: String(payment.transactionId || ''),
       amount: Number(payment.totalAmount || 0).toFixed(2),
       currency: 'INR',
+      ...(paymentType === 'bhog' ? { fromBhog: 'true' } : { fromAnudan: 'true' }),
     });
     return `${this.FRONTEND_URL}/payment/success?${params.toString()}`;
   }
@@ -120,7 +121,7 @@ export class IciciPaymentController {
       // Idempotency check - if already processed, just redirect
       if (payment.paymentStatus === 'success') {
         console.log('Anudan payment already processed, redirecting to success:', payment.transactionId);
-        return res.redirect(this.getSuccessRedirectUrl(payment));
+        return res.redirect(this.getSuccessRedirectUrl(payment, 'anudan'));
       }
 
       if (isSuccess) {
@@ -145,7 +146,7 @@ export class IciciPaymentController {
         await this.logAnudanToSheets(payment);
 
         console.log('Anudan payment successful:', payment.transactionId);
-        return res.redirect(this.getSuccessRedirectUrl(payment));
+        return res.redirect(this.getSuccessRedirectUrl(payment, 'anudan'));
       } else {
         // Payment failed - rollback reservations
         payment.iciciTxnId = callbackBody.txnID;
@@ -189,7 +190,7 @@ export class IciciPaymentController {
       // Idempotency check - if already processed, just redirect
       if (payment.paymentStatus === 'success') {
         console.log('Bhog payment already processed, redirecting to success:', payment.transactionId);
-        return res.redirect(this.getSuccessRedirectUrl(payment));
+        return res.redirect(this.getSuccessRedirectUrl(payment, 'bhog'));
       }
 
       if (isSuccess) {
@@ -206,7 +207,7 @@ export class IciciPaymentController {
         await this.logBhogToSheets(payment);
 
         console.log('Bhog payment successful:', payment.transactionId);
-        return res.redirect(this.getSuccessRedirectUrl(payment));
+        return res.redirect(this.getSuccessRedirectUrl(payment, 'bhog'));
       } else {
         // Payment failed
         payment.iciciTxnId = callbackBody.txnID;
