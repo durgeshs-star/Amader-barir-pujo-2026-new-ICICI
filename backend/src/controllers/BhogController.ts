@@ -88,13 +88,28 @@ export class BhogController {
     return quantities;
   }
 
+  /** Calculate the payable amount and plate count from the selected categories. */
+  private calculateBookingTotals(categories: any[]): { totalAmount: number; totalCount: number } {
+    const totalAmount = categories.reduce((sum, category) => {
+      const price = Number(category.price) || 0;
+      const quantity = Number(category.quantity) || 0;
+      return sum + price * quantity;
+    }, 0);
+    const totalCount = categories.reduce((sum, category) => sum + (Number(category.quantity) || 0), 0);
+
+    return {
+      totalAmount: Math.round((totalAmount + Number.EPSILON) * 100) / 100,
+      totalCount,
+    };
+  }
+
   /**
    * Handle free bhog booking (children aged 0-5 only)
    * Records the booking in Google Sheets without payment
    */
   async handleFreeBooking(req: Request, res: Response): Promise<void> {
     try {
-      const { title, categories, totalAmount, totalCount, timestamp, isFree, userInfo } = req.body;
+      const { title, categories, timestamp, isFree, userInfo } = req.body;
       const receiptTimestamp = timestamp || new Date().toISOString();
       const receiptSuffix = `${Date.now()}-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
       const orderId = `FREE-BHG-${receiptSuffix}`;
@@ -108,6 +123,8 @@ export class BhogController {
         });
         return;
       }
+
+      const { totalAmount, totalCount } = this.calculateBookingTotals(categories);
 
       // Ensure this is indeed a free booking
       if (!isFree || totalAmount !== 0) {
@@ -212,7 +229,7 @@ export class BhogController {
    */
   async handlePaidBooking(req: Request, res: Response): Promise<void> {
     try {
-      const { title, categories, totalAmount, totalCount, timestamp, isFree, userInfo, orderId, transactionId } = req.body;
+      const { title, categories, timestamp, isFree, userInfo, orderId, transactionId } = req.body;
       const merchantTxnNo = typeof transactionId === 'string'
         ? sanitizeMerchantTxnNo(transactionId)
         : '';
@@ -225,6 +242,8 @@ export class BhogController {
         });
         return;
       }
+
+      const { totalAmount, totalCount } = this.calculateBookingTotals(categories);
 
       // Validate payment info for paid bookings
       if (isFree === false && (!orderId || !merchantTxnNo)) {
