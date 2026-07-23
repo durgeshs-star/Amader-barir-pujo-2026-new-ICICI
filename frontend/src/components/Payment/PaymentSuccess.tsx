@@ -35,7 +35,7 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
   const [isBhogBooking, setIsBhogBooking] = useState(false);
   const [isAnudanPayment, setIsAnudanPayment] = useState(false);
   const [receiptData, setReceiptData] = useState<any>(undefined);
-  const [isLoadingReceipt, setIsLoadingReceipt] = useState(false);
+  const [isLoadingReceipt, setIsLoadingReceipt] = useState(Boolean(propTransactionId || searchParams.get('transactionId')));
 
   // Get values from URL params if not provided as props
   const orderId = propOrderId || searchParams.get('orderId') || '';
@@ -122,8 +122,9 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
     }
   };
 
-  // If it's a bhog booking, show the receipt
-  if (isBhogBooking) {
+  // A transaction ID always represents a receipt flow. This prevents the generic
+  // success card from flashing while the receipt data is being loaded.
+  if (isBhogBooking || isLoadingReceipt) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 px-4 py-8">
         <div className="max-w-4xl mx-auto">
