@@ -30,6 +30,7 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
   onContinue,
   onViewHistory,
 }) => {
+  const roundCurrency = (value: number) => Math.round((value + Number.EPSILON) * 100) / 100;
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [isBhogBooking, setIsBhogBooking] = useState(false);
@@ -152,12 +153,12 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
                 categories: (receiptData.categories?.length ? receiptData.categories : receiptData.bookings || []).map((booking: any, index: number) => ({
                   id: booking.id || `booking-${index}`,
                   title: booking.title || booking.day,
-                  price: booking.price ?? (booking.quantity ? booking.amount / booking.quantity : booking.amount),
+                  price: roundCurrency(Number(booking.price ?? (booking.quantity ? booking.amount / booking.quantity : booking.amount)) || 0),
                   description: booking.description || booking.remark || '',
                   max: booking.quantity || 0,
                   quantity: booking.quantity || 0,
                 })),
-                totalAmount: receiptData.totalAmount,
+                totalAmount: roundCurrency(Number(receiptData.totalAmount) || 0),
                 totalCount: (receiptData.bookings || []).reduce(
                   (total: number, booking: any) => total + (booking.quantity || 0),
                   0

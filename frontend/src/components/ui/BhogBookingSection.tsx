@@ -14,6 +14,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
   categories,
   disclaimer,
 }) => {
+  const roundCurrency = (value: number) => Math.round((value + Number.EPSILON) * 100) / 100;
   const [bookings, setBookings] = useState<BhogBookingState>(() => {
     const initialState: BhogBookingState = {};
     categories.forEach((cat) => {
@@ -43,7 +44,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
       totalAmount += count * cat.price;
     });
 
-    return { totalAmount, totalCount };
+    return { totalAmount: roundCurrency(totalAmount), totalCount };
   };
 
   const { totalAmount, totalCount } = calculateTotal();
@@ -197,7 +198,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
         <div>
           <p className="text-base font-bold text-gray-900 mb-0">
             Total:{' '}
-            <span className="text-2xl text-primary font-fraunces">₹{totalAmount}</span>
+            <span className="text-2xl text-primary font-fraunces">₹{totalAmount.toFixed(2)}</span>
           </p>
           <p className="text-sm text-secondary mb-0">
             <span>{totalCount}</span>{' '}

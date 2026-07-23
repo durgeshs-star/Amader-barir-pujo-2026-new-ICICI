@@ -48,6 +48,8 @@ export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propRecei
     return null;
   }
 
+  const formatAmount = (amount: number) => Number(amount || 0).toFixed(2);
+
   const formatDate = (dateString: string): string => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-IN', {
@@ -173,9 +175,9 @@ export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propRecei
                     <div style={{ fontSize: '11px', color: '#6b7280', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '250px' }}>{category.description}</div>
                   </td>
                   <td style={{ padding: '4px 12px', textAlign: 'center' }}>{category.quantity}</td>
-                  <td style={{ padding: '4px 12px', textAlign: 'right' }}>₹{category.price}</td>
+                  <td style={{ padding: '4px 12px', textAlign: 'right' }}>₹{formatAmount(category.price)}</td>
                   <td style={{ padding: '4px 12px', textAlign: 'right', fontWeight: '600' }}>
-                    ₹{category.price * category.quantity}
+                    ₹{formatAmount(category.price * category.quantity)}
                   </td>
                 </tr>
               ))}
@@ -192,7 +194,7 @@ export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propRecei
           </div>
           <div style={{ textAlign: 'right' }}>
             <p style={{ fontSize: '14px', color: '#4b5563', marginBottom: '2px' }}>Total Amount</p>
-            <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#92400e' }}>₹{receiptData.totalAmount}</p>
+            <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#92400e' }}>₹{formatAmount(receiptData.totalAmount)}</p>
           </div>
         </div>
 
