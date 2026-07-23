@@ -207,10 +207,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
               className="mt-0.5 w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary flex-shrink-0"
             />
             <span className="text-sm text-gray-700 leading-relaxed">
-              I confirm that I have reviewed my submission and understand that the payment is non-refundable under any circumstances.{' '}
-              <span className="text-amber-700 font-medium">
-                Note: The final payment amount (including applicable taxes/charges) will be shown on the payment screen.
-              </span>
+              I confirm that I have reviewed my submission and understand that the payment is non-refundable under any circumstances. The final payment amount (including applicable taxes/charges) will be shown on the payment screen.
             </span>
           </label>
         </div>
