@@ -348,7 +348,7 @@ export const Anudan: React.FC = () => {
       </section>
 
       {/* Mobile Basket Icon */}
-      <div className="lg:hidden fixed bottom-24 right-6 z-50">
+      <div className="lg:hidden fixed bottom-34 right-6 z-50">
         <button
           onClick={() => setShowMobileBasket(true)}
           className="relative bg-primary text-white p-4 rounded-full shadow-lg hover:bg-primary/90 transition-all"

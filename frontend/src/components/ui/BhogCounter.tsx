@@ -17,33 +17,63 @@ export const BhogCounter: React.FC<BhogCounterProps> = ({
   };
 
   return (
-    <div className="inline-flex items-center flex-0-auto border border-primary/20 rounded-lg overflow-hidden bg-white">
-      <button
-        type="button"
-        onClick={handleDecrement}
-        disabled={value <= 0}
-        aria-label={ariaLabel ? `Reduce ${ariaLabel}` : 'Reduce count'}
-        className="w-10 h-10 border-0 bg-light-bg text-primary text-lg font-bold cursor-pointer transition-colors duration-200 hover:bg-primary-dark hover:text-text-on-primary disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-muted"
-      >
-        -
-      </button>
-      <input
-        type="text"
-        value={value}
-        readOnly
-        aria-label={`${label} count`}
-        className="w-12 h-10 border-0 text-gray-900 font-bold text-center bg-white"
-      />
-      <button
-        type="button"
-        onClick={handleIncrement}
-        disabled={value >= max}
-        aria-label={ariaLabel ? `Add ${ariaLabel}` : 'Add count'}
-        className="w-10 h-10 border-0 bg-light-bg text-primary text-lg font-bold cursor-pointer transition-colors duration-200 hover:bg-primary-dark hover:text-text-on-primary disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-muted"
-      >
-        +
-      </button>
-    </div>
+    <>
+      {/* Mobile Counter - Modern segmented design */}
+      <div className="inline-flex items-center bg-gray-100 rounded-lg overflow-hidden lg:hidden">
+        <button
+          type="button"
+          onClick={handleDecrement}
+          disabled={value <= 0}
+          aria-label={ariaLabel ? `Reduce ${ariaLabel}` : 'Reduce count'}
+          className="w-11 h-11 bg-white border-0 text-primary text-lg font-bold cursor-pointer transition-all duration-200 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40 disabled:text-gray-400 flex items-center justify-center"
+        >
+          -
+        </button>
+        <div className="w-12 h-11 flex items-center justify-center bg-gray-100">
+          <span className="font-bold text-gray-900" aria-label={`${label} count`}>
+            {value}
+          </span>
+        </div>
+        <button
+          type="button"
+          onClick={handleIncrement}
+          disabled={value >= max}
+          aria-label={ariaLabel ? `Add ${ariaLabel}` : 'Add count'}
+          className="w-11 h-11 bg-white border-0 text-primary text-lg font-bold cursor-pointer transition-all duration-200 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40 disabled:text-gray-400 flex items-center justify-center"
+        >
+          +
+        </button>
+      </div>
+
+      {/* Desktop Counter - Original design */}
+      <div className="hidden lg:inline-flex lg:items-center lg:flex-0-auto lg:border lg:border-primary/20 lg:rounded-lg lg:overflow-hidden lg:bg-white">
+        <button
+          type="button"
+          onClick={handleDecrement}
+          disabled={value <= 0}
+          aria-label={ariaLabel ? `Reduce ${ariaLabel}` : 'Reduce count'}
+          className="w-10 h-10 border-0 bg-light-bg text-primary text-lg font-bold cursor-pointer transition-colors duration-200 hover:bg-primary-dark hover:text-text-on-primary disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-muted"
+        >
+          -
+        </button>
+        <input
+          type="text"
+          value={value}
+          readOnly
+          aria-label={`${label} count`}
+          className="w-12 h-10 border-0 text-gray-900 font-bold text-center bg-white"
+        />
+        <button
+          type="button"
+          onClick={handleIncrement}
+          disabled={value >= max}
+          aria-label={ariaLabel ? `Add ${ariaLabel}` : 'Add count'}
+          className="w-10 h-10 border-0 bg-light-bg text-primary text-lg font-bold cursor-pointer transition-colors duration-200 hover:bg-primary-dark hover:text-text-on-primary disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-muted"
+        >
+          +
+        </button>
+      </div>
+    </>
   );
 };
 
