@@ -125,6 +125,17 @@ export class IciciPaymentController {
       }
 
       if (isSuccess) {
+        // Extract the exact amount charged by ICICI (may include gateway charges/taxes)
+        const iciciChargedAmount = callbackBody.amount ? parseFloat(callbackBody.amount) : null;
+        if (iciciChargedAmount !== null && !isNaN(iciciChargedAmount)) {
+          payment.totalAmount = iciciChargedAmount;
+          // For single-category Anudan payments, align the category amount with the actual charged total
+          if (payment.categories && payment.categories.length === 1) {
+            payment.categories[0].amount = iciciChargedAmount;
+          }
+          console.log(`Anudan totalAmount updated from ICICI callback: ₹${iciciChargedAmount}`);
+        }
+
         // Update payment with ICICI details
         payment.iciciTxnId = callbackBody.txnID;
         payment.iciciPaymentId = callbackBody.paymentID;
@@ -142,7 +153,7 @@ export class IciciPaymentController {
           console.log(`SSE broadcast for ${campaignId}: remaining ₹${remaining}`);
         }
 
-        // Log to Google Sheets (non-critical)
+        // Log to Google Sheets (non-critical) — uses updated totalAmount
         await this.logAnudanToSheets(payment);
 
         console.log('Anudan payment successful:', payment.transactionId);
@@ -194,6 +205,13 @@ export class IciciPaymentController {
       }
 
       if (isSuccess) {
+        // Extract the exact amount charged by ICICI (may include gateway charges/taxes)
+        const iciciChargedAmount = callbackBody.amount ? parseFloat(callbackBody.amount) : null;
+        if (iciciChargedAmount !== null && !isNaN(iciciChargedAmount)) {
+          payment.totalAmount = iciciChargedAmount;
+          console.log(`Bhog totalAmount updated from ICICI callback: ₹${iciciChargedAmount}`);
+        }
+
         // Update payment with ICICI details
         payment.iciciTxnId = callbackBody.txnID;
         payment.iciciPaymentId = callbackBody.paymentID;
@@ -203,7 +221,7 @@ export class IciciPaymentController {
         payment.paymentStatus = 'success';
         await payment.save();
 
-        // Log to Google Sheets (non-critical)
+        // Log to Google Sheets (non-critical) — uses updated totalAmount
         await this.logBhogToSheets(payment);
 
         console.log('Bhog payment successful:', payment.transactionId);
