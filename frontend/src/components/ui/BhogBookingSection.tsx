@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import BhogBookingCard from './BhogBookingCard';
-import BhogSuccessModal from './BhogSuccessModal';
 import UserInfoForm from './UserInfoForm';
 import type { UserInfoFormRef } from './UserInfoForm';
 import type { BhogBookingSectionProps, BhogBookingState } from '../../types/bhog';
@@ -25,12 +24,6 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
 
   const userInfoFormRef = React.useRef<UserInfoFormRef>(null);
   const [isUserInfoFilled, setIsUserInfoFilled] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [successModalData, setSuccessModalData] = useState<{
-    title: string;
-    categories: Array<{ id: string; title: string; quantity: number; price: number }>;
-    totalCount: number;
-  } | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleValueChange = (categoryId: string, value: number) => {
@@ -91,21 +84,12 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
       const response = await axios.post(`${API_URL}/api/bhog/free-booking`, bookingDetails);
 
       if (response.data.success) {
-        // Show success modal
-        setSuccessModalData({
-          title,
-          categories: bookingDetails.categories,
-          totalCount,
-        });
-        setShowSuccessModal(true);
+        const { orderId, transactionId } = response.data.data || {};
+        if (!orderId || !transactionId) {
+          throw new Error('Receipt details were not returned for the free booking');
+        }
 
-        // Reset bookings and user info state flag
-        const resetState: BhogBookingState = {};
-        categories.forEach((cat) => {
-          resetState[cat.id] = 0;
-        });
-        setBookings(resetState);
-        setIsUserInfoFilled(false);
+        window.location.href = `/payment/success?orderId=${encodeURIComponent(orderId)}&transactionId=${encodeURIComponent(transactionId)}&amount=0&currency=INR&fromBhog=true`;
       } else {
         throw new Error('Failed to record free booking');
       }
@@ -258,17 +242,6 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
           </button>
         )}
       </div>
-
-      {/* Success Modal */}
-      {successModalData && (
-        <BhogSuccessModal
-          isOpen={showSuccessModal}
-          onClose={() => setShowSuccessModal(false)}
-          title={successModalData.title}
-          categories={successModalData.categories}
-          totalCount={successModalData.totalCount}
-        />
-      )}
     </section>
   );
 };

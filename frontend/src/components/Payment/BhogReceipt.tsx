@@ -31,6 +31,7 @@ interface BhogReceiptData {
     phone: string;
     email: string;
   };
+  requiresIdVerification?: boolean;
 }
 
 interface BhogReceiptProps {
@@ -200,6 +201,11 @@ export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propRecei
           <p style={{ marginBottom: '4px' }}>This is a computer-generated receipt. No signature required.</p>
           <p style={{ marginBottom: '4px' }}>Thank you for your contribution to Amader Barir Pujo!</p>
           <p>For queries, contact: info@abp.proplusdatafoundation.com</p>
+          {receiptData.requiresIdVerification && (
+            <p style={{ marginTop: '8px', color: '#92400e', fontWeight: 'bold' }}>
+              * ID card verification is mandatory for children aged 0 to 5 years and senior citizens.
+            </p>
+          )}
         </div>
       </div>
 

@@ -149,11 +149,11 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
                 orderId: receiptData.orderId,
                 transactionId: receiptData.transactionId,
                 title: receiptData.bookings?.[0]?.day || 'Bhog Booking',
-                categories: (receiptData.bookings || []).map((booking: any, index: number) => ({
-                  id: `booking-${index}`,
-                  title: booking.day,
-                  price: booking.quantity ? booking.amount / booking.quantity : booking.amount,
-                  description: booking.remark || '',
+                categories: (receiptData.categories?.length ? receiptData.categories : receiptData.bookings || []).map((booking: any, index: number) => ({
+                  id: booking.id || `booking-${index}`,
+                  title: booking.title || booking.day,
+                  price: booking.price ?? (booking.quantity ? booking.amount / booking.quantity : booking.amount),
+                  description: booking.description || booking.remark || '',
                   max: booking.quantity || 0,
                   quantity: booking.quantity || 0,
                 })),
@@ -164,6 +164,11 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
                 ),
                 timestamp: receiptData.timestamp,
                 userInfo: receiptData.userInfo,
+                requiresIdVerification: (receiptData.categories || []).some((category: any) => {
+                  const categoryId = String(category.id || '').toLowerCase();
+                  return category.quantity > 0 && (categoryId === 'children-0-5' || categoryId.includes('senior'));
+                }
+                ),
               } : undefined}
             />
           )}
