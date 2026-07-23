@@ -16,5 +16,8 @@ export const createBhogRoutes = (bhogController: BhogController): Router => {
   // Paid bhog booking endpoint
   router.post('/paid-booking', (req, res) => bhogController.handlePaidBooking(req, res));
 
+  // Receipt data for the payment-success page.
+  router.get('/payment/:transactionId', (req, res) => bhogController.getPaymentByTransactionId(req, res));
+
   return router;
 };

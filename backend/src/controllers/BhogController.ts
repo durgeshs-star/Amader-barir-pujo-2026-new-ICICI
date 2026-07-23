@@ -19,6 +19,24 @@ export class BhogController {
     this.bhogRepository = new BhogRepository();
   }
 
+  /** Get the saved Bhog booking so the payment-success page can render its receipt. */
+  async getPaymentByTransactionId(req: Request, res: Response): Promise<void> {
+    try {
+      const { transactionId } = req.params;
+      const payment = await this.bhogRepository.getPaymentByTransactionId(transactionId);
+
+      if (!payment) {
+        res.status(404).json({ success: false, error: 'Payment not found' });
+        return;
+      }
+
+      res.status(200).json({ success: true, data: payment });
+    } catch (error: any) {
+      console.error('Error fetching Bhog payment:', error);
+      res.status(500).json({ success: false, error: 'Failed to fetch payment' });
+    }
+  }
+
   /**
    * Determine sheet name based on booking title
    */
