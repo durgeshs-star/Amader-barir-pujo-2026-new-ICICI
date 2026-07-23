@@ -151,7 +151,7 @@ const startServer = async () => {
       } else {
         // Development mode: warn if not using ngrok or localhost
         if (!returnURL.includes('ngrok') && !returnURL.includes('localhost')) {
-          console.warn('[ICICI PG] WARNING: ICICI_PG_RETURN_URL does not contain "ngrok" or "localhost".');
+          console.warn('[ICICI PG] WARNING:: ICICI_PG_RETURN_URL does not contain "ngrok" or "localhost".');
           console.warn('[ICICI PG] You may be testing against the deployed Render backend from local development.');
         }
       }
