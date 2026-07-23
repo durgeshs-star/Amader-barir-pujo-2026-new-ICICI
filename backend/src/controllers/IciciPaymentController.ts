@@ -161,15 +161,18 @@ export class IciciPaymentController {
         0
       ) || payment.totalAmount || 0;
 
-      // Extract actual charged amount and fee breakdown from ICICI callback
-      const actualAmountCharged = this.parseCallbackAmount(callbackBody.amount);
+      // Extract fee breakdown from ICICI callback
+      const iciciBaseAmount = this.parseCallbackAmount(callbackBody.amount);
       const convenienceFee = this.parseCallbackAmount(callbackBody.convenienceFee);
       const serviceTax = this.parseCallbackAmount(callbackBody.serviceTax);  
       const othCharge = this.parseCallbackAmount(callbackBody.oth_charge);
 
-      console.log(`ICICI callback amounts -> Actual: ₹${actualAmountCharged}, ConvFee: ₹${convenienceFee}, ServiceTax: ₹${serviceTax}, OthCharge: ₹${othCharge}`);
+      // Calculate the ACTUAL total amount charged by ICICI (base + all fees)
+      const actualAmountCharged = iciciBaseAmount + convenienceFee + serviceTax + othCharge;
 
-      // Use actual charged amount as the definitive total, fallback to calculated if missing
+      console.log(`ICICI callback amounts -> Base: ₹${iciciBaseAmount}, ConvFee: ₹${convenienceFee}, ServiceTax: ₹${serviceTax}, OthCharge: ₹${othCharge}, TOTAL: ₹${actualAmountCharged}`);
+
+      // Use actual charged amount as the definitive total
       let finalTotalAmount = actualAmountCharged;
       if (!finalTotalAmount || finalTotalAmount <= 0) {
         const calculated = calculateIciciGatewayCharges(baseAmount);
@@ -298,15 +301,18 @@ export class IciciPaymentController {
         0
       ) || payment.totalAmount || 0;
 
-      // Extract actual charged amount and fee breakdown from ICICI callback
-      const actualAmountCharged = this.parseCallbackAmount(callbackBody.amount);
+      // Extract fee breakdown from ICICI callback
+      const iciciBaseAmount = this.parseCallbackAmount(callbackBody.amount);
       const convenienceFee = this.parseCallbackAmount(callbackBody.convenienceFee);
       const serviceTax = this.parseCallbackAmount(callbackBody.serviceTax);  
       const othCharge = this.parseCallbackAmount(callbackBody.oth_charge);
 
-      console.log(`ICICI callback amounts -> Actual: ₹${actualAmountCharged}, ConvFee: ₹${convenienceFee}, ServiceTax: ₹${serviceTax}, OthCharge: ₹${othCharge}`);
+      // Calculate the ACTUAL total amount charged by ICICI (base + all fees)
+      const actualAmountCharged = iciciBaseAmount + convenienceFee + serviceTax + othCharge;
 
-      // Use actual charged amount as the definitive total, fallback to calculated if missing
+      console.log(`ICICI callback amounts -> Base: ₹${iciciBaseAmount}, ConvFee: ₹${convenienceFee}, ServiceTax: ₹${serviceTax}, OthCharge: ₹${othCharge}, TOTAL: ₹${actualAmountCharged}`);
+
+      // Use actual charged amount as the definitive total
       let finalTotalAmount = actualAmountCharged;
       if (!finalTotalAmount || finalTotalAmount <= 0) {
         const calculated = calculateIciciGatewayCharges(baseAmount);
