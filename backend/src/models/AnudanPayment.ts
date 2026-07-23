@@ -25,6 +25,8 @@ export interface IAnudanPayment extends Document {
     }>;
     remark: string;
   }>;
+  baseAmount?: number;
+  gatewayCharges?: number;
   totalAmount: number;
   // ICICI PG fields
   iciciTxnId?: string;
@@ -32,6 +34,11 @@ export interface IAnudanPayment extends Document {
   iciciPaymentMode?: string;
   iciciPaymentDateTime?: string;
   iciciResponseCode?: string;
+  // ICICI actual charged amount and fee breakdown
+  actualAmountCharged?: number;
+  convenienceFee?: number;
+  serviceTax?: number;
+  othCharge?: number;
   paymentStatus?: 'pending' | 'success' | 'failed' | 'cancelled';
   createdAt: Date;
   updatedAt: Date;
@@ -84,6 +91,12 @@ const AnudanPaymentSchema = new Schema<IAnudanPayment>(
         default: '',
       },
     }],
+    baseAmount: {
+      type: Number,
+    },
+    gatewayCharges: {
+      type: Number,
+    },
     totalAmount: {
       type: Number,
       required: true,
@@ -104,6 +117,19 @@ const AnudanPaymentSchema = new Schema<IAnudanPayment>(
     iciciResponseCode: {
       type: String,
     },
+    // ICICI actual charged amount and fee breakdown
+    actualAmountCharged: {
+      type: Number,
+    },
+    convenienceFee: {
+      type: Number,
+    },
+    serviceTax: {
+      type: Number,
+    },
+    othCharge: {
+      type: Number,
+    },
     paymentStatus: {
       type: String,
       enum: ['pending', 'success', 'failed', 'cancelled'],
@@ -114,8 +140,6 @@ const AnudanPaymentSchema = new Schema<IAnudanPayment>(
     timestamps: true,
   }
 );
-
-// Index for efficient queries
 
 AnudanPaymentSchema.index({ transactionId: 1 });
 AnudanPaymentSchema.index({ 'categories.day': 1 });

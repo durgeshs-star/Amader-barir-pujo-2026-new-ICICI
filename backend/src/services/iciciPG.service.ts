@@ -116,6 +116,10 @@ export interface PaymentCallbackPayload {
   paymentID: string;
   paymentMode: string;
   amount: string;
+  // ICICI fee breakdown fields (optional, depends on merchant config)
+  convenienceFee?: string;
+  serviceTax?: string;
+  oth_charge?: string;
   secureHash: string;
   [key: string]: any; // Allow additional fields
 }

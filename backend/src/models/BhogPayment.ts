@@ -29,6 +29,8 @@ export interface IBhogPayment extends Document {
     price: number;
     quantity: number;
   }>;
+  baseAmount?: number;
+  gatewayCharges?: number;
   totalAmount: number;
   // ICICI PG fields
   iciciTxnId?: string;
@@ -36,6 +38,11 @@ export interface IBhogPayment extends Document {
   iciciPaymentMode?: string;
   iciciPaymentDateTime?: string;
   iciciResponseCode?: string;
+  // ICICI actual charged amount and fee breakdown
+  actualAmountCharged?: number;
+  convenienceFee?: number;
+  serviceTax?: number;
+  othCharge?: number;
   paymentStatus?: 'pending' | 'success' | 'failed' | 'cancelled';
   createdAt: Date;
   updatedAt: Date;
@@ -95,6 +102,12 @@ const BhogPaymentSchema = new Schema<IBhogPayment>(
       price: { type: Number, required: true },
       quantity: { type: Number, required: true },
     }],
+    baseAmount: {
+      type: Number,
+    },
+    gatewayCharges: {
+      type: Number,
+    },
     totalAmount: {
       type: Number,
       required: true,
@@ -115,6 +128,19 @@ const BhogPaymentSchema = new Schema<IBhogPayment>(
     iciciResponseCode: {
       type: String,
     },
+    // ICICI actual charged amount and fee breakdown
+    actualAmountCharged: {
+      type: Number,
+    },
+    convenienceFee: {
+      type: Number,
+    },
+    serviceTax: {
+      type: Number,
+    },
+    othCharge: {
+      type: Number,
+    },
     paymentStatus: {
       type: String,
       enum: ['pending', 'success', 'failed', 'cancelled'],
@@ -125,8 +151,6 @@ const BhogPaymentSchema = new Schema<IBhogPayment>(
     timestamps: true,
   }
 );
-
-// Index for efficient queries
 
 BhogPaymentSchema.index({ transactionId: 1 });
 BhogPaymentSchema.index({ 'bookings.day': 1 });
