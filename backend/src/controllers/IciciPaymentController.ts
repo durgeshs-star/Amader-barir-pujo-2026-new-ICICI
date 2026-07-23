@@ -88,6 +88,12 @@ export class IciciPaymentController {
       const body = req.body as PaymentCallbackPayload;
       const receivedHash = body.secureHash;
 
+      // DEBUG: Log the complete raw callback body for investigation
+      console.log('=== ICICI CALLBACK RAW BODY (BUG DEBUG) ===');
+      console.log('Full req.body:', JSON.stringify(body, null, 2));
+      console.log('Object.keys(req.body):', Object.keys(body));
+      console.log('===========================================');
+
       console.log('ICICI Callback Received Full Payload:', JSON.stringify(body, null, 2));
 
       // Verify secureHash
@@ -190,6 +196,19 @@ export class IciciPaymentController {
         payment.serviceTax = serviceTax;
         payment.othCharge = othCharge;
 
+        // DEBUG: Log all amount calculations before saving
+        console.log('=== ANUDAN PAYMENT AMOUNT DEBUG ===');
+        console.log('baseAmount:', baseAmount);
+        console.log('actualAmountCharged from ICICI:', actualAmountCharged);
+        console.log('convenienceFee:', convenienceFee);
+        console.log('serviceTax:', serviceTax);
+        console.log('othCharge:', othCharge);
+        console.log('computed finalTotalAmount:', finalTotalAmount);
+        console.log('gatewayCharges (finalTotal - base):', gatewayCharges);
+        console.log('Manual sum (base + fees):', baseAmount + convenienceFee + serviceTax + othCharge);
+        console.log('payment.totalAmount being saved:', payment.totalAmount);
+        console.log('==================================');
+
         payment.markModified('baseAmount');
         payment.markModified('gatewayCharges');
         payment.markModified('totalAmount');
@@ -211,6 +230,13 @@ export class IciciPaymentController {
         payment.iciciResponseCode = callbackBody.responseCode;
         payment.paymentStatus = 'success';
         await payment.save();
+
+        // DEBUG: Log what was actually saved to MongoDB
+        console.log('=== AFTER SAVE TO MONGODB ===');
+        console.log('payment._id:', payment._id);
+        console.log('payment.totalAmount after save:', payment.totalAmount);
+        console.log('payment.actualAmountCharged after save:', payment.actualAmountCharged);
+        console.log('============================');
 
         // Broadcast SSE updates for each category
         for (const category of payment.categories) {
@@ -307,6 +333,19 @@ export class IciciPaymentController {
         payment.serviceTax = serviceTax;
         payment.othCharge = othCharge;
 
+        // DEBUG: Log all amount calculations before saving
+        console.log('=== BHOG PAYMENT AMOUNT DEBUG ===');
+        console.log('baseAmount:', baseAmount);
+        console.log('actualAmountCharged from ICICI:', actualAmountCharged);
+        console.log('convenienceFee:', convenienceFee);
+        console.log('serviceTax:', serviceTax);
+        console.log('othCharge:', othCharge);
+        console.log('computed finalTotalAmount:', finalTotalAmount);
+        console.log('gatewayCharges (finalTotal - base):', gatewayCharges);
+        console.log('Manual sum (base + fees):', baseAmount + convenienceFee + serviceTax + othCharge);
+        console.log('payment.totalAmount being saved:', payment.totalAmount);
+        console.log('================================');
+
         payment.markModified('baseAmount');
         payment.markModified('gatewayCharges');
         payment.markModified('totalAmount');
@@ -328,6 +367,13 @@ export class IciciPaymentController {
         payment.iciciResponseCode = callbackBody.responseCode;
         payment.paymentStatus = 'success';
         await payment.save();
+
+        // DEBUG: Log what was actually saved to MongoDB
+        console.log('=== AFTER SAVE TO MONGODB ===');
+        console.log('payment._id:', payment._id);
+        console.log('payment.totalAmount after save:', payment.totalAmount);
+        console.log('payment.actualAmountCharged after save:', payment.actualAmountCharged);
+        console.log('============================');
 
         // Log to Google Sheets (non-critical) — logs base amount, gateway charges, and total paid amount
         await this.logBhogToSheets(payment);
@@ -413,6 +459,19 @@ export class IciciPaymentController {
           index === 0 ? payment.actualAmountCharged || payment.totalAmount : 0,
           category.remark || ''
         ];
+
+        // DEBUG: Log what's being written to Google Sheets for Anudan
+        if (index === 0) {
+          console.log('=== GOOGLE SHEETS ANUDAN LOGGING DEBUG ===');
+          console.log('payment.baseAmount:', payment.baseAmount);
+          console.log('payment.gatewayCharges:', payment.gatewayCharges);
+          console.log('payment.totalAmount:', payment.totalAmount);
+          console.log('payment.actualAmountCharged:', payment.actualAmountCharged);
+          console.log('actualAmountCharged || totalAmount result:', payment.actualAmountCharged || payment.totalAmount);
+          console.log('Row data being written:', rowData);
+          console.log('==========================================');
+        }
+
         return this.sheetsService.appendRow('Anudan Contributions', rowData);
       });
       await Promise.all(rowPromises);
@@ -523,6 +582,17 @@ export class IciciPaymentController {
         payment.actualAmountCharged || payment.totalAmount,
         'Paid'
       ];
+
+      // DEBUG: Log what's being written to Google Sheets
+      console.log('=== GOOGLE SHEETS BHOG LOGGING DEBUG ===');
+      console.log('payment.baseAmount:', payment.baseAmount);
+      console.log('payment.gatewayCharges:', payment.gatewayCharges);
+      console.log('payment.totalAmount:', payment.totalAmount);
+      console.log('payment.actualAmountCharged:', payment.actualAmountCharged);
+      console.log('actualAmountCharged || totalAmount result:', payment.actualAmountCharged || payment.totalAmount);
+      console.log('Row data being written:', rowData);
+      console.log('=======================================');
+
       await this.sheetsService.appendRow(sheetName, rowData);
 
       // Update summary

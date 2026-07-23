@@ -84,7 +84,7 @@ const SaraswatiPujaBhogPage: React.FC = () => {
       <section className="py-4 bg-white">
         <div className="max-w-5xl mx-auto px-6">
           <BhogBookingSection
-            title="Book Saraswati Puja Bhog"
+            title="Saraswati Puja Bhog"
             subtitle="Bhog Booking"
             description="Select the number of bhog."
             categories={categories}

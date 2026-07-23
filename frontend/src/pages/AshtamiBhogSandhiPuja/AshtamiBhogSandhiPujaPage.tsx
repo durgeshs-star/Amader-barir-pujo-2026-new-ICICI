@@ -84,7 +84,7 @@ const AshtamiBhogSandhiPujaPage: React.FC = () => {
       <section className="py-4 bg-white">
         <div className="max-w-5xl mx-auto px-6">
           <BhogBookingSection
-            title="Book Ashtami Sandhi Puja Bhog"
+            title="Ashtami Sandhi Puja Bhog"
             subtitle="Sacred Transition Bhog Booking"
             description="Select the number of bhog."
             categories={categories}
