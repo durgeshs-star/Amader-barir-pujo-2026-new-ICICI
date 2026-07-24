@@ -6,6 +6,7 @@ import Button from '../components/ui/Button';
 import SEO from '../components/ui/SEO';
 import { toast } from 'react-toastify';
 import { CONTACT_EMAIL } from '../config/constants';
+import { apiService } from '../services/api';
 
 export const ContactUs: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -70,22 +71,12 @@ export const ContactUs: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        setSubmitted(true);
-        setFormData({ name: '', email: '', subject: '', message: '' });
-        setErrors({});
-        toast.success('Message sent successfully!');
-      } else {
-        toast.error('Failed to send message. Please try again.');
-      }
+      await apiService.submitContact(formData);
+      
+      setSubmitted(true);
+      setFormData({ name: '', email: '', subject: '', message: '' });
+      setErrors({});
+      toast.success('Message sent successfully!');
     } catch (error) {
       console.error('Error submitting form:', error);
       toast.error('Failed to send message. Please try again.');

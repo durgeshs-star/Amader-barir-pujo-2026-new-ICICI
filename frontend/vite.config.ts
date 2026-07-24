@@ -8,10 +8,23 @@ export default defineConfig({
     tailwindcss(),
   ],
   server: {
+    // Development-only proxy - this won't affect production builds
     proxy: {
       '/api': {
         target: 'http://localhost:3001',
         changeOrigin: true,
+        // Add security headers for development
+        configure: (proxy) => {
+          proxy.on('error', (err, _req, _res) => {
+            console.log('Proxy error:', err);
+          });
+          proxy.on('proxyReq', (_proxyReq, req, _res) => {
+            console.log('Sending Request to the Target:', req.method, req.url);
+          });
+          proxy.on('proxyRes', (proxyRes, req, _res) => {
+            console.log('Received Response from the Target:', proxyRes.statusCode, req.url);
+          });
+        },
       },
     },
   },

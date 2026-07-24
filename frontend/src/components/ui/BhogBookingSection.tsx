@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import BhogBookingCard from './BhogBookingCard';
 import UserInfoForm from './UserInfoForm';
 import type { UserInfoFormRef } from './UserInfoForm';
 import type { BhogBookingSectionProps, BhogBookingState } from '../../types/bhog';
-import { API_URL } from '../../config/api';
 import { toast } from 'react-toastify';
+import { apiService } from '../../services/api';
 
 export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
   title,
@@ -85,10 +84,10 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
         userInfo
       };
 
-      const response = await axios.post(`${API_URL}/api/bhog/free-booking`, bookingDetails);
+      const response = await apiService.submitFreeBhogBooking(bookingDetails);
 
-      if (response.data.success) {
-        const { orderId, transactionId } = response.data.data || {};
+      if (response.success) {
+        const { orderId, transactionId } = response.data || {};
         if (!orderId || !transactionId) {
           throw new Error('Receipt details were not returned for the free booking');
         }
@@ -131,18 +130,18 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
         userInfo
       };
 
-      const response = await axios.post(`${API_URL}/api/bhog/paid-booking`, bookingDetails);
+      const response = await apiService.submitPaidBhogBooking(bookingDetails);
 
-      if (response.data.success) {
-        if (response.data.paymentUrl) {
-          window.location.href = response.data.paymentUrl;
-        } else if (response.data.data?.transactionId) {
-          window.location.href = `/mock-payment/${response.data.data.transactionId}`;
+      if (response.success) {
+        if (response.paymentUrl) {
+          window.location.href = response.paymentUrl;
+        } else if (response.data?.transactionId) {
+          window.location.href = `/mock-payment/${response.data.transactionId}`;
         } else {
           throw new Error('No payment URL or transaction ID returned from backend');
         }
       } else {
-        throw new Error(response.data.message || 'Failed to initiate payment');
+        throw new Error(response.message || 'Failed to initiate payment');
       }
     } catch (err: any) {
       console.error('Payment initiation failed:', err);

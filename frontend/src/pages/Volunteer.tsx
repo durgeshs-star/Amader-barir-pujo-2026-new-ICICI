@@ -5,6 +5,7 @@ import PageHero from "../components/common/PageHero";
 import Button from "../components/ui/Button";
 import SEO from "../components/ui/SEO";
 import { toast } from 'react-toastify';
+import { apiService } from '../services/api';
 
 interface FormData {
   name: string;
@@ -69,27 +70,20 @@ const VolunteerContent: React.FC = React.memo(() => {
 
     setIsSubmitting(true);
     try {
-      const response = await fetch("/api/volunteer", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          message: formData.message,
-        }),
+      await apiService.submitVolunteer({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        message: formData.message,
       });
 
-      if (response.ok) {
-        setSubmitted(true);
-        setFormData({ name: "", email: "", phone: "", message: "" });
-        setErrors({});
-        toast.success('Volunteer form submitted successfully!');
-      } else {
-        toast.error('Submission failed. Please try again or contact us directly.');
-      }
-    } catch {
-      toast.error('Network error. Please check your connection and try again.');
+      setSubmitted(true);
+      setFormData({ name: "", email: "", phone: "", message: "" });
+      setErrors({});
+      toast.success('Volunteer form submitted successfully!');
+    } catch (error) {
+      console.error('Error submitting volunteer form:', error);
+      toast.error('Submission failed. Please try again or contact us directly.');
     } finally {
       setIsSubmitting(false);
     }

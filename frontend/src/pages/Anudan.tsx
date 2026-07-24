@@ -12,6 +12,7 @@ import type { AnudanCard as AnudanCardType } from '../types/anudan.types';
 import { API_URL } from '../config/api';
 import { useAnudanRemaining } from '../hooks/useAnudanRemaining';
 import { toast } from 'react-toastify';
+import { apiService } from '../services/api';
 
 interface BasketItem {
   card: AnudanCardType;
@@ -42,10 +43,9 @@ export const Anudan: React.FC = () => {
   useEffect(() => {
     const fetchAllRemaining = async () => {
       try {
-        const response = await fetch(`${API_URL}/api/anudan/remaining`);
-        const data = await response.json();
-        if (data.success && data.data && data.data.remainingAmounts) {
-          setAllRemainingAmounts(data.data.remainingAmounts);
+        const response = await apiService.getAnudanRemaining();
+        if (response.success && response.data && response.data.remainingAmounts) {
+          setAllRemainingAmounts(response.data.remainingAmounts);
         }
       } catch (error) {
         console.error('Failed to fetch remaining amounts:', error);
