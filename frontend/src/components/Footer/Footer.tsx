@@ -185,7 +185,7 @@ export const Footer: React.FC = () => {
               <span className="text-lg font-bold font-fraunces text-white tracking-wide whitespace-nowrap">Amader Barir Pujo</span>
               <span className="text-[10px] bg-accent/20 text-accent font-semibold px-2 py-0.5 rounded shrink-0">2026</span>
             </div>
-            <span className="text-[10px] text-text-inverse-muted font-medium whitespace-nowrap">An Initiative by <br /><a href="https://proplusdatafoundation.com/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors duration-200">ProPlus Data Foundation</a></span>
+            <span className="text-[10px] text-text-inverse-muted font-medium whitespace-nowrap">An Initiative by <a href="https://proplusdatafoundation.com/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors duration-200">ProPlus Data Foundation</a></span>
           </div>
 
           {/* Socials */}
