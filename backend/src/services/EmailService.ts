@@ -38,29 +38,21 @@ export class EmailService implements IEmailService {
   }
 
   async sendEmail(options: EmailOptions): Promise<void> {
-    const mailOptions = {
-      from: process.env.EMAIL_FROM || process.env.SMTP_USER,
-      to: options.to,
-      subject: options.subject,
-      text: options.text,
-      html: options.html || options.text,
-    };
+  console.log("[SMTP] sendEmail() called");
 
-    console.log('[SMTP] Sending email...');
-    console.time('[SMTP] SendMail');
+  const mailOptions = {
+    from: process.env.EMAIL_FROM || process.env.SMTP_USER,
+    to: options.to,
+    subject: options.subject,
+    text: options.text,
+    html: options.html || options.text,
+  };
 
-    try {
-      const info = await this.transporter.sendMail(mailOptions);
+  console.log("[SMTP] Before sendMail");
 
-      console.timeEnd('[SMTP] SendMail');
-      console.log('[SMTP] Email sent successfully');
-      console.log('[SMTP] Message ID:', info.messageId);
-    } catch (error) {
-      console.timeEnd('[SMTP] SendMail');
-      console.error('[SMTP] Failed to send email');
-      console.error(error);
+  const info = await this.transporter.sendMail(mailOptions);
 
-      throw error;
-    }
-  }
+  console.log("[SMTP] After sendMail");
+  console.log(info);
+}
 }
