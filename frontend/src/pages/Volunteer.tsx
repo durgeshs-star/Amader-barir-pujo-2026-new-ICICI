@@ -107,7 +107,7 @@ const VolunteerContent: React.FC = React.memo(() => {
       />
 
       <PageHero
-        title="Volunteer"
+        title="Be a Bari Member"
         height="h-[40vh] md:h-[60vh]"
       />
 
