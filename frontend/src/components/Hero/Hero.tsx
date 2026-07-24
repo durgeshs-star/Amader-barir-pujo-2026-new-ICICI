@@ -46,7 +46,7 @@ z-0"
 
       {/* Content — bottom-left, matching reference layout */}
       <div className="relative z-10 w-full max-w-7xl mx-auto lg:px-8">
-        <div className="max-w-2xl">
+        <div className="max-w-2xl mb-2">
 
           {/* Title — large display, two visual lines */}
           <h1 className="font-fraunces-italic leading-none mb-6 select-text text-4xl sm:text-5xl md:text-5xl font-bold text-white text-left" style={{ textShadow: '0 2px 12px rgba(0,0,0,0.5)' }}>

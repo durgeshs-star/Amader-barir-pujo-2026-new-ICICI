@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -55,6 +55,11 @@ const AppShell: React.FC = () => {
   const location = useLocation();
   const isWelcomeToAbpWaFamilyRoute = location.pathname === '/welcome-to-abp-wa-family';
   const siteLive = (import.meta.env.VITE_SITE_LIVE || import.meta.env.REACT_APP_SITE_LIVE || 'false').toLowerCase() === 'false';
+
+  // Scroll to top on route change
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   if (!siteLive && !isWelcomeToAbpWaFamilyRoute) {
     return <Navigate to="/welcome-to-abp-wa-family" replace />;

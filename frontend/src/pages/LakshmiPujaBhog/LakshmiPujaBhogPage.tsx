@@ -81,7 +81,7 @@ const LakshmiPujaBhogPage: React.FC = () => {
         </div>
       </section>
 
-      <section className="py-4 bg-white">
+      <section className="pb-4 bg-white">
         <div className="max-w-5xl mx-auto px-6">
           <BhogBookingSection
             title="Lakshmi Puja Bhog"

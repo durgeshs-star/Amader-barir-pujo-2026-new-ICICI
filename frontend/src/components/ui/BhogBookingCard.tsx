@@ -16,7 +16,7 @@ export const BhogBookingCard: React.FC<BhogBookingCardProps> = ({
   return (
     <>
       {/* Mobile Layout - Compact horizontal */}
-      <div className="flex items-center justify-between p-4 border-2 rounded-xl bg-white transition-all duration-200 lg:hidden hover:border-primary/30">
+      <div className="flex items-center justify-between p-4 border-1 rounded-xl bg-white transition-all duration-200 lg:hidden hover:border-primary/30">
         <div className="flex-1 pr-4">
           <h3 className="text-base font-semibold text-gray-900 mb-1">
             {category.title}
