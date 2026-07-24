@@ -3,11 +3,6 @@ import { VolunteerFormData } from '../types/volunteer.types';
 import { IVolunteerRepository } from '../repositories/IVolunteerRepository';
 import { IEmailService } from '../services/IEmailService';
 
-const VOLUNTEER_EMAIL_TO =
-  process.env.VOLUNTEER_EMAIL_TO ||
-  process.env.EMAIL_TO ||
-  'durgesh.s@proplusdata.co';
-
 export class VolunteerController {
   constructor(
     private volunteerRepository: IVolunteerRepository,
@@ -50,7 +45,7 @@ IP Address: ${ipAddress || 'N/A'}
       `;
 
       await this.emailService.sendEmail({
-        to: VOLUNTEER_EMAIL_TO,
+        to: process.env.EMAIL_TO || 'info@abp.proplusdatafoundation.com',
         subject: `ABP Volunteer Form Submission: ${name}`,
         text: emailText,
         html: emailHtml,

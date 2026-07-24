@@ -48,7 +48,7 @@ IP Address: ${ipAddress || 'N/A'}
       `;
 
       await this.emailService.sendEmail({
-        to: process.env.EMAIL_TO || 'durgesh.s@proplusdata.co',
+        to: process.env.EMAIL_TO || 'info@abp.proplusdatafoundation.com',
         subject: `ABP Contact Form Submission: ${subject}`,
         text: emailText,
         html: emailHtml,
