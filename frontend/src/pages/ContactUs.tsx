@@ -5,6 +5,7 @@ import PageHero from '../components/common/PageHero';
 import Button from '../components/ui/Button';
 import SEO from '../components/ui/SEO';
 import { toast } from 'react-toastify';
+import { CONTACT_EMAIL } from '../config/constants';
 
 export const ContactUs: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -217,8 +218,8 @@ export const ContactUs: React.FC = () => {
                     </div>
                     <div>
                       <span className="text-[10px] text-muted font-bold uppercase tracking-widest block">Email Us</span>
-                      <a href="mailto:info@abp.proplusdatafoundation.com" className="font-semibold text-secondary hover:text-primary transition-colors">
-                        info@abp.proplusdatafoundation.com
+                      <a href={`mailto:${CONTACT_EMAIL}`} className="font-semibold text-secondary hover:text-primary transition-colors">
+                        {CONTACT_EMAIL}
                       </a>
                     </div>
                   </li>

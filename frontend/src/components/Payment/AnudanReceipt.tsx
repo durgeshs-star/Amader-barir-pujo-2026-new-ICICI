@@ -8,6 +8,7 @@
 import React, { useRef } from 'react';
 import html2pdf from 'html2pdf.js';
 import { toast } from 'react-toastify';
+import { CONTACT_EMAIL } from '../../config/constants';
 
 interface AnudanCategory {
   day: string;
@@ -280,7 +281,7 @@ export const AnudanReceipt: React.FC<AnudanReceiptProps> = ({ receiptData: propR
         <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: '1px solid #e5e7eb', textAlign: 'center', fontSize: '11px', color: '#6b7280' }}>
           <p style={{ marginBottom: '4px' }}>This is a computer-generated receipt. No signature required.</p>
           <p style={{ marginBottom: '4px' }}>Thank you for your generous Anudan contribution to Amader Barir Pujo!</p>
-          <p>For queries, contact: info@abp.proplusdatafoundation.com</p>
+          <p>For queries, contact: {CONTACT_EMAIL}</p>
         </div>
       </div>
 

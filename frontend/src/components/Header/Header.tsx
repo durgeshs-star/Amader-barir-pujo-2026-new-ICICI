@@ -5,6 +5,7 @@ import Navigation from './Navigation';
 import HamburgerButton from './HamburgerButton';
 import MobileMenu from './MobileMenu';
 import CountdownTimer from '../ui/CountdownTimer';
+import { CONTACT_EMAIL } from '../../config/constants';
 
 export interface HeaderProps {
   /** Override the top-bar phone number */
@@ -33,7 +34,7 @@ export interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({
   phone = '(+123) 123 4567 890',
-  email = 'info@abp.proplusdatafoundation.com',
+  email = CONTACT_EMAIL,
   ctaLabel = "BE A BARI MEMBER",
   ctaHref = '/volunteer',
   facebookUrl = 'https://www.facebook.com/people/Amader-Barir-Pujo/61571741439510/',

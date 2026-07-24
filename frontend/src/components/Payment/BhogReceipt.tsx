@@ -8,6 +8,7 @@
 import React, { useRef } from 'react';
 import html2pdf from 'html2pdf.js';
 import { toast } from 'react-toastify';
+import { CONTACT_EMAIL } from '../../config/constants';
 
 interface BhogCategory {
   id: string;
@@ -290,7 +291,7 @@ export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propRecei
         <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: '1px solid #e5e7eb', textAlign: 'center', fontSize: '11px', color: '#6b7280' }}>
           <p style={{ marginBottom: '4px' }}>This is a computer-generated receipt. No signature required.</p>
           <p style={{ marginBottom: '4px' }}>Thank you for your contribution to Amader Barir Pujo!</p>
-          <p>For queries, contact: info@abp.proplusdatafoundation.com</p>
+          <p>For queries, contact: {CONTACT_EMAIL}</p>
           {receiptData.requiresIdVerification && (
             <p style={{ marginTop: '8px', color: '#92400e', fontWeight: 'bold' }}>
               * ID card verification is required for children aged 0 to 5 years and senior citizens.

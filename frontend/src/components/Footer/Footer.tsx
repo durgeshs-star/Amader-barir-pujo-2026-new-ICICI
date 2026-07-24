@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaCalendarAlt, FaFacebookF, FaInstagram } from 'react-icons/fa';
+import { CONTACT_EMAIL } from '../../config/constants';
 
 interface RecentPost {
   title: string;
@@ -53,8 +54,8 @@ export const Footer: React.FC = () => {
               </li>
               <li className="flex items-start gap-3">
                 <FaEnvelope className="text-accent mt-1 shrink-0" size={12} />
-                <a href="mailto:info@abp.proplusdatafoundation.com" className="text-text-on-primary hover:text-accent transition-colors">
-                  info@abp.proplusdatafoundation.com
+                <a href={`mailto:${CONTACT_EMAIL}`} className="text-text-on-primary hover:text-accent transition-colors">
+                  {CONTACT_EMAIL}
                 </a>
               </li>
               <li className="flex items-start gap-3">
