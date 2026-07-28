@@ -29,6 +29,7 @@ export const Anudan: React.FC = () => {
   
   // Fetch all remaining amounts
   const [allRemainingAmounts, setAllRemainingAmounts] = useState<Record<string, number>>({});
+  const [isLoadingRemaining, setIsLoadingRemaining] = useState(true);
 
   // Use SSE hook for real-time remaining amounts (for each category)
   // We'll use the first category as default for the hook
@@ -49,6 +50,8 @@ export const Anudan: React.FC = () => {
         }
       } catch (error) {
         console.error('Failed to fetch remaining amounts:', error);
+      } finally {
+        setIsLoadingRemaining(false);
       }
     };
 
@@ -329,6 +332,7 @@ export const Anudan: React.FC = () => {
                   <AnudanCard
                     card={card}
                     remainingAmount={allRemainingAmounts[card.day] || 0}
+                    isLoading={isLoadingRemaining}
                     onAddToBasket={addToBasket}
                   />
                 </div>

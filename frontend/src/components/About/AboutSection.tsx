@@ -1,12 +1,9 @@
-import AboutCarousel from "./AboutCarousel";
-import CarouselContentSection from "../common/CarouselContentSection";
-
 const AboutSection = () => {
   return (
-    <>
+    <section className="bg-white overflow-hidden">
       {/* Full-width heading section */}
       <div className="w-full px-6 lg:px-10 py-10 lg:py-14 bg-white animate-fade-in-up text-center">
-        <p className="uppercase text-secondary text-[11px] font-medium animate-fade-in text-center">
+        <p className="uppercase text-secondary text-[14px] font-medium animate-fade-in text-center">
           Keeping Traditions Alive, Celebrating Together
         </p>
         <h2 className="font-fraunces text-3xl lg:text-5xl font-bold leading-tight mt-2 animate-fade-in-up">
@@ -19,22 +16,26 @@ const AboutSection = () => {
         </h2>
       </div>
 
-      {/* Content section with carousel and text */}
-      <CarouselContentSection
-        description="Welcome to a place where the divine blessings of Maa Durga inspire devotion, strengthen community bonds, and keep our cherished traditions alive. Together, we celebrate the spirit of Durga Pujo with pride, joy, and a shared sense of belonging."
-        items={[
-          {
-            title: "Vision",
-            description: "To preserve the cultural and spiritual legacy of Durga Puja, fostering a vibrant and inclusive community for generations to come.",
-          },
-          {
-            title: "Mission",
-            description: "To honor Maa Durga through meaningful celebrations, uphold timeless traditions, and create a welcoming environment where everyone can experience the joy of faith, culture, and unity.",
-          },
-        ]}
-        carousel={<AboutCarousel />}
-      />
-    </>
+      {/* Horizontal image section */}
+      <div className="max-w-7xl mx-auto px-6 lg:px-10 pb-6 lg:pb-10">
+        <div className="w-full animate-fade-in-up">
+          <img
+            src="/assets/img/o.webp"
+            alt="Durga Puja Celebration"
+            className="w-full h-auto rounded-lg shadow-lg object-cover"
+          />
+        </div>
+
+        {/* Description and items section */}
+        <div className="mt-8 lg:mt-12">
+          <p className="text-dark-bg text-base lg:text-lg leading-6 lg:leading-7 mb-8 animate-fade-in text-center">
+           Amader Barir Pujo® is an initiative of <a href="https://proplusdatafoundation.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-secondary no-underline hover:no-underline">
+              ProPlus Data Foundation®
+            </a>, created with a simple thought: Pujo should feel like barir pujo, even when you’re miles away from bari. There are no membership fees and no inner circles. Come for Maa, stay for the adda, have another helping of bhog, and somewhere between the dhaak and “aar ektu nebe?”, you’ll realize you were never a guest here.
+          </p>
+        </div>
+      </div>
+    </section>
   );
 };
 
