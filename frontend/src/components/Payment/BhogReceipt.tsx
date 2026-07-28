@@ -132,7 +132,7 @@ export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propRecei
         {/* Header */}
         <div style={{ textAlign: 'center', borderBottom: '2px solid #d97706', paddingBottom: '12px', marginBottom: '12px' }}>
           <img
-            src="/assets/img/Logo-puja.webp"
+            src="/assets/images/ABP-Logo.png"
             alt="Amader Barir Pujo Logo"
             style={{ width: '64px', height: '64px', margin: '0 auto 8px auto' }}
           />
@@ -142,7 +142,7 @@ export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propRecei
           <h2 style={{ fontSize: '18px', color: '#d97706', fontFamily: 'serif', marginBottom: '4px' }}>Amader Barir Pujo</h2>
           <p style={{ fontSize: '13px', color: '#4b5563' }}>Durga Puja 2026 - Wakad, Pune</p>
           <p style={{ fontSize: '12px', color: '#b45309', marginTop: '2px', fontStyle: 'italic' }}>An Initiative by <a href="https://proplusdatafoundation.com/" target="_blank" rel="noopener noreferrer" style={{ color: '#b45309', textDecoration: 'underline', cursor: 'pointer' }}>ProPlus Data Foundation</a></p>
-          <p style={{ fontSize: '12px', color: '#b45309', fontWeight: 'bold' }}>NGO Darpan ID: MH/2025/0627499</p>
+          <p style={{ fontSize: '12px', color: '#b45309', fontWeight: 'bold' }}>Darpan ID: MH/2025/0627499</p>
         </div>
 
         {/* Receipt Details */}
@@ -290,8 +290,9 @@ export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propRecei
         {/* Footer */}
         <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: '1px solid #e5e7eb', textAlign: 'center', fontSize: '11px', color: '#6b7280' }}>
           <p style={{ marginBottom: '4px' }}>This is a computer-generated receipt. No signature required.</p>
-          <p style={{ marginBottom: '4px' }}>Thank you for your contribution to Amader Barir Pujo!</p>
-          <p>For queries, contact: {CONTACT_EMAIL}</p>
+          <p style={{ marginBottom: '4px' }}>Bhog contributions, once made, are non-refundable and non-transferable.</p>
+          <p style={{ marginBottom: '4px' }}>Thank you for your generous Bhog contribution to Amader Barir Pujo!</p>
+          <p>For queries regarding this receipt, contact: {CONTACT_EMAIL}</p>
           {receiptData.requiresIdVerification && (
             <p style={{ marginTop: '8px', color: '#92400e', fontWeight: 'bold' }}>
               * ID card verification is required for children aged 0 to 5 years and senior citizens.

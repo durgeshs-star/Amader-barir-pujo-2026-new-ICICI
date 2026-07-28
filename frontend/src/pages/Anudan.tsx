@@ -495,7 +495,7 @@ export const Anudan: React.FC = () => {
                 </div>
 
                 <div className="mt-4 px-3 py-2 bg-amber-50 border border-amber-200 rounded-md">
-                  <p className="text-sm font-bold text-amber-800 text-center leading-relaxed">
+                  <p className="text-sm font-bold text-amber-800 text-left leading-relaxed">
                     The final payment amount (including applicable taxes/charges) will be shown on the payment screen.
                   </p>
                 </div>
