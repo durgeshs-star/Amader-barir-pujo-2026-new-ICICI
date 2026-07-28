@@ -134,7 +134,7 @@ export const AnudanCheckout: React.FC = () => {
                         className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
                       >
                         <div className="flex-1">
-                          <p className="font-semibold text-gray-900 text-sm">{item.card.day}</p>
+                          <p className="font-semibold text-primary text-sm">{item.card.day}</p>
                           {item.card.items && item.card.items.length > 0 && (
                             <p className="text-xs text-gray-500">
                               {item.card.items.map(i => i.name).join(', ')}
@@ -159,7 +159,7 @@ export const AnudanCheckout: React.FC = () => {
 
                   <div className="border-t border-gray-200 pt-4">
                     <div className="flex justify-between items-center mb-4">
-                      <span className="font-semibold text-gray-900">Total</span>
+                      <span className="font-semibold text-primary">Total</span>
                       <span className="text-2xl font-bold text-primary font-fraunces">
                         ₹{totalAmount.toLocaleString('en-IN')}
                       </span>

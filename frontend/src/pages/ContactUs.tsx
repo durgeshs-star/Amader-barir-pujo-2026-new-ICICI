@@ -102,7 +102,7 @@ export const ContactUs: React.FC = () => {
       />
 
       {/* Why Contact Us Section */}
-      <section className="py-16 md:py-24 bg-white">
+      <section className="py-16 md:py-24 bg-light-bg">
         <div className="max-w-7xl mx-auto px-6">
           <m.div
             initial={{ opacity: 0, y: 20 }}
@@ -189,7 +189,7 @@ export const ContactUs: React.FC = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
             >
-              <div className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm space-y-6">
+              <div className="bg-light-bg rounded-xl p-6 border border-gray-100 shadow-sm space-y-6">
                 <h2 className="text-2xl font-bold font-fraunces text-primary">Get In Touch</h2>
 
                 <ul className="space-y-4 text-sm list-none p-0 m-0">

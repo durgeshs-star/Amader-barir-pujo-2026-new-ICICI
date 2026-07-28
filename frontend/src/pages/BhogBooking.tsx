@@ -88,7 +88,7 @@ export const BhogBooking: React.FC = () => {
         
         {/* Title */}
         <div className="text-center mb-10">
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-950 font-fraunces mb-3">
+          <h1 className="text-4xl md:text-6xl font-bold text-primary font-fraunces mb-3">
             Bhog Booking
           </h1>
           <p className="text-sm text-muted font-medium text-center font-sans">
@@ -136,7 +136,7 @@ export const BhogBooking: React.FC = () => {
             </h2>
 
             <div className="p-6 bg-light-bg rounded-xl border border-gray-150 space-y-4">
-              <h3 className="text-lg font-bold text-gray-950 font-fraunces border-b border-gray-250 pb-2">
+              <h3 className="text-lg font-bold text-primary font-fraunces border-b border-gray-250 pb-2">
                 {activeDay.menu.title}
               </h3>
               

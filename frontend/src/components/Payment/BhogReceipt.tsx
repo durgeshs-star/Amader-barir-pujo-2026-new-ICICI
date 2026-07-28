@@ -120,7 +120,7 @@ export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propRecei
       <div
         ref={receiptRef}
         style={{
-          backgroundColor: '#ffffff',
+          backgroundColor: 'var(--color-surface)',
           border: '2px solid #d97706',
           borderRadius: '8px',
           padding: '16px 24px',

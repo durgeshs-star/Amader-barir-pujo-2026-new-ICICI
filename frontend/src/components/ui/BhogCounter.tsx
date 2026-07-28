@@ -30,7 +30,7 @@ export const BhogCounter: React.FC<BhogCounterProps> = ({
           -
         </button>
         <div className="w-12 h-11 flex items-center justify-center bg-gray-100">
-          <span className="font-bold text-gray-900" aria-label={`${label} count`}>
+          <span className="font-bold text-primary" aria-label={`${label} count`}>
             {value}
           </span>
         </div>
@@ -61,7 +61,7 @@ export const BhogCounter: React.FC<BhogCounterProps> = ({
           value={value}
           readOnly
           aria-label={`${label} count`}
-          className="w-12 h-10 border-0 text-gray-900 font-bold text-center bg-white"
+          className="w-12 h-10 border-0 text-primary font-bold text-center bg-white"
         />
         <button
           type="button"

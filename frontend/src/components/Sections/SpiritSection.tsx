@@ -70,7 +70,7 @@ export const SpiritSection: React.FC = () => {
         {/* Section Title */}
         <div className="text-center mb-16 mx-auto">
           <h2 className="text-3xl md:text-5xl font-bold text-primary mb-4 tracking-wide font-fraunces leading-9 md:leading-[1.4]">
-            Blessings Don't Ask for Membership. <br />
+            Blessings Don't Ask for Sadasya. <br />
             Neither Do We.
           </h2>
 
@@ -89,7 +89,7 @@ export const SpiritSection: React.FC = () => {
           {offerings.map((offering, idx) => (
             <div
               key={idx}
-              className="group flex flex-col md:flex-row gap-6 p-8 border border-gray-100 rounded-xl hover:border-accent/40 bg-light-bg/30 hover:bg-white hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 relative"
+              className="group flex flex-col md:flex-row gap-6 p-8 border border-gray-100 rounded-xl hover:border-accent/40 bg-light-bg/30 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 relative"
             >
               {/* Icon Container */}
               <div className="shrink-0 flex items-center justify-center w-20 h-20 bg-primary/5 group-hover:bg-primary/10 rounded-full transition-all duration-300">
@@ -121,7 +121,7 @@ export const SpiritSection: React.FC = () => {
               {/* Text details */}
               <div className="flex-1 flex flex-col justify-between">
                 <div>
-                  <h3 className="text-xl md:text-2xl font-bold text-gray-950 mb-3 group-hover:text-primary transition-colors font-fraunces">
+                  <h3 className="text-xl md:text-2xl font-bold text-primary mb-3 group-hover:text-primary transition-colors font-fraunces">
                     {offering.title}
                   </h3>
                   <p className="text-sm md:text-base text-secondary leading-relaxed font-sans mb-4">

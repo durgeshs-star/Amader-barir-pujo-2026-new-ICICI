@@ -58,7 +58,7 @@ export const Gallery: React.FC = React.memo(() => {
 
         {/* Title - CSS animation instead of framer-motion */}
         <div className="text-center mb-10 animate-fade-in-down">
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-950 font-fraunces mb-3">
+          <h1 className="text-4xl md:text-6xl font-bold text-primary font-fraunces mb-3">
             Pujo Gallery
           </h1>
           <p className="text-sm text-muted font-medium text-center">
@@ -81,7 +81,7 @@ export const Gallery: React.FC = React.memo(() => {
               onClick={() => handleCategoryChange(key)}
               className={`px-4 py-2 rounded-md text-xs md:text-sm font-semibold transition-all duration-200 cursor-pointer hover:scale-105 active:scale-95 ${categoryFilter === key
                 ? 'bg-primary text-text-on-primary shadow'
-                : 'bg-white text-secondary hover:bg-light-bg hover:text-primary border border-border'
+                : 'bg-light-bg text-secondary hover:bg-light-bg hover:text-primary border border-border'
                 }`}
             >
               {label}

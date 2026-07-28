@@ -35,7 +35,7 @@ export interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({
   phone = '(+123) 123 4567 890',
   email = CONTACT_EMAIL,
-  ctaLabel = "BE A BARI MEMBER",
+  ctaLabel = "BE A BARI SADASYA",
   ctaHref = '/volunteer',
   facebookUrl = 'https://www.facebook.com/people/Amader-Barir-Pujo/61571741439510/',
   instagramUrl = 'https://www.instagram.com/abp_pune?igsh=YTZtZHVuODQxNWhj',
@@ -111,7 +111,7 @@ export const Header: React.FC<HeaderProps> = ({
     setIsMobileMenuOpen(false);
   }, []);
 
-  const headerClassName = `w-full transition-all duration-300 bg-white border-b border-gray-100 ${
+  const headerClassName = `w-full transition-all duration-300 bg-light-bg border-b border-gray-100 ${
     isSticky
       ? 'fixed top-0 left-0 right-0 shadow-md z-[999]'
       : 'relative z-50'

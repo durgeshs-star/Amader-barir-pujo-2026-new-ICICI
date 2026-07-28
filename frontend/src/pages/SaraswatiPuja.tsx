@@ -27,7 +27,7 @@ const SaraswatiPuja: React.FC = () => {
       />
 
       {/* Introduction Section */}
-      <section className="py-8 md:py-12 bg-white">
+      <section className="py-8 md:py-12 bg-light-bg">
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <div className="max-w-4xl mx-auto animate-fade-in-up">
             <h2 className="font-fraunces text-3xl md:text-4xl font-bold text-primary leading-tight mb-6">
@@ -79,7 +79,7 @@ const SaraswatiPuja: React.FC = () => {
       />
 
       {/* Gallery Section */}
-      <section className="py-8 md:py-12 bg-white">
+      <section className="py-8 md:py-12 bg-light-bg">
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <div className="text-center mb-12 animate-fade-in-up">
             <h2 className="font-fraunces text-3xl md:text-4xl font-bold text-primary leading-tight mb-4">
@@ -112,7 +112,7 @@ const SaraswatiPuja: React.FC = () => {
       </section>
 
       {/* Community Section */}
-      <section className="py-8 md:py-12 bg-white">
+      <section className="py-8 md:py-12 bg-light-bg">
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <div className="max-w-4xl mx-auto animate-fade-in-up">
             <h2 className="font-fraunces text-3xl md:text-4xl font-bold text-primary leading-tight mb-6">

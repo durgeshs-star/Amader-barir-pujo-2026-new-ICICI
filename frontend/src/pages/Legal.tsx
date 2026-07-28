@@ -19,7 +19,7 @@ export const Legal: React.FC = () => {
         
         {/* Title */}
         <div className="text-center mb-10">
-          <h1 className="text-3xl md:text-5xl font-bold text-gray-950 font-fraunces mb-3">
+          <h1 className="text-3xl md:text-5xl font-bold text-primary font-fraunces mb-3">
             {title}
           </h1>
           <p className="text-xs text-muted font-semibold font-sans uppercase tracking-wider">
@@ -29,7 +29,7 @@ export const Legal: React.FC = () => {
         </div>
 
         {/* Content */}
-        <div className="bg-white rounded-2xl p-6 md:p-10 border border-gray-100 shadow-sm space-y-6 text-sm text-secondary leading-relaxed font-sans select-text">
+        <div className="bg-light-bg rounded-2xl p-6 md:p-10 border border-gray-100 shadow-sm space-y-6 text-sm text-secondary leading-relaxed font-sans select-text">
           {isPrivacy ? (
             <>
               <p>

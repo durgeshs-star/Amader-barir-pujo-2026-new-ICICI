@@ -101,7 +101,7 @@ export const TestimonialsSection: React.FC = () => {
         
         {/* Section Heading */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-wide font-fraunces">
+          <h2 className="text-3xl md:text-5xl font-bold text-primary tracking-wide font-fraunces">
             The Smiles We Carried Home
           </h2>
         </div>

@@ -8,7 +8,7 @@ const TestimonialsSection = React.lazy(() => import('../components/Sections/Test
 
 const SectionSkeleton: React.FC = () => (
   <div 
-    className="bg-white" 
+    className="bg-light-bg" 
     style={{ minHeight: '400px' }}
     aria-hidden="true"
     role="status"

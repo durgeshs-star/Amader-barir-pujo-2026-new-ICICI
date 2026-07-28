@@ -103,7 +103,7 @@ export const Schedule: React.FC = () => {
         
         {/* Title */}
         <div className="text-center mb-10">
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-950 font-fraunces mb-3">
+          <h1 className="text-4xl md:text-6xl font-bold text-primary font-fraunces mb-3">
             Pujo Schedule
           </h1>
           <p className="text-sm text-muted font-medium text-center">
@@ -113,7 +113,7 @@ export const Schedule: React.FC = () => {
         </div>
 
         {/* Days Tab Controls */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mb-10 bg-white p-2.5 rounded-xl border border-gray-150 shadow-sm select-none">
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-10 bg-light-bg p-2.5 rounded-xl border border-gray-150 shadow-sm select-none">
           {Object.keys(scheduleData).map((key) => {
             const label = scheduleData[key].title.replace('Maha ', '');
             const isActive = activeDayKey === key;
@@ -134,7 +134,7 @@ export const Schedule: React.FC = () => {
         </div>
 
         {/* Schedule Display */}
-        <div className="bg-white rounded-2xl p-6 md:p-10 shadow-md border border-gray-100 animate-fade-in select-text">
+        <div className="bg-light-bg rounded-2xl p-6 md:p-10 shadow-md border border-gray-100 animate-fade-in select-text">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-150 pb-6 mb-8 gap-4">
             <div>
               <span className="text-xs font-bold text-accent-text uppercase tracking-widest">Selected Day</span>
@@ -165,7 +165,7 @@ export const Schedule: React.FC = () => {
 
                   {/* Ritual Info */}
                   <div className="flex-1">
-                    <h3 className="text-base md:text-lg font-bold text-gray-950 font-fraunces group-hover:text-primary transition-colors">
+                    <h3 className="text-base md:text-lg font-bold text-primary font-fraunces group-hover:text-primary transition-colors">
                       {item.ritual}
                     </h3>
                     <p className="text-xs md:text-sm text-secondary leading-relaxed font-sans mt-1">

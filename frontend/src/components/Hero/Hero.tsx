@@ -50,7 +50,7 @@ z-0"
 
           {/* Title — large display, two visual lines */}
           <h1 className="font-fraunces-italic leading-none mb-6 select-text text-4xl sm:text-5xl md:text-5xl font-bold text-white text-left" style={{ textShadow: '0 2px 12px rgba(0,0,0,0.5)' }}>
-            Amader Barir Pujo<sup className="text-2xl md:text-3xl font-normal">&reg;</sup>
+            আমাদের বাড়ির পূজো<sup className="text-2xl md:text-3xl font-normal">&reg;</sup>
           </h1>
 
           {/* Body text */}
@@ -75,7 +75,7 @@ z-0"
             </a> */}
             <a href="/volunteer">
               <Button variant="outline" size="md" className="text-white border-white/80 hover:bg-white hover:text-primary!">
-                Be a Bari Member
+                Be a Bari Sadasya
               </Button>
             </a>
           </div>

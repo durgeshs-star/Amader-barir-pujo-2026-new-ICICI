@@ -1,36 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaCalendarAlt, FaFacebookF, FaInstagram } from 'react-icons/fa';
+import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaFacebookF, FaInstagram } from 'react-icons/fa';
 import { CONTACT_EMAIL } from '../../config/constants';
 
-interface RecentPost {
-  title: string;
-  date: string;
-  image: string;
-  route: string;
-}
-
 export const Footer: React.FC = () => {
-  const recentPosts: RecentPost[] = [
-    {
-      title: "As we've all discovered by now, the world can change",
-      date: 'May 20, 2026',
-      image: '/assets/img/blog/sm/1.webp',
-      route: '/gallery',
-    },
-    {
-      title: 'Testimony love offering so blessed',
-      date: 'May 20, 2026',
-      image: '/assets/img/blog/sm/2.webp',
-      route: '/gallery',
-    },
-    {
-      title: "As we've all discovered by now, the world can change",
-      date: 'May 20, 2026',
-      image: '/assets/img/blog/sm/3.webp',
-      route: '/gallery',
-    },
-  ];
 
   return (
     <footer className="bg-dark-bg text-text-inverse-muted select-text">
@@ -85,7 +58,7 @@ export const Footer: React.FC = () => {
               </li>
               <li>
                 <Link to="/volunteer" className="hover:text-accent transition-colors block py-1 text-text-on-primary">
-                  Be a Bari Member
+                  Be a Bari Sadasya
                 </Link>
               </li>
               <li>
@@ -96,65 +69,29 @@ export const Footer: React.FC = () => {
             </ul>
           </div>
 
-          {/* Column 3: Others Links */}
+          {/* Column 3: Venue Location */}
           <div className="flex flex-col gap-4">
-            <h3 className="text-xl font-bold font-fraunces text-white border-b-2 border-accent pb-2 w-14">
-              Others
+            <h3 className="text-xl font-bold font-fraunces text-white border-b-2 border-accent pb-2 w-32">
+              Venue Location
             </h3>
-            <ul className="space-y-2 text-sm list-none p-0 m-0">
-              <li>
-                <Link to="/gallery" className="hover:text-accent transition-colors block py-1 text-text-on-primary">
-                  Gallery
-                </Link>
-              </li>
-              <li>
-                <Link to="/news" className="hover:text-accent transition-colors block py-1 text-text-on-primary">
-                  News
-                </Link>
-              </li>
-              <li>
-                <Link to="/contact-us" className="hover:text-accent transition-colors block py-1 text-text-on-primary">
-                  Contact Us
-                </Link>
-              </li>
-              <li>
-                <Link to="/terms-and-conditions" className="hover:text-accent transition-colors block py-1 text-text-on-primary">
-                  Terms &amp; Conditions
-                </Link>
-              </li>
-              <li>
-                <Link to="/privacy-policy" className="hover:text-accent transition-colors block py-1 text-text-on-primary">
-                  Privacy Policy
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Column 4: Recent Posts (Hidden on smaller mobile sizes) */}
-          <div className="hidden lg:flex flex-col gap-4">
-            <h3 className="text-xl font-bold font-fraunces text-white border-b-2 border-accent pb-2 w-28">
-              Recent Posts
-            </h3>
-            <div className="flex flex-col gap-4">
-              {recentPosts.map((post, idx) => (
-                <Link key={idx} to={post.route} className="flex gap-3.5 group items-start select-none">
-                  {/* Image container */}
-                  <div className="shrink-0 w-16 h-12 bg-white/5 rounded overflow-hidden flex items-center justify-center" style={{ aspectRatio: '4/3' }}>
-                    <PostImageWithFallback src={post.image} alt="post" />
-                  </div>
-
-                  {/* Post details */}
-                  <div className="flex-1 flex flex-col justify-start">
-                    <span className="text-[10px] text-accent flex items-center gap-1.5 uppercase font-semibold">
-                      <FaCalendarAlt size={8} />
-                      {post.date}
-                    </span>
-                    <h6 className="text-[13px] text-text-inverse-muted group-hover:text-accent font-bold font-sans transition-colors leading-snug line-clamp-2 mt-1">
-                      {post.title}
-                    </h6>
-                  </div>
-                </Link>
-              ))}
+            <div className="space-y-3 text-sm">
+              <p className="text-text-on-primary leading-relaxed">
+                <strong>Amader Barir Pujo 2026</strong>
+              </p>
+              <p className="text-text-inverse-muted leading-relaxed">
+                Wakad, Pune<br />
+                Pimpri-Chinchwad<br />
+                Maharashtra 411057
+              </p>
+              <a
+                href="https://maps.google.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-accent hover:text-accent-dark transition-colors text-sm font-semibold"
+              >
+                <FaMapMarkerAlt size={12} />
+                View on Google Maps
+              </a>
             </div>
           </div>
 
@@ -220,35 +157,6 @@ export const Footer: React.FC = () => {
       </div>
 
     </footer>
-  );
-};
-
-// Fallback image helper for posts
-interface PostImageProps {
-  src: string;
-  alt: string;
-}
-const PostImageWithFallback: React.FC<PostImageProps> = ({ src, alt }) => {
-  const [hasError, setHasError] = useState(false);
-
-  if (hasError) {
-    return (
-      <div className="w-full h-full bg-primary/20 flex items-center justify-center text-accent-text/70 text-xs">
-        <FaCalendarAlt size={14} />
-      </div>
-    );
-  }
-
-  return (
-    <img
-      src={src}
-      alt={alt}
-      width="80"
-      height="60"
-      loading="lazy"
-      onError={() => setHasError(true)}
-      className="object-cover w-full h-full"
-    />
   );
 };
 

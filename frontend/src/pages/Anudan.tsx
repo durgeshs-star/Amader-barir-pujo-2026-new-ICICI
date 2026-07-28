@@ -318,7 +318,7 @@ export const Anudan: React.FC = () => {
       <section className="py-14 md:py-20 bg-gray-100">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12 animate-fade-in-down">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-950 font-fraunces mb-3">
+            <h2 className="text-3xl md:text-4xl font-bold text-primary font-fraunces mb-3">
               Offerings
             </h2>
             <div className="w-20 h-1 bg-accent mx-auto rounded-full animate-expand-width" />
@@ -411,10 +411,10 @@ export const Anudan: React.FC = () => {
 
       {/* User Info Form Section */}
       {showUserInfoForm && (
-        <div ref={userInfoSectionRef} className="py-14 md:py-20 bg-white">
+        <div ref={userInfoSectionRef} className="py-14 md:py-20 bg-light-bg">
           <div className="max-w-4xl mx-auto px-6">
             <div className="text-center mb-8 animate-fade-in-down">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-950 font-fraunces mb-3">
+              <h2 className="text-3xl md:text-4xl font-bold text-primary font-fraunces mb-3">
                 Complete Your Anudan
               </h2>
               <div className="w-20 h-1 bg-accent mx-auto rounded-full animate-expand-width" />
@@ -422,7 +422,7 @@ export const Anudan: React.FC = () => {
 
             <div className="grid lg:grid-cols-[1fr_350px] gap-8">
               {/* Basket Summary */}
-              <div className="bg-gray-50 rounded-2xl p-6">
+              <div className="bg-white/80 rounded-2xl p-6 border border-gray-100">
                 <h3 className="text-xl font-bold text-primary font-fraunces mb-4 flex items-center gap-2">
                   🛒 Your Anudan Basket
                   <span className="ml-auto bg-primary text-white text-xs font-bold px-2 py-1 rounded-full">
@@ -440,10 +440,10 @@ export const Anudan: React.FC = () => {
                       {basket.map((item) => (
                         <div
                           key={item.card.day}
-                          className="flex items-center justify-between p-3 bg-white rounded-lg"
+                          className="flex items-center justify-between p-3 bg-light-bg rounded-lg"
                         >
                           <div className="flex-1">
-                            <p className="font-semibold text-gray-900 text-sm">{item.card.day}</p>
+                            <p className="font-semibold text-primary text-sm">{item.card.day}</p>
                           </div>
                           <div className="flex items-center gap-3">
                             <span className="font-bold text-primary">₹{item.amount.toLocaleString('en-IN')}</span>
@@ -463,7 +463,7 @@ export const Anudan: React.FC = () => {
 
                     <div className="border-t border-gray-200 pt-4">
                       <div className="flex justify-between items-center mb-4">
-                        <span className="font-semibold text-gray-900">Total</span>
+                        <span className="font-semibold text-primary">Total</span>
                         <span className="text-2xl font-bold text-primary font-fraunces">
                           ₹{basket.reduce((sum, item) => sum + item.amount, 0).toLocaleString('en-IN')}
                         </span>
@@ -533,7 +533,7 @@ export const Anudan: React.FC = () => {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900 font-fraunces">Payment Successful!</h3>
+                  <h3 className="text-xl font-bold text-primary font-fraunces">Payment Successful!</h3>
                   <p className="text-sm text-gray-600">Your Anudan contribution has been recorded</p>
                 </div>
               </div>

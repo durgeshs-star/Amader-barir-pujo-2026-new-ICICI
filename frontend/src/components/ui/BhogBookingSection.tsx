@@ -338,7 +338,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
         <div className="hidden lg:block mt-5.5 pt-5.5 border-t border-primary/14">
           <div className="flex items-center justify-between gap-4.5">
             <div>
-              <p className="text-base font-bold text-gray-900 mb-0">
+              <p className="text-base font-bold text-primary mb-0">
                 Total:{' '}
                 <span className="text-2xl text-primary font-fraunces">₹{totalAmount.toFixed(2)}</span>
               </p>

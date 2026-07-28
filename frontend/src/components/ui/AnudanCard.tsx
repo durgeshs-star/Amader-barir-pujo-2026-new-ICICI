@@ -16,7 +16,7 @@ export const AnudanCard: React.FC<AnudanCardProps> = ({ card, remainingAmount = 
     return acc + num;
   }, 0);
 
-  const isFullySponsored = remainingAmount <= 0;
+  const isFullySponsored = !isLoading && remainingAmount <= 0;
   const paidAmount = totalCost - remainingAmount;
   const progressPercent = totalCost > 0 ? Math.min(100, (paidAmount / totalCost) * 100) : 0;
 

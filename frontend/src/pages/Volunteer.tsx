@@ -107,12 +107,12 @@ const VolunteerContent: React.FC = React.memo(() => {
       />
 
       <PageHero
-        title="Be a Bari Member"
+        title="Be a Bari Sadasya"
         height="h-[40vh] md:h-[60vh]"
       />
 
       {/* Why Volunteer Section */}
-      <section className="py-16 md:py-24 bg-white">
+      <section className="py-16 md:py-24 bg-light-bg">
         <div className="max-w-7xl mx-auto px-6">
           <m.div
             initial={{ opacity: 0, y: 20 }}
@@ -174,7 +174,7 @@ Come with your time, your talent, or simply your heart. Together, let's create a
       </section>
 
       {/* Form Section */}
-      <section className="py-16 md:py-24 bg-white">
+      <section className="py-16 md:py-24 bg-light-bg">
         <div className="max-w-7xl mx-auto px-6">
           <m.div
             initial={{ opacity: 0, y: 20 }}
