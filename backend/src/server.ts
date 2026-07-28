@@ -160,6 +160,13 @@ const startServer = async () => {
       console.log('[ICICI PG] Configuration:');
       console.log(`[ICICI PG] ICICI_PG_RETURN_URL = ${returnURL}`);
       console.log(`[ICICI PG] FRONTEND_URL        = ${frontendURL}`);
+
+      // Validate FRONTEND_URL doesn't have trailing path
+      if (frontendURL.endsWith('/payment') || frontendURL.endsWith('/payment/')) {
+        console.warn('[ICICI PG] WARNING: FRONTEND_URL should not include "/payment" path. It should be the base domain only.');
+        console.warn('[ICICI PG] Current FRONTEND_URL:', frontendURL);
+        console.warn('[ICICI PG] Expected format: https://yourdomain.com');
+      }
     }
 
     // Initialize Anudan state service (loads from MongoDB)

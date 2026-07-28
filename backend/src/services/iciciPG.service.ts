@@ -23,8 +23,13 @@ import {
 // Environment configuration
 const MERCHANT_ID = process.env.ICICI_PG_MERCHANT_ID as string;
 const AGGREGATOR_ID = process.env.ICICI_PG_AGGREGATOR_ID as string;
-const CURRENCY_CODE = process.env.ICICI_PG_CURRENCY_CODE || '356';
+const CURRENCY_CODE = process.env.ICICI_PG_CURRENCY_CODE?.trim().replace(/[^0-9]/g, '') || '356';
 const ENV = process.env.ICICI_PG_ENV || 'UAT';
+
+// Validate currency code is exactly 3 digits
+if (CURRENCY_CODE.length !== 3 || !/^\d{3}$/.test(CURRENCY_CODE)) {
+  console.error(`Invalid ICICI_PG_CURRENCY_CODE: "${process.env.ICICI_PG_CURRENCY_CODE}". Must be exactly 3 digits. Using default "356" for INR.`);
+}
 
 // API URLs based on environment
 const BASE_URLS = {
@@ -146,6 +151,12 @@ export class IciciPGService {
     const amount = formatAmount(payload.amount);
     const txnDate = formatTxnDate();
 
+    console.log('Sanitized merchantTxnNo:', merchantTxnNo, '(length:', merchantTxnNo.length, ')');
+    console.log('Formatted amount:', amount);
+    console.log('Currency code:', CURRENCY_CODE, '(length:', CURRENCY_CODE.length, ')');
+    console.log('Merchant ID:', MERCHANT_ID, '(length:', MERCHANT_ID.length, ')');
+    console.log('Aggregator ID:', AGGREGATOR_ID, '(length:', AGGREGATOR_ID.length, ')');
+
     // Build request payload
     const requestPayload: Record<string, unknown> = {
       merchantId: MERCHANT_ID,
@@ -160,6 +171,8 @@ export class IciciPGService {
       txnDate,
     };
 
+    console.log('ICICI Initiate Sale Request payload:', JSON.stringify(requestPayload, null, 2));
+
     // Add optional fields
     if (payload.customerName) requestPayload.customerName = payload.customerName;
     if (payload.customerMobileNo) requestPayload.customerMobileNo = payload.customerMobileNo;
@@ -169,6 +182,8 @@ export class IciciPGService {
 
     // Compute secureHash
     requestPayload.secureHash = computeSecureHashV1(requestPayload);
+
+    console.log('ICICI Initiate Sale Request payload:', JSON.stringify(requestPayload, null, 2));
 
     console.log('ICICI Initiate Sale Request:', {
       merchantId: MERCHANT_ID,
