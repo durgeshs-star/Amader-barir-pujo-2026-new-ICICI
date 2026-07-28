@@ -263,7 +263,7 @@ export const AnudanReceipt: React.FC<AnudanReceiptProps> = ({ receiptData: propR
             </p>
           </div>
           <div style={{ textAlign: 'right' }}>
-            <p style={{ fontSize: '14px', color: '#4b5563', marginBottom: '2px' }}>Total Amount Paid</p>
+            <p style={{ fontSize: '14px', color: '#4b5563', marginBottom: '2px' }}>Total Anudan Paid</p>
             <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#92400e' }}>
               ₹{(() => {
                 const baseAmount = receiptData.categories.reduce((sum, cat) => sum + (Number(cat.amount) || 0), 0);
