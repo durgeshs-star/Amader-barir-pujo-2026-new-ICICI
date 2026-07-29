@@ -78,7 +78,7 @@ export const AnudanFormModal: React.FC<AnudanFormModalProps> = ({
       />
 
       {/* Modal */}
-      <div className="relative bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto animate-fade-in-up">
+      <div className="relative rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto animate-fade-in-up">
         {/* Close Button */}
         <button
           onClick={onClose}
@@ -97,13 +97,6 @@ export const AnudanFormModal: React.FC<AnudanFormModalProps> = ({
           <p className="text-secondary mb-4 text-sm">
             For {card.day}
           </p>
-
-          {/* Payment Gateway Disclaimer */}
-          <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
-            <p className="text-amber-800 text-sm font-semibold text-center">
-              ⚠️ Payment Gateway Integration is in Progress.
-            </p>
-          </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>

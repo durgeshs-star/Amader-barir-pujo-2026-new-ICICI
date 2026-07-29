@@ -1,6 +1,6 @@
 const AboutSection = () => {
   return (
-    <section className="bg-white overflow-hidden">
+    <section className="overflow-hidden">
       {/* Constrained text */}
       <div className="max-w-6xl mx-auto px-6 lg:px-8 mt-8 lg:mt-12">
         <p className="text-dark-bg text-base lg:text-xl leading-7 font-fraunces lg:leading-8 text-center animate-fade-in">

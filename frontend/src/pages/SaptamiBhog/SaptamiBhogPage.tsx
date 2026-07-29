@@ -21,14 +21,9 @@ const SaptamiBhogPage: React.FC = () => {
         height="h-[45vh] md:h-[70vh]"
       />
 
-      <section className="py-14 md:py-20 bg-light-bg/60">
+      <section className="content-layer py-14 md:py-20">
         <div className="max-w-4xl mx-auto px-6">
-          {/* Payment Gateway Disclaimer */}
-          <div className="mb-8 p-4 bg-amber-50 border border-amber-200 rounded-lg">
-            <p className="text-amber-800 text-sm font-semibold text-center">
-              ⚠️ Payment Gateway Integration is in Progress.
-            </p>
-          </div>
+           
 
           <div className="text-center">
             <p className="text-base md:text-lg text-secondary leading-relaxed md:leading-loose">
@@ -39,7 +34,7 @@ const SaptamiBhogPage: React.FC = () => {
         </div>
       </section>
 
-      <section className="pb-4 bg-light-bg">
+      <section className="pb-4">
         <div className="max-w-5xl mx-auto px-6">
           <PujaBookingCard
             pujaKey="saptami"

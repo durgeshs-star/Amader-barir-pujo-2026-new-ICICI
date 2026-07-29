@@ -41,8 +41,8 @@ export const PaymentFailure: React.FC<PaymentFailureProps> = ({
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-50 to-rose-100 px-4">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-2xl p-8 text-center">
+    <div className="min-h-screen flex items-center justify-center px-4">
+      <div className="max-w-md w-full rounded-2xl shadow-2xl p-8 text-center">
         {/* Failure Icon */}
         <div className="mx-auto mb-6 flex items-center justify-center w-20 h-20 bg-red-100 rounded-full">
           <svg className="w-12 h-12 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">

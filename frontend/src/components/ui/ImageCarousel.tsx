@@ -89,7 +89,7 @@ const ImageCarousel = ({
             className={`h-3 w-3 rounded-full transition-colors ${
               active === index
                 ? "bg-accent"
-                : "bg-white/70"
+                : "bg-gray-200/70"
             }`}
           />
         ))}

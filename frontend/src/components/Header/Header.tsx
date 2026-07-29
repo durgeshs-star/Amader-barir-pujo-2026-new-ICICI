@@ -123,7 +123,7 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Top info bar */}
         {!isSticky && showTopInfo && (
           <div className="hidden lg:block border-b border-primary-bright/30 py-2.5 text-xs text-text-on-primary font-bold bg-primary">
-            <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <div className="max-w-[1600px] mx-auto px-6 flex justify-between items-center">
               <ul className="flex items-center gap-6 list-none p-0 m-0">
                 {phone && (
                   <li>
@@ -158,7 +158,7 @@ export const Header: React.FC<HeaderProps> = ({
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Follow us on Facebook"
-                    className="flex items-center justify-center w-6 h-6 rounded bg-white/20 hover:bg-accent-dark transition-all text-text-on-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                    className="flex items-center justify-center w-6 h-6 rounded bg-gray-500/20 hover:bg-accent-dark transition-all text-text-on-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                   >
                     <FaFacebookF size={12} aria-hidden="true" />
                   </a>
@@ -169,7 +169,7 @@ export const Header: React.FC<HeaderProps> = ({
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Follow us on Instagram"
-                    className="flex items-center justify-center w-6 h-6 rounded bg-white/20 hover:bg-accent-dark transition-all text-text-on-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                    className="flex items-center justify-center w-6 h-6 rounded bg-gray-500/20 hover:bg-accent-dark transition-all text-text-on-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                   >
                     <FaInstagram size={12} aria-hidden="true" />
                   </a>
@@ -180,40 +180,21 @@ export const Header: React.FC<HeaderProps> = ({
         )}
 
         {/* Main header bar */}
-        <div className="max-w-7xl mx-auto px-4 lg:px-6 py-2 transition-all duration-300 relative">
+        <div className="max-w-[1600px] mx-auto px-4 lg:px-6 py-4 transition-all duration-300 relative">
           <div className="flex items-center justify-between gap-6">
             {/* Logo */}
             <div className="shrink-0 select-none">
               <Link to="/" aria-label="Amader Barir Pujo — Home">
                 <div className="flex flex-col items-center">
-                  <div className="rounded-full bg-white flex items-center justify-center w-24 h-24 transition-all duration-300">
+                  <div className="rounded-full flex items-center justify-center w-40 h-20 transition-all duration-300">
                     <img
-                      src="/assets/img/Logo-puja-160.webp"
-                      srcSet="
-                        /assets/img/Logo-puja-96.webp   96w,
-                        /assets/img/Logo-puja-160.webp 160w,
-                        /assets/img/Logo-puja-180.webp 180w,
-                        /assets/img/Logo-puja-256.webp 256w
-                      "
-                      sizes="(max-width: 768px) 180px, 96px"
+                      src="/assets/img/ABP-Logo.png"
                       alt="Amader Barir Pujo logo"
                       className="w-full h-full object-contain"
                       loading="eager"
                       decoding="async"
                     />
                   </div>
-                  <p className="text-[10px] text-primary font-semibold mt-1 text-center leading-tight">
-                    An Initiative by <br />
-                    <a 
-                      href="https://proplusdatafoundation.com/" 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      onClick={(e) => e.stopPropagation()}
-                      className="hover:underline transition-colors duration-200"
-                    >
-                      ProPlus Data Foundation
-                    </a>
-                  </p>
                 </div>
               </Link>
             </div>
@@ -234,7 +215,7 @@ export const Header: React.FC<HeaderProps> = ({
             )}
 
             {/* Desktop CTA button */}
-            <div className="hidden lg:block shrink-0">
+            <div className="hidden lg:flex items-center gap-4 shrink-0">
               {showCTA && (
                 <Link
                   to={ctaHref}
@@ -243,6 +224,20 @@ export const Header: React.FC<HeaderProps> = ({
                   {ctaLabel}
                 </Link>
               )}
+              <a
+                href="https://proplusdatafoundation.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <img
+                  src="/assets/img/PPD-Foundation.png"
+                  alt="PPD Foundation"
+                  className="h-10 w-auto object-contain"
+                  loading="eager"
+                  decoding="async"
+                />
+              </a>
             </div>
 
             {/* Mobile controls */}

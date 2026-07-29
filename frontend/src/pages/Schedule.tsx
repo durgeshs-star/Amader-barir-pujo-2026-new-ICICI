@@ -91,7 +91,7 @@ export const Schedule: React.FC = () => {
   const activeDay = scheduleData[activeDayKey];
 
   return (
-    <div className="pt-10 md:pt-14 pb-20 bg-light-bg/30 min-h-screen">
+    <div className="pt-10 md:pt-14 pb-20 min-h-screen">
       <SEO
         title={activeDay ? `${activeDay.title} Schedule` : 'Pujo Schedule'}
         description="View the complete Durga Puja 2026 schedule for Amader Barir Pujo — day-wise rituals, timings, and programs for Panchami through Dashami."
@@ -99,7 +99,7 @@ export const Schedule: React.FC = () => {
         ogImage="/assets/img/banner/1.webp"
         canonical="https://www.abp.proplusdatafoundation.com/pujo-schedule"
       />
-      <div className="max-w-5xl mx-auto px-6">
+      <div className="max-w-5xl mx-auto px-6 content-layer">
         
         {/* Title */}
         <div className="text-center mb-10">
@@ -113,7 +113,7 @@ export const Schedule: React.FC = () => {
         </div>
 
         {/* Days Tab Controls */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mb-10 bg-light-bg p-2.5 rounded-xl border border-gray-150 shadow-sm select-none">
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-10 p-2.5 rounded-xl border border-gray-150 shadow-sm select-none">
           {Object.keys(scheduleData).map((key) => {
             const label = scheduleData[key].title.replace('Maha ', '');
             const isActive = activeDayKey === key;
@@ -134,7 +134,7 @@ export const Schedule: React.FC = () => {
         </div>
 
         {/* Schedule Display */}
-        <div className="bg-light-bg rounded-2xl p-6 md:p-10 shadow-md border border-gray-100 animate-fade-in select-text">
+        <div className="rounded-2xl p-6 md:p-10 shadow-md border border-gray-100 animate-fade-in select-text">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-150 pb-6 mb-8 gap-4">
             <div>
               <span className="text-xs font-bold text-accent-text uppercase tracking-widest">Selected Day</span>
@@ -142,7 +142,7 @@ export const Schedule: React.FC = () => {
                 {activeDay.title}
               </h2>
             </div>
-            <div className="px-4 py-2 bg-light-bg border border-accent/20 rounded-md text-sm font-bold text-primary">
+            <div className="px-4 py-2 border border-accent/20 rounded-md text-sm font-bold text-primary">
               {activeDay.date}
             </div>
           </div>
@@ -153,7 +153,7 @@ export const Schedule: React.FC = () => {
               <div key={idx} className="relative pl-8 group">
                 
                 {/* Timeline node */}
-                <div className="absolute left-[-6px] top-1.5 w-3 h-3 bg-white border-2 border-primary rounded-full group-hover:bg-accent transition-colors duration-250 z-10" />
+                <div className="absolute left-[-6px] top-1.5 w-3 h-3 border-2 border-primary rounded-full group-hover:bg-accent transition-colors duration-250 z-10" />
 
                 {/* Content details */}
                 <div className="flex flex-col md:flex-row md:items-start gap-3 md:gap-8">

@@ -132,7 +132,7 @@ export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propRecei
         {/* Header */}
         <div style={{ textAlign: 'center', borderBottom: '2px solid #d97706', paddingBottom: '12px', marginBottom: '12px' }}>
           <img
-            src="/assets/images/ABP-Logo.png"
+            src="/assets/img/ABP-Logo.png"
             alt="Amader Barir Pujo Logo"
             style={{ width: '64px', height: '64px', margin: '0 auto 8px auto' }}
           />

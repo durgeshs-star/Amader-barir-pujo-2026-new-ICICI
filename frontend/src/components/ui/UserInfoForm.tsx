@@ -91,7 +91,7 @@ export const UserInfoForm = forwardRef<UserInfoFormRef, UserInfoFormProps>(({ on
   return (
     <>
       {/* Mobile Form - Compact design */}
-      <div className="p-4 border-2 border-gray-200 rounded-xl bg-white lg:hidden">
+      <div className="p-4 border-2 border-gray-200 rounded-xl lg:hidden">
         <h3 className="text-xl font-bold text-primary mb-4 font-fraunces">Contact Information</h3>
         
         <div className="space-y-4">
@@ -108,7 +108,7 @@ export const UserInfoForm = forwardRef<UserInfoFormRef, UserInfoFormProps>(({ on
               placeholder="Enter your full name"
               className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all ${
                 errors.name ? 'border-red-300 bg-red-50' : 'border-gray-200'
-              } ${disabled ? 'bg-gray-100 cursor-not-allowed' : 'bg-white'}`}
+              } ${disabled ? 'bg-gray-100 cursor-not-allowed' : ''}`}
             />
             {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
           </div>
@@ -126,7 +126,7 @@ export const UserInfoForm = forwardRef<UserInfoFormRef, UserInfoFormProps>(({ on
               placeholder="Enter your 10-digit phone number"
               className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all ${
                 errors.phone ? 'border-red-300 bg-red-50' : 'border-gray-200'
-              } ${disabled ? 'bg-gray-100 cursor-not-allowed' : 'bg-white'}`}
+              } ${disabled ? 'bg-gray-100 cursor-not-allowed' : ''}`}
             />
             {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
           </div>
@@ -144,7 +144,7 @@ export const UserInfoForm = forwardRef<UserInfoFormRef, UserInfoFormProps>(({ on
               placeholder="Enter your email address"
               className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all ${
                 errors.email ? 'border-red-300 bg-red-50' : 'border-gray-200'
-              } ${disabled ? 'bg-gray-100 cursor-not-allowed' : 'bg-white'}`}
+              } ${disabled ? 'bg-gray-100 cursor-not-allowed' : ''}`}
             />
             {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
           </div>

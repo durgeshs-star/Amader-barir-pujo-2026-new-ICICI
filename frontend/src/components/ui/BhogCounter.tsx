@@ -25,7 +25,7 @@ export const BhogCounter: React.FC<BhogCounterProps> = ({
           onClick={handleDecrement}
           disabled={value <= 0}
           aria-label={ariaLabel ? `Reduce ${ariaLabel}` : 'Reduce count'}
-          className="w-11 h-11 bg-white border-0 text-primary text-lg font-bold cursor-pointer transition-all duration-200 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40 disabled:text-gray-400 flex items-center justify-center"
+                    className="w-11 h-11 border-0 text-primary text-lg font-bold cursor-pointer transition-all duration-200 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40 disabled:text-gray-400 flex items-center justify-center"
         >
           -
         </button>
@@ -39,14 +39,14 @@ export const BhogCounter: React.FC<BhogCounterProps> = ({
           onClick={handleIncrement}
           disabled={value >= max}
           aria-label={ariaLabel ? `Add ${ariaLabel}` : 'Add count'}
-          className="w-11 h-11 bg-white border-0 text-primary text-lg font-bold cursor-pointer transition-all duration-200 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40 disabled:text-gray-400 flex items-center justify-center"
+                    className="w-11 h-11 border-0 text-primary text-lg font-bold cursor-pointer transition-all duration-200 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40 disabled:text-gray-400 flex items-center justify-center"
         >
           +
         </button>
       </div>
 
       {/* Desktop Counter - Original design */}
-      <div className="hidden lg:inline-flex lg:items-center lg:flex-0-auto lg:border lg:border-primary/20 lg:rounded-lg lg:overflow-hidden lg:bg-white">
+      <div className="hidden lg:inline-flex lg:items-center lg:flex-0-auto lg:border lg:border-primary/20 lg:rounded-lg lg:overflow-hidden">
         <button
           type="button"
           onClick={handleDecrement}
@@ -61,7 +61,7 @@ export const BhogCounter: React.FC<BhogCounterProps> = ({
           value={value}
           readOnly
           aria-label={`${label} count`}
-          className="w-12 h-10 border-0 text-primary font-bold text-center bg-white"
+                    className="w-12 h-10 border-0 text-primary font-bold text-center"
         />
         <button
           type="button"

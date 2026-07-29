@@ -42,7 +42,7 @@ export const AnudanCard: React.FC<AnudanCardProps> = ({ card, remainingAmount = 
   };
 
   return (
-    <div className={`bg-white border rounded-2xl p-6 md:p-8 transition-all duration-300 shadow-sm relative overflow-hidden group ${
+    <div className={`border rounded-2xl p-6 md:p-8 transition-all duration-300 shadow-sm relative overflow-hidden group ${
       isLoading
         ? 'border-gray-200'
         : isFullySponsored

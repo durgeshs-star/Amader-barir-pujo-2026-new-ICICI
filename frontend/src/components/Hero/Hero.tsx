@@ -69,12 +69,12 @@ z-0"
               Explore Pujo
             </Button>
             {/* <a href="/gallery?category=bhog">
-              <Button variant="outline" size="md" className="text-white border-white/80 hover:bg-white hover:text-primary!">
+              <Button variant="outline" size="md" className="text-white border-white/80 hover:bg-gray-200 hover:text-primary!">
                 View Bhog Gallery
               </Button>
             </a> */}
             <a href="/volunteer">
-              <Button variant="outline" size="md" className="text-white border-white/80 hover:bg-white hover:text-primary!">
+              <Button variant="outline" size="md" className="text-white border-white/80 hover:bg-gray-200 hover:text-primary!">
                 Be a Bari Sadasya
               </Button>
             </a>

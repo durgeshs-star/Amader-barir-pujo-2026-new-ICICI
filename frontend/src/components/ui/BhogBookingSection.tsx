@@ -210,7 +210,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
         </div>
         {/* Mobile Booking Summary */}
         {bookingSummary.length > 0 && (
-          <div className="block lg:hidden mb-6 p-4 bg-white border-2 border-primary/20 rounded-xl">
+          <div className="block lg:hidden mb-6 p-4 border-2 border-primary/20 rounded-xl">
             <h3 className="text-xl font-bold text-primary mb-3">Booking Summary</h3>
             <div className="space-y-2">
               {bookingSummary.map((item, index) => (

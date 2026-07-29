@@ -22,7 +22,7 @@ const CarouselContentSection: React.FC<CarouselContentSectionProps> = ({
   showDecorativeCorners = true,
 }) => {
   return (
-    <section className="bg-white overflow-hidden">
+    <section className="overflow-hidden">
       {/* Content with carousel on left and text on right */}
       <div className="max-w-7xl mx-auto px-6 lg:px-10 pb-6 lg:pb-10">
         <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-16 items-stretch">

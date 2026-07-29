@@ -17,7 +17,7 @@ interface FormData {
 type FormErrors = Partial<Record<keyof FormData, string>>;
 
 const inputCls = (hasError: boolean) =>
-  `w-full pl-11 pr-4 py-3 border text-sm rounded-lg focus:outline-none focus:ring-2 transition-all bg-white ${
+  `w-full pl-11 pr-4 py-3 border text-sm rounded-lg focus:outline-none focus:ring-2 transition-all ${
     hasError
       ? "border-red-400 focus:ring-red-400/40 focus:border-red-500"
       : "border-gray-200 focus:ring-primary/40 focus:border-primary"
@@ -112,7 +112,7 @@ const VolunteerContent: React.FC = React.memo(() => {
       />
 
       {/* Why Volunteer Section */}
-      <section className="py-16 md:py-24 bg-light-bg">
+      <section className="content-layer py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-6">
           <m.div
             initial={{ opacity: 0, y: 20 }}
@@ -156,7 +156,7 @@ Come with your time, your talent, or simply your heart. Together, let's create a
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="bg-light-bg/30 rounded-xl p-8 text-center hover:shadow-lg transition-shadow border border-gray-100"
+className="bg-light-bg rounded-xl p-8 text-center hover:shadow-lg transition-shadow border border-gray-100"
               >
                 <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto text-primary mb-6">
                   {item.icon}
@@ -174,7 +174,7 @@ Come with your time, your talent, or simply your heart. Together, let's create a
       </section>
 
       {/* Form Section */}
-      <section className="py-16 md:py-24 bg-light-bg">
+      <section className="content-layer py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-6">
           <m.div
             initial={{ opacity: 0, y: 20 }}
@@ -201,7 +201,7 @@ Come with your time, your talent, or simply your heart. Together, let's create a
               transition={{ duration: 0.6 }}
               className="space-y-8"
             >
-              <div className="bg-light-bg/30 rounded-xl p-6 border border-gray-100">
+              <div className="bg-light-bg rounded-xl p-6 border border-gray-100">
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary shrink-0">
                     <FaCalendarAlt size={20} />
@@ -218,7 +218,7 @@ Come with your time, your talent, or simply your heart. Together, let's create a
                 </div>
               </div>
 
-              <div className="bg-light-bg/30 rounded-xl p-6 border border-gray-100">
+              <div className="bg-light-bg rounded-xl p-6 border border-gray-100">
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary shrink-0">
                     <FaUsers size={20} />
@@ -237,7 +237,7 @@ Come with your time, your talent, or simply your heart. Together, let's create a
                 </div>
               </div>
 
-              <div className="bg-light-bg/30 rounded-xl p-6 border border-gray-100">
+              <div className="bg-light-bg rounded-xl p-6 border border-gray-100">
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary shrink-0">
                     <FaHeart size={20} />
@@ -269,7 +269,7 @@ Come with your time, your talent, or simply your heart. Together, let's create a
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.4 }}
-              className="bg-white rounded-2xl p-8 md:p-10 border border-gray-100 shadow-lg text-center"
+              className="rounded-2xl p-8 md:p-10 border border-gray-100 shadow-lg text-center"
             >
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto text-green-600 text-2xl font-bold">
                 ✓
@@ -294,7 +294,7 @@ Come with your time, your talent, or simply your heart. Together, let's create a
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="bg-white rounded-2xl p-6 md:p-10 border border-gray-100 shadow-lg"
+              className="rounded-2xl p-6 md:p-10 border border-gray-100 shadow-lg"
             >
               <div className="text-center mb-8">
                 <h2 className="font-fraunces text-2xl md:text-3xl font-bold text-primary">
@@ -393,7 +393,7 @@ Come with your time, your talent, or simply your heart. Together, let's create a
                     value={formData.message}
                     onChange={change("message")}
                     placeholder="Enter Message"
-                    className="w-full px-4 py-3 border border-gray-200 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all bg-white resize-y"
+                    className="w-full px-4 py-3 border border-gray-200 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all resize-y"
                   />
                 </div>
 

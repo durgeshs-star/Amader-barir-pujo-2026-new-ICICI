@@ -263,14 +263,9 @@ export const Anudan: React.FC = () => {
       />
 
       {/* Intro Section */}
-      <section className="py-14 md:py-20 bg-light-bg/60">
+      <section className="content-layer py-14 md:py-20">
         <div className="max-w-4xl mx-auto px-6">
-          {/* Payment Gateway Disclaimer */}
-          <div className="mb-8 p-4 bg-amber-50 border border-amber-200 rounded-lg">
-            <p className="text-amber-800 text-sm font-semibold text-center">
-              ⚠️ Payment Gateway Integration is in Progress.
-            </p>
-          </div>
+           
 
           <div className="text-center mb-8 animate-fade-in-down">
             <p className="text-lg md:text-xl text-secondary leading-relaxed md:leading-loose font-medium text-center">
@@ -278,7 +273,7 @@ export const Anudan: React.FC = () => {
             </p>
           </div>
           <m.div
-            className="bg-white rounded-2xl p-8 border border-gray-100 shadow-lg hover:scale-[1.02] transition-transform duration-300"
+            className="rounded-2xl p-8 border border-gray-100 shadow-lg hover:scale-[1.02] transition-transform duration-300"
             initial={{ opacity: 0, y: 30, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
@@ -315,7 +310,7 @@ export const Anudan: React.FC = () => {
       </section>
 
       {/* Anudan Cards Section */}
-      <section className="py-14 md:py-20 bg-gray-100">
+      <section className="content-layer py-14 md:py-20">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12 animate-fade-in-down">
             <h2 className="text-3xl md:text-4xl font-bold text-primary font-fraunces mb-3">
@@ -375,7 +370,7 @@ export const Anudan: React.FC = () => {
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
-            className="bg-white w-full max-h-[80vh] rounded-t-2xl p-6 overflow-y-auto"
+            className="w-full max-h-[80vh] rounded-t-2xl p-6 overflow-y-auto"
           >
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-xl font-bold text-primary font-fraunces">Anudan Basket</h3>
@@ -411,7 +406,7 @@ export const Anudan: React.FC = () => {
 
       {/* User Info Form Section */}
       {showUserInfoForm && (
-        <div ref={userInfoSectionRef} className="py-14 md:py-20 bg-light-bg">
+        <div ref={userInfoSectionRef} className="py-14 md:py-20">
           <div className="max-w-4xl mx-auto px-6">
             <div className="text-center mb-8 animate-fade-in-down">
               <h2 className="text-3xl md:text-4xl font-bold text-primary font-fraunces mb-3">
@@ -422,7 +417,7 @@ export const Anudan: React.FC = () => {
 
             <div className="grid lg:grid-cols-[1fr_350px] gap-8">
               {/* Basket Summary */}
-              <div className="bg-white/80 rounded-2xl p-6 border border-gray-100">
+              <div className="rounded-2xl p-6 border border-gray-100">
                 <h3 className="text-xl font-bold text-primary font-fraunces mb-4 flex items-center gap-2">
                   🛒 Your Anudan Basket
                   <span className="ml-auto bg-primary text-white text-xs font-bold px-2 py-1 rounded-full">
@@ -523,9 +518,9 @@ export const Anudan: React.FC = () => {
           <m.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+            className="rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
           >
-            <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
+            <div className="sticky top-0 border-b border-gray-200 px-6 py-4 flex justify-between items-center">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
                   <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">

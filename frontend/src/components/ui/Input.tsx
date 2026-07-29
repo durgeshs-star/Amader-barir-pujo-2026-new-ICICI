@@ -73,12 +73,12 @@ function ChevronIcon() {
 function getVariantClass(variant: 'outlined' | 'filled', hasError: boolean): string {
   if (variant === 'outlined') {
     return hasError
-      ? 'bg-white border border-red-400 focus:ring-2 focus:ring-red-300/50 focus:border-red-500'
-      : 'bg-white border border-gray-200 focus:ring-2 focus:ring-primary/30 focus:border-primary';
+      ? 'border border-red-400 focus:ring-2 focus:ring-red-300/50 focus:border-red-500'
+      : 'border border-gray-200 focus:ring-2 focus:ring-primary/30 focus:border-primary';
   }
   return hasError
     ? 'bg-red-50 border border-red-300 focus:ring-2 focus:ring-red-300/50 focus:border-red-400'
-    : 'bg-gray-50/80 border border-transparent focus:bg-white focus:ring-2 focus:ring-primary/30 focus:border-primary';
+    : 'bg-gray-50/80 border border-transparent focus:ring-2 focus:ring-primary/30 focus:border-primary';
 }
 
 // ─── Input ────────────────────────────────────────────────────────────────────

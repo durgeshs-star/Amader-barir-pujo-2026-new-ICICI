@@ -64,7 +64,7 @@ export const SpiritSection: React.FC = () => {
   ];
 
   return (
-    <section id="experience-section" className="py-20 bg-white scroll-mt-10" style={{ contentVisibility: 'auto', containIntrinsicSize: '0 500px' }}>
+    <section id="experience-section" className="content-layer py-20 scroll-mt-10" style={{ contentVisibility: 'auto', containIntrinsicSize: '0 500px' }}>
       <div className="max-w-7xl mx-auto px-6">
 
         {/* Section Title */}
@@ -89,7 +89,7 @@ export const SpiritSection: React.FC = () => {
           {offerings.map((offering, idx) => (
             <div
               key={idx}
-              className="group flex flex-col md:flex-row gap-6 p-8 border border-gray-100 rounded-xl hover:border-accent/40 bg-light-bg/30 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 relative"
+className="group flex flex-col md:flex-row gap-6 p-8 border border-gray-100 rounded-xl hover:border-accent/40 bg-light-bg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 relative"
             >
               {/* Icon Container */}
               <div className="shrink-0 flex items-center justify-center w-20 h-20 bg-primary/5 group-hover:bg-primary/10 rounded-full transition-all duration-300">

@@ -23,7 +23,7 @@ export const News: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-light-bg">
+    <div className="min-h-screen">
       <SEO
         description="Latest news and media coverage about Amader Barir Pujo, Pune. Stay updated with our community celebrations and events."
         keywords="Amader Barir Pujo news, Durga Puja Pune news, Bengali community news, media coverage"
@@ -40,7 +40,7 @@ export const News: React.FC = () => {
       />
 
       {/* News Grid */}
-      <section className="py-16 md:py-24">
+      <section className="content-layer py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-6">
           {newsItems.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

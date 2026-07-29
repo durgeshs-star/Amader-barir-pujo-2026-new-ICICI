@@ -20,17 +20,17 @@ export const HamburgerButton: React.FC<HamburgerButtonProps> = ({
       aria-controls={ariaControls}
     >
       <span
-        className={`block w-5.5 h-[2px] bg-white rounded-sm transition-all duration-300 ${
+        className={`block w-5.5 h-[2px] bg-gray-500 rounded-sm transition-all duration-300 ${
           isOpen ? 'translate-y-[7px] rotate-45' : ''
         }`}
       />
       <span
-        className={`block h-[2px] bg-white rounded-sm transition-all duration-300 ${
+        className={`block h-[2px] bg-gray-500 rounded-sm transition-all duration-300 ${
           isOpen ? 'opacity-0 w-0' : 'w-5.5'
         }`}
       />
       <span
-        className={`block w-5.5 h-[2px] bg-white rounded-sm transition-all duration-300 ${
+        className={`block w-5.5 h-[2px] bg-gray-500 rounded-sm transition-all duration-300 ${
           isOpen ? '-translate-y-[7px] -rotate-45' : ''
         }`}
       />

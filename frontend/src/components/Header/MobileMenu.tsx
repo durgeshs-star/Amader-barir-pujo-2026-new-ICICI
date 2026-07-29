@@ -77,7 +77,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
       {/* Slide-out Sidebar Panel */}
             <aside
           id="mobile-nav"
-          className={`fixed top-0 left-0 bottom-0 w-75 max-w-[85vw] bg-white z-1002 shadow-2xl transition-transform duration-300 transform flex flex-col ${
+          className={`fixed top-0 left-0 bottom-0 w-75 max-w-[85vw] z-1002 shadow-2xl transition-transform duration-300 transform flex flex-col bg-dark-bg ${
             isOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
           aria-label="Mobile navigation menu"
@@ -88,9 +88,9 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
         <div className="flex justify-between items-center px-4 py-4 border-b border-gray-150">
           <Link to="/" onClick={handleLinkClick} className="block select-none">
             <div className="flex items-center gap-2.5">
-              <div className="w-10 h-10 rounded-full bg-white/90 flex items-center justify-center shadow-sm p-0.5 shrink-0">
+              <div className="w-10 h-10 rounded-full bg-gray-500/90 flex items-center justify-center shadow-sm p-0.5 shrink-0">
                 <img
-                  src="/assets/img/Logo-puja.webp"
+                  src="/assets/img/ABP-Logo.png"
                   alt="Amader Barir Pujo logo"
                   className="w-full h-full object-contain"
                   width={40}
@@ -102,7 +102,6 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
               <div className="flex flex-col leading-none">
                 <span className="text-base font-bold font-fraunces text-primary tracking-wide">Amader Barir Pujo</span>
                 <span className="text-[10px] text-accent-text font-semibold tracking-wider">2026</span>
-                <span className="text-[9px] text-primary font-medium mt-0.5 leading-tight">An Initiative by <br /><a href="https://proplusdatafoundation.com/" target="_blank" rel="noopener noreferrer" className="hover:underline transition-colors duration-200">ProPlus Data Foundation</a></span>
               </div>
             </div>
           </Link>

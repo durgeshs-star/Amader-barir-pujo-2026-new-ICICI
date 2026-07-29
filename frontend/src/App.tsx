@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 // Layout & UI Global features — always eager (above the fold)
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
+import BackgroundPattern from './components/BackgroundPattern/BackgroundPattern';
 // import WhatsAppBtn from './components/Sections/WhatsAppBtn';
 import BackToTop from './components/Sections/BackToTop';
 // import Preloader from './components/ui/Preloader';
@@ -44,7 +45,7 @@ const Questionair = lazy(() => import('./pages/Questionair'));
 
 const PageSkeleton: React.FC = () => (
   <div
-    style={{ minHeight: '60vh', background: 'var(--color-surface)' }}
+    style={{ minHeight: '60vh', backgroundColor: 'oklch(96.9% 0.015 12.422)' }}
     aria-hidden="true"
     role="status"
     aria-label="Loading page…"
@@ -66,10 +67,11 @@ const AppShell: React.FC = () => {
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-light-bg relative">
+    <div className="flex min-h-screen flex-col relative bg-pattern-wrapper" style={{ backgroundColor: 'oklch(96.9% 0.015 12.422)' }}>
+      <BackgroundPattern />
       {!isWelcomeToAbpWaFamilyRoute ? <Header /> : null}
 
-      <main className="grow">
+      <main className="grow relative z-10 content-layer">
         <Suspense fallback={<PageSkeleton />}>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -142,7 +144,7 @@ const AppShell: React.FC = () => {
         draggable
         pauseOnHover
         theme="light"
-        toastClassName="bg-white text-primary border border-gray-200 shadow-lg rounded-lg"
+        toastClassName="text-primary border border-gray-200 shadow-lg rounded-lg"
         progressClassName="bg-primary"
       />
     </div>

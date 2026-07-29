@@ -10,7 +10,7 @@ export const Legal: React.FC = () => {
   const lastUpdated = 'June 29, 2026';
 
   return (
-    <div className="pt-10 md:pt-14 pb-20 bg-light-bg/30 min-h-screen">
+    <div className="pt-10 md:pt-14 pb-20 min-h-screen">
       <SEO
         title={title}
         description={`${title} for Amader Barir Pujo, Pune — read our policies regarding your use of this website.`}
@@ -29,7 +29,7 @@ export const Legal: React.FC = () => {
         </div>
 
         {/* Content */}
-        <div className="bg-light-bg rounded-2xl p-6 md:p-10 border border-gray-100 shadow-sm space-y-6 text-sm text-secondary leading-relaxed font-sans select-text">
+        <div className="rounded-2xl p-6 md:p-10 border border-gray-100 shadow-sm space-y-6 text-sm text-secondary leading-relaxed font-sans select-text">
           {isPrivacy ? (
             <>
               <p>

@@ -62,7 +62,7 @@ export const ScheduleDetails: React.FC<ScheduleDetailsProps> = ({
   const hasSimpleLayout = Boolean(subtitle && title && timing);
 
   return (
-    <section className="py-14 md:py-20 bg-white">
+    <section className="py-14 md:py-20">
       <div className="max-w-7xl mx-auto px-6 md:px-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
           <div className="relative group animate-fade-in-up">

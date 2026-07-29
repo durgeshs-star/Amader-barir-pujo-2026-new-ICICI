@@ -97,7 +97,7 @@ export const AnudanCheckout: React.FC = () => {
         canonical="https://www.abp.proplusdatafoundation.com/anudan/checkout"
       />
 
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-100 py-8 px-4">
+      <div className="min-h-screen py-8 px-4">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="text-center mb-8">
@@ -112,7 +112,7 @@ export const AnudanCheckout: React.FC = () => {
             <m.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="bg-white rounded-2xl p-6 shadow-lg"
+              className="rounded-2xl p-6 shadow-lg"
             >
               <h2 className="text-xl font-bold text-primary font-fraunces mb-4 flex items-center gap-2">
                 🛒 Your Anudan Basket
@@ -180,7 +180,7 @@ export const AnudanCheckout: React.FC = () => {
             <m.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="bg-white rounded-2xl p-6 shadow-lg"
+              className="rounded-2xl p-6 shadow-lg"
             >
               <h2 className="text-xl font-bold text-primary font-fraunces mb-4">
                 ddgg
