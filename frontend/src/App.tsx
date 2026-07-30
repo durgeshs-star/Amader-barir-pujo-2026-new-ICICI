@@ -44,7 +44,7 @@ const Questionair = lazy(() => import('./pages/Questionair'));
 
 const PageSkeleton: React.FC = () => (
   <div
-    style={{ minHeight: '60vh', background: '#fff' }}
+    style={{ minHeight: '60vh', backgroundColor: 'rgb(248 233 206)' }}
     aria-hidden="true"
     role="status"
     aria-label="Loading page…"
@@ -66,10 +66,10 @@ const AppShell: React.FC = () => {
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-light-bg/10 relative">
+    <div className="flex min-h-screen flex-col relative bg-pattern-wrapper" style={{ backgroundColor: 'rgb(248 233 206)' }}>
       {!isWelcomeToAbpWaFamilyRoute ? <Header /> : null}
 
-      <main className="grow">
+      <main className="grow relative z-10 content-layer">
         <Suspense fallback={<PageSkeleton />}>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -142,7 +142,7 @@ const AppShell: React.FC = () => {
         draggable
         pauseOnHover
         theme="light"
-        toastClassName="bg-white text-gray-900 border border-gray-200 shadow-lg rounded-lg"
+        toastClassName="text-primary border border-gray-200 shadow-lg rounded-lg"
         progressClassName="bg-primary"
       />
     </div>

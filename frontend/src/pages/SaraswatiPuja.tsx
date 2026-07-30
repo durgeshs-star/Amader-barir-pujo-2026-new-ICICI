@@ -9,7 +9,7 @@ import CarouselContentSection from "../components/common/CarouselContentSection"
 const SaraswatiPuja: React.FC = () => {
 
   return (
-    <>
+    <div className="relative">
       <SEO
         title="Saraswati Puja - Celebration of Knowledge & Learning"
         description="Join us in celebrating Saraswati Puja, the festival of knowledge, wisdom, music, and arts. Experience Hathe Khori, traditional rituals, and community worship at Amader Barir Pujo."
@@ -22,12 +22,12 @@ const SaraswatiPuja: React.FC = () => {
         title="Saraswati Puja"
         subtitle="Celebration of Knowledge, Wisdom & Learning"
         backgroundImage="/assets/img/saraswati-puja16.webp"
-        height="h-[45vh] md:h-[70vh]"
+        height="h-[35vh] md:h-[60vh]"
         objectPosition="center top"
       />
 
       {/* Introduction Section */}
-      <section className="py-8 md:py-12 bg-white">
+      <section className="py-8 md:py-12">
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <div className="max-w-4xl mx-auto animate-fade-in-up">
             <h2 className="font-fraunces text-3xl md:text-4xl font-bold text-primary leading-tight mb-6">
@@ -79,7 +79,7 @@ const SaraswatiPuja: React.FC = () => {
       />
 
       {/* Gallery Section */}
-      <section className="py-8 md:py-12 bg-white">
+      <section className="content-layer py-8 md:py-12">
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <div className="text-center mb-12 animate-fade-in-up">
             <h2 className="font-fraunces text-3xl md:text-4xl font-bold text-primary leading-tight mb-4">
@@ -112,7 +112,7 @@ const SaraswatiPuja: React.FC = () => {
       </section>
 
       {/* Community Section */}
-      <section className="py-8 md:py-12 bg-white">
+      <section className="content-layer py-8 md:py-12">
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <div className="max-w-4xl mx-auto animate-fade-in-up">
             <h2 className="font-fraunces text-3xl md:text-4xl font-bold text-primary leading-tight mb-6">
@@ -131,7 +131,7 @@ const SaraswatiPuja: React.FC = () => {
 
       {/* Flea Market Section */}
       <FleaMarketSection />
-    </>
+    </div>
   );
 };
 

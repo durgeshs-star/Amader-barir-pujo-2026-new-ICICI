@@ -41,10 +41,10 @@ export const SelectField: React.FC<SelectFieldProps> = ({
         value={value}
         onChange={(event) => onChange(name, event.target.value)}
         onBlur={() => onBlur(name)}
-        className={`w-full rounded-xl border px-4 py-3 text-base text-text shadow-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary/20 ${
+        className={`w-full rounded-xl border px-4 py-3 text-base text-text shadow-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary/20 bg-[rgb(248,233,206)] ${
           showError
             ? 'border-danger bg-danger/5 focus:border-danger'
-            : 'border-border bg-surface focus:border-primary'
+            : 'border-border focus:border-primary'
         }`}
       >
         <option value="">{placeholder}</option>

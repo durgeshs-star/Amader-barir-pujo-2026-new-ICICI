@@ -76,7 +76,7 @@ export const BhogBooking: React.FC = () => {
   };
 
   return (
-    <div className="pt-10 md:pt-14 pb-20 bg-light-bg/30 min-h-screen">
+    <div className="relative pt-10 md:pt-14 pb-20 min-h-screen">
       <SEO
         title={activeDay ? `${activeDay.title} Booking` : 'Bhog Booking'}
         description="Book your sacred Prasad Bhog for Durga Puja 2026 at Amader Barir Pujo, Wakad Pune. Available for Saptami, Ashtami, Navami and Lakshmi Puja."
@@ -88,7 +88,7 @@ export const BhogBooking: React.FC = () => {
         
         {/* Title */}
         <div className="text-center mb-10">
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-950 font-fraunces mb-3">
+          <h1 className="text-4xl md:text-6xl font-bold text-primary font-fraunces mb-3">
             Bhog Booking
           </h1>
           <p className="text-sm text-muted font-medium text-center font-sans">
@@ -105,7 +105,7 @@ export const BhogBooking: React.FC = () => {
         </div>
 
         {/* Days Tab Controls */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mb-10 bg-white p-2.5 rounded-xl border border-gray-150 shadow-sm select-none">
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-10 p-2.5 rounded-xl border border-gray-150 shadow-sm select-none">
           {Object.keys(bhogDays).map((key) => {
             const label = bhogDays[key].title.replace(' Bhog', '');
             const isActive = activeDayKey === key;
@@ -126,17 +126,17 @@ export const BhogBooking: React.FC = () => {
         </div>
 
         {/* Content Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 content-layer">
           
           {/* Left Column: Menu Details */}
-          <div className="lg:col-span-2 bg-white rounded-2xl p-6 md:p-10 shadow-md border border-gray-100 animate-fade-in select-text">
+          <div className="lg:col-span-2 rounded-2xl p-6 md:p-10 shadow-md border border-gray-100 animate-fade-in select-text">
             <span className="text-xs font-bold text-accent-text uppercase tracking-widest">Selected Pujo Day</span>
             <h2 className="text-2xl md:text-4xl font-bold font-fraunces text-primary mt-1 mb-6">
               {activeDay.title}
             </h2>
 
-            <div className="p-6 bg-light-bg rounded-xl border border-gray-150 space-y-4">
-              <h3 className="text-lg font-bold text-gray-950 font-fraunces border-b border-gray-250 pb-2">
+            <div className="p-6 rounded-xl border border-gray-150 space-y-4">
+              <h3 className="text-lg font-bold text-primary font-fraunces border-b border-gray-250 pb-2">
                 {activeDay.menu.title}
               </h3>
               
@@ -156,7 +156,7 @@ export const BhogBooking: React.FC = () => {
           </div>
 
           {/* Right Column: Booking Request Form */}
-          <div className="bg-white rounded-2xl p-6 shadow-md border border-gray-100 self-start">
+          <div className="rounded-2xl p-6 shadow-md border border-gray-100 self-start">
             <h2 className="text-lg font-bold font-fraunces text-primary mb-4">Request Bhog Box</h2>
             
             {submitted ? (
@@ -182,7 +182,7 @@ export const BhogBooking: React.FC = () => {
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="px-3 py-2 border border-gray-200 text-xs rounded focus:outline-none focus:border-primary"
+                    className="px-3 py-2 border border-gray-200 text-xs rounded focus:outline-none focus:border-primary bg-[rgb(248,233,206)]"
                     placeholder="Enter name"
                   />
                 </div>
@@ -194,7 +194,7 @@ export const BhogBooking: React.FC = () => {
                     required
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="px-3 py-2 border border-gray-200 text-xs rounded focus:outline-none focus:border-primary"
+                    className="px-3 py-2 border border-gray-200 text-xs rounded focus:outline-none focus:border-primary bg-[rgb(248,233,206)]"
                     placeholder="Enter phone"
                   />
                 </div>
@@ -208,7 +208,7 @@ export const BhogBooking: React.FC = () => {
                     required
                     value={formData.plates}
                     onChange={(e) => setFormData({ ...formData, plates: e.target.value })}
-                    className="px-3 py-2 border border-gray-200 text-xs rounded focus:outline-none focus:border-primary"
+                    className="px-3 py-2 border border-gray-200 text-xs rounded focus:outline-none focus:border-primary bg-[rgb(248,233,206)]"
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">

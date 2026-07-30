@@ -78,7 +78,7 @@ export const AnudanFormModal: React.FC<AnudanFormModalProps> = ({
       />
 
       {/* Modal */}
-      <div className="relative bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto animate-fade-in-up">
+      <div className="relative rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto animate-fade-in-up">
         {/* Close Button */}
         <button
           onClick={onClose}
@@ -98,13 +98,6 @@ export const AnudanFormModal: React.FC<AnudanFormModalProps> = ({
             For {card.day}
           </p>
 
-          {/* Payment Gateway Disclaimer */}
-          <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
-            <p className="text-amber-800 text-sm font-semibold text-center">
-              ⚠️ Payment Gateway Integration is in Progress.
-            </p>
-          </div>
-
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label htmlFor="anudan-name" className="block text-sm font-semibold text-primary mb-1">
@@ -119,7 +112,7 @@ export const AnudanFormModal: React.FC<AnudanFormModalProps> = ({
                   if (errors.name) setErrors((prev) => ({ ...prev, name: '' }));
                 }}
                 placeholder="Enter your full name"
-                className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all ${errors.name ? 'border-red-500' : 'border-gray-300'
+                className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-[rgb(248,233,206)] ${errors.name ? 'border-red-500' : 'border-[rgb(180,160,130)]'
                   }`}
               />
               {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
@@ -138,7 +131,7 @@ export const AnudanFormModal: React.FC<AnudanFormModalProps> = ({
                   if (errors.phone) setErrors((prev) => ({ ...prev, phone: '' }));
                 }}
                 placeholder="Enter your 10-digit mobile number"
-                className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all ${errors.phone ? 'border-red-500' : 'border-gray-300'
+                className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-[rgb(248,233,206)] ${errors.phone ? 'border-red-500' : 'border-[rgb(180,160,130)]'
                   }`}
               />
               {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
@@ -157,7 +150,7 @@ export const AnudanFormModal: React.FC<AnudanFormModalProps> = ({
                   if (errors.email) setErrors((prev) => ({ ...prev, email: '' }));
                 }}
                 placeholder="Enter your email address"
-                className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all ${errors.email ? 'border-red-500' : 'border-gray-300'
+                className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-[rgb(248,233,206)] ${errors.email ? 'border-red-500' : 'border-[rgb(180,160,130)]'
                   }`}
               />
               {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
@@ -180,7 +173,7 @@ export const AnudanFormModal: React.FC<AnudanFormModalProps> = ({
                   if (errors.amount) setErrors((prev) => ({ ...prev, amount: '' }));
                 }}
                 placeholder="Enter amount"
-                className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all ${errors.amount ? 'border-red-500' : 'border-gray-300'}`}
+                className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-[rgb(248,233,206)] ${errors.amount ? 'border-red-500' : 'border-[rgb(180,160,130)]'}`}
               />
               {errors.amount && <p className="text-red-500 text-xs mt-1">{errors.amount}</p>}
               {remainingAmount !== undefined && !errors.amount && (
@@ -202,7 +195,7 @@ export const AnudanFormModal: React.FC<AnudanFormModalProps> = ({
                 placeholder="Any special remarks (max 100 characters)"
                 rows={2}
                 maxLength={100}
-                className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none ${errors.remark ? 'border-red-500' : 'border-gray-300'
+                className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none bg-[rgb(248,233,206)] ${errors.remark ? 'border-red-500' : 'border-[rgb(180,160,130)]'
                   }`}
               />
               <div className="flex justify-between mt-1">

@@ -96,19 +96,19 @@ export const TestimonialsSection: React.FC = () => {
   }, [isInView]);
 
   return (
-    <section ref={sectionRef} className="pb-10 bg-white" style={{ contentVisibility: 'auto', containIntrinsicSize: '0 400px' }}>
+    <section ref={sectionRef} className="content-layer pb-10" style={{ contentVisibility: 'auto', containIntrinsicSize: '0 400px' }}>
       <div className="max-w-4xl mx-auto px-6">
         
         {/* Section Heading */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-wide font-fraunces">
+          <h2 className="text-3xl md:text-5xl font-bold text-primary tracking-wide font-fraunces">
             The Smiles We Carried Home
           </h2>
         </div>
 
         {/* Testimonials Slider Window */}
         <div
-          className="relative overflow-hidden bg-light-bg/40 border border-gray-100 rounded-2xl p-6 md:p-12 shadow-inner"
+className="relative overflow-hidden bg-light-bg border border-[rgb(180,160,130)] rounded-2xl p-6 md:p-12 shadow-inner"
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
           style={{ contentVisibility: 'auto', containIntrinsicSize: '0 400px' }}
@@ -182,14 +182,14 @@ export const TestimonialsSection: React.FC = () => {
         <div className="flex justify-center gap-4 mt-6">
           <button
             onClick={handlePrev}
-            className="flex items-center justify-center w-11 h-11 bg-white hover:bg-primary-dark text-primary hover:text-text-on-primary border border-border rounded-full cursor-pointer transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary shadow-sm"
+            className="flex items-center justify-center w-11 h-11 hover:bg-primary-dark text-primary hover:text-text-on-primary border border-border rounded-full cursor-pointer transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary shadow-sm"
             aria-label="Previous testimonial slide"
           >
             <FaChevronLeft size={12} />
           </button>
           <button
             onClick={handleNext}
-            className="flex items-center justify-center w-11 h-11 bg-white hover:bg-primary-dark text-primary hover:text-text-on-primary border border-border rounded-full cursor-pointer transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary shadow-sm"
+            className="flex items-center justify-center w-11 h-11 hover:bg-primary-dark text-primary hover:text-text-on-primary border border-border rounded-full cursor-pointer transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary shadow-sm"
             aria-label="Next testimonial slide"
           >
             <FaChevronRight size={12} />

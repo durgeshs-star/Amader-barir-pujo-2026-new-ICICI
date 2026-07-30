@@ -91,7 +91,7 @@ export const UserInfoForm = forwardRef<UserInfoFormRef, UserInfoFormProps>(({ on
   return (
     <>
       {/* Mobile Form - Compact design */}
-      <div className="p-4 border-2 border-gray-200 rounded-xl bg-white lg:hidden">
+      <div className="p-4 border-2 border-[rgb(180,160,130)] rounded-xl lg:hidden">
         <h3 className="text-xl font-bold text-primary mb-4 font-fraunces">Contact Information</h3>
         
         <div className="space-y-4">
@@ -106,9 +106,9 @@ export const UserInfoForm = forwardRef<UserInfoFormRef, UserInfoFormProps>(({ on
               onChange={(e) => handleFieldChange('name', e.target.value)}
               disabled={disabled}
               placeholder="Enter your full name"
-              className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all ${
-                errors.name ? 'border-red-300 bg-red-50' : 'border-gray-200'
-              } ${disabled ? 'bg-gray-100 cursor-not-allowed' : 'bg-white'}`}
+              className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-[rgb(248,233,206)] ${
+                errors.name ? 'border-red-300 bg-red-50' : 'border-[rgb(180,160,130)]'
+              } ${disabled ? 'opacity-60 cursor-not-allowed' : ''}`}
             />
             {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
           </div>
@@ -124,9 +124,9 @@ export const UserInfoForm = forwardRef<UserInfoFormRef, UserInfoFormProps>(({ on
               onChange={(e) => handleFieldChange('phone', e.target.value)}
               disabled={disabled}
               placeholder="Enter your 10-digit phone number"
-              className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all ${
-                errors.phone ? 'border-red-300 bg-red-50' : 'border-gray-200'
-              } ${disabled ? 'bg-gray-100 cursor-not-allowed' : 'bg-white'}`}
+              className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-[rgb(248,233,206)] ${
+                errors.phone ? 'border-red-300 bg-red-50' : 'border-[rgb(180,160,130)]'
+              } ${disabled ? 'opacity-60 cursor-not-allowed' : ''}`}
             />
             {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
           </div>
@@ -142,9 +142,9 @@ export const UserInfoForm = forwardRef<UserInfoFormRef, UserInfoFormProps>(({ on
               onChange={(e) => handleFieldChange('email', e.target.value)}
               disabled={disabled}
               placeholder="Enter your email address"
-              className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all ${
-                errors.email ? 'border-red-300 bg-red-50' : 'border-gray-200'
-              } ${disabled ? 'bg-gray-100 cursor-not-allowed' : 'bg-white'}`}
+              className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-[rgb(248,233,206)] ${
+                errors.email ? 'border-red-300 bg-red-50' : 'border-[rgb(180,160,130)]'
+              } ${disabled ? 'opacity-60 cursor-not-allowed' : ''}`}
             />
             {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
           </div>
@@ -152,7 +152,7 @@ export const UserInfoForm = forwardRef<UserInfoFormRef, UserInfoFormProps>(({ on
       </div>
 
       {/* Desktop Form - Original design */}
-      <div className="hidden lg:block p-4 border border-primary/14 rounded-lg bg-gradient-to-br from-white to-orange-50/50 shadow-lg">
+      <div className="hidden lg:block p-4 border border-primary/14 rounded-lg bg-rgb(248, 233, 206) shadow-lg">
         <h3 className="text-lg font-bold text-primary mb-4 font-fraunces">Contact Information</h3>
         
         <div className="space-y-4">
@@ -167,9 +167,9 @@ export const UserInfoForm = forwardRef<UserInfoFormRef, UserInfoFormProps>(({ on
               onChange={(e) => handleFieldChange('name', e.target.value)}
               disabled={disabled}
               placeholder="Enter your full name"
-              className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all ${
-                errors.name ? 'border-red-500' : 'border-gray-300'
-              } ${disabled ? 'bg-gray-100 cursor-not-allowed' : ''}`}
+              className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-[rgb(248,233,206)] ${
+                errors.name ? 'border-red-500' : 'border-[rgb(180,160,130)]'
+              } ${disabled ? 'opacity-60 cursor-not-allowed' : ''}`}
             />
             {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
           </div>
@@ -185,9 +185,9 @@ export const UserInfoForm = forwardRef<UserInfoFormRef, UserInfoFormProps>(({ on
               onChange={(e) => handleFieldChange('phone', e.target.value)}
               disabled={disabled}
               placeholder="Enter your 10-digit phone number"
-              className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all ${
-                errors.phone ? 'border-red-500' : 'border-gray-300'
-              } ${disabled ? 'bg-gray-100 cursor-not-allowed' : ''}`}
+              className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-[rgb(248,233,206)] ${
+                errors.phone ? 'border-red-500' : 'border-[rgb(180,160,130)]'
+              } ${disabled ? 'opacity-60 cursor-not-allowed' : ''}`}
             />
             {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
           </div>
@@ -203,9 +203,9 @@ export const UserInfoForm = forwardRef<UserInfoFormRef, UserInfoFormProps>(({ on
               onChange={(e) => handleFieldChange('email', e.target.value)}
               disabled={disabled}
               placeholder="Enter your email address"
-              className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all ${
-                errors.email ? 'border-red-500' : 'border-gray-300'
-              } ${disabled ? 'bg-gray-100 cursor-not-allowed' : ''}`}
+              className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-[rgb(248,233,206)] ${
+                errors.email ? 'border-red-500' : 'border-[rgb(180,160,130)]'
+              } ${disabled ? 'opacity-60 cursor-not-allowed' : ''}`}
             />
             {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
           </div>

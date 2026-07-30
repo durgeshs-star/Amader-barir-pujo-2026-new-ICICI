@@ -55,8 +55,8 @@ export const MockPayment: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-indigo-100 px-4">
-      <div className="max-w-lg w-full bg-white rounded-2xl shadow-2xl p-8">
+    <div className="min-h-screen flex items-center justify-center px-4">
+      <div className="max-w-lg w-full rounded-2xl shadow-2xl p-8">
         {/* Header */}
         <div className="text-center mb-8">
           <div className="mx-auto mb-4 flex items-center justify-center w-16 h-16 bg-purple-100 rounded-full">

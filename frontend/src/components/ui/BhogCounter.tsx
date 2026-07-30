@@ -25,12 +25,12 @@ export const BhogCounter: React.FC<BhogCounterProps> = ({
           onClick={handleDecrement}
           disabled={value <= 0}
           aria-label={ariaLabel ? `Reduce ${ariaLabel}` : 'Reduce count'}
-          className="w-11 h-11 bg-white border-0 text-primary text-lg font-bold cursor-pointer transition-all duration-200 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40 disabled:text-gray-400 flex items-center justify-center"
+                    className="w-11 h-11 border-0 text-primary text-lg font-bold cursor-pointer transition-all duration-200 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40 disabled:text-gray-400 flex items-center justify-center"
         >
           -
         </button>
         <div className="w-12 h-11 flex items-center justify-center bg-gray-100">
-          <span className="font-bold text-gray-900" aria-label={`${label} count`}>
+          <span className="font-bold text-primary" aria-label={`${label} count`}>
             {value}
           </span>
         </div>
@@ -39,14 +39,14 @@ export const BhogCounter: React.FC<BhogCounterProps> = ({
           onClick={handleIncrement}
           disabled={value >= max}
           aria-label={ariaLabel ? `Add ${ariaLabel}` : 'Add count'}
-          className="w-11 h-11 bg-white border-0 text-primary text-lg font-bold cursor-pointer transition-all duration-200 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40 disabled:text-gray-400 flex items-center justify-center"
+                    className="w-11 h-11 border-0 text-primary text-lg font-bold cursor-pointer transition-all duration-200 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40 disabled:text-gray-400 flex items-center justify-center"
         >
           +
         </button>
       </div>
 
       {/* Desktop Counter - Original design */}
-      <div className="hidden lg:inline-flex lg:items-center lg:flex-0-auto lg:border lg:border-primary/20 lg:rounded-lg lg:overflow-hidden lg:bg-white">
+      <div className="hidden lg:inline-flex lg:items-center lg:flex-0-auto lg:border lg:border-primary/20 lg:rounded-lg lg:overflow-hidden">
         <button
           type="button"
           onClick={handleDecrement}
@@ -60,8 +60,8 @@ export const BhogCounter: React.FC<BhogCounterProps> = ({
           type="text"
           value={value}
           readOnly
+          className="w-16 text-center bg-[rgb(248,233,206)] border border-[rgb(180,160,130)] rounded-md text-primary font-bold"
           aria-label={`${label} count`}
-          className="w-12 h-10 border-0 text-gray-900 font-bold text-center bg-white"
         />
         <button
           type="button"

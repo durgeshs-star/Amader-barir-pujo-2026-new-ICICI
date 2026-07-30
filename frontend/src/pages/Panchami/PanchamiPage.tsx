@@ -10,7 +10,7 @@ import { panchamiIntroParagraph } from "../../assets/data/scheduleShared";
 
 const PanchamiPage: React.FC = () => {
   return (
-    <>
+    <div className="relative">
       <SEO
         title="Panchami Pujo Schedule"
         description="Panchami Pujo Schedule — Learn about our Panchami Pujo offerings, procedures, and their spiritual significance at Amader Barir Pujo."
@@ -22,7 +22,7 @@ const PanchamiPage: React.FC = () => {
       <PageHero
         title="Panchami"
         subtitle="Durga Pujo 2026 · Day One"
-        height="h-[45vh] md:h-[70vh]"
+        height="h-[35vh] md:h-[60vh]"
       />
 
       <ScheduleIntro paragraph={panchamiIntroParagraph} />
@@ -37,7 +37,7 @@ const PanchamiPage: React.FC = () => {
       />
 
       <FleaMarketSection />
-    </>
+    </div>
   );
 };
 

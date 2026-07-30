@@ -32,7 +32,7 @@ export const BhogSuccessModal: React.FC<BhogSuccessModalProps> = ({
       />
 
       {/* Modal */}
-      <div className="relative bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 animate-fade-in-up">
+      <div className="relative rounded-2xl shadow-2xl max-w-md w-full p-8 animate-fade-in-up">
         {/* Close Button */}
         <button
           onClick={onClose}

@@ -10,7 +10,7 @@ import { shashthiIntroParagraph } from "../../assets/data/scheduleShared";
 
 const ShashtiPage: React.FC = () => {
   return (
-    <>
+    <div className="relative">
       <SEO
         title="Shashti Pujo Schedule"
         description="Shashti Pujo Schedule — Discover our Shashti Pujo timeline, events, and meaningful traditions at Amader Barir Pujo."
@@ -22,7 +22,7 @@ const ShashtiPage: React.FC = () => {
       <PageHero
         title="Shashti"
         subtitle="Durga Pujo 2026 · Day Two"
-        height="h-[45vh] md:h-[70vh]"
+        height="h-[35vh] md:h-[60vh]"
       />
 
       <ScheduleIntro paragraph={shashthiIntroParagraph} />
@@ -60,7 +60,7 @@ const ShashtiPage: React.FC = () => {
       />
 
       <FleaMarketSection />
-    </>
+    </div>
   );
 };
 

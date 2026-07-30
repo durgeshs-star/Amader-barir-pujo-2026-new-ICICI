@@ -178,7 +178,7 @@ const TermsAndConditions: React.FC = () => {
   ];
 
   return (
-    <>
+    <div className="relative">
       <SEO
         title="Terms & Conditions | Amader Barir Pujo"
         description="Read our terms and conditions for Amader Barir Pujo® events, services, and participation."
@@ -189,11 +189,11 @@ const TermsAndConditions: React.FC = () => {
 
       <LegalContent
         title="Terms & Conditions"
-        subtitle="Welcome to the Amader Barir Pujo® website. By accessing or using this website, registering for an event, making a payment, or participating in any activity organized by Amader Barir Pujo®, you agree to these Terms & Conditions."
+        subtitle="A ProPlus Data Foundation Initiative. Welcome to the Amader Barir Pujo® website. By accessing or using this website, registering for an event, making a payment, or participating in any activity organized by Amader Barir Pujo®, you agree to these Terms & Conditions."
         effectiveDate="August 04, 2025"
         sections={sections}
       />
-    </>
+    </div>
   );
 };
 

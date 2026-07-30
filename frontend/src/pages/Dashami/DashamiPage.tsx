@@ -10,7 +10,7 @@ import { dashamiIntroParagraph } from "../../assets/data/scheduleShared";
 
 const DashamiPage: React.FC = () => {
   return (
-    <>
+    <div className="relative">
       <SEO
         title="Dashami Pujo Schedule"
         description="Dashami Pujo Schedule — Learn about our Dashami Pujo offerings, procedures, and their spiritual significance at Amader Barir Pujo."
@@ -22,7 +22,7 @@ const DashamiPage: React.FC = () => {
       <PageHero
         title="Dashami"
         subtitle="Durga Pujo 2026 · Day Six"
-        height="h-[45vh] md:h-[70vh]"
+        height="h-[35vh] md:h-[60vh]"
       />
 
       <ScheduleIntro paragraph={dashamiIntroParagraph} />
@@ -58,7 +58,7 @@ const DashamiPage: React.FC = () => {
       />
 
       <FleaMarketSection />
-    </>
+    </div>
   );
 };
 

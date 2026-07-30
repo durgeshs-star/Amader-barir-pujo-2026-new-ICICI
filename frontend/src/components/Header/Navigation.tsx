@@ -22,7 +22,6 @@ const bhogBookingDays: NavItem[] = [
   { name: 'Ashtami', path: '/bhog-booking/ashtami' },
   { name: 'Ashtami Sandhi Puja', path: '/bhog-booking/ashtami-sandhi-puja' },
   { name: 'Navami', path: '/bhog-booking/navami' },
-  { name: 'Durga Puja', path: '/durga-puja-bhog' },
   { name: 'Lakshmi Puja', path: '/bhog-booking/lakshmi-puja' },
   { name: 'Saraswati Puja', path: '/bhog-booking/saraswati-puja' },
 ];
@@ -88,7 +87,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ label, items }) => {
           onMouseLeave={scheduleClose}
         >
           <ul
-            className="bg-white rounded-xl shadow-2xl overflow-hidden border border-gray-100 list-none p-0 m-0 py-1 animate-fade-in"
+            className="rounded-xl shadow-2xl overflow-hidden border border-[rgb(180,160,130)] list-none p-0 m-0 py-1 animate-fade-in"
             style={{ color: '#1f2937' }}
           >
             {items.map((item) => (

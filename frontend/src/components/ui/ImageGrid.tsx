@@ -72,7 +72,7 @@ const ImageGrid: React.FC<ImageGridProps> = React.memo(({
         {images.map((img, index) => (
           <m.div
             key={img.id}
-            className={`group relative rounded-xl overflow-hidden shadow bg-primary/10 border border-gray-100 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 ${img.className || ''}`}
+            className={`group relative rounded-xl overflow-hidden shadow bg-primary/10 border border-[rgb(180,160,130)] hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 ${img.className || ''}`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: Math.min(index * 0.03, 0.5), ease: "easeOut" }}

@@ -17,7 +17,7 @@ export const AnudanBasket: React.FC<AnudanBasketProps> = ({ items, onRemove, onC
 
   if (items.length === 0) {
     return (
-      <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-lg sticky top-40 mt-6">
+      <div className="border border-[rgb(180,160,130)] rounded-xl p-6 shadow-lg sticky top-40 mt-6">
         <h3 className="text-xl font-bold text-primary font-fraunces mb-4 flex items-center gap-2">
           🛒 Anudan Basket
         </h3>
@@ -29,7 +29,7 @@ export const AnudanBasket: React.FC<AnudanBasketProps> = ({ items, onRemove, onC
   }
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-lg sticky top-32 mt-6">
+    <div className="border border-[rgb(180,160,130)] rounded-xl p-6 shadow-lg sticky top-32 mt-6">
       <h3 className="text-xl font-bold text-primary font-fraunces mb-4 flex items-center gap-2">
         🛒 Anudan Basket
         <span className="ml-auto bg-primary text-white text-xs font-bold px-2 py-1 rounded-full">
@@ -44,7 +44,7 @@ export const AnudanBasket: React.FC<AnudanBasketProps> = ({ items, onRemove, onC
             className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
           >
             <div className="flex-1">
-              <p className="font-semibold text-gray-900 text-sm">{item.card.day}</p>
+              <p className="font-semibold text-primary text-sm">{item.card.day}</p>
             </div>
             <div className="flex items-center gap-3">
               <span className="font-bold text-primary">₹{item.amount.toLocaleString('en-IN')}</span>
@@ -62,9 +62,9 @@ export const AnudanBasket: React.FC<AnudanBasketProps> = ({ items, onRemove, onC
         ))}
       </div>
 
-      <div className="border-t border-gray-200 pt-4">
+      <div className="border-t border-[rgb(180,160,130)] pt-4">
         <div className="flex justify-between items-center mb-4">
-          <span className="font-semibold text-gray-900">Total</span>
+          <span className="font-semibold text-primary">Total</span>
           <span className="text-2xl font-bold text-primary font-fraunces">
             ₹{totalAmount.toLocaleString('en-IN')}
           </span>

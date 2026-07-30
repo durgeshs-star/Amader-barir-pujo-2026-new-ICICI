@@ -86,7 +86,8 @@ export const ContactUs: React.FC = () => {
   };
 
   return (
-    <LazyMotion features={domAnimation} strict>
+    <div className="relative">
+      <LazyMotion features={domAnimation} strict>
       <SEO
         title="Contact Us"
         description="Get in touch with the Amader Barir Pujo organizing committee. Call, email, or visit us in Wakad, Pune during the Durga Puja celebrations."
@@ -102,7 +103,7 @@ export const ContactUs: React.FC = () => {
       />
 
       {/* Why Contact Us Section */}
-      <section className="py-16 md:py-24 bg-white">
+      <section className="content-layer py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-6">
           <m.div
             initial={{ opacity: 0, y: 20 }}
@@ -144,7 +145,7 @@ export const ContactUs: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="bg-light-bg/30 rounded-xl p-8 text-center hover:shadow-lg transition-shadow border border-gray-100"
+className="bg-light-bg rounded-xl p-8 text-center hover:shadow-lg transition-shadow border border-gray-100"
               >
                 <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto text-primary mb-6">
                   {item.icon}
@@ -162,7 +163,7 @@ export const ContactUs: React.FC = () => {
       </section>
 
       {/* Contact Section */}
-      <section className="py-16 md:py-24 bg-light-bg/50">
+      <section className="content-layer py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-6">
           <m.div
             initial={{ opacity: 0, y: 20 }}
@@ -189,7 +190,7 @@ export const ContactUs: React.FC = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
             >
-              <div className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm space-y-6">
+              <div className="bg-light-bg rounded-xl p-6 border border-gray-100 shadow-sm space-y-6">
                 <h2 className="text-2xl font-bold font-fraunces text-primary">Get In Touch</h2>
 
                 <ul className="space-y-4 text-sm list-none p-0 m-0">
@@ -246,7 +247,7 @@ export const ContactUs: React.FC = () => {
 
             {/* Right Column: Message Form */}
             <m.div
-              className="bg-white rounded-xl p-6 md:p-8 border border-gray-100 shadow-sm self-start"
+              className="rounded-xl p-6 md:p-8 border border-gray-100 shadow-sm self-start"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.5, ease: "easeOut" }}
@@ -281,7 +282,7 @@ export const ContactUs: React.FC = () => {
                         setFormData({ ...formData, name: e.target.value });
                         if (errors.name) setErrors({ ...errors, name: '' });
                       }}
-                      className={`px-4 py-3 border text-sm rounded-lg focus:outline-none focus:ring-2 transition-all bg-gray-50/50 ${errors.name
+className={`px-4 py-3 border text-sm rounded-lg focus:outline-none focus:ring-2 transition-all bg-[rgb(248,233,206)] ${errors.name
                         ? 'border-red-500 focus:ring-red-500/40 focus:border-red-500'
                         : 'border-gray-200 focus:ring-primary/40 focus:border-primary'
                         }`}
@@ -300,7 +301,7 @@ export const ContactUs: React.FC = () => {
                         setFormData({ ...formData, email: e.target.value });
                         if (errors.email) setErrors({ ...errors, email: '' });
                       }}
-                      className={`px-4 py-3 border text-sm rounded-lg focus:outline-none focus:ring-2 transition-all bg-gray-50/50 ${errors.email
+                      className={`px-4 py-3 border text-sm rounded-lg focus:outline-none focus:ring-2 transition-all bg-[rgb(248,233,206)] ${errors.email
                         ? 'border-red-500 focus:ring-red-500/40 focus:border-red-500'
                         : 'border-gray-200 focus:ring-primary/40 focus:border-primary'
                         }`}
@@ -319,7 +320,7 @@ export const ContactUs: React.FC = () => {
                         setFormData({ ...formData, subject: e.target.value });
                         if (errors.subject) setErrors({ ...errors, subject: '' });
                       }}
-                      className={`px-4 py-3 border text-sm rounded-lg focus:outline-none focus:ring-2 transition-all bg-gray-50/50 ${errors.subject
+                      className={`px-4 py-3 border text-sm rounded-lg focus:outline-none focus:ring-2 transition-all bg-[rgb(248,233,206)] ${errors.subject
                         ? 'border-red-500 focus:ring-red-500/40 focus:border-red-500'
                         : 'border-gray-200 focus:ring-primary/40 focus:border-primary'
                         }`}
@@ -338,7 +339,7 @@ export const ContactUs: React.FC = () => {
                         setFormData({ ...formData, message: e.target.value });
                         if (errors.message) setErrors({ ...errors, message: '' });
                       }}
-                      className={`px-4 py-3 border text-sm rounded-lg focus:outline-none focus:ring-2 transition-all bg-gray-50/50 resize-y ${errors.message
+                      className={`px-4 py-3 border text-sm rounded-lg focus:outline-none focus:ring-2 transition-all bg-[rgb(248,233,206)] resize-y ${errors.message
                         ? 'border-red-500 focus:ring-red-500/40 focus:border-red-500'
                         : 'border-gray-200 focus:ring-primary/40 focus:border-primary'
                         }`}
@@ -365,6 +366,7 @@ export const ContactUs: React.FC = () => {
         </div>
       </section>
     </LazyMotion>
+    </div>
   );
 };
 

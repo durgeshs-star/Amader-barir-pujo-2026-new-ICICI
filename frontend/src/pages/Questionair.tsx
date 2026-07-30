@@ -79,7 +79,7 @@ const Questionair: React.FC = () => {
   };
 
   return (
-    <div className="h-full bg-light-bg/40">
+    <div className="relative h-full">
       <section className="w-full">
         <picture>
           <source media="(max-width: 767px)" srcSet="/assets/img/Mobile-Questionaire-Banner.svg" />
@@ -91,7 +91,7 @@ const Questionair: React.FC = () => {
         </picture>
       </section>
 
-      <section className="mx-auto flex min-h-[calc(100vh-4rem)] w-full max-w-6xl flex-col justify-center px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
+      <section className="content-layer mx-auto flex min-h-[calc(100vh-4rem)] w-full max-w-6xl flex-col justify-center px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
         <div className="mb-8 text-center sm:mb-10">
           <h1 className="text-3xl font-semibold leading-tight text-primary sm:text-4xl lg:text-5xl">
             Come as a devotee. <span className="block sm:inline">Stay as family.</span>

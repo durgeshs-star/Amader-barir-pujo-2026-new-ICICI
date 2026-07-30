@@ -8,8 +8,7 @@ const TestimonialsSection = React.lazy(() => import('../components/Sections/Test
 
 const SectionSkeleton: React.FC = () => (
   <div 
-    className="bg-white" 
-    style={{ minHeight: '400px' }}
+    style={{ minHeight: '400px', backgroundColor: 'rgb(248 233 206)' }}
     aria-hidden="true"
     role="status"
     aria-label="Loading section…"
@@ -27,10 +26,14 @@ export const Home: React.FC = React.memo(() => {
       />
       <Hero />
       <Suspense fallback={<SectionSkeleton />}>
-        <SpiritSection />
+        <div className="content-layer">
+          <SpiritSection />
+        </div>
       </Suspense>
       <Suspense fallback={<SectionSkeleton />}>
-        <TestimonialsSection />
+        <div className="content-layer">
+          <TestimonialsSection />
+        </div>
       </Suspense>
     </div>
   );

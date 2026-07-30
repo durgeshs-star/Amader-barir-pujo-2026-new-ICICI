@@ -52,13 +52,13 @@ export const Gallery: React.FC = React.memo(() => {
     : galleryImages.filter(img => img.category === categoryFilter);
 
   return (
-    <div className="pt-10 md:pt-14 pb-20 bg-light-bg/30 min-h-screen">
+    <div className="relative pt-10 md:pt-14 pb-20 min-h-screen">
       <SEO title="Gallery | Amader Barir Pujo" description="Browse photos from Amader Barir Pujo celebrations in Wakad, Pune — Durga Puja rituals, Bhog distribution, cultural programs, and community moments captured during our vibrant Bengali festival." keywords="Durga Puja gallery Pune, Amader Barir Pujo photos, Bengali festival photos Wakad, Puja celebration images, Bhog photos Pune" canonical="https://www.abp.proplusdatafoundation.com/gallery" />
       <div className="max-w-6xl mx-auto px-6">
 
         {/* Title - CSS animation instead of framer-motion */}
         <div className="text-center mb-10 animate-fade-in-down">
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-950 font-fraunces mb-3">
+          <h1 className="text-4xl md:text-6xl font-bold text-primary font-fraunces mb-3">
             Pujo Gallery
           </h1>
           <p className="text-sm text-muted font-medium text-center">
@@ -81,7 +81,7 @@ export const Gallery: React.FC = React.memo(() => {
               onClick={() => handleCategoryChange(key)}
               className={`px-4 py-2 rounded-md text-xs md:text-sm font-semibold transition-all duration-200 cursor-pointer hover:scale-105 active:scale-95 ${categoryFilter === key
                 ? 'bg-primary text-text-on-primary shadow'
-                : 'bg-white text-secondary hover:bg-light-bg hover:text-primary border border-border'
+                : 'bg-light-bg text-secondary hover:bg-light-bg hover:text-primary border border-border'
                 }`}
             >
               {label}

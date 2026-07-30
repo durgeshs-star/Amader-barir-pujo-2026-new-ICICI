@@ -90,14 +90,15 @@ export const AnudanCheckout: React.FC = () => {
   const totalAmount = basket.reduce((sum, item) => sum + item.amount, 0);
 
   return (
-    <LazyMotion features={domAnimation} strict>
+    <div className="relative">
+      <LazyMotion features={domAnimation} strict>
       <SEO
         title="Anudan Checkout | Amader Barir Pujo"
         description="Complete your Anudan contribution checkout for Amader Barir Pujo 2026."
         canonical="https://www.abp.proplusdatafoundation.com/anudan/checkout"
       />
 
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-100 py-8 px-4">
+      <div className="min-h-screen py-8 px-4">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="text-center mb-8">
@@ -112,7 +113,7 @@ export const AnudanCheckout: React.FC = () => {
             <m.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="bg-white rounded-2xl p-6 shadow-lg"
+              className="rounded-2xl p-6 shadow-lg"
             >
               <h2 className="text-xl font-bold text-primary font-fraunces mb-4 flex items-center gap-2">
                 🛒 Your Anudan Basket
@@ -134,7 +135,7 @@ export const AnudanCheckout: React.FC = () => {
                         className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
                       >
                         <div className="flex-1">
-                          <p className="font-semibold text-gray-900 text-sm">{item.card.day}</p>
+                          <p className="font-semibold text-primary text-sm">{item.card.day}</p>
                           {item.card.items && item.card.items.length > 0 && (
                             <p className="text-xs text-gray-500">
                               {item.card.items.map(i => i.name).join(', ')}
@@ -159,7 +160,7 @@ export const AnudanCheckout: React.FC = () => {
 
                   <div className="border-t border-gray-200 pt-4">
                     <div className="flex justify-between items-center mb-4">
-                      <span className="font-semibold text-gray-900">Total</span>
+                      <span className="font-semibold text-primary">Total</span>
                       <span className="text-2xl font-bold text-primary font-fraunces">
                         ₹{totalAmount.toLocaleString('en-IN')}
                       </span>
@@ -180,7 +181,7 @@ export const AnudanCheckout: React.FC = () => {
             <m.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="bg-white rounded-2xl p-6 shadow-lg"
+              className="rounded-2xl p-6 shadow-lg"
             >
               <h2 className="text-xl font-bold text-primary font-fraunces mb-4">
                 ddgg
@@ -213,6 +214,7 @@ export const AnudanCheckout: React.FC = () => {
         </div>
       </div>
     </LazyMotion>
+    </div>
   );
 };
 

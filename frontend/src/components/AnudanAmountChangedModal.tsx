@@ -35,7 +35,7 @@ export const AnudanAmountChangedModal: React.FC<AnudanAmountChangedModalProps> =
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl"
+            className="rounded-2xl max-w-md w-full p-6 shadow-2xl"
           >
             {/* Header */}
             <div className="text-center mb-6">
@@ -54,7 +54,7 @@ export const AnudanAmountChangedModal: React.FC<AnudanAmountChangedModalProps> =
                   />
                 </svg>
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2 font-fraunces">
+              <h3 className="text-2xl font-bold text-primary mb-2 font-fraunces">
                 🙏 Anudan Amount Has Changed
               </h3>
               <p className="text-gray-600 text-sm leading-relaxed">

@@ -167,7 +167,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
   return (
     <>
       <section
-        className="mt-9 p-7 border border-primary/14 rounded-lg bg-gradient-to-br from-white to-orange-50/50 shadow-lg lg:mt-9 lg:p-7"
+        className="mt-9 p-7 border border-primary/14 rounded-lg bg-rgb(248, 233, 206) shadow-lg lg:mt-9 lg:p-7"
         aria-labelledby={`${title.replace(/\s+/g, '-').toLowerCase()}Title`}
       >
         {/* Mobile Header - Compact */}
@@ -210,7 +210,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
         </div>
         {/* Mobile Booking Summary */}
         {bookingSummary.length > 0 && (
-          <div className="block lg:hidden mb-6 p-4 bg-white border-2 border-primary/20 rounded-xl">
+          <div className="block lg:hidden mb-6 p-4 border-2 border-primary/20 rounded-xl">
             <h3 className="text-xl font-bold text-primary mb-3">Booking Summary</h3>
             <div className="space-y-2">
               {bookingSummary.map((item, index) => (
@@ -219,7 +219,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
                   <span className="font-semibold">₹{item.total}</span>
                 </div>
               ))}
-              <div className="pt-2 border-t border-gray-200">
+              <div className="pt-2 border-t border-[rgb(180,160,130)]">
                 <div className="flex justify-between text-xl font-bold text-primary">
                   <span>Total</span>
                   <span>₹{totalAmount.toFixed(2)}</span>
@@ -268,7 +268,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
                 type="checkbox"
                 checked={isConfirmed}
                 onChange={(e) => setIsConfirmed(e.target.checked)}
-                className="mt-0.5 w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary flex-shrink-0"
+                className="mt-0.5 w-4 h-4 text-primary border-[rgb(180,160,130)] rounded focus:ring-primary flex-shrink-0"
               />
               {/* Mobile: Shorter text */}
               <span className="text-sm text-gray-700 leading-relaxed block lg:hidden">
@@ -338,7 +338,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
         <div className="hidden lg:block mt-5.5 pt-5.5 border-t border-primary/14">
           <div className="flex items-center justify-between gap-4.5">
             <div>
-              <p className="text-base font-bold text-gray-900 mb-0">
+              <p className="text-base font-bold text-primary mb-0">
                 Total:{' '}
                 <span className="text-2xl text-primary font-fraunces">₹{totalAmount.toFixed(2)}</span>
               </p>

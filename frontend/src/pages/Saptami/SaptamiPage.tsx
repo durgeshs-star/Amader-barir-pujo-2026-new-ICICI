@@ -10,7 +10,7 @@ import { saptamiIntroParagraph } from "../../assets/data/scheduleShared";
 
 const SaptamiPage: React.FC = () => {
   return (
-    <>
+    <div className="relative">
       <SEO
         title="Saptami Pujo Schedule"
         description="Saptami Pujo Schedule — Learn about our Saptami Pujo offerings, procedures, and their spiritual significance at Amader Barir Pujo."
@@ -22,7 +22,7 @@ const SaptamiPage: React.FC = () => {
       <PageHero
         title="Saptami"
         subtitle="Durga Pujo 2026 · Day Three"
-        height="h-[45vh] md:h-[70vh]"
+        height="h-[35vh] md:h-[60vh]"
       />
 
       <ScheduleIntro paragraph={saptamiIntroParagraph} />
@@ -56,7 +56,7 @@ const SaptamiPage: React.FC = () => {
       />
 
       <FleaMarketSection />
-    </>
+    </div>
   );
 };
 

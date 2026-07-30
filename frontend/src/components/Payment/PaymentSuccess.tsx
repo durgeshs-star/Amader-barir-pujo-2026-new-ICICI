@@ -137,7 +137,7 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
     );
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 px-4 py-8">
+      <div className="min-h-screen px-4 py-8">
         <div className="max-w-4xl mx-auto">
           {/* Success Header */}
           <div className="text-center mb-8">
@@ -209,8 +209,8 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
 
   // Regular payment success
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-emerald-100 px-4">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-2xl p-8 text-center">
+    <div className="min-h-screen flex items-center justify-center px-4">
+      <div className="max-w-md w-full rounded-2xl shadow-2xl p-8 text-center">
         {/* Success Icon */}
         <div className="mx-auto mb-6 flex items-center justify-center w-20 h-20 bg-green-100 rounded-full">
           <svg className="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
