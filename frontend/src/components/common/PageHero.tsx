@@ -47,7 +47,7 @@ export const PageHero: React.FC<PageHeroProps> = React.memo(({
 
       <section className="relative z-10 pt-8 md:pt-4">
         <div className="text-center px-6 animate-fade-in-up">
-          <h1 className="font-fraunces text-4xl md:text-6xl text-text font-bold">
+          <h1 className="font-fraunces text-4xl md:text-6xl text-primary font-bold">
             {title}
           </h1>
 
