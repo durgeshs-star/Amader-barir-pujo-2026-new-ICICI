@@ -6,7 +6,6 @@ import 'react-toastify/dist/ReactToastify.css';
 // Layout & UI Global features — always eager (above the fold)
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
-import BackgroundPattern from './components/BackgroundPattern/BackgroundPattern';
 // import WhatsAppBtn from './components/Sections/WhatsAppBtn';
 import BackToTop from './components/Sections/BackToTop';
 // import Preloader from './components/ui/Preloader';
@@ -45,7 +44,7 @@ const Questionair = lazy(() => import('./pages/Questionair'));
 
 const PageSkeleton: React.FC = () => (
   <div
-    style={{ minHeight: '60vh', backgroundColor: 'oklch(96.9% 0.015 12.422)' }}
+    style={{ minHeight: '60vh', backgroundColor: 'rgb(248 233 206)' }}
     aria-hidden="true"
     role="status"
     aria-label="Loading page…"
@@ -67,8 +66,7 @@ const AppShell: React.FC = () => {
   }
 
   return (
-    <div className="flex min-h-screen flex-col relative bg-pattern-wrapper" style={{ backgroundColor: 'oklch(96.9% 0.015 12.422)' }}>
-      <BackgroundPattern />
+    <div className="flex min-h-screen flex-col relative bg-pattern-wrapper" style={{ backgroundColor: 'rgb(248 233 206)' }}>
       {!isWelcomeToAbpWaFamilyRoute ? <Header /> : null}
 
       <main className="grow relative z-10 content-layer">

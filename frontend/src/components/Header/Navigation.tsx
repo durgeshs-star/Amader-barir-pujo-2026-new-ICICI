@@ -87,7 +87,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ label, items }) => {
           onMouseLeave={scheduleClose}
         >
           <ul
-            className="rounded-xl shadow-2xl overflow-hidden border border-gray-100 list-none p-0 m-0 py-1 animate-fade-in"
+            className="rounded-xl shadow-2xl overflow-hidden border border-[rgb(180,160,130)] list-none p-0 m-0 py-1 animate-fade-in"
             style={{ color: '#1f2937' }}
           >
             {items.map((item) => (

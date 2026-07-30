@@ -17,7 +17,7 @@ interface FormData {
 type FormErrors = Partial<Record<keyof FormData, string>>;
 
 const inputCls = (hasError: boolean) =>
-  `w-full pl-11 pr-4 py-3 border text-sm rounded-lg focus:outline-none focus:ring-2 transition-all ${
+  `w-full pl-11 pr-4 py-3 border text-sm rounded-lg focus:outline-none focus:ring-2 transition-all bg-[rgb(248,233,206)] ${
     hasError
       ? "border-red-400 focus:ring-red-400/40 focus:border-red-500"
       : "border-gray-200 focus:ring-primary/40 focus:border-primary"
@@ -97,7 +97,8 @@ const VolunteerContent: React.FC = React.memo(() => {
     };
 
   return (
-    <>
+    <div className="relative">
+      <LazyMotion features={domAnimation} strict>
       <SEO
         title="Volunteer | Amader Barir Pujo"
         description="Join Amader Barir Pujo as a volunteer to serve the community during Durga Puja 2026 in Wakad, Pune. Offer your seva, build community connections, and make a difference in our vibrant Bengali celebration."
@@ -107,8 +108,8 @@ const VolunteerContent: React.FC = React.memo(() => {
       />
 
       <PageHero
-        title="Be a Bari Sadasya"
-        height="h-[40vh] md:h-[60vh]"
+        title="Be a Bari Member"
+        height="h-[35vh] md:h-[60vh]"
       />
 
       {/* Why Volunteer Section */}
@@ -393,7 +394,7 @@ className="bg-light-bg rounded-xl p-8 text-center hover:shadow-lg transition-sha
                     value={formData.message}
                     onChange={change("message")}
                     placeholder="Enter Message"
-                    className="w-full px-4 py-3 border border-gray-200 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all resize-y"
+                    className="w-full px-4 py-3 border border-gray-200 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all resize-y bg-[rgb(248,233,206)]"
                   />
                 </div>
 
@@ -415,7 +416,8 @@ className="bg-light-bg rounded-xl p-8 text-center hover:shadow-lg transition-sha
           </div>
         </div>
       </section>
-    </>
+    </LazyMotion>
+    </div>
   );
 });
 

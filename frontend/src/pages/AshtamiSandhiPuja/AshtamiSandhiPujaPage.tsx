@@ -10,7 +10,7 @@ import { ashtamiSandhiPujaIntroParagraph } from "../../assets/data/scheduleShare
 
 const AshtamiSandhiPujaPage: React.FC = () => {
   return (
-    <>
+    <div className="relative">
       <SEO
         title="Ashtami Sandhi Puja Schedule"
         description="Ashtami Sandhi Puja Schedule — Experience the sacred transition between Ashtami and Navami at Amader Barir Pujo 2026."
@@ -22,7 +22,7 @@ const AshtamiSandhiPujaPage: React.FC = () => {
       <PageHero
         title="Ashtami Sandhi Puja"
         subtitle="Durga Pujo 2026 · Sacred Transition"
-        height="h-[45vh] md:h-[70vh]"
+        height="h-[35vh] md:h-[60vh]"
       />
 
       <ScheduleIntro paragraph={ashtamiSandhiPujaIntroParagraph} />
@@ -59,7 +59,7 @@ const AshtamiSandhiPujaPage: React.FC = () => {
       />
 
       <FleaMarketSection />
-    </>
+    </div>
   );
 };
 

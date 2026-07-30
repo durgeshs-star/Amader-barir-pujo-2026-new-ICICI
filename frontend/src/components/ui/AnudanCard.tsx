@@ -44,10 +44,10 @@ export const AnudanCard: React.FC<AnudanCardProps> = ({ card, remainingAmount = 
   return (
     <div className={`border rounded-2xl p-6 md:p-8 transition-all duration-300 shadow-sm relative overflow-hidden group ${
       isLoading
-        ? 'border-gray-200'
+        ? 'border-[rgb(180,160,130)]'
         : isFullySponsored
         ? 'border-green-200 opacity-75 cursor-not-allowed'
-        : 'border-gray-100 hover:shadow-xl'
+        : 'border-[rgb(180,160,130)] hover:shadow-xl'
     }`}>
       {/* Accent border effect */}
       <div className={`absolute top-0 left-0 w-1 h-full transition-all duration-300 ${
@@ -61,7 +61,7 @@ export const AnudanCard: React.FC<AnudanCardProps> = ({ card, remainingAmount = 
       {/* Loading state */}
       {isLoading ? (
         <div className="flex items-center justify-center py-8">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-300"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[rgb(180,160,130)]"></div>
           <span className="ml-3 text-gray-500 text-sm">Loading amount...</span>
         </div>
       ) : (
@@ -92,7 +92,7 @@ export const AnudanCard: React.FC<AnudanCardProps> = ({ card, remainingAmount = 
                 className={`inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium border ${
                   isFullySponsored
                     ? 'bg-gray-50 text-gray-400 border-gray-100'
-                    : 'bg-light-bg text-secondary border-gray-100'
+                    : 'bg-light-bg text-secondary border-[rgb(180,160,130)]'
                 }`}
               >
                 <span className={`w-1.5 h-1.5 rounded-full mr-2 ${isFullySponsored ? 'bg-gray-300' : 'bg-accent'}`}></span>
@@ -121,7 +121,7 @@ export const AnudanCard: React.FC<AnudanCardProps> = ({ card, remainingAmount = 
         </div>
 
         {/* Right: Amount & Button */}
-        <div className="shrink-0 flex flex-col items-start md:items-end md:pl-8 md:border-l border-gray-100 mt-2 md:mt-0 pt-4 md:pt-0 border-t md:border-t-0 w-full md:w-auto">
+        <div className="shrink-0 flex flex-col items-start md:items-end md:pl-8 md:border-l border-[rgb(180,160,130)] mt-2 md:mt-0 pt-4 md:pt-0 border-t md:border-t-0 w-full md:w-auto">
           {isFullySponsored ? (
             <>
               <span className="text-xs text-green-600 uppercase tracking-wider font-semibold mb-1">
@@ -171,8 +171,8 @@ export const AnudanCard: React.FC<AnudanCardProps> = ({ card, remainingAmount = 
                       setInputAmount(val);
                     }}
                     disabled={isFullySponsored}
-                    className={`w-full pl-8 pr-4 py-2 border rounded-lg text-sm mb-2 ${
-                      error ? 'border-red-500' : 'border-gray-300'
+                    className={`w-full pl-8 pr-4 py-2 border rounded-lg text-sm mb-2 bg-[rgb(248,233,206)] ${
+                      error ? 'border-red-500' : 'border-[rgb(180,160,130)]'
                     } ${isFullySponsored ? 'bg-gray-100 cursor-not-allowed' : ''}`}
                   />
                 </div>

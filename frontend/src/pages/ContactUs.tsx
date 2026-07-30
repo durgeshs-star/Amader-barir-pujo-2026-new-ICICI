@@ -86,7 +86,8 @@ export const ContactUs: React.FC = () => {
   };
 
   return (
-    <LazyMotion features={domAnimation} strict>
+    <div className="relative">
+      <LazyMotion features={domAnimation} strict>
       <SEO
         title="Contact Us"
         description="Get in touch with the Amader Barir Pujo organizing committee. Call, email, or visit us in Wakad, Pune during the Durga Puja celebrations."
@@ -281,7 +282,7 @@ className="bg-light-bg rounded-xl p-8 text-center hover:shadow-lg transition-sha
                         setFormData({ ...formData, name: e.target.value });
                         if (errors.name) setErrors({ ...errors, name: '' });
                       }}
-className={`px-4 py-3 border text-sm rounded-lg focus:outline-none focus:ring-2 transition-all bg-gray-50 ${errors.name
+className={`px-4 py-3 border text-sm rounded-lg focus:outline-none focus:ring-2 transition-all bg-[rgb(248,233,206)] ${errors.name
                         ? 'border-red-500 focus:ring-red-500/40 focus:border-red-500'
                         : 'border-gray-200 focus:ring-primary/40 focus:border-primary'
                         }`}
@@ -300,7 +301,7 @@ className={`px-4 py-3 border text-sm rounded-lg focus:outline-none focus:ring-2 
                         setFormData({ ...formData, email: e.target.value });
                         if (errors.email) setErrors({ ...errors, email: '' });
                       }}
-                      className={`px-4 py-3 border text-sm rounded-lg focus:outline-none focus:ring-2 transition-all bg-gray-50/50 ${errors.email
+                      className={`px-4 py-3 border text-sm rounded-lg focus:outline-none focus:ring-2 transition-all bg-[rgb(248,233,206)] ${errors.email
                         ? 'border-red-500 focus:ring-red-500/40 focus:border-red-500'
                         : 'border-gray-200 focus:ring-primary/40 focus:border-primary'
                         }`}
@@ -319,7 +320,7 @@ className={`px-4 py-3 border text-sm rounded-lg focus:outline-none focus:ring-2 
                         setFormData({ ...formData, subject: e.target.value });
                         if (errors.subject) setErrors({ ...errors, subject: '' });
                       }}
-                      className={`px-4 py-3 border text-sm rounded-lg focus:outline-none focus:ring-2 transition-all bg-gray-50/50 ${errors.subject
+                      className={`px-4 py-3 border text-sm rounded-lg focus:outline-none focus:ring-2 transition-all bg-[rgb(248,233,206)] ${errors.subject
                         ? 'border-red-500 focus:ring-red-500/40 focus:border-red-500'
                         : 'border-gray-200 focus:ring-primary/40 focus:border-primary'
                         }`}
@@ -338,7 +339,7 @@ className={`px-4 py-3 border text-sm rounded-lg focus:outline-none focus:ring-2 
                         setFormData({ ...formData, message: e.target.value });
                         if (errors.message) setErrors({ ...errors, message: '' });
                       }}
-                      className={`px-4 py-3 border text-sm rounded-lg focus:outline-none focus:ring-2 transition-all bg-gray-50/50 resize-y ${errors.message
+                      className={`px-4 py-3 border text-sm rounded-lg focus:outline-none focus:ring-2 transition-all bg-[rgb(248,233,206)] resize-y ${errors.message
                         ? 'border-red-500 focus:ring-red-500/40 focus:border-red-500'
                         : 'border-gray-200 focus:ring-primary/40 focus:border-primary'
                         }`}
@@ -365,6 +366,7 @@ className={`px-4 py-3 border text-sm rounded-lg focus:outline-none focus:ring-2 
         </div>
       </section>
     </LazyMotion>
+    </div>
   );
 };
 

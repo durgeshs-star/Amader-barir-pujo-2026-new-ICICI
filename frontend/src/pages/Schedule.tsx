@@ -91,7 +91,7 @@ export const Schedule: React.FC = () => {
   const activeDay = scheduleData[activeDayKey];
 
   return (
-    <div className="pt-10 md:pt-14 pb-20 min-h-screen">
+    <div className="relative pt-10 md:pt-14 pb-20 min-h-screen">
       <SEO
         title={activeDay ? `${activeDay.title} Schedule` : 'Pujo Schedule'}
         description="View the complete Durga Puja 2026 schedule for Amader Barir Pujo — day-wise rituals, timings, and programs for Panchami through Dashami."

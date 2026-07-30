@@ -58,7 +58,7 @@ export const Footer: React.FC = () => {
               </li>
               <li>
                 <Link to="/volunteer" className="hover:text-accent transition-colors block py-1 text-text-on-primary">
-                  Be a Bari Sadasya
+                  Be a Bari Member
                 </Link>
               </li>
               <li>
@@ -141,24 +141,17 @@ export const Footer: React.FC = () => {
           </div>
 
           {/* Logo brand */}
-          <div className="select-none flex flex-col items-center gap-1" style={{ minHeight: '48px' }}>
-            <div className="flex items-center gap-2.5" style={{ minHeight: '32px' }}>
-              <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center shrink-0">
-                <img
-                  src="/assets/img/ABP-Logo.png"
-                  alt="Amader Barir Pujo"
-                  className="h-10 w-10 object-contain"
-                  width={40}
-                  height={40}
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <span className="text-lg font-bold font-fraunces text-white tracking-wide whitespace-nowrap">Amader Barir Pujo</span>
-              <span className="text-[10px] bg-accent/20 text-accent font-semibold px-2 py-0.5 rounded shrink-0">2026</span>
-            </div>
-            <span className="text-[10px] text-text-inverse-muted font-medium whitespace-nowrap">An Initiative by <a href="https://proplusdatafoundation.com/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors duration-200">ProPlus Data Foundation</a></span>
-          </div>
+          <div className="select-none flex justify-center items-center">
+  <img
+    src="/assets/img/ABP-LOGO-WHITE.png"
+    alt="Amader Barir Pujo"
+    className="h-16 w-auto object-contain"
+    width={64}
+    height={64}
+    loading="lazy"
+    decoding="async"
+  />
+</div>
 
           {/* Socials */}
           <ul className="flex items-center gap-4 list-none p-0 m-0 select-none" style={{ minHeight: '32px' }}>

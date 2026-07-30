@@ -24,7 +24,7 @@ export const LegalContent: React.FC<LegalContentProps> = ({
       <h1 className="font-fraunces text-3xl md:text-4xl font-bold text-primary mb-4">
         {title}
       </h1>
-      <p className="text-sm text-text-secondary mb-8 pb-6 border-b border-gray-200">
+      <p className="text-sm text-text-secondary mb-8 pb-6 border-b border-[rgb(180,160,130)]">
         <span className="font-semibold">Effective Date:</span> {effectiveDate}
       </p>
 

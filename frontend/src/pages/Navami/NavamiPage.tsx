@@ -10,7 +10,7 @@ import { navamiIntroParagraph } from "../../assets/data/scheduleShared";
 
 const NavamiPage: React.FC = () => {
   return (
-    <>
+    <div className="relative">
       <SEO
         title="Navami Pujo Schedule"
         description="Navami Pujo Schedule — Learn about our Navami Pujo offerings, procedures, and their spiritual significance at Amader Barir Pujo."
@@ -22,7 +22,7 @@ const NavamiPage: React.FC = () => {
       <PageHero
         title="Navami"
         subtitle="Durga Pujo 2026 · Day Five"
-        height="h-[45vh] md:h-[70vh]"
+        height="h-[35vh] md:h-[60vh]"
       />
 
       <ScheduleIntro paragraph={navamiIntroParagraph} />
@@ -58,7 +58,7 @@ const NavamiPage: React.FC = () => {
       />
 
       <FleaMarketSection />
-    </>
+    </div>
   );
 };
 

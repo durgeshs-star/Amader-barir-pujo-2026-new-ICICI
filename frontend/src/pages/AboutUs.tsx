@@ -5,7 +5,7 @@ import AboutSection from "../components/About/AboutSection";
 
 const About = React.memo(() => {
   return (
-    <>
+    <div className="relative">
       <SEO
         title="About Us | Amader Barir Pujo"
         description="Learn about our journey, vision, mission and the spirit of Amader Barir Pujo - a vibrant Bengali community celebration in Pune organized by Pro Plus Data Foundation."
@@ -17,9 +17,10 @@ const About = React.memo(() => {
       <PageHero
         title="About Us"
         subtitle="Keeping traditions alive while celebrating faith, culture and togetherness."
+        height="h-[35vh] md:h-[60vh]"
       />
       <AboutSection />
-    </>
+    </div>
   );
 });
 

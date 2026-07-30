@@ -6,7 +6,7 @@ import PujaBookingCard from "../../components/ui/PujaBookingCard";
 const SaraswatiPujaBhogPage: React.FC = () => {
 
   return (
-    <>
+    <div className="relative">
       <SEO
         title="Saraswati Puja Bhog Schedule"
         description="Saraswati Puja Bhog Schedule — Learn about our Saraswati Puja Bhog offerings, procedures, and their spiritual significance at Amader Barir Pujo."
@@ -18,7 +18,7 @@ const SaraswatiPujaBhogPage: React.FC = () => {
       <PageHero
         title="Saraswati Puja Bhog"
         subtitle="Saraswati Puja 2026 · Bhog Booking"
-        height="h-[45vh] md:h-[70vh]"
+        height="h-[35vh] md:h-[60vh]"
       />
 
       <section className="content-layer py-14 md:py-20">
@@ -46,7 +46,7 @@ const SaraswatiPujaBhogPage: React.FC = () => {
           />
         </div>
       </section>
-    </>
+    </div>
   );
 };
 

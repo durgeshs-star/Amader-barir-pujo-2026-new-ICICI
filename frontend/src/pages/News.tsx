@@ -23,7 +23,7 @@ export const News: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="relative min-h-screen">
       <SEO
         description="Latest news and media coverage about Amader Barir Pujo, Pune. Stay updated with our community celebrations and events."
         keywords="Amader Barir Pujo news, Durga Puja Pune news, Bengali community news, media coverage"

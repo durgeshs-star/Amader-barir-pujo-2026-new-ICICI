@@ -108,7 +108,7 @@ export const TestimonialsSection: React.FC = () => {
 
         {/* Testimonials Slider Window */}
         <div
-className="relative overflow-hidden bg-light-bg border border-gray-100 rounded-2xl p-6 md:p-12 shadow-inner"
+className="relative overflow-hidden bg-light-bg border border-[rgb(180,160,130)] rounded-2xl p-6 md:p-12 shadow-inner"
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
           style={{ contentVisibility: 'auto', containIntrinsicSize: '0 400px' }}

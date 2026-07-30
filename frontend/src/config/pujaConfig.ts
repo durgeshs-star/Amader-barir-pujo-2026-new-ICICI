@@ -47,10 +47,24 @@ export const PUJA_BOOKING_CUTOFFS: Record<string, PujaBookingCutoff> = {
  */
 export const BHOG_BOOKING_CATEGORIES = [
   {
+    id: "bhog-booking",
+    title: "Pandal Bhog",
+    description: "per person",
+    price: 315,
+    max: 5,
+  },
+  {
+    id: "bhog-booking-senior",
+    title: "Senior Citizen (age above 60)",
+    description: "per person",
+    price: 100,
+    max: 10,
+  },
+  {
     id: "packed-bhog",
     title: "Packed Bhog",
     description: "per person",
-    price: 315,
+    price: 335,
     max: 10,
   },
   {
@@ -59,19 +73,5 @@ export const BHOG_BOOKING_CATEGORIES = [
     description: "",
     price: 0,
     max: 2,
-  },
-  {
-    id: "bhog-booking",
-    title: "Bhog Booking",
-    description: "per person",
-    price: 315,
-    max: 5,
-  },
-  {
-    id: "bhog-booking-senior",
-    title: "Bhog Booking",
-    description: "per person",
-    price: 100,
-    max: 10,
   },
 ];

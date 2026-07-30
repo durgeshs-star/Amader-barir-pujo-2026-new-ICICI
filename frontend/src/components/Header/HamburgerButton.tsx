@@ -14,23 +14,23 @@ export const HamburgerButton: React.FC<HamburgerButtonProps> = ({
   return (
     <button
       onClick={onClick}
-      className="flex flex-col justify-center items-center gap-[5px] w-11 h-11 bg-primary hover:bg-primary-dark border-0 rounded-md cursor-pointer p-2 z-[1001] shrink-0 transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+      className="flex flex-col justify-center items-center gap-[5px] w-11 h-11 bg-primary hover:bg-primary-dark border-0 rounded-md cursor-pointer p-2 z-[1003] shrink-0 transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 pointer-events-auto"
       aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
       aria-expanded={isOpen}
       aria-controls={ariaControls}
     >
       <span
-        className={`block w-5.5 h-[2px] bg-gray-500 rounded-sm transition-all duration-300 ${
+        className={`block w-5.5 h-[2px] bg-text-on-primary rounded-sm transition-all duration-300 ${
           isOpen ? 'translate-y-[7px] rotate-45' : ''
         }`}
       />
       <span
-        className={`block h-[2px] bg-gray-500 rounded-sm transition-all duration-300 ${
+        className={`block h-[2px] bg-text-on-primary rounded-sm transition-all duration-300 ${
           isOpen ? 'opacity-0 w-0' : 'w-5.5'
         }`}
       />
       <span
-        className={`block w-5.5 h-[2px] bg-gray-500 rounded-sm transition-all duration-300 ${
+        className={`block w-5.5 h-[2px] bg-text-on-primary rounded-sm transition-all duration-300 ${
           isOpen ? '-translate-y-[7px] -rotate-45' : ''
         }`}
       />

@@ -17,7 +17,7 @@ export const AnudanBasket: React.FC<AnudanBasketProps> = ({ items, onRemove, onC
 
   if (items.length === 0) {
     return (
-      <div className="border border-gray-200 rounded-xl p-6 shadow-lg sticky top-40 mt-6">
+      <div className="border border-[rgb(180,160,130)] rounded-xl p-6 shadow-lg sticky top-40 mt-6">
         <h3 className="text-xl font-bold text-primary font-fraunces mb-4 flex items-center gap-2">
           🛒 Anudan Basket
         </h3>
@@ -29,7 +29,7 @@ export const AnudanBasket: React.FC<AnudanBasketProps> = ({ items, onRemove, onC
   }
 
   return (
-    <div className="border border-gray-200 rounded-xl p-6 shadow-lg sticky top-32 mt-6">
+    <div className="border border-[rgb(180,160,130)] rounded-xl p-6 shadow-lg sticky top-32 mt-6">
       <h3 className="text-xl font-bold text-primary font-fraunces mb-4 flex items-center gap-2">
         🛒 Anudan Basket
         <span className="ml-auto bg-primary text-white text-xs font-bold px-2 py-1 rounded-full">
@@ -62,7 +62,7 @@ export const AnudanBasket: React.FC<AnudanBasketProps> = ({ items, onRemove, onC
         ))}
       </div>
 
-      <div className="border-t border-gray-200 pt-4">
+      <div className="border-t border-[rgb(180,160,130)] pt-4">
         <div className="flex justify-between items-center mb-4">
           <span className="font-semibold text-primary">Total</span>
           <span className="text-2xl font-bold text-primary font-fraunces">

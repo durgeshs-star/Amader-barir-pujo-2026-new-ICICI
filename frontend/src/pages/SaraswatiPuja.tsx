@@ -9,7 +9,7 @@ import CarouselContentSection from "../components/common/CarouselContentSection"
 const SaraswatiPuja: React.FC = () => {
 
   return (
-    <>
+    <div className="relative">
       <SEO
         title="Saraswati Puja - Celebration of Knowledge & Learning"
         description="Join us in celebrating Saraswati Puja, the festival of knowledge, wisdom, music, and arts. Experience Hathe Khori, traditional rituals, and community worship at Amader Barir Pujo."
@@ -22,7 +22,7 @@ const SaraswatiPuja: React.FC = () => {
         title="Saraswati Puja"
         subtitle="Celebration of Knowledge, Wisdom & Learning"
         backgroundImage="/assets/img/saraswati-puja16.webp"
-        height="h-[45vh] md:h-[70vh]"
+        height="h-[35vh] md:h-[60vh]"
         objectPosition="center top"
       />
 
@@ -131,7 +131,7 @@ const SaraswatiPuja: React.FC = () => {
 
       {/* Flea Market Section */}
       <FleaMarketSection />
-    </>
+    </div>
   );
 };
 

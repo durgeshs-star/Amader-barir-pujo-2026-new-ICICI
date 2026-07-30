@@ -43,17 +43,17 @@ export const TextField: React.FC<TextFieldProps> = ({
         id={id}
         name={name}
         type={type}
+        className={`w-full px-4 py-2 border border-[rgb(180,160,130)] rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-[rgb(248,233,206)] ${
+          showError
+            ? 'border-red-500 bg-red-50'
+            : 'border-[rgb(180,160,130)]'
+        }`}
         value={value}
         onChange={(event) => onChange(name, event.target.value)}
         onBlur={() => onBlur(name)}
         autoComplete={autoComplete}
         inputMode={inputMode}
         placeholder={placeholder}
-        className={`w-full rounded-xl border px-4 py-3 text-base text-text shadow-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary/20 ${
-          showError
-            ? 'border-danger bg-danger/5 focus:border-danger'
-            : 'border-border bg-surface focus:border-primary'
-        }`}
       />
       {showError ? <p className="text-sm text-danger">{error}</p> : null}
     </div>

@@ -79,7 +79,7 @@ const Questionair: React.FC = () => {
   };
 
   return (
-    <div className="h-full">
+    <div className="relative h-full">
       <section className="w-full">
         <picture>
           <source media="(max-width: 767px)" srcSet="/assets/img/Mobile-Questionaire-Banner.svg" />

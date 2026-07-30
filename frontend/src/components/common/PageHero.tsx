@@ -13,7 +13,7 @@ export interface PageHeroProps {
 
 const DEFAULT_BACKGROUND = "/assets/img/culture-2.webp";
 const DEFAULT_OVERLAY = "bg-black/30";
-const DEFAULT_HEIGHT = "h-[40vh] md:h-[80vh]";
+const DEFAULT_HEIGHT = "h-[30vh] md:h-[70vh]";
 
 export const PageHero: React.FC<PageHeroProps> = React.memo(({
   title,
@@ -26,37 +26,39 @@ export const PageHero: React.FC<PageHeroProps> = React.memo(({
   objectPosition = "center",
 }) => {
   return (
-    <section className={`relative ${height} overflow-hidden`} style={{ minHeight: '320px' }}>
-      <img
-        src={backgroundImage}
-        srcSet={srcset}
-        sizes={sizes}
-        alt={`${title} - Background image`}
-        className={`absolute inset-0 w-full h-full object-cover`}
-        style={{ objectPosition }}
-        loading="eager"
-        fetchPriority="high"
-        decoding="async"
-        width={1920}
-        height={1080}
-      />
+    <>
+      <section className={`relative ${height} overflow-hidden`} style={{ minHeight: '320px' }}>
+        <img
+          src={backgroundImage}
+          srcSet={srcset}
+          sizes={sizes}
+          alt={`${title} - Background image`}
+          className={`absolute inset-0 w-full h-full object-cover`}
+          style={{ objectPosition }}
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
+          width={1920}
+          height={1080}
+        />
 
-      <div className={`absolute inset-0 ${overlay}`} />
+        <div className={`absolute inset-0 ${overlay}`} />
+      </section>
 
-      <div className="relative z-10 h-full flex items-end justify-center pb-16 md:pb-24">
+      <section className="relative z-10 pt-8 md:pt-4">
         <div className="text-center px-6 animate-fade-in-up">
-          <h1 className="font-fraunces text-5xl md:text-7xl text-white font-bold">
+          <h1 className="font-fraunces text-4xl md:text-6xl text-text font-bold">
             {title}
           </h1>
 
           {subtitle && (
-            <p className="text-text-on-primary mt-4 max-w-xl mx-auto">
+            <p className="text-text-secondary mt-4 max-w-xl mx-auto text-center">
               {subtitle}
             </p>
           )}
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 });
 

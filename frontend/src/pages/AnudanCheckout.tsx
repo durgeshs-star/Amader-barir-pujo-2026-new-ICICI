@@ -90,7 +90,8 @@ export const AnudanCheckout: React.FC = () => {
   const totalAmount = basket.reduce((sum, item) => sum + item.amount, 0);
 
   return (
-    <LazyMotion features={domAnimation} strict>
+    <div className="relative">
+      <LazyMotion features={domAnimation} strict>
       <SEO
         title="Anudan Checkout | Amader Barir Pujo"
         description="Complete your Anudan contribution checkout for Amader Barir Pujo 2026."
@@ -213,6 +214,7 @@ export const AnudanCheckout: React.FC = () => {
         </div>
       </div>
     </LazyMotion>
+    </div>
   );
 };
 

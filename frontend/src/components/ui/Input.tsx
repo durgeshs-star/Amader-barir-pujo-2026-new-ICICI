@@ -74,11 +74,11 @@ function getVariantClass(variant: 'outlined' | 'filled', hasError: boolean): str
   if (variant === 'outlined') {
     return hasError
       ? 'border border-red-400 focus:ring-2 focus:ring-red-300/50 focus:border-red-500'
-      : 'border border-gray-200 focus:ring-2 focus:ring-primary/30 focus:border-primary';
+      : 'border border-[rgb(180,160,130)] focus:ring-2 focus:ring-primary/30 focus:border-primary';
   }
   return hasError
     ? 'bg-red-50 border border-red-300 focus:ring-2 focus:ring-red-300/50 focus:border-red-400'
-    : 'bg-gray-50/80 border border-transparent focus:ring-2 focus:ring-primary/30 focus:border-primary';
+    : 'bg-[rgb(248,233,206)] border border-transparent focus:ring-2 focus:ring-primary/30 focus:border-primary';
 }
 
 // ─── Input ────────────────────────────────────────────────────────────────────
@@ -169,6 +169,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     const cls = [
       'w-full rounded-lg px-3.5 py-2.5 text-sm transition-all duration-200 resize-y focus:outline-none',
       getVariantClass(inputVariant, !!error),
+      inputVariant === 'outlined' ? 'bg-[rgb(248,233,206)]' : '',
       disabled ? 'opacity-55 cursor-not-allowed' : '',
       className,
     ].filter(Boolean).join(' ');
@@ -214,6 +215,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
     const cls = [
       'w-full rounded-lg px-3.5 py-2.5 text-sm transition-all duration-200 appearance-none pr-9 focus:outline-none',
       getVariantClass(inputVariant, !!error),
+      inputVariant === 'outlined' ? 'bg-[rgb(248,233,206)]' : '',
       disabled ? 'opacity-55 cursor-not-allowed' : '',
       className,
     ].filter(Boolean).join(' ');

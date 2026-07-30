@@ -247,7 +247,8 @@ export const Anudan: React.FC = () => {
   };
 
   return (
-    <LazyMotion features={domAnimation} strict>
+    <div className="relative">
+      <LazyMotion features={domAnimation} strict>
       <SEO
         title="Anudan | Amader Barir Pujo"
         description="Offer your Anudan (অনুদান) to Amader Barir Pujo 2026 in Wakad, Pune. Support devotional services, sacred festivals, Bhog distribution, and spiritual community programs through your generous contribution."
@@ -259,7 +260,7 @@ export const Anudan: React.FC = () => {
         title="Anudan"
         subtitle="Durga Pujo 2026 · Offer Your Contribution"
         backgroundImage="/assets/img/culture-2.webp"
-        height="h-[45vh] md:h-[70vh]"
+        height="h-[35vh] md:h-[60vh]"
       />
 
       {/* Intro Section */}
@@ -567,6 +568,7 @@ export const Anudan: React.FC = () => {
         }}
       />
     </LazyMotion>
+    </div>
   );
 };
 

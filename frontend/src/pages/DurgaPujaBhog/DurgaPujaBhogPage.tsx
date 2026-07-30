@@ -9,7 +9,7 @@ const DurgaPujaBhogPage: React.FC = () => {
   const categories: BhogBookingCategory[] = BHOG_BOOKING_CATEGORIES;
 
   return (
-    <>
+    <div className="relative">
       <SEO
         title="Durga Puja Bhog Schedule"
         description="Durga Puja Bhog Schedule — Learn about our Durga Puja Bhog offerings, procedures, and their spiritual significance at Amader Barir Pujo."
@@ -21,7 +21,7 @@ const DurgaPujaBhogPage: React.FC = () => {
       <PageHero
         title="Durga Puja Bhog"
         subtitle="Durga Puja 2026 · Bhog Booking"
-        height="h-[45vh] md:h-[70vh]"
+        height="h-[35vh] md:h-[60vh]"
       />
 
       <section className="content-layer py-14 md:py-20">
@@ -49,7 +49,7 @@ const DurgaPujaBhogPage: React.FC = () => {
           />
         </div>
       </section>
-    </>
+    </div>
   );
 };
 

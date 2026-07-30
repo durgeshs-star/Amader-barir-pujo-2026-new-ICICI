@@ -76,7 +76,7 @@ export const BhogBooking: React.FC = () => {
   };
 
   return (
-    <div className="pt-10 md:pt-14 pb-20 min-h-screen">
+    <div className="relative pt-10 md:pt-14 pb-20 min-h-screen">
       <SEO
         title={activeDay ? `${activeDay.title} Booking` : 'Bhog Booking'}
         description="Book your sacred Prasad Bhog for Durga Puja 2026 at Amader Barir Pujo, Wakad Pune. Available for Saptami, Ashtami, Navami and Lakshmi Puja."
@@ -182,7 +182,7 @@ export const BhogBooking: React.FC = () => {
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="px-3 py-2 border border-gray-200 text-xs rounded focus:outline-none focus:border-primary"
+                    className="px-3 py-2 border border-gray-200 text-xs rounded focus:outline-none focus:border-primary bg-[rgb(248,233,206)]"
                     placeholder="Enter name"
                   />
                 </div>
@@ -194,7 +194,7 @@ export const BhogBooking: React.FC = () => {
                     required
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="px-3 py-2 border border-gray-200 text-xs rounded focus:outline-none focus:border-primary"
+                    className="px-3 py-2 border border-gray-200 text-xs rounded focus:outline-none focus:border-primary bg-[rgb(248,233,206)]"
                     placeholder="Enter phone"
                   />
                 </div>
@@ -208,7 +208,7 @@ export const BhogBooking: React.FC = () => {
                     required
                     value={formData.plates}
                     onChange={(e) => setFormData({ ...formData, plates: e.target.value })}
-                    className="px-3 py-2 border border-gray-200 text-xs rounded focus:outline-none focus:border-primary"
+                    className="px-3 py-2 border border-gray-200 text-xs rounded focus:outline-none focus:border-primary bg-[rgb(248,233,206)]"
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">

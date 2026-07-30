@@ -10,7 +10,7 @@ export const Hero: React.FC = React.memo(() => {
   };
 
   return (
-    <div className="relative min-h-[70vh] sm:min-h-[75vh] md:min-h-[5vh] lg:h-screen flex items-center overflow-hidden bg-dark-bg text-white">
+    <div data-hero className="relative min-h-[70vh] sm:min-h-[75vh] md:min-h-[5vh] lg:h-screen flex items-center overflow-hidden bg-dark-bg text-white">
 
       <picture>
         <source
@@ -35,9 +35,12 @@ z-0"
         />
       </picture>
 
-      {/* Gradient — only at the bottom-left to make text readable, rest of image stays clear */}
+      {/* Gradient — full coverage on mobile for text readability, left-side only on larger screens */}
       <div
         className="absolute inset-0 z-1"
+      />
+      <div
+        className="hidden sm:block absolute inset-0 z-1"
         style={{
           background: 'linear-gradient(to right, rgba(42,10,20,0.85) 0%, rgba(42,10,20,0.65) 40%, rgba(0,0,0,0) 70%)',
         }}
@@ -45,17 +48,23 @@ z-0"
       />
 
       {/* Content — bottom-left, matching reference layout */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto lg:px-8">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
         <div className="max-w-2xl mb-2">
 
           {/* Title — large display, two visual lines */}
-          <h1 className="font-fraunces-italic leading-none mb-6 select-text text-4xl sm:text-5xl md:text-5xl font-bold text-white text-left" style={{ textShadow: '0 2px 12px rgba(0,0,0,0.5)' }}>
-            আমাদের বাড়ির পূজো<sup className="text-2xl md:text-3xl font-normal">&reg;</sup>
+          <h1
+            className="font-fraunces-italic leading-tight mb-4 sm:mb-6 select-text text-3xl xs:text-4xl sm:text-5xl md:text-5xl font-bold text-white text-left break-words"
+            style={{ textShadow: '0 2px 12px rgba(0,0,0,0.5)' }}
+          >
+            আমাদের বাড়ির পূজো
+            <sup className="relative -top-4 sm:-top-8 text-lg sm:text-2xl md:text-3xl font-normal">
+              &reg;
+            </sup>
           </h1>
 
           {/* Body text */}
           <div
-            className="text-sm md:text-base text-white font-sans leading-relaxed mb-8 max-w-md select-text space-y-4"
+            className="text-sm md:text-base text-white font-sans leading-relaxed mb-6 sm:mb-8 max-w-md select-text space-y-3 sm:space-y-4"
             style={{ textShadow: '0 1px 6px rgba(0,0,0,0.6)' }}
           >
             <p>More than a celebration, it's a feeling we carry with us.</p>
@@ -64,18 +73,13 @@ z-0"
           </div>
 
           {/* CTA buttons */}
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Button variant="accent" size="md" onClick={handleScrollToContent}>
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pb-6 sm:pb-0">
+            <Button variant="accent" size="md" onClick={handleScrollToContent} className="w-full sm:w-auto">
               Explore Pujo
             </Button>
-            {/* <a href="/gallery?category=bhog">
-              <Button variant="outline" size="md" className="text-white border-white/80 hover:bg-gray-200 hover:text-primary!">
-                View Bhog Gallery
-              </Button>
-            </a> */}
-            <a href="/volunteer">
-              <Button variant="outline" size="md" className="text-white border-white/80 hover:bg-gray-200 hover:text-primary!">
-                Be a Bari Sadasya
+            <a href="/volunteer" className="w-full sm:w-auto">
+              <Button variant="outline" size="md" className="w-full sm:w-auto text-white border-white/80 hover:bg-gray-200 hover:text-primary!">
+                Be a Bari Member
               </Button>
             </a>
           </div>

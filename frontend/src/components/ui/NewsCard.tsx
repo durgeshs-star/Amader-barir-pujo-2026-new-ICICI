@@ -25,7 +25,7 @@ export const NewsCard: React.FC<NewsCardProps> = ({
       href={url}
       target="_blank"
       rel="noopener noreferrer"
-            className="block rounded-xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-100 overflow-hidden group animate-fade-in-up"
+            className="block rounded-xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-[rgb(180,160,130)] overflow-hidden group animate-fade-in-up"
       style={{ animationDelay: `${index * 0.1}s` }}
     >
       {/* Preview Image */}

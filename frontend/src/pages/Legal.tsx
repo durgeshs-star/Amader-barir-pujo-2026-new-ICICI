@@ -10,7 +10,7 @@ export const Legal: React.FC = () => {
   const lastUpdated = 'June 29, 2026';
 
   return (
-    <div className="pt-10 md:pt-14 pb-20 min-h-screen">
+    <div className="relative pt-10 md:pt-14 pb-20 min-h-screen">
       <SEO
         title={title}
         description={`${title} for Amader Barir Pujo, Pune — read our policies regarding your use of this website.`}
