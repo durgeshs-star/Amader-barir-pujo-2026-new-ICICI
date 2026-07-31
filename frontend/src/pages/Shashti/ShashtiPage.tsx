@@ -12,15 +12,15 @@ const ShashtiPage: React.FC = () => {
   return (
     <div className="relative">
       <SEO
-        title="Shashti Pujo Schedule"
-        description="Shashti Pujo Schedule — Discover our Shashti Pujo timeline, events, and meaningful traditions at Amader Barir Pujo."
-        keywords="Shashti pujo, Durga Puja 2026 day 2, Amader Barir Pujo Shashti"
+        title="Soshti Pujo Schedule"
+        description="Soshti Pujo Schedule — Discover our Soshti Pujo timeline, events, and meaningful traditions at Amader Barir Pujo."
+        keywords="Soshti pujo, Durga Puja 2026 day 2, Amader Barir Pujo Soshti"
         ogImage="/assets/img/banner/1.webp"
         canonical="https://www.abp.proplusdatafoundation.com/shashti"
       />
 
       <PageHero
-        title="Shashti"
+        title="Soshti"
         subtitle="Durga Pujo 2026 · Day Two"
         height="h-[35vh] md:h-[60vh]"
       />
@@ -29,12 +29,12 @@ const ShashtiPage: React.FC = () => {
 
       <ScheduleDetails
         image="/assets/img/shashthi.webp"
-        imageAlt="Shashti celebration at Amader Barir Pujo"
+        imageAlt="Soshti celebration at Amader Barir Pujo"
         date="16 October 2026"
         blocks={[
           {
             subtitle: "Pujo Schedule (2026)",
-            title: "Shashti",
+            title: "Soshti",
             lines: [
               "Morning Pujo Start : 9:30 AM",
               "Pushpaanjali : 10:30 AM",
@@ -45,11 +45,11 @@ const ShashtiPage: React.FC = () => {
             subtitle: "Cultural Schedule",
             sections: [
               {
-                title: "Shashti Noon",
+                title: "Soshti Noon",
                 lines: ["Children's Event : 12:00 PM - 2:00 PM"],
               },
               {
-                title: "Shashti Evening",
+                title: "Soshti Evening",
                 lines: [
                   "In-house cultural program (Song & Dance) : 7:00 PM - 10:00 PM",
                 ],

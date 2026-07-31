@@ -5,7 +5,7 @@ export interface NavItem {
 
 export const pujoScheduleDays: NavItem[] = [
   { name: 'Panchami', path: '/panchami' },
-  { name: 'Shashti', path: '/shashti' },
+  { name: 'Soshti', path: '/shashti' },
   { name: 'Saptami', path: '/saptami' },
   { name: 'Ashtami', path: '/ashtami' },
   { name: 'Ashtami Sandhi Puja', path: '/ashtami-sandhi-puja' },

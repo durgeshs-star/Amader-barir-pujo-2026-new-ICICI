@@ -24,10 +24,10 @@ export const Schedule: React.FC = () => {
       ]
     },
     shashti: {
-      title: 'Maha Shashti',
+      title: 'Maha Soshti',
       date: 'October 16, 2026',
       items: [
-        { time: '08:00 AM', ritual: 'Maha Shashti Kalparambha', details: 'Morning worship setting up the holy water vessels.' },
+        { time: '08:00 AM', ritual: 'Maha Soshti Kalparambha', details: 'Morning worship setting up the holy water vessels.' },
         { time: '09:30 AM', ritual: 'Bodhon, Amantran & Adhibas', details: 'Awakening of the Goddess Durga and welcoming rites.' },
         { time: '07:00 PM', ritual: 'Amantran Aarti & Sandhya Aarti', details: 'Evening lamp worship and devotional offerings.' }
       ]
