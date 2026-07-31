@@ -8,6 +8,7 @@ import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 // import WhatsAppBtn from './components/Sections/WhatsAppBtn';
 import BackToTop from './components/Sections/BackToTop';
+import FulachiMal from './components/Sections/FulachiMal';
 // import Preloader from './components/ui/Preloader';
 
 const Home = lazy(() => import('./pages/Home'));
@@ -70,6 +71,7 @@ const AppShell: React.FC = () => {
       {!isWelcomeToAbpWaFamilyRoute ? <Header /> : null}
 
       <main className="grow relative z-10 content-layer">
+        {!isWelcomeToAbpWaFamilyRoute ? <FulachiMal /> : null}
         <Suspense fallback={<PageSkeleton />}>
           <Routes>
             <Route path="/" element={<Home />} />
