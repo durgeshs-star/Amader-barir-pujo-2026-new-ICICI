@@ -106,7 +106,7 @@ export const UserInfoForm = forwardRef<UserInfoFormRef, UserInfoFormProps>(({ on
               onChange={(e) => handleFieldChange('name', e.target.value)}
               disabled={disabled}
               placeholder="Enter your full name"
-              className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-[rgb(248,233,206)] ${
+              className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-[oklch(96.2% 0.059 95.617)] ${
                 errors.name ? 'border-red-300 bg-red-50' : 'border-[rgb(180,160,130)]'
               } ${disabled ? 'opacity-60 cursor-not-allowed' : ''}`}
             />
@@ -124,7 +124,7 @@ export const UserInfoForm = forwardRef<UserInfoFormRef, UserInfoFormProps>(({ on
               onChange={(e) => handleFieldChange('phone', e.target.value)}
               disabled={disabled}
               placeholder="Enter your 10-digit phone number"
-              className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-[rgb(248,233,206)] ${
+              className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-[oklch(96.2% 0.059 95.617)] ${
                 errors.phone ? 'border-red-300 bg-red-50' : 'border-[rgb(180,160,130)]'
               } ${disabled ? 'opacity-60 cursor-not-allowed' : ''}`}
             />
@@ -142,7 +142,7 @@ export const UserInfoForm = forwardRef<UserInfoFormRef, UserInfoFormProps>(({ on
               onChange={(e) => handleFieldChange('email', e.target.value)}
               disabled={disabled}
               placeholder="Enter your email address"
-              className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-[rgb(248,233,206)] ${
+              className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-[oklch(96.2% 0.059 95.617)] ${
                 errors.email ? 'border-red-300 bg-red-50' : 'border-[rgb(180,160,130)]'
               } ${disabled ? 'opacity-60 cursor-not-allowed' : ''}`}
             />
@@ -167,7 +167,7 @@ export const UserInfoForm = forwardRef<UserInfoFormRef, UserInfoFormProps>(({ on
               onChange={(e) => handleFieldChange('name', e.target.value)}
               disabled={disabled}
               placeholder="Enter your full name"
-              className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-[rgb(248,233,206)] ${
+              className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-[oklch(96.2% 0.059 95.617)] ${
                 errors.name ? 'border-red-500' : 'border-[rgb(180,160,130)]'
               } ${disabled ? 'opacity-60 cursor-not-allowed' : ''}`}
             />
@@ -185,7 +185,7 @@ export const UserInfoForm = forwardRef<UserInfoFormRef, UserInfoFormProps>(({ on
               onChange={(e) => handleFieldChange('phone', e.target.value)}
               disabled={disabled}
               placeholder="Enter your 10-digit phone number"
-              className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-[rgb(248,233,206)] ${
+              className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-[oklch(96.2% 0.059 95.617)] ${
                 errors.phone ? 'border-red-500' : 'border-[rgb(180,160,130)]'
               } ${disabled ? 'opacity-60 cursor-not-allowed' : ''}`}
             />
@@ -203,7 +203,7 @@ export const UserInfoForm = forwardRef<UserInfoFormRef, UserInfoFormProps>(({ on
               onChange={(e) => handleFieldChange('email', e.target.value)}
               disabled={disabled}
               placeholder="Enter your email address"
-              className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-[rgb(248,233,206)] ${
+              className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-[oklch(96.2% 0.059 95.617)] ${
                 errors.email ? 'border-red-500' : 'border-[rgb(180,160,130)]'
               } ${disabled ? 'opacity-60 cursor-not-allowed' : ''}`}
             />

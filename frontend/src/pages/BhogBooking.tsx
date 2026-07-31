@@ -182,7 +182,7 @@ export const BhogBooking: React.FC = () => {
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="px-3 py-2 border border-gray-200 text-xs rounded focus:outline-none focus:border-primary bg-[rgb(248,233,206)]"
+                    className="px-3 py-2 border border-gray-200 text-xs rounded focus:outline-none focus:border-primary bg-[oklch(96.2% 0.059 95.617)]"
                     placeholder="Enter name"
                   />
                 </div>
@@ -194,7 +194,7 @@ export const BhogBooking: React.FC = () => {
                     required
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="px-3 py-2 border border-gray-200 text-xs rounded focus:outline-none focus:border-primary bg-[rgb(248,233,206)]"
+                    className="px-3 py-2 border border-gray-200 text-xs rounded focus:outline-none focus:border-primary bg-[oklch(96.2% 0.059 95.617)]"
                     placeholder="Enter phone"
                   />
                 </div>
@@ -208,7 +208,7 @@ export const BhogBooking: React.FC = () => {
                     required
                     value={formData.plates}
                     onChange={(e) => setFormData({ ...formData, plates: e.target.value })}
-                    className="px-3 py-2 border border-gray-200 text-xs rounded focus:outline-none focus:border-primary bg-[rgb(248,233,206)]"
+                    className="px-3 py-2 border border-gray-200 text-xs rounded focus:outline-none focus:border-primary bg-[oklch(96.2% 0.059 95.617)]"
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">

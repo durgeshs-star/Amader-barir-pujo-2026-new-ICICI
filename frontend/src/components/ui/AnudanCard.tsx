@@ -171,7 +171,7 @@ export const AnudanCard: React.FC<AnudanCardProps> = ({ card, remainingAmount = 
                       setInputAmount(val);
                     }}
                     disabled={isFullySponsored}
-                    className={`w-full pl-8 pr-4 py-2 border rounded-lg text-sm mb-2 bg-[rgb(248,233,206)] ${
+                    className={`w-full pl-8 pr-4 py-2 border rounded-lg text-sm mb-2 bg-[oklch(96.2% 0.059 95.617)] ${
                       error ? 'border-red-500' : 'border-[rgb(180,160,130)]'
                     } ${isFullySponsored ? 'bg-gray-100 cursor-not-allowed' : ''}`}
                   />

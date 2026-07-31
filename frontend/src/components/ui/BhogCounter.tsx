@@ -60,7 +60,7 @@ export const BhogCounter: React.FC<BhogCounterProps> = ({
           type="text"
           value={value}
           readOnly
-          className="w-16 text-center bg-[rgb(248,233,206)] border border-[rgb(180,160,130)] rounded-md text-primary font-bold"
+          className="w-16 text-center bg-[oklch(96.2% 0.059 95.617)] border border-[rgb(180,160,130)] rounded-md text-primary font-bold"
           aria-label={`${label} count`}
         />
         <button

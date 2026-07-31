@@ -43,7 +43,7 @@ export const TextField: React.FC<TextFieldProps> = ({
         id={id}
         name={name}
         type={type}
-        className={`w-full px-4 py-2 border border-[rgb(180,160,130)] rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-[rgb(248,233,206)] ${
+        className={`w-full px-4 py-2 border border-[rgb(180,160,130)] rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-[oklch(96.2% 0.059 95.617)] ${
           showError
             ? 'border-red-500 bg-red-50'
             : 'border-[rgb(180,160,130)]'

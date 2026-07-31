@@ -66,7 +66,7 @@ const AppShell: React.FC = () => {
   }
 
   return (
-    <div className="flex min-h-screen flex-col relative bg-pattern-wrapper" style={{ backgroundColor: 'rgb(248 233 206)' }}>
+    <div className="flex min-h-screen flex-col relative bg-pattern-wrapper" style={{ backgroundColor: '#FEF3C7' }}>
       {!isWelcomeToAbpWaFamilyRoute ? <Header /> : null}
 
       <main className="grow relative z-10 content-layer">
