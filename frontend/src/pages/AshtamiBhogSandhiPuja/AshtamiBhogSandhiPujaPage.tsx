@@ -17,16 +17,15 @@ const AshtamiBhogSandhiPujaPage: React.FC = () => {
 
       <PageHero
         title="Ashtami Sandhi Puja Bhog"
-        subtitle="Durga Pujo 2026 · Sacred Transition Bhog"
         height="h-[35vh] md:h-[60vh]"
       />
 
-      <section className="content-layer py-14 md:py-20">
+      <section className="content-layer py-8">
         <div className="max-w-4xl mx-auto px-6">
            
 
           <div className="text-center">
-            <p className="text-base md:text-lg text-secondary leading-relaxed md:leading-loose">
+            <p className="text-base md:text-lg text-secondary leading-relaxed md:leading-loose text-center">
             Join us in celebrating the sacred <strong>Sandhi Puja</strong>, the holy transition between Ashtami and Navami through blessed Bhog.{' '}
             <strong>Experience the spiritual essence</strong> of this momentous occasion with our specially prepared Prasad.
             </p>

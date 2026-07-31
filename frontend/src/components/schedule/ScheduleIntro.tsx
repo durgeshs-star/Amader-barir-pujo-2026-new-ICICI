@@ -10,7 +10,7 @@ export const ScheduleIntro: React.FC<ScheduleIntroProps> = ({ paragraph }) => {
             &ldquo;
           </span>
           <p 
-            className="text-base md:text-lg text-secondary leading-relaxed md:leading-loose -mt-4 md:-mt-6"
+            className="text-base md:text-lg text-secondary leading-relaxed md:leading-loose -mt-4 md:-mt-6 text-center"
             dangerouslySetInnerHTML={{ __html: paragraph }}
           />
           <div className="flex items-center justify-center gap-3 mt-8">

@@ -110,28 +110,13 @@ const VolunteerContent: React.FC = React.memo(() => {
       <PageHero
         title="Be a Bari Member"
         height="h-[35vh] md:h-[60vh]"
+        subtitle="Maa brings us together.
+Come with your time, your talent, or simply your heart. Together, let's create a Pujo that every visitor will remember and every volunteer will cherish."
       />
 
       {/* Why Volunteer Section */}
-      <section className="content-layer py-16 md:py-24">
+      <section className="content-layer py-8 md:py-14">
         <div className="max-w-7xl mx-auto px-6">
-          <m.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
-          >
-            <h2 className="font-fraunces text-3xl md:text-5xl font-bold text-primary mb-4">
-              Become Part of Our Pujo Story
-            </h2>
-            <p className="text-text-secondary max-w-2xl mx-auto text-lg text-center">
-              Maa brings us together.
-Come with your time, your talent, or simply your heart. Together, let's create a Pujo that every visitor will remember and every volunteer will cherish.
-
-            </p>
-            <div className="w-16 h-1 bg-accent mx-auto mt-6 rounded-full" />
-          </m.div>
 
           <div className="grid md:grid-cols-3 gap-8">
             {[
@@ -175,7 +160,7 @@ className="bg-light-bg rounded-xl p-8 text-center hover:shadow-lg transition-sha
       </section>
 
       {/* Form Section */}
-      <section className="content-layer py-16 md:py-24">
+      <section className="content-layer py-12 md:py-2">
         <div className="max-w-7xl mx-auto px-6">
           <m.div
             initial={{ opacity: 0, y: 20 }}

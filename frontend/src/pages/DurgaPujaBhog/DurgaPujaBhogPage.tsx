@@ -20,7 +20,7 @@ const DurgaPujaBhogPage: React.FC = () => {
 
       <PageHero
         title="Durga Puja Bhog"
-        subtitle="Durga Puja 2026 · Bhog Booking"
+        subtitle=" "
         height="h-[35vh] md:h-[60vh]"
       />
 

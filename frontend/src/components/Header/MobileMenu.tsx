@@ -139,7 +139,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
             </li>
 
             {/* Pujo Days */}
-            <li className="border-b border-[rgb(180,160,130)] pb-1">
+            {/* <li className="border-b border-[rgb(180,160,130)] pb-1">
               <Link
                 to="/pujo-days"
                 onClick={handleLinkClick}
@@ -147,7 +147,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
               >
                 Pujo Days
               </Link>
-            </li>
+            </li> */}
 
             {/* Pujo Schedule Dropdown */}
             <li className="border-b border-[rgb(180,160,130)] pb-1">

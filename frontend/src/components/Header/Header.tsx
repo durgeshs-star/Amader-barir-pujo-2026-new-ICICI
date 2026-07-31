@@ -22,7 +22,7 @@ export interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({
-  phone = '(+123) 123 4567 890',
+  phone = '(+91) 7798 57 7880',
   email = CONTACT_EMAIL,
   ctaLabel = "Be a Bari Member",
   ctaHref = '/volunteer',

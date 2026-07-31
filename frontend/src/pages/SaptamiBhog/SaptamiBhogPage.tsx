@@ -17,20 +17,16 @@ const SaptamiBhogPage: React.FC = () => {
 
       <PageHero
         title="Saptami Bhog"
-        subtitle="Durga Puja 2026 · Bhog Booking"
+        subtitle=" "
         height="h-[35vh] md:h-[60vh]"
       />
 
-      <section className="content-layer py-14 md:py-20">
+      <section className="content-layer py-8">
         <div className="max-w-4xl mx-auto px-6">
-           
-
-          <div className="text-center">
-            <p className="text-base md:text-lg text-secondary leading-relaxed md:leading-loose">
+            <p className="text-base md:text-lg text-secondary leading-relaxed md:leading-loose text-center">
             Join us in celebrating Durga Pujo through the sacred tradition of Bhog.{' '}
             <strong>Saptami, Ashtami, Navami</strong> three days of soulful offerings, shared with love.
             </p>
-          </div>
         </div>
       </section>
 

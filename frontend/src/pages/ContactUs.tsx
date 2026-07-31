@@ -98,29 +98,13 @@ export const ContactUs: React.FC = () => {
 
       <PageHero
         title="Contact Us"
-        subtitle="Have questions? Feel free to reach out to our organizing committee."
+        subtitle="Have questions? Feel free to reach out to our organizing committee. We're here to help with any questions about Durga Puja, volunteering, bhog booking, or general inquiries."
         height="h-[40vh] md:h-[60vh]"
       />
 
       {/* Why Contact Us Section */}
-      <section className="content-layer py-16 md:py-24">
+      <section className="content-layer py-12 md:py-20">
         <div className="max-w-7xl mx-auto px-6">
-          <m.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
-          >
-            <h2 className="font-fraunces text-3xl md:text-5xl font-bold text-primary mb-4">
-              Why Contact Us?
-            </h2>
-            <p className="text-text-secondary max-w-2xl mx-auto text-lg text-center">
-              We're here to help with any questions about Durga Puja, volunteering, bhog booking, or general inquiries.
-            </p>
-            <div className="w-16 h-1 bg-accent mx-auto mt-6 rounded-full" />
-          </m.div>
-
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
@@ -163,7 +147,7 @@ className="bg-light-bg rounded-xl p-8 text-center hover:shadow-lg transition-sha
       </section>
 
       {/* Contact Section */}
-      <section className="content-layer py-16 md:py-24">
+      <section className="content-layer py-8 md:py-14">
         <div className="max-w-7xl mx-auto px-6">
           <m.div
             initial={{ opacity: 0, y: 20 }}
@@ -200,7 +184,7 @@ className="bg-light-bg rounded-xl p-8 text-center hover:shadow-lg transition-sha
                     </div>
                     <div>
                       <span className="text-[10px] text-muted font-bold uppercase tracking-widest block">Call Us</span>
-                      <a href="tel:+123478390" className="font-semibold text-secondary hover:text-primary transition-colors">+123 478 390</a>
+                      <a href="tel:+123478390" className="font-semibold text-secondary hover:text-primary transition-colors">+91 7798 57 7880</a>
                     </div>
                   </li>
 

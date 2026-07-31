@@ -11,7 +11,7 @@ export interface PageHeroProps {
   objectPosition?: string;
 }
 
-const DEFAULT_BACKGROUND = "/assets/img/culture-2.webp";
+const DEFAULT_BACKGROUND = "/assets/img/culture-24.webp";
 const DEFAULT_OVERLAY = "bg-black/30";
 const DEFAULT_HEIGHT = "h-[30vh] md:h-[70vh]";
 
@@ -52,7 +52,7 @@ export const PageHero: React.FC<PageHeroProps> = React.memo(({
           </h1>
 
           {subtitle && (
-            <p className="text-text-secondary mt-4 max-w-xl mx-auto text-center">
+            <p className="text-text-secondary mt-4 max-w-4xl mx-auto text-center text-md">
               {subtitle}
             </p>
           )}

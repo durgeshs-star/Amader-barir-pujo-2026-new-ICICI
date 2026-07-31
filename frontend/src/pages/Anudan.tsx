@@ -258,21 +258,14 @@ export const Anudan: React.FC = () => {
       />
       <PageHero
         title="Anudan"
-        subtitle="Durga Pujo 2026 · Offer Your Contribution"
-        backgroundImage="/assets/img/culture-2.webp"
+        subtitle="🙏 Offer Your Anudan (অনুদান) – Support the Spirit of Amader Barir Pujo"
+        backgroundImage="/assets/img/culture-24.webp"
         height="h-[35vh] md:h-[60vh]"
       />
 
       {/* Intro Section */}
-      <section className="content-layer py-14 md:py-20">
+      <section className="content-layer py-8 md:py-14">
         <div className="max-w-4xl mx-auto px-6">
-           
-
-          <div className="text-center mb-8 animate-fade-in-down">
-            <p className="text-lg md:text-xl text-secondary leading-relaxed md:leading-loose font-medium text-center">
-              🙏 Offer Your Anudan (অনুদান) – Support the Spirit of Amader Barir Pujo
-            </p>
-          </div>
           <m.div
             className="rounded-2xl p-8 border border-gray-100 shadow-lg hover:scale-[1.02] transition-transform duration-300"
             initial={{ opacity: 0, y: 30, scale: 0.95 }}
@@ -311,7 +304,7 @@ export const Anudan: React.FC = () => {
       </section>
 
       {/* Anudan Cards Section */}
-      <section className="content-layer py-14 md:py-20">
+      <section className="content-layer py-8 md:py-12">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12 animate-fade-in-down">
             <h2 className="text-3xl md:text-4xl font-bold text-primary font-fraunces mb-3">
