@@ -1,30 +1,7 @@
 ﻿import React, { useState, useRef, useCallback } from 'react';
 import { NavLink } from 'react-router-dom';
-
-interface NavItem {
-  name: string;
-  path: string;
-}
-
-const pujoScheduleDays: NavItem[] = [
-  { name: 'Panchami', path: '/panchami' },
-  { name: 'Soshti', path: '/shashti' },
-  { name: 'Saptami', path: '/saptami' },
-  { name: 'Ashtami', path: '/ashtami' },
-  {name: 'Ashtami Sandhi Puja', path: '/ashtami-sandhi-puja' },
-  { name: 'Navami', path: '/navami' },
-  { name: 'Dashami', path: '/dashami' },
-  { name: 'Saraswati Puja', path: '/saraswati-puja' },
-];
-
-const bhogBookingDays: NavItem[] = [
-  { name: 'Saptami', path: '/bhog-booking/saptami' },
-  { name: 'Ashtami', path: '/bhog-booking/ashtami' },
-  { name: 'Ashtami Sandhi Puja', path: '/bhog-booking/ashtami-sandhi-puja' },
-  { name: 'Navami', path: '/bhog-booking/navami' },
-  { name: 'Lakshmi Puja', path: '/bhog-booking/lakshmi-puja' },
-  { name: 'Saraswati Puja', path: '/bhog-booking/saraswati-puja' },
-];
+import type { NavItem } from '../../config/navData';
+import { pujoScheduleDays, bhogBookingDays } from '../../config/navData';
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   `nav-link text-sm font-medium uppercase tracking-wider transition-colors duration-200 py-1 block text-text-secondary hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm ${isActive ? 'text-primary font-semibold border-b-2 border-primary' : ''

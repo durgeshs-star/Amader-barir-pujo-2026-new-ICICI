@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaTimes, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import CountdownTimer from '../ui/CountdownTimer';
+import { pujoScheduleDays, bhogBookingDays } from '../../config/navData';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -38,26 +39,6 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
       document.body.classList.remove('body-scroll-lock');
     };
   }, [isOpen]);
-
-  const pujoScheduleDays = [
-    { name: 'Panchami', path: '/panchami' },
-    { name: 'Shashti', path: '/shashti' },
-    { name: 'Saptami', path: '/saptami' },
-    { name: 'Ashtami', path: '/ashtami' },
-    { name: 'Ashtami Sandhi Puja', path: '/ashtami-sandhi-puja' },
-    { name: 'Navami', path: '/navami' },
-    { name: 'Dashami', path: '/dashami' },
-    { name: 'Saraswati Puja', path: '/saraswati-puja' },
-  ];
-
-  const bhogBookingDays = [
-    { name: 'Saptami', path: '/bhog-booking/saptami' },
-    { name: 'Ashtami', path: '/bhog-booking/ashtami' },
-    { name: 'Ashtami Sandhi Puja', path: '/bhog-booking/ashtami-sandhi-puja' },
-    { name: 'Navami', path: '/bhog-booking/navami' },
-    { name: 'Lakshmi Puja', path: '/bhog-booking/lakshmi-puja' },
-    { name: 'Saraswati Puja', path: '/bhog-booking/saraswati-puja' },
-  ];
 
   const handleLinkClick = () => {
     onClose();
@@ -137,17 +118,6 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
                 About
               </Link>
             </li>
-
-            {/* Pujo Days */}
-            {/* <li className="border-b border-[rgb(180,160,130)] pb-1">
-              <Link
-                to="/pujo-days"
-                onClick={handleLinkClick}
-                className="block py-2 text-[15px] font-medium text-secondary hover:text-primary transition-colors"
-              >
-                Pujo Days
-              </Link>
-            </li> */}
 
             {/* Pujo Schedule Dropdown */}
             <li className="border-b border-[rgb(180,160,130)] pb-1">
