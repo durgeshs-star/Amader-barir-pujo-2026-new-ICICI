@@ -64,7 +64,7 @@ z-0"
 
           {/* Body text */}
           <div
-            className="text-sm md:text-base text-white font-sans leading-relaxed mb-6 sm:mb-8 max-w-md select-text space-y-3 sm:space-y-4"
+            className="text-sm md:text-base text-white font-sans leading-relaxed mb-4 sm:mb-6 max-w-md select-text space-y-3 sm:space-y-4"
             style={{ textShadow: '0 1px 6px rgba(0,0,0,0.6)' }}
           >
             <p>More than a celebration, it's a feeling we carry with us.</p>
@@ -72,17 +72,37 @@ z-0"
             <p className="font-bold text-accent">Free for all. Just as Pujo should be.</p>
           </div>
 
+          {/* Bengali content */}
+          <div
+            className="text-xs sm:text-sm md:text-base text-white font-sans leading-relaxed mb-6 sm:mb-8 max-w-md select-text space-y-2 sm:space-y-3"
+            style={{ textShadow: '0 1px 6px rgba(0,0,0,0.6)' }}
+          >
+            <p className="font-bold text-accent text-sm sm:text-base md:text-lg">আমাদের বাড়ীর পূজো</p>
+            <p>আমাদের বাড়ী,শুধু চারটে দেওয়াল নয়, আমাদের বাড়ী একটা যৌথ পরিবার যা দাঁড়িয়ে আছে বন্ধুত্ব ,সৌজন্য আর নিয়মের ব্ন্ধনের স্তম্ভের উপর ।</p>
+            <p>এখানে পূজোর অনুদানের কোনও শৃঙ্খল নেই , নেই কোনও গরিমার প্রকাশ , আছে শুধু ঢাকের বাদ্যি‌ ,পূজোর আনন্দ, উচ্ছ্বাস আর নতুন সৃষ্ঠির বহমানতা ।</p>
+          </div>
+
           {/* CTA buttons */}
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pb-6 sm:pb-0">
-            <Button variant="accent" size="md" onClick={handleScrollToContent} className="w-full sm:w-auto">
-              Explore Pujo
-            </Button>
-            <a href="/volunteer" className="w-full sm:w-auto">
-              <Button variant="outline" size="md" className="w-full sm:w-auto text-white border-white/80 hover:bg-gray-200 hover:text-primary!">
-                Be a Bari Member
-              </Button>
-            </a>
-          </div>
+  <Button
+    variant="accent"
+    size="md"
+    onClick={handleScrollToContent}
+    className="w-full sm:w-auto bg-white !text-primary hover:bg-gray-200 hover:!text-primary transition-all duration-300"
+  >
+    Explore Pujo
+  </Button>
+
+  <a href="/volunteer" className="w-full sm:w-auto">
+    <Button
+      variant="outline"
+      size="md"
+      className="w-full sm:w-auto border-white text-white hover:bg-white hover:!text-primary hover:border-white transition-all duration-300"
+    >
+      Be a Bari Member
+    </Button>
+  </a>
+</div>
         </div>
       </div>
 
