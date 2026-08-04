@@ -129,7 +129,8 @@ export const ContactUs: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-className="bg-light-bg rounded-xl p-8 text-center hover:shadow-lg transition-shadow border border-gray-100"
+className="bg-light-bg rounded-xl p-8 text-center hover:shadow-lg transition-shadow border border-gray-100 cursor-pointer"
+                onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto text-primary mb-6">
                   {item.icon}
@@ -231,6 +232,7 @@ className="bg-light-bg rounded-xl p-8 text-center hover:shadow-lg transition-sha
 
             {/* Right Column: Message Form */}
             <m.div
+              id="contact-form"
               className="rounded-xl p-6 md:p-8 border border-gray-100 shadow-sm self-start"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}

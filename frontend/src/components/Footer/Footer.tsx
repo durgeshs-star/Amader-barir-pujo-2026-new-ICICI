@@ -15,15 +15,12 @@ export const Footer: React.FC = () => {
           {/* Column 1: About details */}
           <div className="flex flex-col gap-4">
             <h3 className="text-xl font-bold font-fraunces text-white border-b-2 border-accent pb-2 w-24">
-              About Us
+              Contact
             </h3>
-            <p className="text-sm leading-relaxed text-text-inverse-muted">
-              Join us in the grand celebration of Durga Pujo—experience devotion, joy, and togetherness!
-            </p>
             <ul className="space-y-3 text-sm list-none p-0 m-0 pt-2">
               <li className="flex items-start gap-3">
                 <FaPhoneAlt className="text-accent mt-1 shrink-0" size={12} />
-                <a href="tel:+919879879302" className="text-text-on-primary hover:text-accent transition-colors">987-987-930-302</a>
+                <a href="tel:+919879879302" className="text-text-on-primary hover:text-accent transition-colors">+91 7798 57 7880</a>
               </li>
               <li className="flex items-start gap-3">
                 <FaEnvelope className="text-accent mt-1 shrink-0" size={12} />
@@ -34,7 +31,7 @@ export const Footer: React.FC = () => {
               <li className="flex items-start gap-3">
                 <FaMapMarkerAlt className="text-accent mt-1 shrink-0" size={14} />
                 <span className="leading-relaxed text-text-on-primary">
-                  Wakad, Pune, Pimpri-Chinchwad, Maharashtra 411057
+                  Wakad, Pimpri-Chinchwad, Pune, <br />Maharashtra 411057
                 </span>
               </li>
             </ul>
@@ -106,16 +103,22 @@ export const Footer: React.FC = () => {
           {/* Column 4: Venue Location */}
           <div className="flex flex-col gap-4">
             <h3 className="text-xl font-bold font-fraunces text-white border-b-2 border-accent pb-2 w-32">
-              Venue Location
+              Pujo Venue
             </h3>
             <div className="space-y-3 text-sm">
-              <p className="text-text-on-primary leading-relaxed">
-                <strong>Amader Barir Pujo 2026</strong>
-              </p>
-              <p className="text-text-inverse-muted leading-relaxed">
-                Wakad, Pune<br />
-                Pimpri-Chinchwad<br />
-                Maharashtra 411057
+              <div className="pt-2">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m19!1m8!1m3!1d1890.7322603623002!2d73.744257!3d18.598165!3m2!1i1024!2i768!4f13.1!4m8!3e0!4m0!4m5!1s0x3bc2bbeb10eb10db%3A0x18c37f8274a71fd!2sSant%20Tukaram%20Garden%20And%20Banquet%20Hall%20%7C%20Dropada%20Lawns%2C%20Dange%20Chowk%20Rd%2C%20Bhatewara%20Nagar%2C%20Hinjawadi%2C%20Wakad%2C%20Pimpri-Chinchwad%2C%20Maharashtra%20411057!3m2!1d18.5985952!2d73.7442186!5e0!3m2!1sen!2sin!4v1785820156064!5m2!1sen!2sin"
+                  height="200"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  className="rounded-lg"
+                />
+                
+              <p className="text-text-inverse-muted py-4">
+                Sant Tukaram Garden And Banquet Hall, Hinjawadi, Wakad, Pimpri-Chinchwad, Maharashtra 411057
               </p>
               <a
                 href="https://maps.google.com"
@@ -124,8 +127,9 @@ export const Footer: React.FC = () => {
                 className="inline-flex items-center gap-2 text-accent hover:text-accent-dark transition-colors text-sm font-semibold"
               >
                 <FaMapMarkerAlt size={12} />
-                View on Google Maps
+                Get Directions
               </a>
+              </div>
             </div>
           </div>
 
