@@ -13,7 +13,12 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; width: 100%; background: #051210; }
+html, body { margin: 0; padding: 0; width: 100%; background: oklch(98.7% 0.022 95.277); }
+
+/* Dark theme for hanuman page-specific content */
+.hanuman-s1-hero {
+  background: #051210;
+}
 
 
 /* ═══════════════════════════════════════════════════════════

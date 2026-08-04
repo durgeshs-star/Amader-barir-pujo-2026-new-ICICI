@@ -45,7 +45,7 @@ const Questionair = lazy(() => import('./pages/Questionair'));
 
 const PageSkeleton: React.FC = () => (
   <div
-    style={{ minHeight: '60vh', backgroundColor: 'rgb(248 233 206)' }}
+    style={{ minHeight: '60vh', backgroundColor: 'oklch(98.7% 0.022 95.277)' }}
     aria-hidden="true"
     role="status"
     aria-label="Loading page…"
@@ -67,7 +67,7 @@ const AppShell: React.FC = () => {
   }
 
   return (
-    <div className="flex min-h-screen flex-col relative bg-pattern-wrapper" style={{ backgroundColor: '#FEF3C7' }}>
+    <div className="flex min-h-screen flex-col relative bg-pattern-wrapper" style={{ backgroundColor: 'oklch(98.7% 0.022 95.277)' }}>
       {!isWelcomeToAbpWaFamilyRoute ? <Header /> : null}
 
       <main className="grow relative z-10 content-layer">

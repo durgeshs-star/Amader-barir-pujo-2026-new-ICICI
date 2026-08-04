@@ -7,8 +7,8 @@ const SpiritSection = React.lazy(() => import('../components/Sections/SpiritSect
 const TestimonialsSection = React.lazy(() => import('../components/Sections/TestimonialsSection'));
 
 const SectionSkeleton: React.FC = () => (
-  <div 
-    style={{ minHeight: '400px', backgroundColor: 'rgb(248 233 206)' }}
+  <div
+    style={{ minHeight: '400px', backgroundColor: 'oklch(98.7% 0.022 95.277)' }}
     aria-hidden="true"
     role="status"
     aria-label="Loading section…"

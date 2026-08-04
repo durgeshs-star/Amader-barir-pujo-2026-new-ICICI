@@ -70,9 +70,14 @@
   --mht-primary:    #7E4555;
   --mht-accent:     #630909;
   --mht-accent-rgb: 219, 66, 66;
+  --mht-bg:         oklch(98.7% 0.022 95.277);
 }
 
 html { scroll-behavior: smooth; }
+
+html, body {
+  background-color: var(--mht-bg);
+}
 
 
 /* Poppins font — self-hosted locally (no third-party requests) */
@@ -1158,6 +1163,7 @@ body {
     font-weight: 400;
     color: #767e88;
     overflow-x: hidden;
+    background-color: oklch(98.7% 0.022 95.277);
 }
 
 hr {
