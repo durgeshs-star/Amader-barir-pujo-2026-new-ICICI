@@ -112,7 +112,7 @@ export const AnudanReceipt: React.FC<AnudanReceiptProps> = ({ receiptData: propR
           <img
             src="/assets/images/ABP-Logo.png"
             alt="Amader Barir Pujo Logo"
-            style={{ width: '64px', height: '64px', margin: '0 auto 8px auto' }}
+            style={{ width: '120px', height: '120px', margin: '0 auto 8px auto' }}
           />
           <h1 style={{ fontSize: '22px', fontWeight: 'bold', color: '#92400e', fontFamily: 'serif', marginBottom: '4px' }}>
             অমাদের বাড়ির পুজো
