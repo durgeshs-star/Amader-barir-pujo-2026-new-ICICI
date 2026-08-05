@@ -222,7 +222,7 @@ export const Header: React.FC<HeaderProps> = ({
               </a>
             </div>
 
-          <div className="flex lg:hidden items-center gap-2.5 ml-auto shrink-0">
+          <div className="flex lg:hidden items-center gap-1.5 ml-auto shrink-0">
             <a
               href="https://proplusdatafoundation.com/"
               target="_blank"
