@@ -21,7 +21,6 @@ const ShashtiPage: React.FC = () => {
 
       <PageHero
         title="Soshti"
-        subtitle="Durga Pujo 2026 · Day Two"
         height="h-[35vh] md:h-[60vh]"
       />
 
@@ -44,14 +43,16 @@ const ShashtiPage: React.FC = () => {
           {
             subtitle: "Cultural Schedule",
             sections: [
+              // {
+              //   title: "Soshti Noon",
+              //   lines: ["Children's Event : 12:00 PM - 2:00 PM"],
+              // },
               {
-                title: "Soshti Noon",
-                lines: ["Children's Event : 12:00 PM - 2:00 PM"],
-              },
-              {
-                title: "Soshti Evening",
+                title: "Soshti Evening (8:00 PM - 10:00 PM)",
                 lines: [
-                  "In-house cultural program (Song & Dance) : 7:00 PM - 10:00 PM",
+                  "Agomoni (Half Hour)",
+                  "Retro to Rhythm",
+                  "Musical Night"
                 ],
               },
             ],

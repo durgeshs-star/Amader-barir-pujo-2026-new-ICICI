@@ -11,8 +11,7 @@ export interface PageHeroProps {
   objectPosition?: string;
 }
 
-const DEFAULT_BACKGROUND = "/assets/img/culture-24.webp";
-const DEFAULT_OVERLAY = "bg-black/30";
+const DEFAULT_BACKGROUND = "/assets/img/new-hero-image.webp";
 const DEFAULT_HEIGHT = "h-[30vh] md:h-[70vh]";
 
 export const PageHero: React.FC<PageHeroProps> = React.memo(({
@@ -21,7 +20,7 @@ export const PageHero: React.FC<PageHeroProps> = React.memo(({
   backgroundImage = DEFAULT_BACKGROUND,
   srcset,
   sizes,
-  overlay = DEFAULT_OVERLAY,
+  overlay = "", // Overlay is now handled by the inline style gradient
   height = DEFAULT_HEIGHT,
   objectPosition = "center",
 }) => {
@@ -42,7 +41,12 @@ export const PageHero: React.FC<PageHeroProps> = React.memo(({
           height={1080}
         />
 
-        <div className={`absolute inset-0 ${overlay}`} />
+        <div 
+          className={`absolute inset-0 ${overlay}`} 
+          style={{
+            background: 'linear-gradient(to right, rgba(42, 10, 20, 0.85) 0%, rgba(42, 10, 20, 0.65) 5%, rgba(0, 0, 0, 0) 15%), linear-gradient(to left, rgba(42, 10, 20, 0.85) 0%, rgba(42, 10, 20, 0.65) 5%, rgba(0, 0, 0, 0) 15%)'
+          }}
+        />
       </section>
 
       <section className="relative z-10 pt-8 md:pt-4">

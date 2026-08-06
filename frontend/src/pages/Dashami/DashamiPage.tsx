@@ -21,11 +21,14 @@ const DashamiPage: React.FC = () => {
 
       <PageHero
         title="Dashami"
-        subtitle="Durga Pujo 2026 · Day Six"
         height="h-[35vh] md:h-[60vh]"
       />
 
-      <ScheduleIntro paragraph={dashamiIntroParagraph} />
+      <ScheduleIntro paragraph={dashamiIntroParagraph}>
+        <h2 className="font-fraunces font-bold text-3xl md:text-5xl text-primary italic">
+          Asche bochor abar hobe
+        </h2>
+      </ScheduleIntro>
 
       <ScheduleDetails
         image="/assets/img/dashami.webp"

@@ -46,10 +46,9 @@ const NavamiPage: React.FC = () => {
             subtitle: "Cultural Schedule",
             sections: [
               {
-                title: "Navami Evening",
+                title: "Navami Evening (8:00 PM - 10:00 PM)",
                 lines: [
-                  "Dhunuchi : 7:30 PM - 8:15 PM",
-                  "Hindi Band - AB Dreams : 8:30 PM - 10:00 PM",
+                  "Band - Ujaan the Musical Rising"
                 ],
               },
             ],

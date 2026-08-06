@@ -47,10 +47,10 @@ const AshtamiPage: React.FC = () => {
             subtitle: "Cultural Schedule",
             sections: [
               {
-                title: "Ashtami Evening",
+                title: "Ashtami Evening (8:00 PM - 10:00 PM)",
                 lines: [
-                  "Antarang An Artist Abode (Kathak Dance) : 7:30 PM - 8:30 PM",
-                  "Semi classical song : 8:30 PM - 9:30 PM",
+                  "Dance Drama - Durga Within You",
+                  "Odisi Performance - Prachiti Odisi Dance Academy (Performer)"
                 ],
               },
             ],

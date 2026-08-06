@@ -21,7 +21,6 @@ const PanchamiPage: React.FC = () => {
 
       <PageHero
         title="Panchami"
-        subtitle="Durga Pujo 2026 · Day One"
         height="h-[35vh] md:h-[60vh]"
       />
 

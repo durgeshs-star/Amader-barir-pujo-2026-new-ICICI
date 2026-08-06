@@ -45,9 +45,9 @@ const SaptamiPage: React.FC = () => {
             subtitle: "Cultural Schedule",
             sections: [
               {
-                title: "Saptami Evening",
+                title: "Saptami Evening (8:00 PM - 10:00 PM)",
                 lines: [
-                  "Bengali Fusion Band - Ujaan : 8:00 PM to 10:00 PM",
+                  "Kathak and Bharatnatyam Fusion (Navaras) Dance Group - Shilpi"
                 ],
               },
             ],

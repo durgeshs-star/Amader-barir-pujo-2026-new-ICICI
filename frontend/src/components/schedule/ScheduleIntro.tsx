@@ -1,7 +1,7 @@
 import React from "react";
 import type { ScheduleIntroProps } from "../../types/schedule";
 
-export const ScheduleIntro: React.FC<ScheduleIntroProps> = ({ paragraph }) => {
+export const ScheduleIntro: React.FC<React.PropsWithChildren<ScheduleIntroProps>> = ({ paragraph, children }) => {
   return (
     <section className="py-14 md:py-20">
       <div className="max-w-4xl mx-auto px-6 text-center">
@@ -18,6 +18,11 @@ export const ScheduleIntro: React.FC<ScheduleIntroProps> = ({ paragraph }) => {
             <span className="h-2 w-2 rounded-full bg-accent" />
             <span className="h-px w-12 bg-accent/60" />
           </div>
+          {children && (
+            <div className="mt-8">
+              {children}
+            </div>
+          )}
         </div>
       </div>
     </section>

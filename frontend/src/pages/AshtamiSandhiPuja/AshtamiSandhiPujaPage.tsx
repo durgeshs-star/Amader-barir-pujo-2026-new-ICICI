@@ -21,7 +21,6 @@ const AshtamiSandhiPujaPage: React.FC = () => {
 
       <PageHero
         title="Ashtami Sandhi Puja"
-        subtitle="Durga Pujo 2026 · Sacred Transition"
         height="h-[35vh] md:h-[60vh]"
       />
 
