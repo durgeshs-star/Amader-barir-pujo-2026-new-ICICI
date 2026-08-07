@@ -55,7 +55,7 @@ export const Footer: React.FC = () => {
               </li>
               <li>
                 <Link to="/volunteer" className="hover:text-accent transition-colors block py-1 text-text-on-primary">
-                  Be a Bari Member
+                  Be a Barir Member
                 </Link>
               </li>
               <li>

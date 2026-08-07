@@ -24,7 +24,7 @@ export interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({
   phone = '+91 7798 57 7880',
   email = CONTACT_EMAIL,
-  ctaLabel = "Be a Bari Member",
+  ctaLabel = "Be a Barir Member",
   ctaHref = '/volunteer',
   facebookUrl = 'https://www.facebook.com/people/Amader-Barir-Pujo/61571741439510/',
   instagramUrl = 'https://www.instagram.com/abp_pune?igsh=YTZtZHVuODQxNWhj',

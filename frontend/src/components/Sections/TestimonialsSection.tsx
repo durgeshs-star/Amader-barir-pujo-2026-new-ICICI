@@ -1,72 +1,70 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { AnimatePresence, motion, type Transition } from 'motion/react';
 
 interface Testimonial {
   name: string;
   quote: string;
-  image: string;
 }
 
-export const TestimonialsSection: React.FC = () => {
+const transition: Transition = {
+  type: 'spring',
+  duration: 0.8,
+};
+
+const TestimonialsSection: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isInView, setIsInView] = useState(false);
+
   const touchStartX = useRef<number | null>(null);
+  const sectionRef = useRef<HTMLElement | null>(null);
 
   const testimonials: Testimonial[] = [
     {
-      name: 'Rajesh Singh',
-      quote: 'The daily aartis were breathtaking! The devotion and energy were palpable, making me feel so connected to Maa Durga.',
-      image: '/assets/img/testimonials/boy.png',
+      name: 'Rahul Kale',
+      quote:
+        'This was my first Durga Pujo ever. The energy was infectious, the bhog was unforgettable, and everyone made us feel so welcome. Ekdum family jaisa feel aaya. Definitely coming back next year!',
     },
     {
       name: 'Sneha Gupta',
-      quote: "A truly divine experience! The atmosphere during Durga Pujo was magical, and the rituals were performed beautifully. Can't wait for next year!",
-      image: '/assets/img/testimonials/girl.png',
+      quote:
+        'A truly divine experience! The atmosphere during Durga Pujo was magical, and the rituals were performed beautifully.',
     },
     {
-      name: 'Mukesh Singh',
-      quote: 'The sense of community here is unmatched. Celebrating with family and friends made it all the more special. Thank you for a wonderful celebration!',
-      image: '/assets/img/testimonials/boy.png',
+      name: 'Ananya Dutta',
+      quote: `I honestly didn't expect to feel so emotional. The moment the dhaak started, it reminded me of home. We came for a few hours and ended up spending almost the whole day. For those few moments, Pune felt a little more like Kolkata. Khub bhalo legechilo.`,
+    },
+    {
+      name: 'Arindam Chaudhuri',
+      quote:
+        'আমাদের বাড়ির পুজো ২০২৫ শুধুই উৎসব নয়, এ যেন আবেগের এক অনন্ত ঠিকানা। ঐতিহ্য, ভক্তি আর ভালোবাসার অপূর্ব মেলবন্ধনে প্রতিটি মুহূর্ত হয়ে উঠেছে স্মরণীয়। যাঁদের নিষ্ঠা ও আন্তরিক পরিশ্রমে এই আয়োজন প্রাণ পেয়েছে, তাঁদের সকলকে জানাই আন্তরিক শ্রদ্ধা ও কৃতজ্ঞতা। "আমাদের বাড়ির পুজো", হৃদয়ের টানে, আপনজনের বন্ধনে, চিরকাল এমনই থাকুক।',
     },
   ];
 
-  const handlePrev = () => {
-    setActiveIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
+  const goTo = (index: number) => {
+    const total = testimonials.length;
+    setActiveIndex(((index % total) + total) % total);
   };
 
-  const handleNext = () => {
-    setActiveIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
-  };
+  const handlePrev = () => goTo(activeIndex - 1);
+  const handleNext = () => goTo(activeIndex + 1);
 
-  // Touch handlers for mobile swipe swipe
+  // Swipe Support
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
     if (touchStartX.current === null) return;
-    const touchEndX = e.changedTouches[0].clientX;
-    const diff = touchStartX.current - touchEndX;
 
-    if (diff > 50) {
-      handleNext();
-    } else if (diff < -50) {
-      handlePrev();
-    }
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+
+    if (diff > 50) handleNext();
+    else if (diff < -50) handlePrev();
+
     touchStartX.current = null;
   };
 
-  // Auto-play slide timer
-  useEffect(() => {
-    const timer = setInterval(() => {
-      handleNext();
-    }, 6000);
-    return () => clearInterval(timer);
-  }, []);
-
-  // Lazy initialize auto-play when section is in view
-  const [isInView, setIsInView] = useState(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
-
+  // Lazy load autoplay
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -78,124 +76,160 @@ export const TestimonialsSection: React.FC = () => {
       { threshold: 0.1 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
+    if (sectionRef.current) observer.observe(sectionRef.current);
 
     return () => observer.disconnect();
   }, []);
 
-  // Only run auto-play when in view
   useEffect(() => {
     if (!isInView) return;
 
-    const timer = setInterval(() => {
-      handleNext();
-    }, 6000);
+    const timer = setInterval(handleNext, 5000);
+
     return () => clearInterval(timer);
-  }, [isInView]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeIndex, isInView]);
+
+  const active = testimonials[activeIndex];
 
   return (
-    <section ref={sectionRef} className="content-layer pb-10" style={{ contentVisibility: 'auto', containIntrinsicSize: '0 400px' }}>
-      <div className="max-w-4xl mx-auto px-6">
-        
-        {/* Section Heading */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-5xl font-bold text-primary tracking-wide font-fraunces">
-            The Smiles We Carried Home
-          </h2>
-        </div>
+    <section
+      ref={sectionRef}
+      className="content-layer py-8 md:py-8"
+      style={{
+        contentVisibility: 'auto',
+        containIntrinsicSize: '0 500px',
+      }}
+    >
+      {/* Section Heading */}
+      <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+        <h2 className="mb-12 text-center font-fraunces text-3xl font-bold text-primary md:text-4xl lg:text-5xl">
+          The Smiles We Carried Home
+        </h2>
 
-        {/* Testimonials Slider Window */}
-        <div
-className="relative overflow-hidden bg-light-bg border border-[rgb(180,160,130)] rounded-2xl p-6 md:p-12 shadow-inner"
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
-          style={{ contentVisibility: 'auto', containIntrinsicSize: '0 400px' }}
-        >
-          {/* Flex Carousel Track */}
-          <div 
-            className="flex transition-transform duration-500 ease-out"
-            style={{ transform: `translateX(-${activeIndex * 100}%)` }}
+        <div className="flex flex-col items-center gap-10">
+          <figure
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+            className="
+              w-full
+              max-w-md
+              sm:max-w-xl
+              md:max-w-3xl
+              lg:max-w-5xl
+              xl:max-w-6xl
+              rounded-3xl
+              border
+              border-primary/20
+              bg-white/70
+              backdrop-blur-sm
+              px-6
+              py-8
+              sm:px-8
+              sm:py-10
+              lg:px-12
+              lg:py-12
+              shadow-md
+              text-center
+              select-text
+            "
           >
-            {testimonials.map((item, idx) => (
-              <div 
-                key={idx}
-                className="w-full shrink-0 flex flex-col md:flex-row items-center gap-8 select-text"
+            <AnimatePresence initial={false} mode="popLayout">
+              <motion.blockquote
+                key={`${activeIndex}-quote`}
+                initial={{ opacity: 0, scale: 0.98, y: 20 }}
+                animate={{
+                  opacity: 1,
+                  scale: 1,
+                  y: 0,
+                  transition: {
+                    ...transition,
+                    delay: 0.15,
+                  },
+                }}
+                exit={{
+                  opacity: 0,
+                  scale: 0.98,
+                  y: -20,
+                  transition: {
+                    ...transition,
+                    delay: 0,
+                  },
+                }}
+                className="
+  origin-bottom
+  italic
+  font-sans
+  font-normal
+  text-secondary
+  text-[5px]
+  sm:text-base
+  md:text-md
+  lg:text-lg
+  xl:text-[22px]
+  leading-[1.45]
+  tracking-normal
+  text-balance
+  will-change-transform
+"
               >
-                {/* Author Thumbnail with fallback block */}
-                <div className="shrink-0 w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden bg-primary/10 border-2 border-accent">
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    width="128"
-                    height="128"
-                    loading="lazy"
-                    decoding="async"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                      const parent = e.currentTarget.parentElement;
-                      if (parent && parent.children.length === 1) {
-                        const avatar = document.createElement('div');
-                        avatar.className = 'w-full h-full flex items-center justify-center bg-primary text-text-on-primary text-3xl font-bold font-fraunces';
-                        avatar.innerText = item.name.charAt(0);
-                        parent.appendChild(avatar);
-                      }
-                    }}
-                    className="object-cover w-full h-full"
-                  />
-                </div>
+                "{active.quote}"
+              </motion.blockquote>
 
-                {/* Testimonial Quote details */}
-                <div className="flex-1 text-center md:text-left flex flex-col justify-center">
+              <motion.figcaption
+                key={`${activeIndex}-author`}
+                initial={{ opacity: 0, scale: 0.98, y: 20 }}
+                animate={{
+                  opacity: 1,
+                  scale: 1,
+                  y: 0,
+                  transition: {
+                    ...transition,
+                    delay: 0.25,
+                  },
+                }}
+                exit={{
+                  opacity: 0,
+                  scale: 0.98,
+                  y: -20,
+                  transition,
+                }}
+                className="mt-8 origin-bottom will-change-transform"
+              >
+                <cite
+                  className="
+                    not-italic
+                    text-sm
+                    font-bold
+                    tracking-[0.18em]
+                    uppercase
+                    text-primary
+                    font-fraunces
+                  "
+                >
+                 {active.name}
+                </cite>
+              </motion.figcaption>
+            </AnimatePresence>
+          </figure>
 
-                  {/* Body Quote */}
-                  <blockquote className="text-base md:text-lg text-secondary italic font-sans leading-relaxed mb-4">
-                    "{item.quote}"
-                  </blockquote>
-
-                  {/* Author Name */}
-                  <cite className="not-italic text-sm font-bold tracking-wider text-primary uppercase font-fraunces">
-                    — {item.name}
-                  </cite>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Indicator Dots */}
-          <div className="flex justify-center gap-2 mt-8">
+          {/* Pagination */}
+          <div className="mt-2 flex flex-wrap justify-center gap-3">
             {testimonials.map((_, idx) => (
               <button
                 key={idx}
-                onClick={() => setActiveIndex(idx)}
-                className={`w-2 h-2 rounded-full cursor-pointer transition-all duration-300 ${
-                  activeIndex === idx ? 'w-6 bg-primary' : 'bg-gray-300'
+                onClick={() => goTo(idx)}
+                aria-label={`Go to testimonial ${idx + 1}`}
+                className={`h-2.5 rounded-full cursor-pointer transition-all duration-300 ${
+                  activeIndex === idx
+                    ? 'w-8 bg-primary'
+                    : 'w-2.5 bg-gray-300 hover:bg-gray-400'
                 }`}
-                aria-label={`Go to slide ${idx + 1}`}
               />
             ))}
           </div>
         </div>
-
-        {/* Carousel Control Arrows */}
-        <div className="flex justify-center gap-4 mt-6">
-          <button
-            onClick={handlePrev}
-            className="flex items-center justify-center w-11 h-11 hover:bg-primary-dark text-primary hover:text-text-on-primary border border-border rounded-full cursor-pointer transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary shadow-sm"
-            aria-label="Previous testimonial slide"
-          >
-            <FaChevronLeft size={12} />
-          </button>
-          <button
-            onClick={handleNext}
-            className="flex items-center justify-center w-11 h-11 hover:bg-primary-dark text-primary hover:text-text-on-primary border border-border rounded-full cursor-pointer transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary shadow-sm"
-            aria-label="Next testimonial slide"
-          >
-            <FaChevronRight size={12} />
-          </button>
-        </div>
-
       </div>
     </section>
   );

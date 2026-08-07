@@ -95,7 +95,7 @@ lg:object-[50%_85%]"
       size="md"
       className="w-full sm:w-auto transition-all duration-300"
     >
-      Be a Bari Member
+      Be a Barir Member
     </Button>
   </a>
 </div>

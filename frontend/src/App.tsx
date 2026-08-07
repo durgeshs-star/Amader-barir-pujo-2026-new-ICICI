@@ -42,6 +42,7 @@ const PaymentSuccess = lazy(() => import('./components/Payment/PaymentSuccess'))
 const PaymentFailure = lazy(() => import('./components/Payment/PaymentFailure'));
 const PaymentPending = lazy(() => import('./components/Payment/PaymentPending'));
 const Questionair = lazy(() => import('./pages/Questionair'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 const PageSkeleton: React.FC = () => (
   <div
@@ -123,8 +124,8 @@ const AppShell: React.FC = () => {
             <Route path="/payment/failure" element={<PaymentFailure />} />
             <Route path="/payment/pending" element={<PaymentPending transactionId="" orderId="" amount={0} />} />
 
-            {/* Fallback redirect or homepage display */}
-            <Route path="*" element={<Home />} />
+            {/* Fallback redirect or 404 display */}
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
       </main>

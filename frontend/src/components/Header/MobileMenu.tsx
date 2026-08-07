@@ -217,7 +217,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
                 onClick={handleLinkClick}
                 className="block text-center py-3 text-sm font-semibold text-text-on-primary bg-primary hover:bg-primary-dark rounded-md transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               >
-                Be a Bari Member
+                Be a Barir Member
               </Link>
             </li>
           </ul>

@@ -108,7 +108,7 @@ const VolunteerContent: React.FC = React.memo(() => {
       />
 
       <PageHero
-        title="Be a Bari Member"
+        title="Be a Barir Member"
         height="h-[35vh] md:h-[60vh]"
         subtitle="Maa brings us together.
 Come with your time, your talent, or simply your heart. Together, let's create a Pujo that every visitor will remember and every volunteer will cherish."
