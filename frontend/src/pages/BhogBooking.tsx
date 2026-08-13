@@ -2,6 +2,7 @@
 import SEO from '../components/ui/SEO';
 import { useParams, Link } from 'react-router-dom';
 import Button from '../components/ui/Button';
+import BookingSoonModal from '../components/ui/BookingSoonModal';
 
 interface BhogMenu {
   title: string;
@@ -18,6 +19,7 @@ export const BhogBooking: React.FC = () => {
     collection: 'pandal',
   });
   const [submitted, setSubmitted] = useState(false);
+  const [showBookingSoonModal, setShowBookingSoonModal] = useState(true);
 
   const bhogDays: Record<string, { title: string; date: string; menu: BhogMenu }> = {
     saptami: {
@@ -72,7 +74,7 @@ export const BhogBooking: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setShowBookingSoonModal(true);
   };
 
   return (
@@ -238,7 +240,7 @@ export const BhogBooking: React.FC = () => {
                     </label>
                   </div>
                 </div>
-                <Button type="submit" variant="primary" fullWidth className="py-2.5 text-xs">
+                <Button type="submit" variant="primary" fullWidth className="py-2.5 text-xs opacity-70 cursor-not-allowed" aria-disabled="true">
                   Request Bhog Plates
                 </Button>
               </form>
@@ -248,6 +250,7 @@ export const BhogBooking: React.FC = () => {
         </div>
 
       </div>
+      <BookingSoonModal isOpen={showBookingSoonModal} onClose={() => setShowBookingSoonModal(false)} />
     </div>
   );
 };

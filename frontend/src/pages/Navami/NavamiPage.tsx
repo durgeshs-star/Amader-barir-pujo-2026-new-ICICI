@@ -21,7 +21,6 @@ const NavamiPage: React.FC = () => {
 
       <PageHero
         title="Navami"
-        subtitle="Durga Pujo 2026 · Day Five"
         height="h-[35vh] md:h-[60vh]"
       />
 
@@ -46,9 +45,10 @@ const NavamiPage: React.FC = () => {
             subtitle: "Cultural Schedule",
             sections: [
               {
-                title: "Navami Evening (8:00 PM - 10:00 PM)",
+                title: "Navami Evening",
                 lines: [
-                  "Band - Ujaan the Musical Rising"
+                  "Dhunuchi : 7:30 PM - 8:15 PM",
+                  "Hindi Band - AB Dreams : 8:30 PM - 10:00 PM",
                 ],
               },
             ],

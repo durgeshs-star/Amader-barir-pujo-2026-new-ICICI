@@ -17,7 +17,7 @@ export const AnudanBasket: React.FC<AnudanBasketProps> = ({ items, onRemove, onC
 
   if (items.length === 0) {
     return (
-      <div className="border border-[rgb(180,160,130)] rounded-xl p-6 shadow-lg sticky top-40 mt-6">
+      <div className="border border-[rgb(180,160,130)] rounded-xl bg-[rgb(248,233,206)] p-6 shadow-lg sticky top-40 mt-6">
         <h3 className="text-xl font-bold text-primary font-fraunces mb-4 flex items-center gap-2">
           🛒 Anudan Basket
         </h3>
@@ -29,7 +29,7 @@ export const AnudanBasket: React.FC<AnudanBasketProps> = ({ items, onRemove, onC
   }
 
   return (
-    <div className="border border-[rgb(180,160,130)] rounded-xl p-6 shadow-lg sticky top-32 mt-6">
+    <div className="border border-[rgb(180,160,130)] rounded-xl bg-[rgb(248,233,206)] p-6 shadow-lg sticky top-32 mt-6">
       <h3 className="text-xl font-bold text-primary font-fraunces mb-4 flex items-center gap-2">
         🛒 Anudan Basket
         <span className="ml-auto bg-primary text-white text-xs font-bold px-2 py-1 rounded-full">
@@ -71,7 +71,8 @@ export const AnudanBasket: React.FC<AnudanBasketProps> = ({ items, onRemove, onC
         </div>
         <button
           onClick={onCheckout}
-          className="w-full bg-primary text-white font-semibold py-3 rounded-lg hover:bg-primary/90 transition-all shadow-md"
+          className="w-full bg-gray-300 text-gray-500 font-semibold py-3 rounded-lg transition-all shadow-md opacity-70 cursor-not-allowed"
+          aria-disabled="true"
         >
           Offer Anudan
         </button>

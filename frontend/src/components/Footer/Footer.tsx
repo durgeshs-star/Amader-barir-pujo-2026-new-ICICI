@@ -20,7 +20,8 @@ export const Footer: React.FC = () => {
             <ul className="space-y-3 text-sm list-none p-0 m-0 pt-2">
               <li className="flex items-start gap-3">
                 <FaPhoneAlt className="text-accent mt-1 shrink-0" size={12} />
-                <a href="tel:+919879879302" className="text-text-on-primary hover:text-accent transition-colors">+91 7798 57 7880</a>
+                <a href="tel:+919879879302" className="text-text-on-primary hover:text-accent transition-colors">+91 7798577880</a>
+                <a href="tel:+919049008727" className="text-text-on-primary hover:text-accent transition-colors">+91 9049008727</a>
               </li>
               <li className="flex items-start gap-3">
                 <FaEnvelope className="text-accent mt-1 shrink-0" size={12} />
@@ -146,16 +147,35 @@ export const Footer: React.FC = () => {
 
           {/* Logo brand */}
           <div className="select-none flex justify-center items-center">
-  <img
-    src="/assets/img/ABP-LOGO-WHITE.png"
-    alt="Amader Barir Pujo"
-    className="h-16 w-auto object-contain"
-    width={64}
-    height={64}
-    loading="lazy"
-    decoding="async"
-  />
-</div>
+            <a href="/" aria-label="Amader Barir Pujo Home">
+              <img
+                src="/assets/img/ABP-LOGO-WHITE.png"
+                alt="Amader Barir Pujo"
+                className="h-16 w-auto object-contain"
+                width={64}
+                height={64}
+                loading="lazy"
+                decoding="async"
+              />
+            </a>
+
+            <a
+              href="https://proplusdatafoundation.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="ProPlus Data Foundation"
+            >
+              <img
+                src="/assets/img/logo-white.png"
+                alt="ProPlus Data Foundation"
+                className="h-12 w-auto object-contain ml-6"
+                width={64}
+                height={64}
+                loading="lazy"
+                decoding="async"
+              />
+            </a>
+          </div>
 
           {/* Socials */}
           <ul className="flex items-center gap-4 list-none p-0 m-0 select-none" style={{ minHeight: '32px' }}>

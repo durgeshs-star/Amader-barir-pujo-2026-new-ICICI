@@ -8,11 +8,12 @@ import { PageHero } from '../components/common/PageHero';
 import UserInfoForm, { type UserInfoFormRef } from '../components/ui/UserInfoForm';
 import AnudanReceipt from '../components/Payment/AnudanReceipt';
 import { AnudanAmountChangedModal } from '../components/AnudanAmountChangedModal';
+import BookingSoonModal from '../components/ui/BookingSoonModal';
 import type { AnudanCard as AnudanCardType } from '../types/anudan.types';
 import { API_URL } from '../config/api';
+import { apiService } from '../services/api';
 import { useAnudanRemaining } from '../hooks/useAnudanRemaining';
 import { toast } from 'react-toastify';
-import { apiService } from '../services/api';
 
 interface BasketItem {
   card: AnudanCardType;
@@ -26,6 +27,7 @@ export const Anudan: React.FC = () => {
   // Modal state for insufficient amount error
   const [showAmountChangedModal, setShowAmountChangedModal] = useState(false);
   const [modalData, setModalData] = useState<{ remaining: number; requested: number } | null>(null);
+  const [showBookingSoonModal, setShowBookingSoonModal] = useState(true);
   
   // Fetch all remaining amounts
   const [allRemainingAmounts, setAllRemainingAmounts] = useState<Record<string, number>>({});
@@ -71,7 +73,7 @@ export const Anudan: React.FC = () => {
 
   // User info and payment state
   const [isUserInfoFilled, setIsUserInfoFilled] = useState(false);
-  const [isProcessing, setIsProcessing] = useState(false);
+  const [isProcessing] = useState(false);
   const [showUserInfoForm, setShowUserInfoForm] = useState(false);
   const [showReceipt, setShowReceipt] = useState(false);
   const [receiptData, setReceiptData] = useState<any>(null);
@@ -107,143 +109,17 @@ export const Anudan: React.FC = () => {
       toast.error('Your basket is empty');
       return;
     }
-    setShowUserInfoForm(true);
+    setShowBookingSoonModal(true);
     setShowMobileBasket(false);
-    // Scroll to user info form
-    setTimeout(() => {
-      userInfoSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 100);
   };
 
-  const handlePayment = async () => {
-    if (!userInfoFormRef.current) return;
-    if (!userInfoFormRef.current.validateForm()) return;
-
+  const handlePayment = () => {
     if (basket.length === 0) {
       toast.error('Your basket is empty');
       return;
     }
 
-    const userInfo = userInfoFormRef.current.getUserInfo();
-    setIsProcessing(true);
-
-    // Final pre-payment validation
-    try {
-      const response = await fetch(`${API_URL}/api/anudan/remaining`);
-      const latestData = await response.json();
-      
-      if (latestData.success && latestData.data && latestData.data.remainingAmounts) {
-        let isExceeded = false;
-        let exceededItem: { day: string; remaining: number; requested: number } | null = null;
-        
-        for (const item of basket) {
-          const remainingAmount = latestData.data.remainingAmounts[item.card.day] || 0;
-          if (item.amount > remainingAmount) {
-            exceededItem = { day: item.card.day, remaining: remainingAmount, requested: item.amount };
-            isExceeded = true;
-            break;
-          }
-        }
-        
-        if (isExceeded && exceededItem) {
-          setIsProcessing(false);
-          // Show modal instead of alert
-          setModalData({ remaining: exceededItem.remaining, requested: exceededItem.requested });
-          setShowAmountChangedModal(true);
-          return;
-        }
-      }
-    } catch (e) {
-      console.error('Failed to validate remaining amounts before payment:', e);
-      // If the check fails (e.g. network error), we allow it to proceed to backend payment API
-    }
-
-    // Generate dummy order and transaction IDs
-    const orderId = `ANUDAN-${Date.now()}`;
-    const transactionId = `TXN-${Date.now()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
-    const timestamp = new Date().toISOString();
-
-    const totalAmount = basket.reduce((sum, item) => sum + item.amount, 0);
-
-    const categories = basket.map(item => ({
-      day: item.card.day,
-      amount: item.amount,
-      items: item.card.items,
-      remark: ''
-    }));
-
-    const anudanReceiptData = {
-      orderId,
-      transactionId,
-      categories,
-      totalAmount,
-      timestamp,
-      userInfo
-    };
-
-    try {
-      // Call backend to record anudan payment
-      const response = await fetch(`${API_URL}/api/anudan/paid-booking`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          categories,
-          userInfo,
-          orderId,
-          transactionId,
-          timestamp
-        })
-      });
-
-      const responseData = await response.json();
-
-      if (response.ok) {
-        // Check if paymentUrl is returned (ICICI PG integration)
-        if (responseData.paymentUrl) {
-          // Redirect to ICICI payment page
-          window.location.href = responseData.paymentUrl;
-          return;
-        }
-
-        // Mock payment flow - show receipt directly
-        // Refresh remaining amounts after successful payment
-        try {
-          const remainingResponse = await fetch(`${API_URL}/api/anudan/remaining`);
-          const remainingData = await remainingResponse.json();
-          if (remainingData.success && remainingData.data && remainingData.data.remainingAmounts) {
-            setAllRemainingAmounts(remainingData.data.remainingAmounts);
-          }
-        } catch (error) {
-          console.error('Failed to refresh remaining amounts after payment:', error);
-        }
-
-        // Clear basket and hide user info form
-        setBasket([]);
-        setShowUserInfoForm(false);
-
-        // Show receipt directly
-        setReceiptData(anudanReceiptData);
-        setShowReceipt(true);
-      } else if (responseData.errorCode === 'INSUFFICIENT_REMAINING_AMOUNT') {
-        // Handle insufficient remaining amount error from backend
-        setIsProcessing(false);
-        setModalData({ 
-          remaining: responseData.remainingAmount, 
-          requested: responseData.requestedAmount 
-        });
-        setShowAmountChangedModal(true);
-        return;
-      } else {
-        throw new Error(responseData.message || 'Failed to record anudan payment');
-      }
-    } catch (error) {
-      console.error('Payment failed:', error);
-      toast.error('Failed to process payment. Please try again.');
-    } finally {
-      setIsProcessing(false);
-    }
+    setShowBookingSoonModal(true);
   };
 
   return (
@@ -323,6 +199,7 @@ export const Anudan: React.FC = () => {
                     remainingAmount={allRemainingAmounts[card.day] || 0}
                     isLoading={isLoadingRemaining}
                     onAddToBasket={addToBasket}
+                    onBookingSoon={() => setShowBookingSoonModal(true)}
                   />
                 </div>
               ))}
@@ -364,7 +241,7 @@ export const Anudan: React.FC = () => {
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
-            className="w-full max-h-[80vh] rounded-t-2xl p-6 overflow-y-auto"
+            className="w-full max-h-[80vh] rounded-t-2xl bg-[rgb(248,233,206)] p-6 overflow-y-auto shadow-2xl"
           >
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-xl font-bold text-primary font-fraunces">Anudan Basket</h3>
@@ -560,6 +437,7 @@ export const Anudan: React.FC = () => {
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }}
       />
+      <BookingSoonModal isOpen={showBookingSoonModal} onClose={() => setShowBookingSoonModal(false)} />
     </LazyMotion>
     </div>
   );

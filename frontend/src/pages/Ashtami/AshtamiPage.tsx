@@ -21,7 +21,6 @@ const AshtamiPage: React.FC = () => {
 
       <PageHero
         title="Ashtami"
-        subtitle="Durga Pujo 2026 · Day Four"
         height="h-[35vh] md:h-[60vh]"
       />
 
@@ -47,10 +46,10 @@ const AshtamiPage: React.FC = () => {
             subtitle: "Cultural Schedule",
             sections: [
               {
-                title: "Ashtami Evening (8:00 PM - 10:00 PM)",
+                title: "Ashtami Evening",
                 lines: [
-                  "Dance Drama - Durga Within You",
-                  "Odisi Performance - Prachiti Odisi Dance Academy (Performer)"
+                  "Antarang An Artist Abode (Kathak Dance) : 7:30 PM - 8:30 PM",
+                  "Semi classical song : 8:30 PM - 9:30 PM",
                 ],
               },
             ],

@@ -21,7 +21,6 @@ const SaptamiPage: React.FC = () => {
 
       <PageHero
         title="Saptami"
-        subtitle="Durga Pujo 2026 · Day Three"
         height="h-[35vh] md:h-[60vh]"
       />
 
@@ -45,9 +44,9 @@ const SaptamiPage: React.FC = () => {
             subtitle: "Cultural Schedule",
             sections: [
               {
-                title: "Saptami Evening (8:00 PM - 10:00 PM)",
+                title: "Saptami Evening",
                 lines: [
-                  "Kathak and Bharatnatyam Fusion (Navaras) Dance Group - Shilpi"
+                  "Bengali Fusion Band - Ujaan : 8:00 PM to 10:00 PM",
                 ],
               },
             ],

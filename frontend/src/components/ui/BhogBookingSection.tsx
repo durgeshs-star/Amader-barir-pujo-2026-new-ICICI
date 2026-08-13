@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import BhogBookingCard from './BhogBookingCard';
 import UserInfoForm from './UserInfoForm';
+import BookingSoonModal from './BookingSoonModal';
 import type { UserInfoFormRef } from './UserInfoForm';
 import type { BhogBookingSectionProps, BhogBookingState } from '../../types/bhog';
-import { toast } from 'react-toastify';
-import { apiService } from '../../services/api';
 
 export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
   title,
@@ -24,8 +23,9 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
 
   const userInfoFormRef = React.useRef<UserInfoFormRef>(null);
   const [isUserInfoFilled, setIsUserInfoFilled] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading] = useState(false);
   const [isConfirmed, setIsConfirmed] = useState(false);
+  const [showBookingSoonModal, setShowBookingSoonModal] = useState(true);
 
   const handleValueChange = (categoryId: string, value: number) => {
     setBookings((prev) => ({
@@ -62,93 +62,6 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
     const children05Count = bookings['children-0-5'] || 0;
     const seniorCount = bookings['senior-citizens'] || 0;
     return children05Count > 0 || seniorCount > 0;
-  };
-  const handleFreeBooking = async () => {
-    if (!userInfoFormRef.current) return;
-    if (!userInfoFormRef.current.validateForm()) return;
-
-    const userInfo = userInfoFormRef.current.getUserInfo();
-    setIsLoading(true);
-
-    try {
-      const bookingDetails = {
-        title,
-        categories: categories.map(cat => ({
-          ...cat,
-          quantity: bookings[cat.id] || 0
-        })).filter(cat => cat.quantity > 0),
-        totalAmount: 0,
-        totalCount,
-        timestamp: new Date().toISOString(),
-        isFree: true,
-        userInfo
-      };
-
-      const response = await apiService.submitFreeBhogBooking(bookingDetails);
-
-      if (response.success) {
-        const { orderId, transactionId } = response.data || {};
-        if (!orderId || !transactionId) {
-          throw new Error('Receipt details were not returned for the free booking');
-        }
-
-        window.location.href = `/payment/success?orderId=${encodeURIComponent(orderId)}&transactionId=${encodeURIComponent(transactionId)}&amount=0&currency=INR&fromBhog=true`;
-      } else {
-        throw new Error('Failed to record free booking');
-      }
-    } catch (err: any) {
-      console.error('Free booking failed:', err);
-      toast.error(`Failed to record free booking: ${err.response?.data?.error || err.message || 'Unknown error'}`);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handlePayment = async () => {
-    if (!userInfoFormRef.current) return;
-    if (!userInfoFormRef.current.validateForm()) return;
-
-    const userInfo = userInfoFormRef.current.getUserInfo();
-    setIsLoading(true);
-
-    try {
-      const orderId = `BHG-${Date.now()}`;
-      const transactionId = `TXN-${Date.now()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
-
-      const bookingDetails = {
-        orderId,
-        transactionId,
-        title,
-        categories: categories.map(cat => ({
-          ...cat,
-          quantity: bookings[cat.id] || 0
-        })).filter(cat => cat.quantity > 0),
-        totalAmount,
-        totalCount,
-        timestamp: new Date().toISOString(),
-        isFree: false,
-        userInfo
-      };
-
-      const response = await apiService.submitPaidBhogBooking(bookingDetails);
-
-      if (response.success) {
-        if (response.paymentUrl) {
-          window.location.href = response.paymentUrl;
-        } else if (response.data?.transactionId) {
-          window.location.href = `/mock-payment/${response.data.transactionId}`;
-        } else {
-          throw new Error('No payment URL or transaction ID returned from backend');
-        }
-      } else {
-        throw new Error(response.message || 'Failed to initiate payment');
-      }
-    } catch (err: any) {
-      console.error('Payment initiation failed:', err);
-      toast.error(`Failed to initiate payment: ${err.response?.data?.error || err.message || 'Unknown error'}`);
-    } finally {
-      setIsLoading(false);
-    }
   };
   // Generate booking summary for mobile
   const getBookingSummary = () => {
@@ -296,9 +209,9 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
           <div className="block lg:hidden mt-4">
             {isFreeBooking() ? (
               <button
-                onClick={handleFreeBooking}
-                disabled={totalCount === 0 || !isUserInfoFilled || isLoading}
-                className="w-full px-6 py-3 bg-primary text-white font-semibold rounded-xl border-0 cursor-pointer transition-all duration-300 hover:bg-primary-dark disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500 flex items-center justify-center space-x-2 h-[52px]"
+                onClick={() => setShowBookingSoonModal(true)}
+                className="w-full px-6 py-3 bg-gray-300 text-gray-500 font-semibold rounded-xl border-0 transition-all duration-300 cursor-not-allowed opacity-70 flex items-center justify-center space-x-2 h-[52px]"
+                aria-disabled="true"
               >
                 {isLoading ? (
                   <>
@@ -314,9 +227,9 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
               </button>
             ) : (
               <button
-                onClick={handlePayment}
-                disabled={totalCount === 0 || !isUserInfoFilled || !isConfirmed || isLoading}
-                className="w-full px-6 py-3 bg-primary text-white font-semibold rounded-xl border-0 cursor-pointer transition-all duration-300 hover:bg-primary-dark disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500 flex items-center justify-center space-x-2 h-[52px]"
+                onClick={() => setShowBookingSoonModal(true)}
+                className="w-full px-6 py-3 bg-gray-300 text-gray-500 font-semibold rounded-xl border-0 transition-all duration-300 cursor-not-allowed opacity-70 flex items-center justify-center space-x-2 h-[52px]"
+                aria-disabled="true"
               >
                 {isLoading ? (
                   <>
@@ -350,9 +263,9 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
             <div className="flex-shrink-0">
               {isFreeBooking() ? (
                 <button
-                  onClick={handleFreeBooking}
-                  disabled={totalCount === 0 || !isUserInfoFilled || isLoading}
-                  className="min-w-[150px] px-6 py-2.5 bg-primary text-text-on-primary font-semibold rounded-md border-0 cursor-pointer transition-all duration-300 hover:bg-primary-dark hover:shadow-lg hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-muted disabled:hover:scale-100 flex items-center justify-center gap-2"
+                  onClick={() => setShowBookingSoonModal(true)}
+                  className="min-w-[150px] px-6 py-2.5 bg-gray-300 text-gray-500 font-semibold rounded-md border-0 transition-all duration-300 cursor-not-allowed opacity-70 flex items-center justify-center gap-2"
+                  aria-disabled="true"
                 >
                   {isLoading ? (
                     <>
@@ -368,9 +281,9 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
                 </button>
               ) : (
                 <button
-                  onClick={handlePayment}
-                  disabled={totalCount === 0 || !isUserInfoFilled || !isConfirmed || isLoading}
-                  className="min-w-[150px] px-6 py-2.5 bg-primary text-text-on-primary font-semibold rounded-md border-0 cursor-pointer transition-all duration-300 hover:bg-primary-dark hover:shadow-lg hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-muted disabled:hover:scale-100 flex items-center justify-center gap-2"
+                  onClick={() => setShowBookingSoonModal(true)}
+                  className="min-w-[150px] px-6 py-2.5 bg-gray-300 text-gray-500 font-semibold rounded-md border-0 transition-all duration-300 cursor-not-allowed opacity-70 flex items-center justify-center gap-2"
+                  aria-disabled="true"
                 >
                   {isLoading ? (
                     <>
@@ -390,6 +303,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
         </div>
 
       </section>
+      <BookingSoonModal isOpen={showBookingSoonModal} onClose={() => setShowBookingSoonModal(false)} />
     </>
   );
 };

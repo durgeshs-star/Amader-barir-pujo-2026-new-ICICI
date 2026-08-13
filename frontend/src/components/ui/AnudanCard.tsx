@@ -7,9 +7,10 @@ interface AnudanCardProps {
   remainingAmount?: number;
   isLoading?: boolean;
   onAddToBasket?: (card: AnudanCardType, amount: number) => void;
+  onBookingSoon?: () => void;
 }
 
-export const AnudanCard: React.FC<AnudanCardProps> = ({ card, remainingAmount = 0, isLoading = false, onAddToBasket }) => {
+export const AnudanCard: React.FC<AnudanCardProps> = ({ card, remainingAmount = 0, isLoading = false, onAddToBasket, onBookingSoon }) => {
   // Calculate total sum of all items in this section
   const totalCost = card.items.reduce((acc, item) => {
     const num = parseInt(item.cost.replace(/\D/g, ''), 10) || 0;
@@ -178,11 +179,17 @@ export const AnudanCard: React.FC<AnudanCardProps> = ({ card, remainingAmount = 
                 </div>
                 {error && <p className="text-red-500 text-xs mb-2">{error}</p>}
                 <button
-                  onClick={handleOfferAnudan}
-                  disabled={isFullySponsored || !inputAmount}
+                  onClick={() => {
+                    if (onBookingSoon) {
+                      onBookingSoon();
+                      return;
+                    }
+                    handleOfferAnudan();
+                  }}
+                  aria-disabled={Boolean(onBookingSoon)}
                   className={`w-full px-6 py-2 text-sm font-semibold rounded-lg shadow-md text-center border-0 transition-all ${
-                    isFullySponsored || !inputAmount
-                      ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    onBookingSoon || isFullySponsored || !inputAmount
+                      ? 'bg-gray-300 text-gray-500 cursor-not-allowed opacity-70'
                       : 'bg-primary text-white hover:bg-primary/90 cursor-pointer'
                   }`}
                 >
