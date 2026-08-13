@@ -134,7 +134,7 @@ export const Anudan: React.FC = () => {
       />
       <PageHero
         title="Anudan"
-        subtitle="🙏 Offer Your Anudan (অনুদান) – Support the Spirit of Amader Barir Pujo"
+        subtitle="🙏 Offer Your Anudan (অনুদান) – Support the Spirit of Amader Bari'r Pujo"
         backgroundImage="/assets/img/culture-24.webp"
         height="h-[35vh] md:h-[60vh]"
       />

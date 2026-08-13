@@ -5,7 +5,7 @@ export const WhatsAppBtn: React.FC = () => {
   // Let the user modify their phone number here. 
   // Custom text message can also be appended.
   const whatsappNumber = '919879879302'; 
-  const message = encodeURIComponent("Namaskar! I'd like to get in touch regarding Amader Barir Pujo 2026.");
+  const message = encodeURIComponent("Namaskar! I'd like to get in touch regarding Amader Bari'r Pujo 2026.");
   const waUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
 
   return (

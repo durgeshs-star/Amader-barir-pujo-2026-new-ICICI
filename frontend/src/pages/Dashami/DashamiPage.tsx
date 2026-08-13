@@ -32,7 +32,7 @@ const DashamiPage: React.FC = () => {
 
       <ScheduleDetails
         image="/assets/img/dashami.webp"
-        imageAlt="Dashami celebration at Amader Barir Pujo"
+        imageAlt="Dashami celebration at Amader Bari'r Pujo"
         date="20 October 2026"
         blocks={[
           {

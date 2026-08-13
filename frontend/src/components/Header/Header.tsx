@@ -24,7 +24,7 @@ export interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({
   phone = '+91 7798 57 7880',
   email = CONTACT_EMAIL,
-  ctaLabel = "Be a Barir Member",
+  ctaLabel = "Be a Bari'r Member",
   ctaHref = '/volunteer',
   facebookUrl = 'https://www.facebook.com/people/Amader-Barir-Pujo/61571741439510/',
   instagramUrl = 'https://www.instagram.com/abp_pune?igsh=YTZtZHVuODQxNWhj',
@@ -183,7 +183,7 @@ export const Header: React.FC<HeaderProps> = ({
                   <div className="rounded-full flex items-center justify-center w-36 h-20 lg:w-40 lg:h-20 transition-all duration-300">
                     <img
                       src="/assets/img/ABP-Logo.png"
-                      alt="Amader Barir Pujo logo"
+                      alt="Amader Bari'r Pujo logo"
                       className="w-full h-full object-contain"
                       loading="eager"
                       decoding="async"

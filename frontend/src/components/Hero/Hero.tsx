@@ -19,7 +19,7 @@ export const Hero: React.FC = React.memo(() => {
           />
           <img
             src="/assets/img/hero-image.webp"
-            alt="Amader Barir Pujo celebration with traditional Durga Pujo decorations and festive atmosphere"
+            alt="Amader Bari'r Pujo celebration with traditional Durga Pujo decorations and festive atmosphere"
             aria-hidden="true"
             fetchPriority="high"
             loading="eager"
@@ -95,7 +95,7 @@ lg:object-[50%_85%]"
       size="md"
       className="w-full sm:w-auto transition-all duration-300"
     >
-      Be a Barir Member
+      Be a Bari'r Member
     </Button>
   </a>
 </div>

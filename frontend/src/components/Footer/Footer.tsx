@@ -57,7 +57,7 @@ export const Footer: React.FC = () => {
               </li>
               <li>
                 <Link to="/volunteer" className="hover:text-accent transition-colors block py-1 text-text-on-primary">
-                  Be a Barir Member
+                  Be a Bari'r Member
                 </Link>
               </li>
               <li>
@@ -143,15 +143,15 @@ export const Footer: React.FC = () => {
         <div className="max-w-[1600px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
           {/* Copyright text */}
           <div className="text-sm text-text-inverse-muted text-center md:text-left select-text">
-            Copyright &copy; Amader Barir Pujo - <span className="text-accent font-bold">2026</span>
+            Copyright &copy; Amader Bari'r Pujo - <span className="text-accent font-bold">2026</span>
           </div>
 
           {/* Logo brand */}
           <div className="select-none flex justify-center items-center">
-            <a href="/" aria-label="Amader Barir Pujo Home">
+            <a href="/" aria-label="Amader Bari'r Pujo Home">
               <img
                 src="/assets/img/ABP-LOGO-WHITE.png"
-                alt="Amader Barir Pujo"
+                alt="Amader Bari'r Pujo"
                 className="h-16 w-auto object-contain"
                 width={64}
                 height={64}
@@ -185,7 +185,7 @@ export const Footer: React.FC = () => {
                 href="https://www.facebook.com/people/Amader-Barir-Pujo/61571741439510/"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Follow Amader Barir Pujo on Facebook"
+                aria-label="Follow Amader Bari'r Pujo on Facebook"
                 className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-500/10 hover:bg-accent-dark text-text-on-primary transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent shrink-0"
                 style={{ aspectRatio: '1/1' }}
               >
@@ -197,7 +197,7 @@ export const Footer: React.FC = () => {
                 href="https://www.instagram.com/abp_pune?igsh=YTZtZHVuODQxNWhj"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Follow Amader Barir Pujo on Instagram"
+                aria-label="Follow Amader Bari'r Pujo on Instagram"
                 className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-500/10 hover:bg-accent-dark text-text-on-primary transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent shrink-0"
                 style={{ aspectRatio: '1/1' }}
               >

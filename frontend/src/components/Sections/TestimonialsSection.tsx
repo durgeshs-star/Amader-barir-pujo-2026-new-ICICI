@@ -36,7 +36,7 @@ const TestimonialsSection: React.FC = () => {
     {
       name: 'Arindam Chaudhuri',
       quote:
-        'আমাদের বাড়ির পুজো ২০২৫ শুধুই উৎসব নয়, এ যেন আবেগের এক অনন্ত ঠিকানা। ঐতিহ্য, ভক্তি আর ভালোবাসার অপূর্ব মেলবন্ধনে প্রতিটি মুহূর্ত হয়ে উঠেছে স্মরণীয়। যাঁদের নিষ্ঠা ও আন্তরিক পরিশ্রমে এই আয়োজন প্রাণ পেয়েছে, তাঁদের সকলকে জানাই আন্তরিক শ্রদ্ধা ও কৃতজ্ঞতা। "আমাদের বাড়ির পুজো", হৃদয়ের টানে, আপনজনের বন্ধনে, চিরকাল এমনই থাকুক।',
+        'Some memories stay with us long after the celebrations end. Amader Bari Durga Pujo 2025 was one such experience. Dhaak, dhunuchi naach, prayers, warm khichuri, laughter, and genuine connections made it feel like family. Heartfelt thanks to the organizers for creating such a beautiful, unforgettable experience. Asche bochor abar hobe!',
     },
   ];
 

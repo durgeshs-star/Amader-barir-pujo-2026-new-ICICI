@@ -74,7 +74,7 @@ export const MockPayment: React.FC = () => {
           <div className="space-y-3">
             <div className="flex justify-between">
               <span className="text-gray-600">Merchant:</span>
-              <span className="font-semibold text-gray-900">Amader Barir Pujo</span>
+              <span className="font-semibold text-gray-900">Amader Bari'r Pujo</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-600">Transaction ID:</span>

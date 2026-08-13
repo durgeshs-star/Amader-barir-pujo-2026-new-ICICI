@@ -37,7 +37,7 @@ const PrivacyPolicy: React.FC = () => {
       ],
       list: [
         <span><strong>Event Registration:</strong> Process registrations for cultural programs, competitions, volunteering, or other Pujo activities.</span>,
-        <span><strong>Communication:</strong> Share important updates about the event, schedules, announcements, or changes related to Amar Barir Pujo.</span>,
+        <span><strong>Communication:</strong> Share important updates about the event, schedules, announcements, or changes related to Amar Bari'r Pujo.</span>,
         <span><strong>Community Engagement:</strong> Respond to your queries, feedback, or requests, and help you stay connected with our community.</span>,
         <span><strong>Photography & Media:</strong> With appropriate permissions where required, use photographs or videos captured during the event for promotional, archival, or community communication purposes.</span>,
         <span><strong>Website Improvement:</strong> Understand how visitors use our website so we can improve its content, accessibility, and overall experience.</span>,

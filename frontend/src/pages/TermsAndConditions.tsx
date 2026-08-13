@@ -7,7 +7,7 @@ const TermsAndConditions: React.FC = () => {
     {
       title: "1. About Us",
       content:
-        "Amader Barir Pujo® is a registered non-profit organization dedicated to celebrating Durga Puja, preserving Bengali culture and traditions, and fostering community engagement through cultural, religious, and social initiatives.",
+        "Amader Bari'r Pujo® is a registered non-profit organization dedicated to celebrating Durga Puja, preserving Bengali culture and traditions, and fostering community engagement through cultural, religious, and social initiatives.",
     },
     {
       title: "2. Acceptance of Terms",
@@ -32,7 +32,7 @@ const TermsAndConditions: React.FC = () => {
         "The committee reserves the right to accept, decline, modify, or cancel registrations where necessary for operational, safety, or administrative reasons.",
         <br key="br1" />,
         <strong key="s1">Membership Fee Notice</strong>,
-        "Amader Barir Pujo® does not charge any membership fee. If any individual or third party requests payment claiming it is a membership fee on our behalf, please do not make the payment. Amader Barir Pujo® shall not be responsible for any such unauthorized transactions. If you receive such a request, we encourage you to report it to us immediately through our official contact channels.",
+        "Amader Bari'r Pujo® does not charge any membership fee. If any individual or third party requests payment claiming it is a membership fee on our behalf, please do not make the payment. Amader Bari'r Pujo® shall not be responsible for any such unauthorized transactions. If you receive such a request, we encourage you to report it to us immediately through our official contact channels.",
       ],
     },
     {
@@ -66,14 +66,14 @@ const TermsAndConditions: React.FC = () => {
       list: [
         "Donations are non-refundable.",
         "Booth registration payments are non-refundable once confirmed.",
-        "If Amader Barir Pujo® cancels an event for reasons within its control, refund decisions will be communicated separately.",
+        "If Amader Bari'r Pujo® cancels an event for reasons within its control, refund decisions will be communicated separately.",
       ],
     },
     {
       title: "7. Payment Security",
       list: [
         "Online payments are processed through trusted third-party payment gateways using industry-standard security practices.",
-        "Amader Barir Pujo® does not collect or store your complete credit card, debit card, banking, or UPI credentials.",
+        "Amader Bari'r Pujo® does not collect or store your complete credit card, debit card, banking, or UPI credentials.",
       ],
     },
     {
@@ -100,7 +100,7 @@ const TermsAndConditions: React.FC = () => {
     {
       title: "",
       content: [
-        "is the intellectual property of Amader Barir Pujo® or is used under appropriate permission.",
+        "is the intellectual property of Amader Bari'r Pujo® or is used under appropriate permission.",
         "No material may be copied, reproduced, modified, republished, or commercially exploited without prior written consent.",
       ],
     },
@@ -127,7 +127,7 @@ const TermsAndConditions: React.FC = () => {
     },
     {
       title: "12. Limitation of Liability",
-      content: "While every reasonable effort is made to ensure a safe and enjoyable experience, Amader Barir Pujo®, its office bearers, volunteers, partners, sponsors, and organizing committee shall not be liable for any direct, indirect, incidental, consequential, or special damages arising from:",
+      content: "While every reasonable effort is made to ensure a safe and enjoyable experience, Amader Bari'r Pujo®, its office bearers, volunteers, partners, sponsors, and organizing committee shall not be liable for any direct, indirect, incidental, consequential, or special damages arising from:",
       list: [
         "Use of this website",
         "Participation in events",
@@ -144,7 +144,7 @@ const TermsAndConditions: React.FC = () => {
     {
       title: "13. Force Majeure",
       content:
-        "Amader Barir Pujo® shall not be held responsible for delays, cancellations, or changes resulting from events beyond its reasonable control, including but not limited to natural disasters, severe weather, government restrictions, public health emergencies, power failures, strikes, or other unforeseen circumstances.",
+        "Amader Bari'r Pujo® shall not be held responsible for delays, cancellations, or changes resulting from events beyond its reasonable control, including but not limited to natural disasters, severe weather, government restrictions, public health emergencies, power failures, strikes, or other unforeseen circumstances.",
     },
     {
       title: "14. Privacy",
@@ -157,7 +157,7 @@ const TermsAndConditions: React.FC = () => {
       title: "15. Governing Law",
       content: [
         "These Terms & Conditions shall be governed by and construed in accordance with the laws of India.",
-        "Any disputes arising from the use of this website or participation in Amader Barir Pujo® activities shall be subject to the exclusive jurisdiction of the competent courts in Pune, Maharashtra, unless otherwise required by applicable law.",
+        "Any disputes arising from the use of this website or participation in Amader Bari'r Pujo® activities shall be subject to the exclusive jurisdiction of the competent courts in Pune, Maharashtra, unless otherwise required by applicable law.",
       ],
     },
     {
@@ -170,9 +170,9 @@ const TermsAndConditions: React.FC = () => {
     {
       title: "17. Contact Us",
       content: [
-        "For questions regarding these Terms & Conditions, registrations, donations, or payments, please contact the Amader Barir Pujo® Organizing Committee using the contact information provided on this website.",
+        "For questions regarding these Terms & Conditions, registrations, donations, or payments, please contact the Amader Bari'r Pujo® Organizing Committee using the contact information provided on this website.",
         <br key="br2" />,
-        "Thank you for supporting Amader Barir Pujo®. Together, we celebrate culture, community, and traditions that continue to bring us all closer.",
+        "Thank you for supporting Amader Bari'r Pujo®. Together, we celebrate culture, community, and traditions that continue to bring us all closer.",
       ],
     },
   ];
@@ -180,16 +180,16 @@ const TermsAndConditions: React.FC = () => {
   return (
     <div className="relative">
       <SEO
-        title="Terms & Conditions | Amader Barir Pujo"
-        description="Read our terms and conditions for Amader Barir Pujo® events, services, and participation."
-        keywords="Terms and Conditions, Amader Barir Pujo, Rules, Regulations"
+        title="Terms & Conditions | Amader Bari'r Pujo"
+        description="Read our terms and conditions for Amader Bari'r Pujo® events, services, and participation."
+        keywords="Terms and Conditions, Amader Bari'r Pujo, Rules, Regulations"
         ogImage="/assets/img/banner/1.webp"
         canonical="https://www.abp.proplusdatafoundation.com/terms-and-conditions"
       />
 
       <LegalContent
         title="Terms & Conditions"
-        subtitle="A ProPlus Data Foundation Initiative. Welcome to the Amader Barir Pujo® website. By accessing or using this website, registering for an event, making a payment, or participating in any activity organized by Amader Barir Pujo®, you agree to these Terms & Conditions."
+        subtitle="A ProPlus Data Foundation Initiative. Welcome to the Amader Bari'r Pujo® website. By accessing or using this website, registering for an event, making a payment, or participating in any activity organized by Amader Bari'r Pujo®, you agree to these Terms & Conditions."
         effectiveDate="August 04, 2025"
         sections={sections}
       />

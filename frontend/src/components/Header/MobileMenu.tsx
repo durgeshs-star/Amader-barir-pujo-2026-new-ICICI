@@ -70,7 +70,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
               <div className="w-45 h-10flex items-center justify-center p-0.5">
                 <img
                   src="/assets/img/ABP-Logo.png"
-                  alt="Amader Barir Pujo logo"
+                  alt="Amader Bari'r Pujo logo"
                   className="w-full h-full object-contain"
                   width={40}
                   height={40}
@@ -217,7 +217,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
                 onClick={handleLinkClick}
                 className="block text-center py-3 text-sm font-semibold text-text-on-primary bg-primary hover:bg-primary-dark rounded-md transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               >
-                Be a Barir Member
+                Be a Bari'r Member
               </Link>
             </li>
           </ul>

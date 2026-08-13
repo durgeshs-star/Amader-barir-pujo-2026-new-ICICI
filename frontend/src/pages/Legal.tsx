@@ -13,7 +13,7 @@ export const Legal: React.FC = () => {
     <div className="relative pt-10 md:pt-14 pb-20 min-h-screen">
       <SEO
         title={title}
-        description={`${title} for Amader Barir Pujo, Pune — read our policies regarding your use of this website.`}
+        description={`${title} for Amader Bari'r Pujo, Pune — read our policies regarding your use of this website.`}
       />
       <div className="max-w-4xl mx-auto px-6">
         
@@ -33,7 +33,7 @@ export const Legal: React.FC = () => {
           {isPrivacy ? (
             <>
               <p>
-                At Amader Barir Pujo, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by our platform and how we use it.
+                At Amader Bari'r Pujo, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by our platform and how we use it.
               </p>
               
               <h2 className="text-lg font-bold text-primary font-fraunces pt-2">Information We Collect</h2>
@@ -60,7 +60,7 @@ export const Legal: React.FC = () => {
           ) : (
             <>
               <p>
-                Welcome to Amader Barir Pujo. These terms and conditions outline the rules and regulations for the use of our services and online portal.
+                Welcome to Amader Bari'r Pujo. These terms and conditions outline the rules and regulations for the use of our services and online portal.
               </p>
 
               <h2 className="text-lg font-bold text-primary font-fraunces pt-2">Service Availability</h2>

@@ -28,7 +28,7 @@ const ShashtiPage: React.FC = () => {
 
       <ScheduleDetails
         image="/assets/img/shashthi.webp"
-        imageAlt="Soshti celebration at Amader Barir Pujo"
+        imageAlt="Soshti celebration at Amader Bari'r Pujo"
         date="16 October 2026"
         blocks={[
           {

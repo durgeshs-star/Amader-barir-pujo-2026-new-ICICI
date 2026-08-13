@@ -4,7 +4,7 @@ const AboutSection = () => {
       {/* Constrained text */}
       <div className="max-w-6xl mx-auto px-6 lg:px-8 mt-8 lg:mt-12">
         <p className="text-dark-bg text-base lg:text-xl leading-7 font-fraunces lg:leading-8 text-center animate-fade-in">
-          Amader Barir Pujo<sup className="align-middle">®</sup> is an initiative of{" "}
+          Amader Bari'r Pujo<sup className="align-middle">®</sup> is an initiative of{" "}
           <a
             href="https://proplusdatafoundation.com/"
             target="_blank"
@@ -13,7 +13,7 @@ const AboutSection = () => {
           >
             ProPlus Data Foundation<sup className="align-middle">®</sup>
           </a>
-          , created with a simple thought: Pujo should feel like barir pujo,
+          , created with a simple thought: Pujo should feel like bari'r pujo,
           even when you’re miles away from bari. There are no membership fees
           and no inner circles. Come for Maa, stay for the adda, have another
           helping of bhog, and somewhere between the dhaak and “aar ektu

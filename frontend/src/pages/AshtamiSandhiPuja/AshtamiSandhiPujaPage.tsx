@@ -28,7 +28,7 @@ const AshtamiSandhiPujaPage: React.FC = () => {
 
       <ScheduleDetails
         image="/assets/img/ashtami.webp"
-        imageAlt="Ashtami Sandhi Puja celebration at Amader Barir Pujo"
+        imageAlt="Ashtami Sandhi Puja celebration at Amader Bari'r Pujo"
         date="18 October 2026"
         blocks={[
           {

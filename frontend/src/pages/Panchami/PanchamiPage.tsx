@@ -28,7 +28,7 @@ const PanchamiPage: React.FC = () => {
 
       <ScheduleDetails
         image="/assets/img/panchami-photo.webp"
-        imageAlt="Panchami celebration at Amader Barir Pujo"
+        imageAlt="Panchami celebration at Amader Bari'r Pujo"
         subtitle="Pujo Schedule"
         title="Panchami"
         date="15 October 2026"

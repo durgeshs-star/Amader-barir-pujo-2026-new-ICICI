@@ -90,8 +90,8 @@ export const ContactUs: React.FC = () => {
       <LazyMotion features={domAnimation} strict>
       <SEO
         title="Contact Us"
-        description="Get in touch with the Amader Barir Pujo organizing committee. Call, email, or visit us in Wakad, Pune during the Durga Puja celebrations."
-        keywords="Contact Amader Barir Pujo, Durga Puja Pune contact, Bengali community Wakad Pune"
+        description="Get in touch with the Amader Bari'r Pujo organizing committee. Call, email, or visit us in Wakad, Pune during the Durga Puja celebrations."
+        keywords="Contact Amader Bari'r Pujo, Durga Puja Pune contact, Bengali community Wakad Pune"
         ogImage="/assets/img/banner/1.webp"
         canonical="https://www.abp.proplusdatafoundation.com/contact-us"
       />
@@ -185,7 +185,9 @@ className="bg-light-bg rounded-xl p-8 text-center hover:shadow-lg transition-sha
                     </div>
                     <div>
                       <span className="text-[10px] text-muted font-bold uppercase tracking-widest block">Call Us</span>
-                      <a href="tel:+123478390" className="font-semibold text-secondary hover:text-primary transition-colors">+91 7798 57 7880</a>
+                      <a href="tel:+917798577880" className="font-semibold text-secondary hover:text-primary transition-colors">+91 7798 57 7880</a>
+                      <span className="mx-2" aria-hidden="true">|</span>
+                      <a href="tel:+919049008727" className="font-semibold text-secondary hover:text-primary transition-colors">+91 9049 00 8727</a>
                     </div>
                   </li>
 
@@ -225,7 +227,7 @@ className="bg-light-bg rounded-xl p-8 text-center hover:shadow-lg transition-sha
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  title="Amader Barir Pujo Location"
+                  title="Amader Bari'r Pujo Location"
                 />
               </div> */}
             </m.div>

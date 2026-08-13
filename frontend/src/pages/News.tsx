@@ -34,7 +34,7 @@ export const News: React.FC = () => {
       {/* Page Header with Hero Image */}
       <PageHero
         title="News & Media"
-        subtitle="Stay updated with the latest news and media coverage about Amader Barir Pujo"
+        subtitle="Stay updated with the latest news and media coverage about Amader Bari'r Pujo"
         backgroundImage="/assets/img/culture-24.webp"
         height="h-[40vh] md:h-[60vh]"
       />
