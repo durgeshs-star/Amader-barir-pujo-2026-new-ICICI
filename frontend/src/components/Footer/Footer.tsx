@@ -169,7 +169,7 @@ export const Footer: React.FC = () => {
               <img
                 src="/assets/img/logo-white.png"
                 alt="ProPlus Data Foundation"
-                className="h-12 w-auto object-contain ml-6"
+                className="h-12 w-auto object-contain ml-8"
                 width={64}
                 height={64}
                 loading="lazy"
@@ -186,10 +186,10 @@ export const Footer: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Follow Amader Bari'r Pujo on Facebook"
-                className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-500/10 hover:bg-accent-dark text-text-on-primary transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent shrink-0"
+                className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-500/10 hover:bg-accent-dark text-text-on-primary transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent shrink-0"
                 style={{ aspectRatio: '1/1' }}
               >
-                <FaFacebookF size={12} aria-hidden="true" />
+                <FaFacebookF size={20} aria-hidden="true" />
               </a>
             </li>
             <li>
@@ -198,10 +198,10 @@ export const Footer: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Follow Amader Bari'r Pujo on Instagram"
-                className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-500/10 hover:bg-accent-dark text-text-on-primary transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent shrink-0"
+                className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-500/10 hover:bg-accent-dark text-text-on-primary transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent shrink-0"
                 style={{ aspectRatio: '1/1' }}
               >
-                <FaInstagram size={12} aria-hidden="true" />
+                <FaInstagram size={20} aria-hidden="true" />
               </a>
             </li>
           </ul>

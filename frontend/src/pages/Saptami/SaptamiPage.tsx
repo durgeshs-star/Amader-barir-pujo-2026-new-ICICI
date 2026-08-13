@@ -3,8 +3,7 @@ import SEO from "../../components/ui/SEO";
 import PageHero from "../../components/common/PageHero";
 import {
   ScheduleIntro,
-  ScheduleDetails,
-  FleaMarketSection,
+  ScheduleDetails,  
 } from "../../components/schedule";
 import { saptamiIntroParagraph } from "../../assets/data/scheduleShared";
 
@@ -35,9 +34,9 @@ const SaptamiPage: React.FC = () => {
             subtitle: "Pujo Schedule (2026)",
             title: "Saptami",
             lines: [
-              "Morning Pujo Start : 8:00 AM",
-              "Pushpaanjali : 10:00 AM",
-              "Sandhya Aarti : 7 PM",
+              "Morning Pujo Start " /* : 8:00 AM */,
+              "Pushpaanjali " /* : 10:00 AM */,
+              "Sandhya Aarti " /* : 7 PM */,
             ],
           },
           {
@@ -46,7 +45,7 @@ const SaptamiPage: React.FC = () => {
               {
                 title: "Saptami Evening",
                 lines: [
-                  "Bengali Fusion Band - Ujaan : 8:00 PM to 10:00 PM",
+                  "Bengali Fusion Band - Ujaan " /* : 8:00 PM to 10:00 PM */,
                 ],
               },
             ],
@@ -54,7 +53,7 @@ const SaptamiPage: React.FC = () => {
         ]}
       />
 
-      <FleaMarketSection />
+       
     </div>
   );
 };

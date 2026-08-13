@@ -194,11 +194,10 @@ className="bg-light-bg rounded-xl p-8 text-center hover:shadow-lg transition-sha
                   </div>
                   <div>
                     <h3 className="font-fraunces text-lg font-bold text-primary mb-2">
-                      Pujo Dates 2026
+                      Pujo Days 2026
                     </h3>
                     <p className="text-text-secondary text-sm">
-                      October 15-20, 2026<br />
-                      Wakad, Pune
+                      October 15 - 21, 2026
                     </p>
                   </div>
                 </div>

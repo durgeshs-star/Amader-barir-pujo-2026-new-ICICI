@@ -1,7 +1,6 @@
 import React from "react";
 import SEO from "../components/ui/SEO";
 import PageHero from "../components/common/PageHero";
-import { FleaMarketSection } from "../components/schedule";
 import FleaMarketCarousel from "../components/ui/FleaMarketCarousel";
 import ImageGrid from "../components/ui/ImageGrid";
 import CarouselContentSection from "../components/common/CarouselContentSection";
@@ -19,7 +18,7 @@ const SaraswatiPuja: React.FC = () => {
       />
 
       <PageHero
-        title="Saraswati Puja"
+        title="Saraswati Pujo"
         subtitle="Celebration of Knowledge, Wisdom & Learning"
         backgroundImage="/assets/img/saraswati-puja16.webp"
         height="h-[35vh] md:h-[60vh]"
@@ -35,7 +34,7 @@ const SaraswatiPuja: React.FC = () => {
             </h2>
             <div className="w-16 h-1 bg-accent mb-8 rounded-full" />
             <p className="text-secondary text-lg md:text-xl leading-relaxed mb-6">
-              Saraswati Puja is one of the most cherished festivals in the Bengali community, celebrating Goddess Saraswati as the divine embodiment of knowledge, wisdom, music, arts, and learning. The images beautifully capture a traditional Bengali-style celebration, where the elegantly decorated idol of Maa Saraswati is adorned with fresh flower garlands and worshipped with devotion through rituals such as aarti, pushpanjali, and sacred offerings.
+              Saraswati Pujo is one of the most cherished festivals in the Bengali community, celebrating Goddess Saraswati as the divine embodiment of knowledge, wisdom, music, arts, and learning. The images beautifully capture a traditional Bengali-style celebration, where the elegantly decorated idol of Maa Saraswati is adorned with fresh flower garlands and worshipped with devotion through rituals such as aarti, pushpanjali, and sacred offerings.
             </p>
             <p className="text-secondary text-lg md:text-xl leading-relaxed">
               The vibrant decorations, colorful kites, floral arrangements, and traditional attire create a festive atmosphere that reflects Bengal's rich cultural heritage while inspiring devotees to seek the goddess's blessings for education, creativity, and spiritual growth.
@@ -71,7 +70,7 @@ const SaraswatiPuja: React.FC = () => {
               autoPlay={true}
               interval={2500}
               slidesPerView={1}
-              altPrefix="Saraswati Puja"
+              altPrefix="Saraswati Pujo"
               showDots={true}
             />
           </div>
@@ -87,14 +86,14 @@ const SaraswatiPuja: React.FC = () => {
             </h2>
             <div className="w-16 h-1 bg-accent mx-auto mb-6 rounded-full" />
             <p className="text-secondary text-lg max-w-2xl mx-auto">
-              Experience the vibrant traditions and spiritual essence of Saraswati Puja
+              Experience the vibrant traditions and spiritual essence of Saraswati Pujo
             </p>
           </div>
 
           <ImageGrid
             images={[
 
-              { id: "1", src: "/assets/img/saraswati-puja10.webp", alt: "Saraswati Puja ceremony" },
+              { id: "1", src: "/assets/img/saraswati-puja10.webp", alt: "Saraswati Pujo ceremony" },
               { id: "2", src: "/assets/img/saraswati-puja9.webp", alt: "Devotional offerings" },
               { id: "11", src: "/assets/img/saraswati-puja14.webp", alt: "Sacred offerings" },
               { id: "3", src: "/assets/img/saraswati-puja12.webp", alt: "Traditional celebration" },
@@ -120,17 +119,17 @@ const SaraswatiPuja: React.FC = () => {
             </h2>
             <div className="w-16 h-1 bg-accent mb-8 rounded-full" />
             <p className="text-secondary text-lg md:text-xl leading-relaxed mb-6">
-              The Saraswati Puja celebration brings together people of all ages in a spirit of devotion, culture, and togetherness. Community members dressed in traditional yellow and white attire participate in prayers, offer flowers, receive prasadam, and seek the blessings of the goddess for a prosperous and enlightened future.
+              The Saraswati Pujo celebration brings together people of all ages in a spirit of devotion, culture, and togetherness. Community members dressed in traditional yellow and white attire participate in prayers, offer flowers, receive prasadam, and seek the blessings of the goddess for a prosperous and enlightened future.
             </p>
             <p className="text-secondary text-lg md:text-xl leading-relaxed">
-              More than just a religious festival, Saraswati Puja serves as a celebration of education, creativity, and the timeless Bengali tradition of honoring knowledge, making it a joyful occasion that strengthens family bonds, preserves cultural values, and inspires lifelong learning.
+              More than just a religious festival, Saraswati Pujo serves as a celebration of education, creativity, and the timeless Bengali tradition of honoring knowledge, making it a joyful occasion that strengthens family bonds, preserves cultural values, and inspires lifelong learning.
             </p>
           </div>
         </div>
       </section>
 
       {/* Flea Market Section */}
-      <FleaMarketSection />
+       
     </div>
   );
 };

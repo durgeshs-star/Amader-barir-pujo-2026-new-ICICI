@@ -8,17 +8,17 @@ export const pujoScheduleDays: NavItem[] = [
   { name: 'Soshti', path: '/shashti' },
   { name: 'Saptami', path: '/saptami' },
   { name: 'Ashtami', path: '/ashtami' },
-  { name: 'Ashtami Sandhi Puja', path: '/ashtami-sandhi-puja' },
+  { name: 'Ashtami Sandhi Pujo', path: '/ashtami-sandhi-puja' },
   { name: 'Navami', path: '/navami' },
   { name: 'Dashami', path: '/dashami' },
-  { name: 'Saraswati Puja', path: '/saraswati-puja' },
+  { name: 'Saraswati Pujo', path: '/saraswati-puja' },
 ];
 
 export const bhogBookingDays: NavItem[] = [
   { name: 'Saptami', path: '/bhog-booking/saptami' },
   { name: 'Ashtami', path: '/bhog-booking/ashtami' },
-  { name: 'Ashtami Sandhi Puja', path: '/bhog-booking/ashtami-sandhi-puja' },
+  { name: 'Ashtami Sandhi Pujo', path: '/bhog-booking/ashtami-sandhi-puja' },
   { name: 'Navami', path: '/bhog-booking/navami' },
-  { name: 'Lakshmi Puja', path: '/bhog-booking/lakshmi-puja' },
-  { name: 'Saraswati Puja', path: '/bhog-booking/saraswati-puja' },
+  { name: 'Lakshmi Pujo', path: '/bhog-booking/lakshmi-puja' },
+  { name: 'Saraswati Pujo', path: '/bhog-booking/saraswati-puja' },
 ];

@@ -4,7 +4,6 @@ import PageHero from "../../components/common/PageHero";
 import {
   ScheduleIntro,
   ScheduleDetails,
-  FleaMarketSection,
 } from "../../components/schedule";
 import { ashtamiIntroParagraph } from "../../assets/data/scheduleShared";
 
@@ -35,11 +34,11 @@ const AshtamiPage: React.FC = () => {
             subtitle: "Pujo Schedule (2026)",
             title: "Ashtami",
             lines: [
-              "Morning Pujo Start : 8:00 AM",
-              "Pushpaanjali : 10:00 AM",
-              "Sandhi Pujo Start : 1:21 PM",
-              "Boli : 1:45 PM, End : 2:09 PM",
-              "Sandhya Aarti : 7 PM",
+              "Morning Pujo Start " /* :  8:00 AM */,
+              "Pushpaanjali " /* :  10:00 AM */,
+              "Sandhi Pujo Start " /* :  1:21 PM */,
+              "Boli " /* :  1:45 PM */, " End " /* :  2:09 PM */,
+              "Sandhya Aarti " /* :  7 PM */,
             ],
           },
           {
@@ -48,16 +47,14 @@ const AshtamiPage: React.FC = () => {
               {
                 title: "Ashtami Evening",
                 lines: [
-                  "Antarang An Artist Abode (Kathak Dance) : 7:30 PM - 8:30 PM",
-                  "Semi classical song : 8:30 PM - 9:30 PM",
+                  "Antarang An Artist Abode (Kathak Dance) " /* :  7:30 PM - 8:30 PM */,
+                  "Semi classical song " /* :  8:30 PM - 9:30 PM */,
                 ],
               },
             ],
           },
         ]}
       />
-
-      <FleaMarketSection />
     </div>
   );
 };

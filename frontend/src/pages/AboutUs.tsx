@@ -2,6 +2,7 @@
 import SEO from "../components/ui/SEO";
 import PageHero from "../components/common/PageHero";
 import AboutSection from "../components/About/AboutSection";
+import { FleaMarketSection } from '../components/schedule';
 
 const About = React.memo(() => {
   return (
@@ -20,6 +21,7 @@ const About = React.memo(() => {
         height="h-[35vh] md:h-[60vh]"
       />
       <AboutSection />
+      <FleaMarketSection />
     </div>
   );
 });

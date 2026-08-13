@@ -3,8 +3,7 @@ import SEO from "../../components/ui/SEO";
 import PageHero from "../../components/common/PageHero";
 import {
   ScheduleIntro,
-  ScheduleDetails,
-  FleaMarketSection,
+  ScheduleDetails,  
 } from "../../components/schedule";
 import { shashthiIntroParagraph } from "../../assets/data/scheduleShared";
 
@@ -35,9 +34,9 @@ const ShashtiPage: React.FC = () => {
             subtitle: "Pujo Schedule (2026)",
             title: "Soshti",
             lines: [
-              "Morning Pujo Start : 9:30 AM",
-              "Pushpaanjali : 10:30 AM",
-              "Sandhya Aarti : 7 PM",
+              "Morning Pujo Start " /* : 9:30 AM */,
+              "Pushpaanjali " /* : 10:30 AM */,
+              "Sandhya Aarti " /* : 7 PM */,
             ],
           },
           {
@@ -48,7 +47,7 @@ const ShashtiPage: React.FC = () => {
               //   lines: ["Children's Event : 12:00 PM - 2:00 PM"],
               // },
               {
-                title: "Soshti Evening (8:00 PM - 10:00 PM)",
+                title: "Soshti Evening" /* (8:00 PM - 10:00 PM) */,
                 lines: [
                   "Agomoni (Half Hour)",
                   "Retro to Rhythm",
@@ -60,7 +59,7 @@ const ShashtiPage: React.FC = () => {
         ]}
       />
 
-      <FleaMarketSection />
+       
     </div>
   );
 };

@@ -3,8 +3,7 @@ import SEO from "../../components/ui/SEO";
 import PageHero from "../../components/common/PageHero";
 import {
   ScheduleIntro,
-  ScheduleDetails,
-  FleaMarketSection,
+  ScheduleDetails,  
 } from "../../components/schedule";
 import { panchamiIntroParagraph } from "../../assets/data/scheduleShared";
 
@@ -35,7 +34,7 @@ const PanchamiPage: React.FC = () => {
         timing="Maa Boron : 5:30 PM"
       />
 
-      <FleaMarketSection />
+       
     </div>
   );
 };

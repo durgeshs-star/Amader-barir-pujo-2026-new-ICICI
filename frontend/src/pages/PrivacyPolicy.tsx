@@ -83,7 +83,6 @@ const PrivacyPolicy: React.FC = () => {
       content: [
         "To exercise these rights, or for questions or concerns about this Privacy Policy, please contact us at:",
         <span>Royal Oak Society Rd, Karpe Nagar, Kemse Vasti, Wakad, Pimpri-Chinchwad, Maharashtra 411057</span>,
-        <span><a href="mailto:info@proplusdata.co" className="text-blue-600 hover:text-blue-700 underline">info@proplusdata.co</a></span>,
         <span><a href="mailto:info@abp.proplusdatafoundation.co" className="text-blue-600 hover:text-blue-700 underline">info@abp.proplusdatafoundation.co</a></span>
       ]
     }

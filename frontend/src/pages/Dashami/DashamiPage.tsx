@@ -3,8 +3,7 @@ import SEO from "../../components/ui/SEO";
 import PageHero from "../../components/common/PageHero";
 import {
   ScheduleIntro,
-  ScheduleDetails,
-  FleaMarketSection,
+  ScheduleDetails,  
 } from "../../components/schedule";
 import { dashamiIntroParagraph } from "../../assets/data/scheduleShared";
 
@@ -39,11 +38,11 @@ const DashamiPage: React.FC = () => {
             subtitle: "Pujo Schedule (2026)",
             title: "Dashami",
             lines: [
-              "Morning Pujo Start : 9:00 AM",
-              "Pushpaanjali & Aporajita Pujo : 10:00 AM",
-              "Ghot Bishorjon : 10:30 AM",
-              "Sindoor Khela : 11:00 AM to 2:30 PM",
-              "Pratima Niranjan : 4:00 PM",
+              "Morning Pujo Start " /* : 9:00 AM */,
+              "Pushpaanjali & Aporajita Pujo " /* : 10:00 AM */,
+              "Ghot Bishorjon " /* : 10:30 AM */,
+              "Sindoor Khela " /* : 11:00 AM to 2:30 PM */,
+              "Pratima Niranjan " /* : 4:00 PM */,
             ],
           },
           {
@@ -52,7 +51,7 @@ const DashamiPage: React.FC = () => {
               {
                 title: "Dashami Noon",
                 lines: [
-                  "Bijoya Flute : 11:00 AM - 3:00 PM",
+                  "Bijoya Flute " /* : 11:00 AM - 3:00 PM */,
                 ],
               },
             ],
@@ -60,7 +59,7 @@ const DashamiPage: React.FC = () => {
         ]}
       />
 
-      <FleaMarketSection />
+       
     </div>
   );
 };

@@ -3,8 +3,7 @@ import SEO from "../../components/ui/SEO";
 import PageHero from "../../components/common/PageHero";
 import {
   ScheduleIntro,
-  ScheduleDetails,
-  FleaMarketSection,
+  ScheduleDetails,  
 } from "../../components/schedule";
 import { navamiIntroParagraph } from "../../assets/data/scheduleShared";
 
@@ -35,10 +34,10 @@ const NavamiPage: React.FC = () => {
             subtitle: "Pujo Schedule (2026)",
             title: "Navami",
             lines: [
-              "Morning Pujo Start : 8:00 AM",
-              "Pushpaanjali : 10:00 AM",
-              "Hawaan : 12:00 PM",
-              "Sandhya Aarti : 7 PM",
+              "Morning Pujo Start " /* : 8:00 AM */,
+              "Pushpaanjali " /* : 10:00 AM */,
+              "Hawaan " /* : 12:00 PM */,
+              "Sandhya Aarti " /* : 7 PM */,
             ],
           },
           {
@@ -47,8 +46,8 @@ const NavamiPage: React.FC = () => {
               {
                 title: "Navami Evening",
                 lines: [
-                  "Dhunuchi : 7:30 PM - 8:15 PM",
-                  "Hindi Band - AB Dreams : 8:30 PM - 10:00 PM",
+                  "Dhunuchi " /* : 7:30 PM - 8:15 PM */,
+                  "Hindi Band - AB Dreams " /* : 8:30 PM - 10:00 PM */,
                 ],
               },
             ],
@@ -56,7 +55,7 @@ const NavamiPage: React.FC = () => {
         ]}
       />
 
-      <FleaMarketSection />
+       
     </div>
   );
 };

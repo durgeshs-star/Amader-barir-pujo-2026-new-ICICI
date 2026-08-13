@@ -2,12 +2,12 @@ import React from 'react';
 import Button from '../ui/Button';
 
 export const Hero: React.FC = React.memo(() => {
-  const handleScrollToContent = () => {
-    const contentEl = document.getElementById('experience-section');
-    if (contentEl) {
-      contentEl.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  // const handleScrollToContent = () => {
+  //   const contentEl = document.getElementById('experience-section');
+  //   if (contentEl) {
+  //     contentEl.scrollIntoView({ behavior: 'smooth' });
+  //   }
+  // };
   return (
     <div data-hero className="relative min-h-0 lg:h-screen lg:min-h-0 flex flex-col lg:flex-row lg:items-center overflow-hidden bg-dark-bg text-white">
 
@@ -50,7 +50,7 @@ lg:object-[50%_85%]"
 
           {/* Title — large display, two visual lines */}
           <h1
-            className="font-fraunces-italic leading-tight mb-4 sm:mb-6 select-text text-3xl xs:text-4xl sm:text-5xl md:text-5xl font-bold text-white text-center lg:text-left break-words"
+            className="font-fraunces-italic leading-tight mb-4 sm:mb-6 select-text text-3xl xs:text-4xl sm:text-5xl md:text-5xl font-bold text-white text-center lg:text-left wrap-break-word"
             style={{ textShadow: '0 2px 12px rgba(0,0,0,0.5)' }}
           >
             আমাদের বাড়ির পূজো
@@ -66,7 +66,7 @@ lg:object-[50%_85%]"
           >
             <p>More than a celebration, it's a feeling we carry with us.</p>
             <p>A place where strangers become friends, children grow up making memories, and with Maa at the heart of it all, the familiar rhythm of dhaak, laughter, and adda reminds us what together feels like.</p>
-            <p className="font-bold text-accent text-center">Free for all. Just as Pujo should be.</p>
+            <p className="font-bold text-accent text-center text-lg text-left">Free for all. Just as Pujo should be.</p>
           </div>
 
           {/* Bengali content */}
@@ -80,14 +80,14 @@ lg:object-[50%_85%]"
 
           {/* CTA buttons */}
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pb-6 sm:pb-0 justify-center lg:justify-start items-center lg:items-stretch">
-  <Button
+  {/* <Button
     variant="primary"
     size="md"
     onClick={handleScrollToContent}
     className="w-full sm:w-auto transition-all duration-300"
   >
     Explore Pujo
-  </Button>
+  </Button> */}
 
   <a href="/volunteer" className="w-full sm:w-auto">
     <Button

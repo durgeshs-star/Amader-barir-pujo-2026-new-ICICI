@@ -1,5 +1,4 @@
 import React from "react";
-import { Clock } from "lucide-react";
 import type { ScheduleBlock, ScheduleDetailsProps } from "../../types/schedule";
 
 const ScheduleBlockContent: React.FC<{ block: ScheduleBlock }> = ({ block }) => (
@@ -102,7 +101,7 @@ export const ScheduleDetails: React.FC<ScheduleDetailsProps> = ({
               </span>
             )}
 
-            {hasSimpleLayout && timing && (
+            {/* {hasSimpleLayout && timing && (
               <div className="mt-8 flex items-start gap-4 p-5 rounded-xl bg-light-bg/80 border border-primary/10">
                 <div className="shrink-0 flex items-center justify-center w-11 h-11 rounded-full bg-primary/10 text-primary">
                   <Clock size={20} strokeWidth={2.25} />
@@ -116,7 +115,7 @@ export const ScheduleDetails: React.FC<ScheduleDetailsProps> = ({
                   </p>
                 </div>
               </div>
-            )}
+            )} */}
 
             {blocks?.map((block) => (
               <ScheduleBlockContent key={block.subtitle} block={block} />

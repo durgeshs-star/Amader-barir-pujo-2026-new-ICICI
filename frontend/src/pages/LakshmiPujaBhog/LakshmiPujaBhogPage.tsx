@@ -16,7 +16,7 @@ const LakshmiPujaBhogPage: React.FC = () => {
       />
 
       <PageHero
-        title="Lakshmi Puja Bhog"
+        title="Lakshmi Pujo Bhog"
         height="h-[35vh] md:h-[60vh]"
       />
 
@@ -26,7 +26,7 @@ const LakshmiPujaBhogPage: React.FC = () => {
 
           <div className="text-center">
             <p className="text-base md:text-lg text-secondary leading-relaxed md:leading-loose text-center">
-            Join us in celebrating Lakshmi Puja through the sacred tradition of Bhog.{' '}
+            Join us in celebrating Lakshmi Pujo through the sacred tradition of Bhog.{' '}
             <strong>Book your Bhog</strong> and partake in the sacred prasadam.
             </p>
           </div>
@@ -37,7 +37,7 @@ const LakshmiPujaBhogPage: React.FC = () => {
         <div className="max-w-5xl mx-auto px-6">
           <PujaBookingCard
             pujaKey="lakshmiPuja"
-            title="Lakshmi Puja Bhog"
+            title="Lakshmi Pujo Bhog"
             subtitle="Bhog Booking"
             description="Select the number of bhog."
             paymentUrl="https://www.abp.proplusdatafoundation.com"

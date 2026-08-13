@@ -16,14 +16,14 @@ const SaraswatiPujaBhogPage: React.FC = () => {
       />
 
       <PageHero
-        title="Saraswati Puja Bhog"
+        title="Saraswati Pujo Bhog"
         height="h-[35vh] md:h-[60vh]"
       />
 
       <section className="content-layer py-8">
         <div className="max-w-4xl mx-auto px-6">
             <p className="text-base md:text-lg text-secondary leading-relaxed md:leading-loose text-center">
-            Join us in celebrating Saraswati Puja through the sacred tradition of Bhog.{' '}
+            Join us in celebrating Saraswati Pujo through the sacred tradition of Bhog.{' '}
             <strong>Book your Bhog</strong> and partake in the sacred prasadam.
             </p>
         </div>
@@ -33,7 +33,7 @@ const SaraswatiPujaBhogPage: React.FC = () => {
         <div className="max-w-5xl mx-auto px-6">
           <PujaBookingCard
             pujaKey="saraswatiPuja"
-            title="Saraswati Puja Bhog"
+            title="Saraswati Pujo Bhog"
             subtitle="Bhog Booking"
             description="Select the number of bhog."
             paymentUrl="https://www.abp.proplusdatafoundation.com"

@@ -16,7 +16,7 @@ const AshtamiBhogSandhiPujaPage: React.FC = () => {
       />
 
       <PageHero
-        title="Ashtami Sandhi Puja Bhog"
+        title="Ashtami Sandhi Pujo Bhog"
         height="h-[35vh] md:h-[60vh]"
       />
 
@@ -26,7 +26,7 @@ const AshtamiBhogSandhiPujaPage: React.FC = () => {
 
           <div className="text-center">
             <p className="text-base md:text-lg text-secondary leading-relaxed md:leading-loose text-center">
-            Join us in celebrating the sacred <strong>Sandhi Puja</strong>, the holy transition between Ashtami and Navami through blessed Bhog.{' '}
+            Join us in celebrating the sacred <strong>Sandhi Pujo</strong>, the holy transition between Ashtami and Navami through blessed Bhog.{' '}
             <strong>Experience the spiritual essence</strong> of this momentous occasion with our specially prepared Prasad.
             </p>
           </div>
@@ -37,7 +37,7 @@ const AshtamiBhogSandhiPujaPage: React.FC = () => {
         <div className="max-w-5xl mx-auto px-6">
           <PujaBookingCard
             pujaKey="sandhiPuja"
-            title="Ashtami Sandhi Puja Bhog"
+            title="Ashtami Sandhi Pujo Bhog"
             subtitle="Sacred Transition Bhog Booking"
             description="Select the number of bhog."
             paymentUrl="https://www.abp.proplusdatafoundation.com"

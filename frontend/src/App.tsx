@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 // import WhatsAppBtn from './components/Sections/WhatsAppBtn';
-import BackToTop from './components/Sections/BackToTop';
+// import BackToTop from './components/Sections/BackToTop';
 import FulachiMal from './components/Sections/FulachiMal';
 // import Preloader from './components/ui/Preloader';
 
@@ -132,7 +132,7 @@ const AppShell: React.FC = () => {
 
       {!isWelcomeToAbpWaFamilyRoute ? <Footer /> : null}
       {/* {!isWelcomeToAbpWaFamilyRoute ? <WhatsAppBtn /> : null} */}
-      {!isWelcomeToAbpWaFamilyRoute ? <BackToTop /> : null}
+      {/* {!isWelcomeToAbpWaFamilyRoute ? <BackToTop /> : null} */}
       
       <ToastContainer
         position="top-right"

@@ -3,8 +3,7 @@ import SEO from "../../components/ui/SEO";
 import PageHero from "../../components/common/PageHero";
 import {
   ScheduleIntro,
-  ScheduleDetails,
-  FleaMarketSection,
+  ScheduleDetails,  
 } from "../../components/schedule";
 import { ashtamiSandhiPujaIntroParagraph } from "../../assets/data/scheduleShared";
 
@@ -20,7 +19,7 @@ const AshtamiSandhiPujaPage: React.FC = () => {
       />
 
       <PageHero
-        title="Ashtami Sandhi Puja"
+        title="Ashtami Sandhi Pujo"
         height="h-[35vh] md:h-[60vh]"
       />
 
@@ -28,17 +27,17 @@ const AshtamiSandhiPujaPage: React.FC = () => {
 
       <ScheduleDetails
         image="/assets/img/ashtami.webp"
-        imageAlt="Ashtami Sandhi Puja celebration at Amader Bari'r Pujo"
+        imageAlt="Ashtami Sandhi Pujo celebration at Amader Bari'r Pujo"
         date="18 October 2026"
         blocks={[
           {
             subtitle: "Pujo Schedule (2026)",
-            title: "Ashtami Sandhi Puja",
+            title: "Ashtami Sandhi Pujo",
             lines: [
-              "Sandhi Pujo Start : 1:21 PM",
-              "Boli : 1:45 PM, End : 2:09 PM",
-              "Aarti : 2:15 PM",
-              "Pushpanjali : 2:30 PM",
+              "Sandhi Pujo Start " /* : 1:21 PM */,
+              "Boli " /* : 1:45 PM, End : 2:09 PM */,
+              "Aarti " /* : 2:15 PM */,
+              "Pushpanjali " /* : 2:30 PM */,
             ],
           },
           {
@@ -47,7 +46,7 @@ const AshtamiSandhiPujaPage: React.FC = () => {
               {
                 title: "The Sacred Threshold",
                 lines: [
-                  "Sandhi Puja marks the holy junction between two days",
+                  "Sandhi Pujo marks the holy junction between two days",
                   "A moment of profound spiritual connection and devotion",
                   "The transition from Ashtami's warrior energy to Navami's victory",
                 ],
@@ -57,7 +56,7 @@ const AshtamiSandhiPujaPage: React.FC = () => {
         ]}
       />
 
-      <FleaMarketSection />
+       
     </div>
   );
 };
