@@ -47,10 +47,11 @@ app.use(helmet({
 app.use(cors({
   origin: process.env.NODE_ENV === 'production'
     ? [
+        'https://abp.proplusdatafoundation.com',
         'https://amader-barir-pujo-2026-new-test.vercel.app',
         'https://amader-barir-pujo-2026-new-9257.vercel.app',
         'https://amader-barir-pujo-2026-new.onrender.com',
-        'https://amader-barir-pujo-2026-new-icici.onrender.com'
+        'https://amader-barir-pujo-2026-new-icici.onrender.com',
       ]
     : [
         'http://localhost:5173',
