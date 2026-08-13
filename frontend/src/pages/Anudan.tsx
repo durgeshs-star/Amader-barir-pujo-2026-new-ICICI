@@ -23,11 +23,13 @@ interface BasketItem {
 export const Anudan: React.FC = () => {
   const userInfoFormRef = useRef<UserInfoFormRef>(null);
   const userInfoSectionRef = useRef<HTMLDivElement>(null);
+  const offeringSectionRef = useRef<HTMLDivElement>(null);
   
   // Modal state for insufficient amount error
   const [showAmountChangedModal, setShowAmountChangedModal] = useState(false);
   const [modalData, setModalData] = useState<{ remaining: number; requested: number } | null>(null);
-  const [showBookingSoonModal, setShowBookingSoonModal] = useState(true);
+  const [showBookingSoonModal, setShowBookingSoonModal] = useState(false);
+  const [hasShownPopup, setHasShownPopup] = useState(false);
   
   // Fetch all remaining amounts
   const [allRemainingAmounts, setAllRemainingAmounts] = useState<Record<string, number>>({});
@@ -62,6 +64,24 @@ export const Anudan: React.FC = () => {
 
     return () => clearInterval(interval);
   }, [API_URL]);
+
+  // Show popup when user scrolls to offering section
+  useEffect(() => {
+    const handleScroll = () => {
+      if (hasShownPopup || !offeringSectionRef.current) return;
+
+      const rect = offeringSectionRef.current.getBoundingClientRect();
+      const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+
+      if (isVisible) {
+        setShowBookingSoonModal(true);
+        setHasShownPopup(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [hasShownPopup]);
 
   // Basket state
   const [basket, setBasket] = useState<BasketItem[]>([]);
@@ -180,7 +200,7 @@ export const Anudan: React.FC = () => {
       </section>
 
       {/* Anudan Cards Section */}
-      <section className="content-layer py-8 md:py-12">
+      <section ref={offeringSectionRef} className="content-layer py-8 md:py-12">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12 animate-fade-in-down">
             <h2 className="text-3xl md:text-4xl font-bold text-primary font-fraunces mb-3">

@@ -10,16 +10,14 @@ interface AnudanCardProps {
   onBookingSoon?: () => void;
 }
 
-export const AnudanCard: React.FC<AnudanCardProps> = ({ card, remainingAmount = 0, isLoading = false, onAddToBasket, onBookingSoon }) => {
+export const AnudanCard: React.FC<AnudanCardProps> = ({ card, isLoading = false, onAddToBasket, onBookingSoon }) => {
   // Calculate total sum of all items in this section
   const totalCost = card.items.reduce((acc, item) => {
     const num = parseInt(item.cost.replace(/\D/g, ''), 10) || 0;
     return acc + num;
   }, 0);
 
-  const isFullySponsored = !isLoading && remainingAmount <= 0;
-  const paidAmount = totalCost - remainingAmount;
-  const progressPercent = totalCost > 0 ? Math.min(100, (paidAmount / totalCost) * 100) : 0;
+  const isFullySponsored = false;
 
   const [inputAmount, setInputAmount] = useState<string>('');
   const [error, setError] = useState<string>('');
@@ -32,8 +30,8 @@ export const AnudanCard: React.FC<AnudanCardProps> = ({ card, remainingAmount = 
       return;
     }
 
-    if (amount > remainingAmount) {
-      setError(`Amount cannot exceed remaining amount of ₹${remainingAmount.toLocaleString('en-IN')}`);
+    if (amount > totalCost) {
+      setError(`Amount cannot exceed total amount of ₹${totalCost.toLocaleString('en-IN')}`);
       return;
     }
 
@@ -101,24 +99,6 @@ export const AnudanCard: React.FC<AnudanCardProps> = ({ card, remainingAmount = 
               </span>
             ))}
           </div>
-
-          {/* Progress bar — only show if some amount has been paid */}
-          {paidAmount > 0 && (
-            <div className="mt-4">
-              <div className="flex justify-between text-xs text-gray-500 mb-1">
-                <span>Collected: ₹{paidAmount.toLocaleString('en-IN')}</span>
-                <span>{Math.round(progressPercent)}% funded</span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div
-                  className={`h-2 rounded-full transition-all duration-700 ${
-                    isFullySponsored ? 'bg-green-500' : 'bg-primary'
-                  }`}
-                  style={{ width: `${progressPercent}%` }}
-                />
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Right: Amount & Button */}
@@ -133,31 +113,23 @@ export const AnudanCard: React.FC<AnudanCardProps> = ({ card, remainingAmount = 
                 animate={{ opacity: 1, y: 0 }}
                 className="text-3xl font-bold text-green-600 font-fraunces mb-1"
               >
-                ₹0
+                ₹{totalCost.toLocaleString('en-IN')}
               </m.span>
-              <span className="text-sm text-gray-400 line-through mb-2 md:mb-0 mt-1">
-                ~~₹{totalCost.toLocaleString('en-IN')}~~
-              </span>
             </>
           ) : (
             <>
               <span className="text-xs text-muted uppercase tracking-wider font-semibold mb-1">
-                {remainingAmount < totalCost ? 'Remaining Amount' : 'Total Amount'}
+                Total Amount
               </span>
               <m.span
-                key={remainingAmount}
+                key={totalCost}
                 initial={{ opacity: 0.7, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.3 }}
                 className="text-3xl md:text-4xl font-bold text-amber-600 font-fraunces mb-2"
               >
-                ₹{remainingAmount.toLocaleString('en-IN')}
+                ₹{totalCost.toLocaleString('en-IN')}
               </m.span>
-              {remainingAmount < totalCost && (
-                <span className="text-xs text-gray-400 line-through mb-4 md:mb-0 mt-1">
-                  ~~₹{totalCost.toLocaleString('en-IN')}~~
-                </span>
-              )}
               <div className="mt-2 md:mt-4 w-full md:w-auto">
                 <div className="relative">
                   <span className="absolute left-4 top-1.5 text-gray-500">₹</span>

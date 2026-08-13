@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import BhogBookingCard from './BhogBookingCard';
 import UserInfoForm from './UserInfoForm';
 import BookingSoonModal from './BookingSoonModal';
@@ -12,6 +12,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
   categories,
   disclaimer,
 }) => {
+  const sectionRef = useRef<HTMLDivElement>(null);
   const roundCurrency = (value: number) => Math.round((value + Number.EPSILON) * 100) / 100;
   const [bookings, setBookings] = useState<BhogBookingState>(() => {
     const initialState: BhogBookingState = {};
@@ -25,7 +26,26 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
   const [isUserInfoFilled, setIsUserInfoFilled] = useState(false);
   const [isLoading] = useState(false);
   const [isConfirmed, setIsConfirmed] = useState(false);
-  const [showBookingSoonModal, setShowBookingSoonModal] = useState(true);
+  const [showBookingSoonModal, setShowBookingSoonModal] = useState(false);
+  const [hasShownPopup, setHasShownPopup] = useState(false);
+
+  // Show popup when user scrolls to bhog plates selection section
+  useEffect(() => {
+    const handleScroll = () => {
+      if (hasShownPopup || !sectionRef.current) return;
+
+      const rect = sectionRef.current.getBoundingClientRect();
+      const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+
+      if (isVisible) {
+        setShowBookingSoonModal(true);
+        setHasShownPopup(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [hasShownPopup]);
 
   const handleValueChange = (categoryId: string, value: number) => {
     setBookings((prev) => ({
@@ -80,6 +100,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
   return (
     <>
       <section
+        ref={sectionRef}
         className="mt-9 p-7 border border-primary/14 rounded-lg bg-rgb(248, 233, 206) shadow-lg lg:mt-9 lg:p-7"
         aria-labelledby={`${title.replace(/\s+/g, '-').toLowerCase()}Title`}
       >
