@@ -56,7 +56,6 @@ const GalleryImageWithFallback: React.FC<ImageProps> = React.memo(({ src, alt })
 
 const ImageGrid: React.FC<ImageGridProps> = React.memo(({
   images,
-  showYear = true,
   columns = { mobile: 1, tablet: 2, desktop: 3 },
 }) => {
   const gridCols = `grid-cols-${columns.mobile} md:grid-cols-${columns.tablet} lg:grid-cols-${columns.desktop}${columns.xl ? ` xl:grid-cols-${columns.xl}` : ''}`;
@@ -78,14 +77,6 @@ const ImageGrid: React.FC<ImageGridProps> = React.memo(({
             transition={{ duration: 0.4, delay: Math.min(index * 0.03, 0.5), ease: "easeOut" }}
           >
             <GalleryImageWithFallback src={img.src} alt={img.alt} />
-
-            {/* Overlay Text Details on Hover */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 z-10 pointer-events-none">
-              {showYear && img.year && (
-                <span className="text-[10px] text-accent-text font-bold uppercase tracking-widest">{img.year}</span>
-              )}
-              <h3 className="text-base font-bold text-white font-fraunces mt-0.5">{img.alt}</h3>
-            </div>
           </m.div>
         ))}
       </m.div>

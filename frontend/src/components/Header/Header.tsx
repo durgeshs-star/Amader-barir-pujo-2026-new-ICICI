@@ -22,7 +22,7 @@ export interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({
-  phone = '+91 7798577880',
+  phone = '+91 7798 57 7880',
   email = CONTACT_EMAIL,
   ctaLabel = "Be a Barir Member",
   ctaHref = '/volunteer',
@@ -110,7 +110,7 @@ export const Header: React.FC<HeaderProps> = ({
         {!isSticky && showTopInfo && (
           <div className="hidden lg:block border-b border-primary-bright/30 py-2.5 text-xs text-text-on-primary font-bold bg-primary">
             <div className="max-w-[1600px] mx-auto px-6 flex justify-between items-center">
-              <ul className="flex items-center gap-6 list-none p-0 m-0">
+              <ul className="flex items-center gap-4 list-none p-0 m-0">
                 {phone && (
                   <li>
                     <button
@@ -126,11 +126,11 @@ export const Header: React.FC<HeaderProps> = ({
                 <li>
                   <button
                     onClick={() => window.location.href = 'tel:+919049008727'}
-                    aria-label="Call us at +91 9049008727"
+                    aria-label="Call us at +91 9049 00 8727"
                     className="flex items-center gap-2 text-text-on-primary hover:text-accent transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded-sm bg-transparent border-none cursor-pointer p-0"
                   >
-                    <FaPhoneAlt size={11} aria-hidden="true" />
-                    <span>+91 9049008727</span>
+                    <span className="mx-2" aria-hidden="true">|</span>
+                    <span>+91 9049 00 8727</span>
                   </button>
                 </li>
                 <li>

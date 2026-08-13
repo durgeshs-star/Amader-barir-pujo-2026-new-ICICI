@@ -41,10 +41,10 @@ export const BhogBooking: React.FC = () => {
       }
     },
     'ashtami-sandhi-puja': {
-      title: 'Ashtami Sandhi Puja Bhog',
+      title: 'Ashtami Sandhi Pujo Bhog',
       date: 'October 18, 2026',
       menu: {
-        title: 'Sandhi Puja Sacred Prasad',
+        title: 'Sandhi Puj Sacred Prasad',
         items: ['Gobindobhog Rice Khichuri', 'Cholar Dal with Coconut', 'Alur Dom', 'Beguni', 'Anarash (Pineapple) Chutney', 'Rosogolla', 'Payesh'],
         suggestedContribution: 'â‚¹200 per plate',
       }
@@ -59,10 +59,10 @@ export const BhogBooking: React.FC = () => {
       }
     },
     'lakshmi-puja': {
-      title: 'Lakshmi Puja Bhog',
+      title: 'Lakshmi Pujo Bhog',
       date: 'October 24, 2026',
       menu: {
-        title: 'Kojagari Lakshmi Puja Prasad',
+        title: 'Kojagari Lakshmi Pujo Prasad',
         items: ['Khichuri', 'Labra', 'Beguni', 'Narkel Nadu (Coconut Ladoo)', 'Suji Halwa', 'Payesh'],
         suggestedContribution: 'â‚¹150 per plate',
       }

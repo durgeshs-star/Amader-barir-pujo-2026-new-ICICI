@@ -118,7 +118,7 @@ export const AnudanReceipt: React.FC<AnudanReceiptProps> = ({ receiptData: propR
             অমাদের বাড়ির পুজো
           </h1>
           <h2 style={{ fontSize: '18px', color: '#d97706', fontFamily: 'serif', marginBottom: '4px' }}>Amader Barir Pujo</h2>
-          <p style={{ fontSize: '13px', color: '#4b5563' }}>Durga Puja 2026 - Wakad, Pune</p>
+          <p style={{ fontSize: '13px', color: '#4b5563' }}>Durga Pujo 2026 - Wakad, Pune</p>
           <p style={{ fontSize: '12px', color: '#b45309', marginTop: '2px', fontStyle: 'italic' }}>A ProPlus Data Foundation Initiative</p>
           <p style={{ fontSize: '12px', color: '#b45309', fontWeight: 'bold' }}>Darpan ID: MH/2025/0627499</p>
         </div>

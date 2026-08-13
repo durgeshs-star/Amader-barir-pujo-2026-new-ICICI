@@ -98,7 +98,7 @@ export const ContactUs: React.FC = () => {
 
       <PageHero
         title="Contact Us"
-        subtitle="Have questions? Feel free to reach out to our organizing committee. We're here to help with any questions about Durga Puja, volunteering, bhog booking, or general inquiries."
+        subtitle="Have questions? Feel free to reach out to our organizing committee. We're here to help with any questions about Durga Pujo, volunteering, bhog booking, or general inquiries."
         height="h-[40vh] md:h-[60vh]"
       />
 
@@ -110,7 +110,7 @@ export const ContactUs: React.FC = () => {
               {
                 icon: <FaHandshake size={32} />,
                 title: "Partnership Inquiries",
-                description: "Interested in sponsoring or partnering with us for Durga Puja? We'd love to discuss opportunities."
+                description: "Interested in sponsoring or partnering with us for Durga Pujo? We'd love to discuss opportunities."
               },
               {
                 icon: <FaUsers size={32} />,
@@ -120,7 +120,7 @@ export const ContactUs: React.FC = () => {
               {
                 icon: <FaClock size={32} />,
                 title: "Event Details",
-                description: "Need specific information about puja timings, bhog booking, or cultural programs? We're here to help."
+                description: "Need specific information about pujo timings, bhog booking, or cultural programs? We're here to help."
               }
             ].map((item, idx) => (
               <m.div

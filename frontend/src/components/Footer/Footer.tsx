@@ -18,10 +18,11 @@ export const Footer: React.FC = () => {
               Contact
             </h3>
             <ul className="space-y-3 text-sm list-none p-0 m-0 pt-2">
-              <li className="flex items-start gap-3">
+              <li className="flex items-start gap-2">
                 <FaPhoneAlt className="text-accent mt-1 shrink-0" size={12} />
-                <a href="tel:+919879879302" className="text-text-on-primary hover:text-accent transition-colors">+91 7798577880</a>
-                <a href="tel:+919049008727" className="text-text-on-primary hover:text-accent transition-colors">+91 9049008727</a>
+                <a href="tel:+919879879302" className="text-text-on-primary hover:text-accent transition-colors">+91 7798 57 7880</a>
+                <span className="mx-2" aria-hidden="true">|</span>
+                <a href="tel:+919049008727" className="text-text-on-primary hover:text-accent transition-colors">+91 9049 00 8727</a>
               </li>
               <li className="flex items-start gap-3">
                 <FaEnvelope className="text-accent mt-1 shrink-0" size={12} />

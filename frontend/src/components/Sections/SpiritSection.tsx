@@ -78,7 +78,7 @@ export const SpiritSection: React.FC = () => {
             Perhaps that's the true gift of Maa Durga. <em>Shokti</em> to lift each
             other. <em>Shanti</em> to embrace one another. And a quiet sense of
             Belonging that asks for nothing in return. It's this spirit that has
-            touched generations, transcended borders, and earned Durga Puja
+            touched generations, transcended borders, and earned Durga Pujo
             recognition as a <strong>UNESCO</strong> Intangible Cultural Heritage of
             Humanity.
           </p>

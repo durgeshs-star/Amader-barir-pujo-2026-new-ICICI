@@ -2,7 +2,7 @@ const items = [
   {
     title: "Vision",
     description:
-      "To preserve the cultural and spiritual legacy of Durga Puja, fostering a vibrant and inclusive community for generations to come.",
+      "To preserve the cultural and spiritual legacy of Durga Pujo, fostering a vibrant and inclusive community for generations to come.",
   },
   {
     title: "Mission",

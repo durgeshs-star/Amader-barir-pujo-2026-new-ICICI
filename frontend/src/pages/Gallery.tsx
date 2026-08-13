@@ -5,6 +5,7 @@ import ImageGrid from '../components/ui/ImageGrid';
 import { galleryImages, type GalleryImage } from '../assets/data/galleryData';
 
 type CategoryFilter = 'all' | 'pujo' | 'cultural' | 'bhog' | 'volunteer';
+type YearFilter = '2024' | '2025';
 
 /** Fisher-Yates shuffle (returns a new array) */
 function shuffleArray<T>(arr: T[]): T[] {
@@ -25,6 +26,7 @@ export const Gallery: React.FC = React.memo(() => {
   const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>(
     VALID_CATEGORIES.includes(initialCategory) ? initialCategory : 'all'
   );
+  const [yearFilter, setYearFilter] = useState<YearFilter>('2025');
 
   // Shuffle all images once per page mount for the "All" view
   const shuffledAllImages = useMemo(() => shuffleArray(galleryImages), []);
@@ -39,6 +41,9 @@ export const Gallery: React.FC = React.memo(() => {
 
   const handleCategoryChange = (cat: CategoryFilter) => {
     setCategoryFilter(cat);
+    if (cat === 'pujo') {
+      setYearFilter('2025');
+    }
     if (cat === 'all') {
       searchParams.delete('category');
     } else {
@@ -47,8 +52,14 @@ export const Gallery: React.FC = React.memo(() => {
     setSearchParams(searchParams, { replace: true });
   };
 
+  const handleYearChange = (year: YearFilter) => {
+    setYearFilter(year);
+  };
+
   const filteredImages: GalleryImage[] = categoryFilter === 'all'
     ? shuffledAllImages
+    : categoryFilter === 'pujo'
+    ? galleryImages.filter(img => img.category === categoryFilter && img.year === yearFilter)
     : galleryImages.filter(img => img.category === categoryFilter);
 
   return (
@@ -88,6 +99,27 @@ export const Gallery: React.FC = React.memo(() => {
             </button>
           ))}
         </div>
+
+        {/* Year Filter - Only show when Pujo category is selected */}
+        {categoryFilter === 'pujo' && (
+          <div className="flex flex-wrap items-center justify-center gap-2 mb-6 select-none animate-fade-in-up">
+            {([
+              { key: '2024' as YearFilter, label: '2024' },
+              { key: '2025' as YearFilter, label: '2025' },
+            ]).map(({ key, label }) => (
+              <button
+                key={key}
+                onClick={() => handleYearChange(key)}
+                className={`px-4 py-2 rounded-md text-xs md:text-sm font-semibold transition-all duration-200 cursor-pointer hover:scale-105 active:scale-95 ${yearFilter === key
+                  ? 'bg-primary text-text-on-primary shadow'
+                  : 'bg-light-bg text-secondary hover:bg-light-bg hover:text-primary border border-border'
+                  }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Image Grid */}
         <ImageGrid
