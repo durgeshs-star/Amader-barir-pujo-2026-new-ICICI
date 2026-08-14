@@ -108,15 +108,15 @@ export const Header: React.FC<HeaderProps> = ({
     <>
       <header className={headerClassName}>
         {!isSticky && showTopInfo && (
-        <div className="hidden xl:block border-b border-primary-bright/30 py-2.5 text-xs text-text-on-primary font-bold bg-primary">
-            <div className="max-w-[1600px] mx-auto px-6 flex justify-between items-center">
-              <ul className="flex items-center gap-4 list-none p-0 m-0">
+        <div className="hidden lg:block border-b border-primary-bright/30 py-2 text-xs text-text-on-primary font-bold bg-primary">
+            <div className="max-w-[1600px] mx-auto px-4 xl:px-6 flex flex-wrap justify-between items-center gap-x-4 gap-y-2">
+              <ul className="flex flex-wrap items-center gap-2 xl:gap-4 list-none p-0 m-0">
                 {phone && (
                   <li>
                     <button
                       onClick={handlePhoneClick}
                       aria-label={`Call us at ${phone}`}
-                      className="flex items-center gap-2 text-text-on-primary hover:text-accent transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded-sm bg-transparent border-none cursor-pointer p-0"
+                      className="flex items-center gap-2 whitespace-nowrap text-text-on-primary hover:text-accent transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded-sm bg-transparent border-none cursor-pointer p-0"
                     >
                       <FaPhoneAlt size={11} aria-hidden="true" />
                       <span>{phone}</span>
@@ -127,7 +127,7 @@ export const Header: React.FC<HeaderProps> = ({
                   <button
                     onClick={() => window.location.href = 'tel:+919049008727'}
                     aria-label="Call us at +91 9049 00 8727"
-                    className="flex items-center gap-2 text-text-on-primary hover:text-accent transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded-sm bg-transparent border-none cursor-pointer p-0"
+                    className="flex items-center gap-2 whitespace-nowrap text-text-on-primary hover:text-accent transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded-sm bg-transparent border-none cursor-pointer p-0"
                   >
                     <span className="mx-2" aria-hidden="true">|</span>
                     <span>+91 9049 00 8727</span>
@@ -144,7 +144,7 @@ export const Header: React.FC<HeaderProps> = ({
                   </a>
                 </li>
               </ul>
-              <ul className="flex items-center gap-3 list-none p-0 m-0">
+              <ul className="flex shrink-0 items-center gap-2 xl:gap-3 list-none p-0 m-0">
                 <li>
                   <CountdownTimer />
                 </li>
