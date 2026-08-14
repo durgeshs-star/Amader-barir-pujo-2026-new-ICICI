@@ -103,7 +103,7 @@ export const ContactUs: React.FC = () => {
       />
 
       {/* Why Contact Us Section */}
-      <section className="content-layer py-12 md:py-20">
+      <section className="content-layer px-5 sm:px-6 lg:px-10 xl:px-10 pt-8 pb-4 lg:py-8 xl:py-18">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-3 gap-8">
             {[
@@ -148,7 +148,7 @@ className="bg-light-bg rounded-xl p-8 text-center hover:shadow-lg transition-sha
       </section>
 
       {/* Contact Section */}
-      <section className="content-layer py-8 md:py-14">
+      <section className="content-layer py-8 md:py-14 px-5 sm:px-6 lg:px-20 xl:px-10 pt-8 pb-4 lg:py-8 xl:pt-18">
         <div className="max-w-7xl mx-auto px-6">
           <m.div
             initial={{ opacity: 0, y: 20 }}

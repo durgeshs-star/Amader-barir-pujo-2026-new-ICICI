@@ -107,7 +107,7 @@ const TestimonialsSection: React.FC = () => {
       }}
     >
       {/* Section Heading */}
-      <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-20 xl:px-10 pt-8 pb-4 lg:py-8 xl:py-0">
         <h2 className="mb-12 text-center font-fraunces text-3xl font-bold text-primary md:text-4xl lg:text-5xl">
           The Smiles We Carried Home
         </h2>

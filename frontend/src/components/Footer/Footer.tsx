@@ -9,11 +9,11 @@ export const Footer: React.FC = () => {
     <footer className="bg-dark-bg text-text-inverse-muted select-text">
 
       {/* Middle Footer */}
-      <div className="border-b border-white/10 py-16 px-6">
-        <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+      <div className="border-b border-white/10 py-12 sm:py-16 px-5 sm:px-6">
+        <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-10 lg:gap-x-12 xl:gap-x-10">
 
           {/* Column 1: About details */}
-          <div className="flex flex-col gap-4">
+          <div className="flex min-w-0 flex-col gap-4">
             <h3 className="text-xl font-bold font-fraunces text-white border-b-2 border-accent pb-2 w-24">
               Contact
             </h3>
@@ -26,7 +26,7 @@ export const Footer: React.FC = () => {
               </li>
               <li className="flex items-start gap-3">
                 <FaEnvelope className="text-accent mt-1 shrink-0" size={12} />
-                <a href={`mailto:${CONTACT_EMAIL}`} className="text-text-on-primary hover:text-accent transition-colors">
+                <a href={`mailto:${CONTACT_EMAIL}`} className="break-all text-text-on-primary hover:text-accent transition-colors">
                   {CONTACT_EMAIL}
                 </a>
               </li>
@@ -40,7 +40,7 @@ export const Footer: React.FC = () => {
           </div>
 
           {/* Column 2: Information Links */}
-          <div className="flex flex-col gap-4">
+          <div className="flex min-w-0 flex-col gap-4">
             <h3 className="text-xl font-bold font-fraunces text-white border-b-2 border-accent pb-2 w-28">
               Information
             </h3>
@@ -69,7 +69,7 @@ export const Footer: React.FC = () => {
           </div>
 
           {/* Column 3: Others Links */}
-          <div className="flex flex-col gap-4">
+          <div className="flex min-w-0 flex-col gap-4">
             <h3 className="text-xl font-bold font-fraunces text-white border-b-2 border-accent pb-2 w-20">
               Others
             </h3>
@@ -103,7 +103,7 @@ export const Footer: React.FC = () => {
           </div>
 
           {/* Column 4: Venue Location */}
-          <div className="flex flex-col gap-4">
+          <div className="flex min-w-0 flex-col gap-4">
             <h3 className="text-xl font-bold font-fraunces text-white border-b-2 border-accent pb-2 w-32">
               Pujo Venue
             </h3>
@@ -116,10 +116,10 @@ export const Footer: React.FC = () => {
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="strict-origin-when-cross-origin"
-                  className="rounded-lg"
+                  className="w-full rounded-lg"
                 />
                 
-              <p className="text-text-inverse-muted py-4">
+              <p className="break-words py-4 leading-relaxed text-text-inverse-muted">
                 Sant Tukaram Garden And Banquet Hall, Hinjawadi, Wakad, Pimpri-Chinchwad, Maharashtra 411057
               </p>
               <a
@@ -139,15 +139,15 @@ export const Footer: React.FC = () => {
       </div>
 
       {/* Footer Bottom copyright bar */}
-      <div className="py-8 px-6 bg-black/30">
-        <div className="max-w-[1600px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+      <div className="py-8 px-5 sm:px-6 bg-black/30">
+        <div className="max-w-[1600px] mx-auto flex flex-col xl:flex-row justify-between items-center gap-6">
           {/* Copyright text */}
-          <div className="text-sm text-text-inverse-muted text-center md:text-left select-text">
+          <div className="text-sm text-text-inverse-muted text-center xl:text-left select-text">
             Copyright &copy; Amader Bari'r Pujo - <span className="text-accent font-bold">2026</span>
           </div>
 
           {/* Logo brand */}
-          <div className="select-none flex justify-center items-center">
+          <div className="select-none flex max-w-full justify-center items-center gap-5 sm:gap-8">
             <a href="/" aria-label="Amader Bari'r Pujo Home">
               <img
                 src="/assets/img/ABP-LOGO-WHITE.png"
@@ -169,7 +169,7 @@ export const Footer: React.FC = () => {
               <img
                 src="/assets/img/logo-white.png"
                 alt="ProPlus Data Foundation"
-                className="h-12 w-auto object-contain ml-8"
+                className="h-12 max-w-[9rem] w-auto object-contain"
                 width={64}
                 height={64}
                 loading="lazy"

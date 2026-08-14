@@ -27,7 +27,7 @@ const SaraswatiPuja: React.FC = () => {
 
       {/* Introduction Section */}
       <section className="py-8 md:py-12">
-        <div className="max-w-7xl mx-auto px-6 md:px-10">
+        <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-20 xl:px-10 pt-8 pb-4 lg:py-8 xl:py-0">
           <div className="max-w-4xl mx-auto animate-fade-in-up">
             <h2 className="font-fraunces text-3xl md:text-4xl font-bold text-primary leading-tight mb-6">
               Divine Embodiment of Knowledge
@@ -79,7 +79,7 @@ const SaraswatiPuja: React.FC = () => {
 
       {/* Gallery Section */}
       <section className="content-layer py-8 md:py-12">
-        <div className="max-w-7xl mx-auto px-6 md:px-10">
+        <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-20 xl:px-10 pt-8 pb-4 lg:py-8 xl:py-0">
           <div className="text-center mb-12 animate-fade-in-up">
             <h2 className="font-fraunces text-3xl md:text-4xl font-bold text-primary leading-tight mb-4">
               Celebration Highlights
@@ -112,7 +112,7 @@ const SaraswatiPuja: React.FC = () => {
 
       {/* Community Section */}
       <section className="content-layer py-8 md:py-12">
-        <div className="max-w-7xl mx-auto px-6 md:px-10">
+        <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-20 xl:px-10 pt-8 pb-4 lg:py-8 xl:py-0">
           <div className="max-w-4xl mx-auto animate-fade-in-up">
             <h2 className="font-fraunces text-3xl md:text-4xl font-bold text-primary leading-tight mb-6">
               Community Celebration

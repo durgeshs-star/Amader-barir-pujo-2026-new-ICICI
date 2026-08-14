@@ -65,7 +65,7 @@ export const Gallery: React.FC = React.memo(() => {
   return (
     <div className="relative pt-10 md:pt-14 pb-20 min-h-screen">
       <SEO title="Gallery | Amader Barir Pujo" description="Browse photos from Amader Barir Pujo celebrations in Wakad, Pune — Durga Puja rituals, Bhog distribution, cultural programs, and community moments captured during our vibrant Bengali festival." keywords="Durga Puja gallery Pune, Amader Barir Pujo photos, Bengali festival photos Wakad, Puja celebration images, Bhog photos Pune" canonical="https://www.abp.proplusdatafoundation.com/gallery" />
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="max-w-6xl mx-auto px-3 sm:px-2 lg:px-16 xl:px-0 pb-4 lg:py-8 xl:py-0">
 
         {/* Title - CSS animation instead of framer-motion */}
         <div className="text-center mb-10 animate-fade-in-down">

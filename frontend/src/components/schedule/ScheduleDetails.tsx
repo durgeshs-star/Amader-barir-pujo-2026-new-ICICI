@@ -62,7 +62,7 @@ export const ScheduleDetails: React.FC<ScheduleDetailsProps> = ({
 
   return (
     <section className="py-14 md:py-20">
-      <div className="max-w-7xl mx-auto px-6 md:px-10">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-20 xl:px-10 pt-8 pb-4 lg:py-8 xl:py-0">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
           <div className="relative group animate-fade-in-up">
             <div className="absolute -inset-3 rounded-2xl bg-linear-to-br from-primary/20 via-accent/10 to-primary-light/20 opacity-70 group-hover:opacity-100 transition-opacity duration-500" />

@@ -4,7 +4,7 @@ import type { NavItem } from '../../config/navData';
 import { pujoScheduleDays, bhogBookingDays } from '../../config/navData';
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
-  `nav-link text-sm font-medium uppercase tracking-wider transition-colors duration-200 py-1 block text-text-secondary hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm ${isActive ? 'text-primary font-semibold border-b-2 border-primary' : ''
+  `nav-link text-xs xl:text-sm font-medium uppercase tracking-wide xl:tracking-wider transition-colors duration-200 py-1 block text-text-secondary hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm ${isActive ? 'text-primary font-semibold border-b-2 border-primary' : ''
   }`;
 
 const dropdownItemClass = ({ isActive }: { isActive: boolean }) =>
@@ -42,14 +42,16 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ label, items }) => {
   }, []);
 
   return (
-    <li className="relative flex items-center">
+    <li
+      className="relative flex items-center"
+      onMouseEnter={handleButtonEnter}
+      onMouseLeave={scheduleClose}
+    >
       {/* Trigger button — hover zone is exactly the button, nothing more */}
       <button
-        className="nav-btn flex items-center text-sm font-medium uppercase tracking-wider text-text-secondary hover:text-primary bg-transparent border-0 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm transition-colors duration-200 py-1"
+        className="nav-btn flex items-center gap-1 text-xs xl:text-sm font-medium uppercase tracking-wide xl:tracking-wider text-text-secondary hover:text-primary bg-transparent border-0 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm transition-colors duration-200 py-1"
         aria-haspopup="listbox"
         aria-expanded={open}
-        onMouseEnter={handleButtonEnter}
-        onMouseLeave={scheduleClose}
         onClick={() => setOpen((v) => !v)}
       >
         <span>{label}</span>
@@ -58,10 +60,9 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ label, items }) => {
       {/* Dropdown panel */}
       {open && (
         <div
-          className="absolute top-full left-0 z-100 min-w-50 pt-2"
+          className="absolute top-full left-0 z-[100] min-w-50 pt-2"
           role="listbox"
           onMouseEnter={cancelClose}
-          onMouseLeave={scheduleClose}
         >
           <ul
             className="rounded-xl shadow-2xl overflow-hidden border border-[rgb(180,160,130)] list-none p-0 m-0 py-1 animate-fade-in"
@@ -86,8 +87,8 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ label, items }) => {
 };
 
 export const Navigation: React.FC = () => (
-  <nav aria-label="Main navigation">
-    <ul className="hidden lg:flex flex-1 items-center justify-center gap-6 list-none p-0 m-0">
+  <nav aria-label="Main navigation" className="relative z-10">
+    <ul className="hidden lg:flex flex-1 items-center justify-center gap-2 xl:gap-6 list-none p-0 m-0 whitespace-nowrap">
       <li>
         <NavLink to="/" className={navLinkClass} end>Home</NavLink>
       </li>

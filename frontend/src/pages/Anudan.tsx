@@ -156,14 +156,14 @@ export const Anudan: React.FC = () => {
         title="Anudan"
         subtitle="🙏 Offer Your Anudan (অনুদান) – Support the Spirit of Amader Bari'r Pujo"
         backgroundImage="/assets/img/culture-24.webp"
-        height="h-[35vh] md:h-[60vh]"
+        height="h-[35vh] md:h-[45vh] xl:h-[60vh]"
       />
 
       {/* Intro Section */}
-      <section className="content-layer py-8 md:py-14">
-        <div className="max-w-4xl mx-auto px-6">
+      <section className="content-layer py-8 md:py-12 xl:py-14">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <m.div
-            className="rounded-2xl p-8 border border-gray-100 shadow-lg hover:scale-[1.02] transition-transform duration-300"
+            className="rounded-2xl p-5 sm:p-8 border border-gray-100 shadow-lg hover:scale-[1.02] transition-transform duration-300"
             initial={{ opacity: 0, y: 30, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
@@ -176,7 +176,7 @@ export const Anudan: React.FC = () => {
                 Whether you choose to contribute towards flowers, bhog, sarees, chandmala, decorations, or other Pujo essentials, your offering becomes a meaningful part of the rituals and celebrations.
               </p>
               <m.div
-                className="pt-4 bg-linear-to-r from-primary/5 to-accent/5 rounded-xl p-6"
+                className="pt-4 bg-linear-to-r from-primary/5 to-accent/5 rounded-xl p-4 sm:p-6"
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
@@ -201,15 +201,15 @@ export const Anudan: React.FC = () => {
 
       {/* Anudan Cards Section */}
       <section ref={offeringSectionRef} className="content-layer py-8 md:py-12">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-12 animate-fade-in-down">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-8 md:mb-12 animate-fade-in-down">
             <h2 className="text-3xl md:text-4xl font-bold text-primary font-fraunces mb-3">
               Offerings
             </h2>
             <div className="w-20 h-1 bg-accent mx-auto rounded-full animate-expand-width" />
           </div>
 
-          <div className="grid lg:grid-cols-[1fr_350px] gap-8">
+          <div className="grid xl:grid-cols-[minmax(0,1fr)_350px] gap-6 xl:gap-8">
             {/* Cards Column */}
             <div className="flex flex-col gap-6">
               {anudanCards && anudanCards?.map((card) => (
@@ -226,7 +226,7 @@ export const Anudan: React.FC = () => {
             </div>
 
             {/* Basket Column - Desktop Only */}
-            <div className="hidden lg:block">
+            <div className="hidden xl:block">
               <AnudanBasket
                 items={basket}
                 onRemove={removeFromBasket}
@@ -238,7 +238,7 @@ export const Anudan: React.FC = () => {
       </section>
 
       {/* Mobile Basket Icon */}
-      <div className="lg:hidden fixed bottom-34 right-6 z-50">
+      <div className="xl:hidden fixed bottom-6 sm:bottom-8 right-4 sm:right-6 z-50">
         <button
           onClick={() => setShowMobileBasket(true)}
           className="relative bg-primary text-white p-4 rounded-full shadow-lg hover:bg-primary/90 transition-all"
@@ -256,12 +256,12 @@ export const Anudan: React.FC = () => {
 
       {/* Mobile Basket Modal */}
       {showMobileBasket && (
-        <div className="lg:hidden fixed inset-0 z-50 bg-black/50 flex items-end justify-center">
+        <div className="xl:hidden fixed inset-0 z-50 bg-black/50 flex items-end justify-center">
           <m.div
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
-            className="w-full max-h-[80vh] rounded-t-2xl bg-[rgb(248,233,206)] p-6 overflow-y-auto shadow-2xl"
+            className="w-full max-w-2xl max-h-[80vh] rounded-t-2xl bg-[rgb(248,233,206)] p-4 sm:p-6 overflow-y-auto shadow-2xl"
           >
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-xl font-bold text-primary font-fraunces">Anudan Basket</h3>
@@ -289,7 +289,7 @@ export const Anudan: React.FC = () => {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 50 }}
-          className="fixed bottom-32 right-6 lg:hidden bg-gray-900 text-white px-4 py-2 rounded-lg shadow-lg z-50 text-sm"
+          className="fixed bottom-24 sm:bottom-32 right-4 sm:right-6 xl:hidden bg-gray-900 text-white px-4 py-2 rounded-lg shadow-lg z-50 text-sm"
         >
           {notification.message}
         </m.div>
@@ -298,7 +298,7 @@ export const Anudan: React.FC = () => {
       {/* User Info Form Section */}
       {showUserInfoForm && (
         <div ref={userInfoSectionRef} className="py-14 md:py-20">
-          <div className="max-w-4xl mx-auto px-6">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6">
             <div className="text-center mb-8 animate-fade-in-down">
               <h2 className="text-3xl md:text-4xl font-bold text-primary font-fraunces mb-3">
                 Complete Your Anudan
@@ -306,7 +306,7 @@ export const Anudan: React.FC = () => {
               <div className="w-20 h-1 bg-accent mx-auto rounded-full animate-expand-width" />
             </div>
 
-            <div className="grid lg:grid-cols-[1fr_350px] gap-8">
+            <div className="grid xl:grid-cols-[minmax(0,1fr)_350px] gap-6 xl:gap-8">
               {/* Basket Summary */}
               <div className="rounded-2xl p-6 border border-gray-100">
                 <h3 className="text-xl font-bold text-primary font-fraunces mb-4 flex items-center gap-2">

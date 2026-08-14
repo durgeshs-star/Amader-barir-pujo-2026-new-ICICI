@@ -78,7 +78,7 @@ export const AnudanCard: React.FC<AnudanCardProps> = ({ card, isLoading = false,
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         
         {/* Left: Day & Items */}
-        <div className="flex-1">
+        <div className="min-w-0 flex-1">
           <h3 className={`text-2xl md:text-3xl font-bold font-fraunces mb-4 ${
             isFullySponsored ? 'text-gray-400' : 'text-primary'
           }`}>

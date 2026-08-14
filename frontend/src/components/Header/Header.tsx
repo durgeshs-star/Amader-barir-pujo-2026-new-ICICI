@@ -68,7 +68,7 @@ export const Header: React.FC<HeaderProps> = ({
         cancelAnimationFrame(resizeRafRef.current);
       }
       resizeRafRef.current = requestAnimationFrame(() => {
-        if (window.innerWidth >= 1024) {
+        if (window.innerWidth >= 1280) {
           setIsMobileMenuOpen(false);
         }
       });
@@ -108,7 +108,7 @@ export const Header: React.FC<HeaderProps> = ({
     <>
       <header className={headerClassName}>
         {!isSticky && showTopInfo && (
-          <div className="hidden lg:block border-b border-primary-bright/30 py-2.5 text-xs text-text-on-primary font-bold bg-primary">
+        <div className="hidden xl:block border-b border-primary-bright/30 py-2.5 text-xs text-text-on-primary font-bold bg-primary">
             <div className="max-w-[1600px] mx-auto px-6 flex justify-between items-center">
               <ul className="flex items-center gap-4 list-none p-0 m-0">
                 {phone && (
@@ -176,11 +176,11 @@ export const Header: React.FC<HeaderProps> = ({
         )}
 
         <div className="max-w-[1600px] mx-auto px-2 sm:px-4 lg:px-6 py-2 transition-all duration-300 relative">
-          <div className="flex items-center justify-between gap-2 sm:gap-4 lg:gap-6 flex-nowrap">
+          <div className="flex items-center justify-between gap-2 sm:gap-4 xl:gap-6 flex-nowrap">
            <div className="flex-shrink min-w-0 select-none">
               <Link to="/" aria-label="Amader Barir Pujo — Home">
                 <div className="flex flex-col items-center">
-                  <div className="rounded-full flex items-center justify-center w-36 h-20 lg:w-40 lg:h-20 transition-all duration-300">
+                  <div className="rounded-full flex items-center justify-center w-36 h-20 xl:w-40 xl:h-20 transition-all duration-300">
                     <img
                       src="/assets/img/ABP-Logo.png"
                       alt="Amader Bari'r Pujo logo"
@@ -194,28 +194,20 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
 
             {showNavigation ? (
-              <div className="hidden lg:block flex-1">
+              <div className="hidden lg:block flex-1 min-w-0">
                 <Navigation />
               </div>
             ) : brandText ? (
-              <div className="hidden lg:flex flex-1 justify-center">
+              <div className="hidden xl:flex flex-1 justify-center">
                 <div className="text-4xl font-extrabold text-primary select-none">
                   {brandText}
                 </div>
               </div>
             ) : (
-              <div className="hidden lg:block flex-1" />
+              <div className="hidden xl:block flex-1" />
             )}
 
-            <div className="hidden lg:flex items-center gap-24 shrink-0">
-              {showCTA && (
-                <Link
-                  to={ctaHref}
-                  className="inline-block text-sm font-bold uppercase tracking-wider px-6 py-2.5 rounded-md bg-primary text-text-on-primary border-2 border-transparent hover:bg-primary-dark hover:shadow-lg transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 text-center whitespace-nowrap"
-                >
-                  {ctaLabel}
-                </Link>
-              )}
+            <div className="hidden xl:flex items-center gap-8 2xl:gap-24 shrink-0">
               <a
                 href="https://proplusdatafoundation.com/"
                 target="_blank"
@@ -230,9 +222,17 @@ export const Header: React.FC<HeaderProps> = ({
                   decoding="async"
                 />
               </a>
+              {showCTA && (
+                <Link
+                  to={ctaHref}
+                  className="inline-block text-sm font-bold uppercase tracking-wide px-5 py-2 rounded-md bg-primary text-text-on-primary border-2 border-transparent hover:bg-primary-dark hover:shadow-lg transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 text-center whitespace-nowrap"
+                >
+                  {ctaLabel}
+                </Link>
+              )}
             </div>
 
-          <div className="flex lg:hidden items-center gap-2 sm:gap-3 ml-auto shrink-0">
+          <div className="flex xl:hidden items-center gap-3 sm:gap-4 ml-auto shrink-0">
             <a
               href="https://proplusdatafoundation.com/"
               target="_blank"
@@ -243,21 +243,31 @@ export const Header: React.FC<HeaderProps> = ({
               <img
                 src="/assets/img/PPD-Foundation.png"
                 alt="ProPlus Data Foundation"
-                className="w-28 sm:w-20 md:w-24 h-auto object-contain"
+                className="h-8 w-24 object-contain lg:h-10 lg:w-28"
                 loading="eager"
                 decoding="async"
               />
             </a>
+            {showCTA && (
+              <Link
+                to={ctaHref}
+                className="hidden lg:inline-block text-xs font-bold uppercase tracking-wide px-3 py-2 rounded-md bg-primary text-text-on-primary border-2 border-transparent hover:bg-primary-dark hover:shadow-lg transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 text-center whitespace-nowrap"
+              >
+                {ctaLabel}
+              </Link>
+            )}
             {showNavigation && (
-              <HamburgerButton
-                isOpen={isMobileMenuOpen}
-                onClick={handleMobileMenuToggle}
-              />
+              <div className="lg:hidden">
+                <HamburgerButton
+                  isOpen={isMobileMenuOpen}
+                  onClick={handleMobileMenuToggle}
+                />
+              </div>
             )}
           </div>
           </div>
 
-          <div className="hidden lg:block absolute bottom-1 right-4 lg:right-6 text-[9px] lg:text-[10px] text-primary font-semibold select-none pointer-events-none">
+          <div className="hidden xl:block absolute bottom-1 right-4 xl:right-6 text-[9px] xl:text-[10px] text-primary font-semibold select-none pointer-events-none">
             Darpan ID : MH/2025/0627499
           </div>
         </div>

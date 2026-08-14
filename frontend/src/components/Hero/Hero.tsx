@@ -9,7 +9,7 @@ export const Hero: React.FC = React.memo(() => {
   //   }
   // };
   return (
-    <div data-hero className="relative min-h-0 lg:h-screen lg:min-h-0 flex flex-col lg:flex-row lg:items-center overflow-hidden bg-dark-bg text-white">
+    <div data-hero className="relative min-h-0 lg:min-h-[calc(100svh-6rem)] xl:min-h-[calc(100svh-8.5rem)] flex flex-col lg:flex-row lg:items-center overflow-hidden bg-dark-bg text-white">
 
       <div className="relative w-full h-[50vh] sm:h-[55vh] md:h-[60vh] lg:absolute lg:inset-0 lg:h-full z-0">
         <picture>
@@ -30,7 +30,8 @@ export const Hero: React.FC = React.memo(() => {
 object-[50%_0%]
 sm:object-[50%_5%]
 md:object-[50%_10%]
-lg:object-[50%_85%]"
+lg:object-[50%_70%]
+xl:object-[50%_78%]"
           />
         </picture>
 
@@ -45,12 +46,12 @@ lg:object-[50%_85%]"
       </div>
 
       {/* Content — below image on mobile, overlaid on left on desktop */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 pt-8 pb-4 lg:py-0 flex-1 flex flex-col justify-center text-center lg:text-left">
-        <div className="max-w-2xl mb-2 mx-auto lg:mx-0">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-6 lg:px-20 xl:px-10 pt-8 pb-4 lg:py-8 xl:py-0 flex-1 flex flex-col justify-center text-center lg:text-left">
+        <div className="max-w-2xl lg:max-w-[26rem] xl:max-w-2xl mb-2 mx-auto lg:mx-0">
 
           {/* Title — large display, two visual lines */}
           <h1
-            className="font-fraunces-italic leading-tight mb-4 sm:mb-6 select-text text-3xl xs:text-4xl sm:text-5xl md:text-5xl font-bold text-white text-center lg:text-left wrap-break-word"
+            className="font-fraunces-italic leading-tight mb-4 sm:mb-6 lg:mb-4 xl:mb-6 select-text text-3xl xs:text-4xl sm:text-5xl md:text-5xl lg:text-4xl xl:text-5xl font-bold text-white text-center lg:text-left wrap-break-word"
             style={{ textShadow: '0 2px 12px rgba(0,0,0,0.5)' }}
           >
             আমাদের বাড়ির পূজো
@@ -61,17 +62,17 @@ lg:object-[50%_85%]"
 
           {/* Body text */}
           <div
-            className="text-sm md:text-base text-white font-sans leading-relaxed mb-4 sm:mb-6 max-w-md select-text space-y-3 sm:space-y-4 text-center lg:text-left mx-auto lg:mx-0"
+            className="text-sm md:text-base lg:text-sm xl:text-base text-white font-sans leading-relaxed lg:leading-6 mb-4 sm:mb-6 lg:mb-4 max-w-md lg:max-w-[24rem] xl:max-w-md select-text space-y-3 sm:space-y-4 lg:space-y-2 text-center lg:text-left mx-auto lg:mx-0"
             style={{ textShadow: '0 1px 6px rgba(0,0,0,0.6)' }}
           >
             <p>More than a celebration, it's a feeling we carry with us.</p>
             <p>A place where strangers become friends, children grow up making memories, and with Maa at the heart of it all, the familiar rhythm of dhaak, laughter, and adda reminds us what together feels like.</p>
-            <p className="font-bold text-accent text-center text-lg text-left">Free for all. Just as Pujo should be.</p>
+            <p className="font-bold text-accent text-center text-lg lg:text-base xl:text-lg lg:text-left">Free for all. Just as Pujo should be.</p>
           </div>
 
           {/* Bengali content */}
           <div
-            className="text-sm sm:text-base md:text-lg text-white font-sans leading-relaxed mb-6 sm:mb-8 max-w-md select-text space-y-2 sm:space-y-3 text-center lg:text-left mx-auto lg:mx-0"
+            className="text-sm sm:text-base md:text-lg lg:text-sm xl:text-lg text-white font-sans leading-relaxed lg:leading-5 mb-6 sm:mb-8 lg:mb-5 max-w-md lg:max-w-[24rem] xl:max-w-md select-text space-y-2 sm:space-y-3 lg:space-y-2 text-center lg:text-left mx-auto lg:mx-0"
             style={{ textShadow: '0 1px 8px rgba(0,0,0,0.8)' }}
           >
             <p>আমাদের বাড়ী,শুধু চারটে দেওয়াল নয়, আমাদের বাড়ী একটা যৌথ পরিবার যা দাঁড়িয়ে আছে বন্ধুত্ব ,সৌজন্য আর নিয়মের ব্ন্ধনের স্তম্ভের উপর ।</p>

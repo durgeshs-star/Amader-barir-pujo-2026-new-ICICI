@@ -61,7 +61,6 @@ export const galleryImages: GalleryImage[] = [
   { id: 47, year: '2024', src: '/assets/img/2024/SJP_5373.jpg', alt: 'Pujo celebration 2024 - 1', category: 'pujo' },
   { id: 48, year: '2024', src: '/assets/img/2024/SJP_5416.jpg', alt: 'Pujo celebration 2024 - 2', category: 'pujo' },
   { id: 49, year: '2024', src: '/assets/img/2024/SJP_5422.jpg', alt: 'Pujo celebration 2024 - 3', category: 'pujo' },
-  { id: 50, year: '2024', src: '/assets/img/2024/SJP_5447.jpg', alt: 'Pujo celebration 2024 - 4', category: 'pujo' },
   { id: 51, year: '2024', src: '/assets/img/2024/SJP_5476.jpg', alt: 'Pujo celebration 2024 - 5', category: 'pujo' },
   { id: 52, year: '2024', src: '/assets/img/2024/SJP_5478.jpg', alt: 'Pujo celebration 2024 - 6', category: 'pujo' },
   { id: 53, year: '2024', src: '/assets/img/2024/SJP_5603_0076.jpg', alt: 'Pujo celebration 2024 - 7', category: 'pujo' },
