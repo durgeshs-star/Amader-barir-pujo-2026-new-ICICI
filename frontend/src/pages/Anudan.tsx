@@ -200,7 +200,7 @@ export const Anudan: React.FC = () => {
       </section>
 
       {/* Anudan Cards Section */}
-      <section ref={offeringSectionRef} className="content-layer py-8 md:py-12">
+      <section ref={offeringSectionRef} className="content-layer py-8 md:py-12 px-5 sm:px-6 lg:px-20 xl:px-10 pt-8 pb-4 lg:py-8 xl:py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-8 md:mb-12 animate-fade-in-down">
             <h2 className="text-3xl md:text-4xl font-bold text-primary font-fraunces mb-3">
