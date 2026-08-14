@@ -232,7 +232,7 @@ export const Header: React.FC<HeaderProps> = ({
               </a>
             </div>
 
-          <div className="flex lg:hidden items-center gap-1.5 ml-auto shrink-0">
+          <div className="flex lg:hidden items-center gap-2 sm:gap-3 ml-auto shrink-0">
             <a
               href="https://proplusdatafoundation.com/"
               target="_blank"
@@ -243,7 +243,7 @@ export const Header: React.FC<HeaderProps> = ({
               <img
                 src="/assets/img/PPD-Foundation.png"
                 alt="ProPlus Data Foundation"
-                className="w-35 sm:w-16 h-auto object-contain"
+                className="w-28 sm:w-20 md:w-24 h-auto object-contain"
                 loading="eager"
                 decoding="async"
               />
