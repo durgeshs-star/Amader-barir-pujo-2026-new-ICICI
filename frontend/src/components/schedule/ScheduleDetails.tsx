@@ -2,8 +2,8 @@ import React from "react";
 import type { ScheduleBlock, ScheduleDetailsProps } from "../../types/schedule";
 
 const ScheduleBlockContent: React.FC<{ block: ScheduleBlock }> = ({ block }) => (
-  <div className="mt-10 first:mt-0">
-    <p className="uppercase tracking-[0.35em] text-accent-text text-xs md:text-sm font-semibold">
+  <div className="mt-10 first:mt-0 flex justify-center md:justify-start flex-col text-center md:text-left">
+    <p className="uppercase tracking-[0.35em] text-accent-text text-xs md:text-sm font-semibold text-center md:text-left">
       {block.subtitle}
     </p>
     {block.title && (
@@ -12,7 +12,7 @@ const ScheduleBlockContent: React.FC<{ block: ScheduleBlock }> = ({ block }) => 
       </h4>
     )}
     {block.lines && block.lines.length > 0 && (
-      <ul className="mt-4 space-y-2">
+      <ul className="mt-4 space-y-2 inline-block text-left mx-auto md:mx-0">
         {block.lines.map((line) => (
           <li
             key={line}
@@ -31,7 +31,7 @@ const ScheduleBlockContent: React.FC<{ block: ScheduleBlock }> = ({ block }) => 
             <h4 className="font-fraunces text-xl md:text-2xl font-bold text-primary leading-tight">
               {section.title}
             </h4>
-            <ul className="mt-3 space-y-2">
+            <ul className="mt-3 space-y-2 inline-block text-left mx-auto md:mx-0">
               {section.lines.map((line) => (
                 <li
                   key={line}
@@ -78,7 +78,10 @@ export const ScheduleDetails: React.FC<ScheduleDetailsProps> = ({
             </div>
           </div>
 
-          <div className="md:pl-2 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+          <div
+            className="md:pl-2 text-center md:text-left animate-fade-in-up"
+            style={{ animationDelay: '0.1s' }}
+          >
             {hasSimpleLayout && (
               <>
                 <p className="uppercase tracking-[0.4em] text-accent-text text-xs md:text-sm font-semibold">
@@ -87,7 +90,7 @@ export const ScheduleDetails: React.FC<ScheduleDetailsProps> = ({
                 <h3 className="font-fraunces text-3xl md:text-5xl font-bold text-primary mt-3 leading-tight">
                   {title}
                 </h3>
-                <div className="w-12 h-1 bg-accent mt-5 rounded-full" />
+                <div className="w-12 h-1 bg-accent mt-5 rounded-full mx-auto md:mx-0" />
               </>
             )}
 

@@ -27,30 +27,16 @@ const AshtamiSandhiPujaPage: React.FC = () => {
 
       <ScheduleDetails
         image="/assets/img/ashtami.webp"
-        imageAlt="Ashtami Sandhi Pujo celebration at Amader Bari'r Pujo"
-        date="18 October 2026"
+        imageAlt="Ashtami Sandhi Puja celebration at Amader Bari'r Pujo"
+        date="19th October, Monday (1st Kartik)"
         blocks={[
           {
-            subtitle: "Pujo Schedule (2026)",
-            title: "Ashtami Sandhi Pujo",
+            subtitle: "Pujo Schedule",
             lines: [
-              "Sandhi Pujo Start " /* : 1:21 PM */,
-              "Boli " /* : 1:45 PM, End : 2:09 PM */,
-              "Aarti " /* : 2:15 PM */,
-              "Pushpanjali " /* : 2:30 PM */,
-            ],
-          },
-          {
-            subtitle: "Spiritual Significance",
-            sections: [
-              {
-                title: "The Sacred Threshold",
-                lines: [
-                  "Sandhi Pujo marks the holy junction between two days",
-                  "A moment of profound spiritual connection and devotion",
-                  "The transition from Ashtami's warrior energy to Navami's victory",
-                ],
-              },
+              "07:26 AM — Shondhi Pujo starts",
+              "07:50 AM — Balidaan",
+              "08:14 AM — Sondhi Pujo Ends",
+              "07:00 PM — Shondha kale shitol bhog and Arati",
             ],
           },
         ]}

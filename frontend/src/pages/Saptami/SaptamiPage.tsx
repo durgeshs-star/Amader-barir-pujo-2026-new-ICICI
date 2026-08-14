@@ -28,26 +28,16 @@ const SaptamiPage: React.FC = () => {
       <ScheduleDetails
         image="/assets/img/saptami.webp"
         imageAlt="Saptami celebration at Amader Bari'r Pujo"
-        date="17 October 2026"
+        date="17th October, Saturday (29th Ashwin)"
         blocks={[
           {
-            subtitle: "Pujo Schedule (2026)",
-            title: "Saptami",
+            subtitle: "Pujo Schedule",
             lines: [
-              "Morning Pujo Start " /* : 8:00 AM */,
-              "Pushpaanjali " /* : 10:00 AM */,
-              "Sandhya Aarti " /* : 7 PM */,
-            ],
-          },
-          {
-            subtitle: "Cultural Schedule",
-            sections: [
-              {
-                title: "Saptami Evening",
-                lines: [
-                  "Bengali Fusion Band - Ujaan " /* : 8:00 PM to 10:00 PM */,
-                ],
-              },
+              "07:30 AM — Sri Sri Durga debir Mahasaptami Bihito Pujo",
+              "07:30 AM — Sri Sri Sharadiya Durga Debir Nobopotrika Probesh Sthapan",
+              "07:30 AM — Maha Saptami KolpaArambho & Saptami Pujo",
+              "10:30 AM — Pushpanjali",
+              "07:00 PM — Shondha kale shitol bhog and Arati",
             ],
           },
         ]}

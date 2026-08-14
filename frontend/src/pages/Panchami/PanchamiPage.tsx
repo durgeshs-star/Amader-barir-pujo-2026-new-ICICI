@@ -29,9 +29,15 @@ const PanchamiPage: React.FC = () => {
         image="/assets/img/panchami-photo.webp"
         imageAlt="Panchami celebration at Amader Bari'r Pujo"
         subtitle="Pujo Schedule"
-        title="Panchami"
-        date="15 October 2026"
-        timing="Maa Boron : 5:30 PM"
+        date="15th October, Friday (27th Ashwin)"
+        blocks={[
+          {
+            subtitle: "Pujo Schedule",
+            lines: [
+              "05:30 PM — Maa Boron",
+            ],
+          },
+        ]}
       />
 
        

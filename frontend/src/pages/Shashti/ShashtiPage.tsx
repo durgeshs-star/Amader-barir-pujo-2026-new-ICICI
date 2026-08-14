@@ -28,32 +28,14 @@ const ShashtiPage: React.FC = () => {
       <ScheduleDetails
         image="/assets/img/shashthi.webp"
         imageAlt="Soshti celebration at Amader Bari'r Pujo"
-        date="16 October 2026"
+        date="16th October, Friday (28th Ashwin)"
         blocks={[
           {
-            subtitle: "Pujo Schedule (2026)",
-            title: "Soshti",
+            subtitle: "Pujo Schedule",
             lines: [
-              "Morning Pujo Start " /* : 9:30 AM */,
-              "Pushpaanjali " /* : 10:30 AM */,
-              "Sandhya Aarti " /* : 7 PM */,
-            ],
-          },
-          {
-            subtitle: "Cultural Schedule",
-            sections: [
-              // {
-              //   title: "Soshti Noon",
-              //   lines: ["Children's Event : 12:00 PM - 2:00 PM"],
-              // },
-              {
-                title: "Soshti Evening" /* (8:00 PM - 10:00 PM) */,
-                lines: [
-                  "Agomoni (Half Hour)",
-                  "Retro to Rhythm",
-                  "Musical Night"
-                ],
-              },
+              "09:30 AM — Durga Shashthi Pujo",
+              "10:30 AM — Pushpanjali",
+              "07:00 PM — Shondha kale Devibodhan, Amantran and Adhivaas",
             ],
           },
         ]}

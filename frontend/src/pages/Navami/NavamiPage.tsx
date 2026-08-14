@@ -28,28 +28,15 @@ const NavamiPage: React.FC = () => {
       <ScheduleDetails
         image="/assets/img/navami.webp"
         imageAlt="Navami celebration at Amader Bari'r Pujo"
-        date="19 October 2026"
+        date="20th October, Tuesday (2nd Kartik)"
         blocks={[
           {
-            subtitle: "Pujo Schedule (2026)",
-            title: "Navami",
+            subtitle: "Pujo Schedule",
             lines: [
-              "Morning Pujo Start " /* : 8:00 AM */,
-              "Pushpaanjali " /* : 10:00 AM */,
-              "Hawaan " /* : 12:00 PM */,
-              "Sandhya Aarti " /* : 7 PM */,
-            ],
-          },
-          {
-            subtitle: "Cultural Schedule",
-            sections: [
-              {
-                title: "Navami Evening",
-                lines: [
-                  "Dhunuchi " /* : 7:30 PM - 8:15 PM */,
-                  "Hindi Band - AB Dreams " /* : 8:30 PM - 10:00 PM */,
-                ],
-              },
+              "07:30 AM — Sri Sri Sharadiya Durga debir MahaNavami Bihito Pujo",
+              "10:30 AM — Pushpanjali",
+              "11:30 AM — Havan",
+              "07:00 PM — Shondha kale shitol bhog and Arati",
             ],
           },
         ]}

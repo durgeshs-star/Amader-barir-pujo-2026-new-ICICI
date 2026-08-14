@@ -3,7 +3,7 @@ import SEO from "../../components/ui/SEO";
 import PageHero from "../../components/common/PageHero";
 import {
   ScheduleIntro,
-  ScheduleDetails,  
+  ScheduleDetails,
 } from "../../components/schedule";
 import { dashamiIntroParagraph } from "../../assets/data/scheduleShared";
 
@@ -18,10 +18,7 @@ const DashamiPage: React.FC = () => {
         canonical="https://www.abp.proplusdatafoundation.com/dashami"
       />
 
-      <PageHero
-        title="Dashami"
-        height="h-[35vh] md:h-[60vh]"
-      />
+      <PageHero title="Dashami" height="h-[35vh] md:h-[60vh]" />
 
       <ScheduleIntro paragraph={dashamiIntroParagraph}>
         <h2 className="font-fraunces font-bold text-3xl md:text-5xl text-primary italic">
@@ -32,34 +29,19 @@ const DashamiPage: React.FC = () => {
       <ScheduleDetails
         image="/assets/img/dashami.webp"
         imageAlt="Dashami celebration at Amader Bari'r Pujo"
-        date="20 October 2026"
+        date="21st October, Wednesday (3rd Kartik)"
         blocks={[
           {
-            subtitle: "Pujo Schedule (2026)",
-            title: "Dashami",
+            subtitle: "Pujo Schedule",
             lines: [
-              "Morning Pujo Start " /* : 9:00 AM */,
-              "Pushpaanjali & Aporajita Pujo " /* : 10:00 AM */,
-              "Ghot Bishorjon " /* : 10:30 AM */,
-              "Sindoor Khela " /* : 11:00 AM to 2:30 PM */,
-              "Pratima Niranjan " /* : 4:00 PM */,
-            ],
-          },
-          {
-            subtitle: "Cultural Schedule",
-            sections: [
-              {
-                title: "Dashami Noon",
-                lines: [
-                  "Bijoya Flute " /* : 11:00 AM - 3:00 PM */,
-                ],
-              },
+              "08:00 to 09:30 AM — Sri Sri Sharadiya Durga debir Dashami Bihito Pujo",
+              "10:00 AM — Aparajita Pujo",
+              "11:30 AM to 02:30 PM — Sindoor Khela",
+              "04:00 PM — Pratima Niranjan",
             ],
           },
         ]}
       />
-
-       
     </div>
   );
 };
