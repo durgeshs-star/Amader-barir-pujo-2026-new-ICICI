@@ -10,6 +10,42 @@ import { BhogRepository } from '../repositories/BhogRepository';
 import { iciciPGService, InitiateSalePayload } from '../services/iciciPG.service';
 import { sanitizeMerchantTxnNo } from '../services/iciciHash.service';
 
+// ---------------------------------------------------------------------------
+// Bhog sheet column layout — kept identical to the layout written by
+// iciciPayment.controller.ts (paid bookings) so free and paid bookings
+// always land in the same structure on the same sheet.
+// Customer Name, Mobile, Email, [plate columns], [charge columns],
+// Actual Amount, Payment Status, Transaction ID, Order ID, Timestamp
+// ---------------------------------------------------------------------------
+const BHOG_HEADERS = [
+  'Customer Name',
+  'Mobile Number',
+  'Email',
+  'Adult Plates',
+  'Children 0-5 Plates',
+  'Children 5+ Plates',
+  'Senior Citizen Plates',
+  'Total Plates',
+  'Base Amount (₹)',
+  'Gateway Charges (₹)',
+  'Actual Amount Paid (₹)',
+  'Payment Status',
+  'Transaction ID',
+  'Order ID',
+  'Timestamp',
+];
+const BHOG_COL = {
+  ADULT: 3,
+  CHILDREN_0_5: 4,
+  CHILDREN_5_PLUS: 5,
+  SENIOR: 6,
+  TOTAL_PLATES: 7,
+  BASE_AMOUNT: 8,
+  GATEWAY_CHARGES: 9,
+  ACTUAL_AMOUNT: 10,
+};
+const BHOG_BOLD_COLUMNS = [BHOG_COL.TOTAL_PLATES, BHOG_COL.ACTUAL_AMOUNT];
+
 export class BhogController {
   private sheetsService: GoogleSheetsService;
   private bhogRepository: BhogRepository;
@@ -142,43 +178,31 @@ export class BhogController {
       const sheetName = this.getSheetNameFromTitle(title);
 
       // Create sheet if it doesn't exist with headers (same structure as paid bookings)
-      const headers = [
-        'Timestamp',
-        'Order ID',
-        'Transaction ID',
-        'Customer Name',
-        'Mobile Number',
-        'Email',
-        'Adult Plates',
-        'Children 0-5 Plates',
-        'Children 5+ Plates',
-        'Senior Citizen Plates',
-        'Total Plates',
-        'Total Amount Paid (₹)',
-        'Payment Status'
-      ];
-      await this.sheetsService.createSheetIfNotExists(sheetName, headers);
+      await this.sheetsService.createSheetIfNotExists(sheetName, BHOG_HEADERS);
+      await this.sheetsService.formatHeaderRowAt(sheetName, BHOG_HEADERS.length);
 
       // Extract bhog quantities with defaults
       const quantities = this.extractBhogQuantities(categories);
 
-      // Append booking data to sheet with the receipt identifiers.
-      const rowData = [
-        receiptTimestamp,
-        orderId,
-        transactionId,
-        userInfo?.name || '',
-        userInfo?.phone || '',
-        userInfo?.email || '',
-        quantities.adult,
-        quantities.children05,
-        quantities.children5Plus,
-        quantities.seniorCitizen,
-        totalCount,
-        totalAmount,
-        isFree ? 'Free' : 'Paid'
-      ];
-      await this.sheetsService.appendRow(sheetName, rowData);
+      // Build the row in the new column order: name, mobile, email, plates, charges, actual amount, status, ids, timestamp
+      const rowData: any[] = [];
+      rowData[0] = userInfo?.name || '';
+      rowData[1] = userInfo?.phone || '';
+      rowData[2] = userInfo?.email || '';
+      rowData[BHOG_COL.ADULT] = quantities.adult;
+      rowData[BHOG_COL.CHILDREN_0_5] = quantities.children05;
+      rowData[BHOG_COL.CHILDREN_5_PLUS] = quantities.children5Plus;
+      rowData[BHOG_COL.SENIOR] = quantities.seniorCitizen;
+      rowData[BHOG_COL.TOTAL_PLATES] = totalCount;
+      rowData[BHOG_COL.BASE_AMOUNT] = 0;
+      rowData[BHOG_COL.GATEWAY_CHARGES] = 0;
+      rowData[BHOG_COL.ACTUAL_AMOUNT] = totalAmount;
+      rowData[11] = isFree ? 'Free' : 'Paid';
+      rowData[12] = transactionId;
+      rowData[13] = orderId;
+      rowData[14] = receiptTimestamp;
+
+      await this.appendOrInsertBhogRow(sheetName, rowData);
 
       // Store booking in MongoDB
       await this.bhogRepository.createPayment({
@@ -197,8 +221,8 @@ export class BhogController {
         paymentStatus: 'success'
       });
 
-      // Update summary calculations at the end of the sheet
-      await this.updateSheetSummary(sheetName);
+      // Recalculate the single TOTAL row at the bottom of the sheet
+      await this.recalculateBhogTotal(sheetName);
 
       res.status(200).json({
         success: true,
@@ -345,78 +369,60 @@ export class BhogController {
   }
 
   /**
-   * Update summary calculations at the end of the sheet
+   * Write a Bhog booking row. If a TOTAL row already exists at the bottom of
+   * the sheet, the new row is inserted directly ABOVE it (so TOTAL stays the
+   * very last row); otherwise it's simply appended.
    */
-  private async updateSheetSummary(sheetName: string): Promise<void> {
-    try {
-      const data = await this.sheetsService.getSheetData(sheetName);
-      
-      if (data.length <= 1) return; // Only header row, no data to summarize
+  private async appendOrInsertBhogRow(sheetName: string, rowData: any[]): Promise<void> {
+    const data = await this.sheetsService.getSheetData(sheetName);
+    const lastRow = data[data.length - 1];
+    const hasTotalRow = !!lastRow && lastRow[0] === 'TOTAL';
 
-      // Skip header row (index 0) and calculate totals
-      let totalAdult = 0;
-      let totalChildren05 = 0;
-      let totalChildren5Plus = 0;
-      let totalSenior = 0;
-      let totalPlates = 0;
-      let totalAmount = 0;
+    let newRowIndex: number;
+    if (hasTotalRow) {
+      const totalRowIndex = data.length - 1;
+      await this.sheetsService.insertRowAt(sheetName, totalRowIndex, rowData);
+      newRowIndex = totalRowIndex;
+    } else {
+      await this.sheetsService.appendRow(sheetName, rowData);
+      newRowIndex = data.length;
+    }
 
-      for (let i = 1; i < data.length; i++) {
-        const row = data[i];
-        // Skip existing summary row
-        if (row[0] === 'TOTAL') continue;
-        
-        totalAdult += parseInt(row[6]) || 0; // Adult Plates (column index 6)
-        totalChildren05 += parseInt(row[7]) || 0; // Children 0-5 (column index 7)
-        totalChildren5Plus += parseInt(row[8]) || 0; // Children 5+ (column index 8)
-        totalSenior += parseInt(row[9]) || 0; // Senior Citizen (column index 9)
-        totalPlates += parseInt(row[10]) || 0; // Total Plates (column index 10)
-        totalAmount += parseFloat(row[11]) || 0; // Total Amount (column index 11)
-      }
+    await this.sheetsService.formatCellsBold(sheetName, newRowIndex, BHOG_BOLD_COLUMNS);
+  }
 
-      // Check if summary row already exists (last row starts with "TOTAL")
-      const lastRow = data[data.length - 1];
-      if (lastRow && lastRow[0] === 'TOTAL') {
-        // Update existing summary row
-        const summaryRowIndex = data.length;
-        await this.sheetsService.updateRow(sheetName, summaryRowIndex, [
-          'TOTAL',
-          '',
-          '',
-          '',
-          '',
-          '',
-          '',
-          totalAdult,
-          totalChildren05,
-          totalChildren5Plus,
-          totalSenior,
-          totalPlates,
-          totalAmount,
-          ''
-        ]);
-      } else {
-        // Add new summary row
-        await this.sheetsService.appendRow(sheetName, [
-          'TOTAL',
-          '',
-          '',
-          '',
-          '',
-          '',
-          '',
-          totalAdult,
-          totalChildren05,
-          totalChildren5Plus,
-          totalSenior,
-          totalPlates,
-          totalAmount,
-          ''
-        ]);
-      }
-    } catch (error) {
-      console.error(`Failed to update summary for sheet ${sheetName}:`, error);
-      // Don't throw error - summary update is not critical
+  /**
+   * Recompute the single TOTAL row at the bottom of a Bhog sheet from every
+   * data row above it (mirrors the logic in iciciPayment.controller.ts so
+   * free and paid bookings share one consistent running total).
+   */
+  private async recalculateBhogTotal(sheetName: string): Promise<void> {
+    const data = await this.sheetsService.getSheetData(sheetName);
+    if (data.length <= 1) return;
+
+    let totalPlates = 0;
+    let totalActualAmount = 0;
+
+    for (let i = 1; i < data.length; i++) {
+      const row = data[i];
+      if (row[0] === 'TOTAL') continue;
+      totalPlates += parseInt(row[BHOG_COL.TOTAL_PLATES], 10) || 0;
+      totalActualAmount += parseFloat(row[BHOG_COL.ACTUAL_AMOUNT]) || 0;
+    }
+
+    const summaryRow = new Array(BHOG_HEADERS.length).fill('');
+    summaryRow[0] = 'TOTAL';
+    summaryRow[BHOG_COL.TOTAL_PLATES] = totalPlates;
+    summaryRow[BHOG_COL.ACTUAL_AMOUNT] = totalActualAmount;
+
+    const lastRow = data[data.length - 1];
+    if (lastRow && lastRow[0] === 'TOTAL') {
+      const totalRowIndex = data.length - 1;
+      await this.sheetsService.updateRow(sheetName, totalRowIndex, summaryRow);
+      await this.sheetsService.formatRowBold(sheetName, totalRowIndex, BHOG_HEADERS.length);
+    } else {
+      await this.sheetsService.appendRow(sheetName, summaryRow);
+      await this.sheetsService.formatRowBold(sheetName, data.length, BHOG_HEADERS.length);
     }
   }
 }

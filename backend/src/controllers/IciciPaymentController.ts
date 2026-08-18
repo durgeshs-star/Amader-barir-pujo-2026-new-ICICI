@@ -42,11 +42,148 @@ export function calculateIciciGatewayCharges(baseAmount: number): {
   };
 }
 
+// ---------------------------------------------------------------------------
+// Bhog sheet column layout
+// Customer Name, Mobile, Email, [plate columns], [charge columns],
+// Actual Amount, Payment Status, Transaction ID, Order ID, Timestamp
+// ---------------------------------------------------------------------------
+const BHOG_HEADERS = [
+  'Customer Name',
+  'Mobile Number',
+  'Email',
+  'Adult Plates',
+  'Children 0-5 Plates',
+  'Children 5+ Plates',
+  'Senior Citizen Plates',
+  'Total Plates',
+  'Base Amount (₹)',
+  'Gateway Charges (₹)',
+  'Actual Amount Paid (₹)',
+  'Payment Status',
+  'Transaction ID',
+  'Order ID',
+  'Timestamp',
+];
+const BHOG_COL = {
+  ADULT: 3,
+  CHILDREN_0_5: 4,
+  CHILDREN_5_PLUS: 5,
+  SENIOR: 6,
+  TOTAL_PLATES: 7,
+  BASE_AMOUNT: 8,
+  GATEWAY_CHARGES: 9,
+  ACTUAL_AMOUNT: 10,
+};
+const BHOG_BOLD_COLUMNS = [BHOG_COL.TOTAL_PLATES, BHOG_COL.ACTUAL_AMOUNT];
+
+// ---------------------------------------------------------------------------
+// Anudan sheet: one table per category, all living on a single sheet.
+//
+// NOTE: item-column labels below were transcribed from a low-resolution
+// screenshot of the category cards. Please proofread these against the
+// actual design and correct any spelling — the labels only affect column
+// headers, never the amount math, so they're safe to edit any time.
+// ---------------------------------------------------------------------------
+interface AnudanCategoryConfig {
+  title: string;
+  itemColumns: string[];
+}
+
+const ANUDAN_CATEGORIES: AnudanCategoryConfig[] = [
+  { title: 'Panchami', itemColumns: ['Prasad (Plate)'] },
+  {
+    title: 'Soshti',
+    itemColumns: [
+      'Flowers (Mala + Loose Flowers)',
+      'Fruits',
+      'Prasad (Khajur + Podha)',
+      'Bora (3 nos)',
+      'Dhoi (3) + Ganda (4)',
+      'Dhop + Dhuno + Oil',
+    ],
+  },
+  {
+    title: 'Saptami',
+    itemColumns: [
+      'Flowers (Mala + Loose Flowers)',
+      'Fruits',
+      'Prasad (Khajur + Podha)',
+      'Bora (3 nos)',
+      'Dhoi (3) + Ganda (4)',
+      'Dhop + Dhuno + Oil',
+    ],
+  },
+  {
+    title: 'Ashtami',
+    itemColumns: [
+      'Flowers (Mala + Loose Flowers)',
+      'Fruits',
+      'Prasad (Khajur + Podha)',
+      'Bora (3 nos)',
+      'Dhoi (3) + Ganda (4)',
+      'Dhop + Dhuno + Oil',
+    ],
+  },
+  {
+    title: 'Sondhi Pujo',
+    itemColumns: [
+      'Flowers (Mala + Loose Flowers + Lotus)',
+      'Fruits',
+      'Bora (1) + Dhoti (1) + Gamcha (1)',
+      'Ghee + Dhup + Dhuno + Diya + Oil',
+    ],
+  },
+  {
+    title: 'Navami',
+    itemColumns: [
+      'Flowers (Mala + Loose Flowers)',
+      'Fruits',
+      'Prasad (Khajur + Podha)',
+      'Bora (3 nos)',
+      'Dhoi (3) + Ganda (4)',
+      'Dhop + Dhuno + Oil',
+      'Havan',
+    ],
+  },
+  {
+    title: 'Dasami',
+    itemColumns: ['Flowers', 'Prasad (Khajur + Podha)', 'Dhop + Dhuno + Oil', 'Godakshma'],
+  },
+  {
+    title: 'Panchadin Anudan',
+    itemColumns: [
+      'Bhog',
+      'Gauravera',
+      'Mahi Sowgat',
+      'Panchti Golkima (4)',
+      'Ghadi Golkima (6)',
+      'Water Bottle',
+    ],
+  },
+];
+
+function getAnudanCategoryConfig(day: string): AnudanCategoryConfig | undefined {
+  if (!day) return undefined;
+  const normalized = day.trim().toLowerCase();
+  return (
+    ANUDAN_CATEGORIES.find((c) => c.title.toLowerCase() === normalized) ||
+    ANUDAN_CATEGORIES.find((c) => normalized.includes(c.title.toLowerCase()))
+  );
+}
+
+interface AnudanTableBlock {
+  titleRowIndex: number;
+  headerRowIndex: number;
+  totalRowIndex: number;
+  numColumns: number;
+}
+
 export class IciciPaymentController {
   private anudanRepository: AnudanRepository;
   private bhogRepository: BhogRepository;
   private sheetsService: GoogleSheetsService;
   private readonly FRONTEND_URL: string;
+  private readonly ANUDAN_SHEET_NAME = 'Anudan Contributions';
 
   constructor() {
     this.anudanRepository = new AnudanRepository();
@@ -199,19 +336,6 @@ export class IciciPaymentController {
         payment.serviceTax = serviceTax;
         payment.othCharge = othCharge;
 
-        // DEBUG: Log all amount calculations before saving
-        console.log('=== ANUDAN PAYMENT AMOUNT DEBUG ===');
-        console.log('baseAmount:', baseAmount);
-        console.log('actualAmountCharged from ICICI:', actualAmountCharged);
-        console.log('convenienceFee:', convenienceFee);
-        console.log('serviceTax:', serviceTax);
-        console.log('othCharge:', othCharge);
-        console.log('computed finalTotalAmount:', finalTotalAmount);
-        console.log('gatewayCharges (finalTotal - base):', gatewayCharges);
-        console.log('Manual sum (base + fees):', baseAmount + convenienceFee + serviceTax + othCharge);
-        console.log('payment.totalAmount being saved:', payment.totalAmount);
-        console.log('==================================');
-
         payment.markModified('baseAmount');
         payment.markModified('gatewayCharges');
         payment.markModified('totalAmount');
@@ -234,13 +358,6 @@ export class IciciPaymentController {
         payment.paymentStatus = 'success';
         await payment.save();
 
-        // DEBUG: Log what was actually saved to MongoDB
-        console.log('=== AFTER SAVE TO MONGODB ===');
-        console.log('payment._id:', payment._id);
-        console.log('payment.totalAmount after save:', payment.totalAmount);
-        console.log('payment.actualAmountCharged after save:', payment.actualAmountCharged);
-        console.log('============================');
-
         // Broadcast SSE updates for each category
         for (const category of payment.categories) {
           const campaignId = category.day;
@@ -249,7 +366,8 @@ export class IciciPaymentController {
           console.log(`SSE broadcast for ${campaignId}: remaining ₹${remaining}`);
         }
 
-        // Log to Google Sheets (non-critical) — logs base amount, gateway charges, and total paid amount
+        // Log to Google Sheets (non-critical) — writes one row per category
+        // into that category's own table on the Anudan sheet.
         await this.logAnudanToSheets(payment);
 
         console.log('Anudan payment successful:', payment.transactionId);
@@ -339,19 +457,6 @@ export class IciciPaymentController {
         payment.serviceTax = serviceTax;
         payment.othCharge = othCharge;
 
-        // DEBUG: Log all amount calculations before saving
-        console.log('=== BHOG PAYMENT AMOUNT DEBUG ===');
-        console.log('baseAmount:', baseAmount);
-        console.log('actualAmountCharged from ICICI:', actualAmountCharged);
-        console.log('convenienceFee:', convenienceFee);
-        console.log('serviceTax:', serviceTax);
-        console.log('othCharge:', othCharge);
-        console.log('computed finalTotalAmount:', finalTotalAmount);
-        console.log('gatewayCharges (finalTotal - base):', gatewayCharges);
-        console.log('Manual sum (base + fees):', baseAmount + convenienceFee + serviceTax + othCharge);
-        console.log('payment.totalAmount being saved:', payment.totalAmount);
-        console.log('================================');
-
         payment.markModified('baseAmount');
         payment.markModified('gatewayCharges');
         payment.markModified('totalAmount');
@@ -374,14 +479,7 @@ export class IciciPaymentController {
         payment.paymentStatus = 'success';
         await payment.save();
 
-        // DEBUG: Log what was actually saved to MongoDB
-        console.log('=== AFTER SAVE TO MONGODB ===');
-        console.log('payment._id:', payment._id);
-        console.log('payment.totalAmount after save:', payment.totalAmount);
-        console.log('payment.actualAmountCharged after save:', payment.actualAmountCharged);
-        console.log('============================');
-
-        // Log to Google Sheets (non-critical) — logs base amount, gateway charges, and total paid amount
+        // Log to Google Sheets (non-critical)
         await this.logBhogToSheets(payment);
 
         console.log('Bhog payment successful:', payment.transactionId);
@@ -410,81 +508,195 @@ export class IciciPaymentController {
     }
   }
 
+  // -------------------------------------------------------------------------
+  // Anudan sheet logic — one table per category on a single sheet
+  // -------------------------------------------------------------------------
+
   /**
-   * Log Anudan payment to Google Sheets
+   * Split the payment's total base/gateway/actual amounts across the
+   * categories in the basket, proportionally to each category's own
+   * donation amount. The last category absorbs any rounding remainder so
+   * the columns always foot exactly to the ICICI-charged total.
+   */
+  private allocateAnudanAmounts(payment: any): Array<{ day: string; base: number; gateway: number; actual: number }> {
+    const categories = payment.categories || [];
+    const totalBase =
+      payment.baseAmount || categories.reduce((sum: number, cat: any) => sum + (Number(cat.amount) || 0), 0);
+    const totalGateway = payment.gatewayCharges || 0;
+    const totalActual = payment.actualAmountCharged || payment.totalAmount || totalBase + totalGateway;
+
+    const result: Array<{ day: string; base: number; gateway: number; actual: number }> = [];
+    let allocatedGateway = 0;
+    let allocatedActual = 0;
+
+    categories.forEach((cat: any, index: number) => {
+      const base = Number(cat.amount) || 0;
+      const isLast = index === categories.length - 1;
+      let gateway: number;
+      let actual: number;
+
+      if (isLast) {
+        gateway = Math.round(((totalGateway - allocatedGateway) + Number.EPSILON) * 100) / 100;
+        actual = Math.round(((totalActual - allocatedActual) + Number.EPSILON) * 100) / 100;
+      } else {
+        const ratio = totalBase > 0 ? base / totalBase : 0;
+        gateway = Math.round((totalGateway * ratio + Number.EPSILON) * 100) / 100;
+        actual = Math.round((base + gateway + Number.EPSILON) * 100) / 100;
+        allocatedGateway += gateway;
+        allocatedActual += actual;
+      }
+
+      result.push({ day: cat.day, base, gateway, actual });
+    });
+
+    return result;
+  }
+
+  /**
+   * Create all 8 category tables (title + header + TOTAL row, each 2 blank
+   * rows apart) the very first time the Anudan sheet is touched. Never runs
+   * again once the sheet has any content, so it never disturbs existing data.
+   */
+  private async ensureAnudanSheetStructure(): Promise<void> {
+    await this.sheetsService.createSheetIfNotExists(this.ANUDAN_SHEET_NAME, []);
+    const existingData = await this.sheetsService.getSheetData(this.ANUDAN_SHEET_NAME);
+    if (existingData.length > 0) return; // already initialized
+
+    const rows: any[][] = [];
+    const blocks: Array<{ config: AnudanCategoryConfig; titleRow: number; headerRow: number; totalRow: number; numColumns: number }> = [];
+
+    for (const config of ANUDAN_CATEGORIES) {
+      const headers = [
+        'Customer Name', 'Mobile Number', 'Email',
+        ...config.itemColumns,
+        'Base Amount (₹)', 'Gateway Charges (₹)', 'Actual Amount Paid (₹)',
+        'Payment Status', 'Transaction ID', 'Order ID', 'Timestamp',
+      ];
+      const numColumns = headers.length;
+
+      const titleRow = rows.length;
+      rows.push([config.title]);
+
+      const headerRow = rows.length;
+      rows.push(headers);
+
+      const totalRow = rows.length;
+      const totalRowData = new Array(numColumns).fill('');
+      totalRowData[0] = 'TOTAL';
+      rows.push(totalRowData);
+
+      rows.push([]); // spacer
+      rows.push([]); // spacer
+
+      blocks.push({ config, titleRow, headerRow, totalRow, numColumns });
+    }
+
+    await this.sheetsService.appendRows(this.ANUDAN_SHEET_NAME, rows);
+
+    for (const block of blocks) {
+      await this.sheetsService.formatCategoryTitleRow(this.ANUDAN_SHEET_NAME, block.titleRow, block.numColumns);
+      await this.sheetsService.formatHeaderRowAt(this.ANUDAN_SHEET_NAME, block.numColumns, block.headerRow);
+      await this.sheetsService.formatRowBold(this.ANUDAN_SHEET_NAME, block.totalRow, block.numColumns);
+      await this.sheetsService.formatTableBorder(this.ANUDAN_SHEET_NAME, block.titleRow, block.totalRow + 1, block.numColumns);
+    }
+  }
+
+  /** Locate a category's title/header/TOTAL row positions by scanning the sheet. */
+  private async findAnudanCategoryBlock(title: string): Promise<AnudanTableBlock | null> {
+    const data = await this.sheetsService.getSheetData(this.ANUDAN_SHEET_NAME);
+    for (let i = 0; i < data.length; i++) {
+      if (data[i][0] === title) {
+        const headerRowIndex = i + 1;
+        const numColumns = (data[headerRowIndex] || []).length;
+        for (let j = headerRowIndex + 1; j < data.length; j++) {
+          if (data[j][0] === 'TOTAL') {
+            return { titleRowIndex: i, headerRowIndex, totalRowIndex: j, numColumns };
+          }
+          // Stop if we hit the next category's title before finding a TOTAL row (shouldn't happen)
+          if (ANUDAN_CATEGORIES.some((c) => c.title === data[j][0])) break;
+        }
+      }
+    }
+    return null;
+  }
+
+  /** Recompute a single category table's TOTAL row from its own data rows only. */
+  private async recalculateAnudanCategoryTotal(config: AnudanCategoryConfig): Promise<void> {
+    const block = await this.findAnudanCategoryBlock(config.title);
+    if (!block) return;
+
+    const data = await this.sheetsService.getSheetData(this.ANUDAN_SHEET_NAME);
+    const actualAmountColIndex = 3 + config.itemColumns.length + 2; // name/mobile/email + items -> base, gateway, actual
+
+    let totalActual = 0;
+    for (let i = block.headerRowIndex + 1; i < block.totalRowIndex; i++) {
+      totalActual += parseFloat(data[i]?.[actualAmountColIndex]) || 0;
+    }
+
+    const summaryRow = new Array(block.numColumns).fill('');
+    summaryRow[0] = 'TOTAL';
+    summaryRow[actualAmountColIndex] = totalActual;
+
+    await this.sheetsService.updateRow(this.ANUDAN_SHEET_NAME, block.totalRowIndex, summaryRow);
+    await this.sheetsService.formatRowBold(this.ANUDAN_SHEET_NAME, block.totalRowIndex, block.numColumns);
+    await this.sheetsService.formatCellsBold(this.ANUDAN_SHEET_NAME, block.totalRowIndex, [actualAmountColIndex]);
+  }
+
+  /**
+   * Log Anudan payment to Google Sheets — writes one row per category into
+   * that category's own table, inserted directly above its TOTAL row, then
+   * recalculates that table's TOTAL. Runs sequentially (not Promise.all) so
+   * row-index shifts from one category's insert don't race another's.
    */
   private async logAnudanToSheets(payment: any): Promise<void> {
     try {
       await this.sheetsService.initialize();
+      await this.ensureAnudanSheetStructure();
 
-      // Determine if we need fee breakdown columns
-      const hasConvenienceFee = (payment.convenienceFee || 0) > 0;
-      const hasServiceTax = (payment.serviceTax || 0) > 0;
-      const hasOthCharge = (payment.othCharge || 0) > 0;
-      const hasFeeBreakdown = hasConvenienceFee || hasServiceTax || hasOthCharge;
+      const allocations = this.allocateAnudanAmounts(payment);
 
-      const headers = [
-        'Timestamp',
-        'Order ID',
-        'Transaction ID',
-        'Customer Name',
-        'Mobile Number',
-        'Email',
-        'Category',
-        'Base Amount (₹)',
-        ...(hasFeeBreakdown ? [
-          'Convenience Fee (₹)',
-          'Service Tax (₹)',
-          'Other Charges (₹)',
-        ] : []),
-        'Gateway Charges / Tax (₹)',
-        'Actual Amount Paid (₹)',
-        'Remark',
-      ];
-      await this.sheetsService.createSheetIfNotExists('Anudan Contributions', headers);
-
-      // Add each category as a separate row
-      // - Row 0: includes all fees and the actual ICICI-charged total
-      // - Subsequent rows: shows only the category's base amount; fee columns are 0 to avoid double-counting
-      const rowPromises = payment.categories.map((category: any, index: number) => {
-        const rowData = [
-          payment.timestamp,
-          payment.orderId,
-          payment.transactionId,
-          index === 0 ? payment.userInfo.name || '' : '',
-          index === 0 ? payment.userInfo.phone || '' : '',
-          index === 0 ? payment.userInfo.email || '' : '',
-          category.day,
-          category.amount,
-          ...(hasFeeBreakdown ? [
-            index === 0 ? payment.convenienceFee || 0 : 0,
-            index === 0 ? payment.serviceTax || 0 : 0,
-            index === 0 ? payment.othCharge || 0 : 0,
-          ] : []),
-          index === 0 ? payment.gatewayCharges || 0 : 0,
-          index === 0 ? payment.actualAmountCharged || payment.totalAmount : 0,
-          category.remark || ''
-        ];
-
-        // DEBUG: Log what's being written to Google Sheets for Anudan
-        if (index === 0) {
-          console.log('=== GOOGLE SHEETS ANUDAN LOGGING DEBUG ===');
-          console.log('payment.baseAmount:', payment.baseAmount);
-          console.log('payment.gatewayCharges:', payment.gatewayCharges);
-          console.log('payment.totalAmount:', payment.totalAmount);
-          console.log('payment.actualAmountCharged:', payment.actualAmountCharged);
-          console.log('actualAmountCharged || totalAmount result:', payment.actualAmountCharged || payment.totalAmount);
-          console.log('Row data being written:', rowData);
-          console.log('==========================================');
+      for (const alloc of allocations) {
+        const config = getAnudanCategoryConfig(alloc.day);
+        if (!config) {
+          console.warn(`No Anudan category config found for "${alloc.day}" — skipping sheet log for this category. Check ANUDAN_CATEGORIES.`);
+          continue;
         }
 
-        return this.sheetsService.appendRow('Anudan Contributions', rowData);
-      });
-      await Promise.all(rowPromises);
+        const block = await this.findAnudanCategoryBlock(config.title);
+        if (!block) {
+          console.error(`Could not locate table block for Anudan category "${config.title}" in the sheet — skipping.`);
+          continue;
+        }
+
+        const rowData = [
+          payment.userInfo?.name || '',
+          payment.userInfo?.phone || '',
+          payment.userInfo?.email || '',
+          ...config.itemColumns.map(() => ''), // descriptive item columns — fill in per-item detail here if you later track it
+          alloc.base,
+          alloc.gateway,
+          alloc.actual,
+          'Paid',
+          payment.transactionId,
+          payment.orderId,
+          payment.timestamp,
+        ];
+
+        await this.sheetsService.insertRowAt(this.ANUDAN_SHEET_NAME, block.totalRowIndex, rowData);
+
+        const actualAmountColIndex = 3 + config.itemColumns.length + 2;
+        await this.sheetsService.formatCellsBold(this.ANUDAN_SHEET_NAME, block.totalRowIndex, [actualAmountColIndex]);
+
+        await this.recalculateAnudanCategoryTotal(config);
+      }
     } catch (sheetsError) {
       console.error('Failed to log Anudan to Google Sheets (non-critical):', sheetsError);
     }
   }
+
+  // -------------------------------------------------------------------------
+  // Bhog sheet logic — single running TOTAL row at the very bottom
+  // -------------------------------------------------------------------------
 
   /**
    * Extract bhog quantities from categories array
@@ -533,78 +745,91 @@ export class IciciPaymentController {
       const dayTitle = booking.day || payment.categories?.[0]?.title || 'General Bhog';
       const sheetName = this.getSheetNameFromTitle(dayTitle);
 
-      // Determine if we need fee breakdown columns
-      const hasConvenienceFee = (payment.convenienceFee || 0) > 0;
-      const hasServiceTax = (payment.serviceTax || 0) > 0;
-      const hasOthCharge = (payment.othCharge || 0) > 0;
-      const hasFeeBreakdown = hasConvenienceFee || hasServiceTax || hasOthCharge;
-
-      const headers = [
-        'Timestamp',
-        'Order ID',
-        'Transaction ID',
-        'Customer Name',
-        'Mobile Number',
-        'Email',
-        'Adult Plates',
-        'Children 0-5 Plates',
-        'Children 5+ Plates',
-        'Senior Citizen Plates',
-        'Total Plates',
-        'Base Amount (₹)',
-        ...(hasFeeBreakdown ? [
-          'Convenience Fee (₹)',
-          'Service Tax (₹)',
-          'Other Charges (₹)',
-        ] : []),
-        'Gateway Charges / Tax (₹)',
-        'Actual Amount Paid (₹)',
-        'Payment Status'
-      ];
-      await this.sheetsService.createSheetIfNotExists(sheetName, headers);
+      await this.sheetsService.createSheetIfNotExists(sheetName, BHOG_HEADERS);
+      await this.sheetsService.formatHeaderRowAt(sheetName, BHOG_HEADERS.length);
 
       const quantities = this.extractBhogQuantities(payment.categories || []);
       const totalPlates = booking.quantity || (quantities.adult + quantities.children05 + quantities.children5Plus + quantities.seniorCitizen);
 
-      const rowData = [
-        payment.timestamp,
-        payment.orderId,
-        payment.transactionId,
-        payment.userInfo.name,
-        payment.userInfo.phone,
-        payment.userInfo.email,
-        quantities.adult,
-        quantities.children05,
-        quantities.children5Plus,
-        quantities.seniorCitizen,
-        totalPlates,
-        payment.baseAmount || (payment.totalAmount - (payment.gatewayCharges || 0)),
-        ...(hasFeeBreakdown ? [
-          payment.convenienceFee || 0,
-          payment.serviceTax || 0,
-          payment.othCharge || 0,
-        ] : []),
-        payment.gatewayCharges || 0,
-        payment.actualAmountCharged || payment.totalAmount,
-        'Paid'
-      ];
+      const rowData: any[] = [];
+      rowData[0] = payment.userInfo.name;
+      rowData[1] = payment.userInfo.phone;
+      rowData[2] = payment.userInfo.email;
+      rowData[BHOG_COL.ADULT] = quantities.adult;
+      rowData[BHOG_COL.CHILDREN_0_5] = quantities.children05;
+      rowData[BHOG_COL.CHILDREN_5_PLUS] = quantities.children5Plus;
+      rowData[BHOG_COL.SENIOR] = quantities.seniorCitizen;
+      rowData[BHOG_COL.TOTAL_PLATES] = totalPlates;
+      rowData[BHOG_COL.BASE_AMOUNT] = payment.baseAmount || (payment.totalAmount - (payment.gatewayCharges || 0));
+      rowData[BHOG_COL.GATEWAY_CHARGES] = payment.gatewayCharges || 0;
+      rowData[BHOG_COL.ACTUAL_AMOUNT] = payment.actualAmountCharged || payment.totalAmount;
+      rowData[11] = 'Paid';
+      rowData[12] = payment.transactionId;
+      rowData[13] = payment.orderId;
+      rowData[14] = payment.timestamp;
 
-      // DEBUG: Log what's being written to Google Sheets
-      console.log('=== GOOGLE SHEETS BHOG LOGGING DEBUG ===');
-      console.log('payment.baseAmount:', payment.baseAmount);
-      console.log('payment.gatewayCharges:', payment.gatewayCharges);
-      console.log('payment.totalAmount:', payment.totalAmount);
-      console.log('payment.actualAmountCharged:', payment.actualAmountCharged);
-      console.log('actualAmountCharged || totalAmount result:', payment.actualAmountCharged || payment.totalAmount);
-      console.log('Row data being written:', rowData);
-      console.log('=======================================');
-
-      await this.sheetsService.appendRow(sheetName, rowData);
-
-      // Update summary
-      await this.updateSheetSummary(sheetName);
+      await this.appendOrInsertBhogRow(sheetName, rowData);
+      await this.recalculateBhogTotal(sheetName);
     } catch (sheetsError) {
       console.error('Failed to log Bhog to Google Sheets (non-critical):', sheetsError);
+    }
+  }
+
+  /**
+   * Write a Bhog booking row. If a TOTAL row already exists at the bottom of
+   * the sheet, the new row is inserted directly ABOVE it (so TOTAL stays the
+   * very last row); otherwise it's simply appended.
+   */
+  private async appendOrInsertBhogRow(sheetName: string, rowData: any[]): Promise<void> {
+    const data = await this.sheetsService.getSheetData(sheetName);
+    const lastRow = data[data.length - 1];
+    const hasTotalRow = !!lastRow && lastRow[0] === 'TOTAL';
+
+    let newRowIndex: number;
+    if (hasTotalRow) {
+      const totalRowIndex = data.length - 1; // 0-based
+      await this.sheetsService.insertRowAt(sheetName, totalRowIndex, rowData);
+      newRowIndex = totalRowIndex;
+    } else {
+      await this.sheetsService.appendRow(sheetName, rowData);
+      newRowIndex = data.length; // 0-based index of the freshly appended row
+    }
+
+    await this.sheetsService.formatCellsBold(sheetName, newRowIndex, BHOG_BOLD_COLUMNS);
+  }
+
+  /**
+   * Recompute the single TOTAL row at the bottom of a Bhog sheet from every
+   * data row above it. Creates the TOTAL row once if it doesn't exist yet;
+   * after that it only ever updates that same row in place.
+   */
+  private async recalculateBhogTotal(sheetName: string): Promise<void> {
+    const data = await this.sheetsService.getSheetData(sheetName);
+    if (data.length <= 1) return; // only header row, nothing to total yet
+
+    let totalPlates = 0;
+    let totalActualAmount = 0;
+
+    for (let i = 1; i < data.length; i++) {
+      const row = data[i];
+      if (row[0] === 'TOTAL') continue;
+      totalPlates += parseInt(row[BHOG_COL.TOTAL_PLATES], 10) || 0;
+      totalActualAmount += parseFloat(row[BHOG_COL.ACTUAL_AMOUNT]) || 0;
+    }
+
+    const summaryRow = new Array(BHOG_HEADERS.length).fill('');
+    summaryRow[0] = 'TOTAL';
+    summaryRow[BHOG_COL.TOTAL_PLATES] = totalPlates;
+    summaryRow[BHOG_COL.ACTUAL_AMOUNT] = totalActualAmount;
+
+    const lastRow = data[data.length - 1];
+    if (lastRow && lastRow[0] === 'TOTAL') {
+      const totalRowIndex = data.length - 1;
+      await this.sheetsService.updateRow(sheetName, totalRowIndex, summaryRow);
+      await this.sheetsService.formatRowBold(sheetName, totalRowIndex, BHOG_HEADERS.length);
+    } else {
+      await this.sheetsService.appendRow(sheetName, summaryRow);
+      await this.sheetsService.formatRowBold(sheetName, data.length, BHOG_HEADERS.length);
     }
   }
 
@@ -623,76 +848,6 @@ export class IciciPaymentController {
     if (titleLower.includes('saraswati puja')) return 'Saraswati Puja Bhog';
     
     return 'General Bhog Bookings';
-  }
-
-  /**
-   * Update sheet summary
-   */
-  private async updateSheetSummary(sheetName: string): Promise<void> {
-    try {
-      const data = await this.sheetsService.getSheetData(sheetName);
-      
-      if (data.length <= 1) return;
-
-      let totalAdult = 0;
-      let totalChildren05 = 0;
-      let totalChildren5Plus = 0;
-      let totalSenior = 0;
-      let totalPlates = 0;
-      let totalBaseAmount = 0;
-      let totalConvenienceFee = 0;
-      let totalServiceTax = 0;
-      let totalOthCharge = 0;
-      let totalGatewayCharges = 0;
-      let totalActualAmount = 0;
-
-      // Check if first data row has fee columns (detect by header count)
-      const headers = data[0] || [];
-      const hasFeeColumns = headers.includes('Convenience Fee (₹)');
-      const baseAmountIndex = headers.indexOf('Base Amount (₹)');
-      const convFeeIndex = hasFeeColumns ? headers.indexOf('Convenience Fee (₹)') : -1;
-      const serviceTaxIndex = hasFeeColumns ? headers.indexOf('Service Tax (₹)') : -1;
-      const othChargeIndex = hasFeeColumns ? headers.indexOf('Other Charges (₹)') : -1;
-      const gatewayIndex = headers.indexOf('Gateway Charges / Tax (₹)');
-      const actualAmountIndex = headers.indexOf('Actual Amount Paid (₹)');
-
-      for (let i = 1; i < data.length; i++) {
-        const row = data[i];
-        if (row[0] === 'TOTAL') continue;
-        
-        totalAdult += parseInt(row[6]) || 0;
-        totalChildren05 += parseInt(row[7]) || 0;
-        totalChildren5Plus += parseInt(row[8]) || 0;
-        totalSenior += parseInt(row[9]) || 0;
-        totalPlates += parseInt(row[10]) || 0;
-        
-        if (baseAmountIndex >= 0) totalBaseAmount += parseFloat(row[baseAmountIndex]) || 0;
-        if (convFeeIndex >= 0) totalConvenienceFee += parseFloat(row[convFeeIndex]) || 0;
-        if (serviceTaxIndex >= 0) totalServiceTax += parseFloat(row[serviceTaxIndex]) || 0;
-        if (othChargeIndex >= 0) totalOthCharge += parseFloat(row[othChargeIndex]) || 0;
-        if (gatewayIndex >= 0) totalGatewayCharges += parseFloat(row[gatewayIndex]) || 0;
-        if (actualAmountIndex >= 0) totalActualAmount += parseFloat(row[actualAmountIndex]) || 0;
-      }
-
-      const summaryData = [
-        'TOTAL', '', '', '', '', '',
-        totalAdult, totalChildren05, totalChildren5Plus, totalSenior, totalPlates,
-        totalBaseAmount,
-        ...(hasFeeColumns ? [totalConvenienceFee, totalServiceTax, totalOthCharge] : []),
-        totalGatewayCharges,
-        totalActualAmount,
-        ''
-      ];
-
-      const lastRow = data[data.length - 1];
-      if (lastRow && lastRow[0] === 'TOTAL') {
-        await this.sheetsService.updateRow(sheetName, data.length, summaryData);
-      } else {
-        await this.sheetsService.appendRow(sheetName, summaryData);
-      }
-    } catch (error) {
-      console.error(`Failed to update summary for sheet ${sheetName}:`, error);
-    }
   }
 
   /**
