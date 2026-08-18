@@ -78,89 +78,41 @@ const BHOG_BOLD_COLUMNS = [BHOG_COL.TOTAL_PLATES, BHOG_COL.ACTUAL_AMOUNT];
 
 // ---------------------------------------------------------------------------
 // Anudan sheet: one table per category, all living on a single sheet.
-//
-// NOTE: item-column labels below were transcribed from a low-resolution
-// screenshot of the category cards. Please proofread these against the
-// actual design and correct any spelling — the labels only affect column
-// headers, never the amount math, so they're safe to edit any time.
+// Every category table shares the exact same column set (no per-category
+// item breakdown columns — just the customer, amount, and status columns).
 // ---------------------------------------------------------------------------
 interface AnudanCategoryConfig {
   title: string;
-  itemColumns: string[];
 }
 
 const ANUDAN_CATEGORIES: AnudanCategoryConfig[] = [
-  { title: 'Panchami', itemColumns: ['Prasad (Plate)'] },
-  {
-    title: 'Soshti',
-    itemColumns: [
-      'Flowers (Mala + Loose Flowers)',
-      'Fruits',
-      'Prasad (Khajur + Podha)',
-      'Bora (3 nos)',
-      'Dhoi (3) + Ganda (4)',
-      'Dhop + Dhuno + Oil',
-    ],
-  },
-  {
-    title: 'Saptami',
-    itemColumns: [
-      'Flowers (Mala + Loose Flowers)',
-      'Fruits',
-      'Prasad (Khajur + Podha)',
-      'Bora (3 nos)',
-      'Dhoi (3) + Ganda (4)',
-      'Dhop + Dhuno + Oil',
-    ],
-  },
-  {
-    title: 'Ashtami',
-    itemColumns: [
-      'Flowers (Mala + Loose Flowers)',
-      'Fruits',
-      'Prasad (Khajur + Podha)',
-      'Bora (3 nos)',
-      'Dhoi (3) + Ganda (4)',
-      'Dhop + Dhuno + Oil',
-    ],
-  },
-  {
-    title: 'Sondhi Pujo',
-    itemColumns: [
-      'Flowers (Mala + Loose Flowers + Lotus)',
-      'Fruits',
-      'Bora (1) + Dhoti (1) + Gamcha (1)',
-      'Ghee + Dhup + Dhuno + Diya + Oil',
-    ],
-  },
-  {
-    title: 'Navami',
-    itemColumns: [
-      'Flowers (Mala + Loose Flowers)',
-      'Fruits',
-      'Prasad (Khajur + Podha)',
-      'Bora (3 nos)',
-      'Dhoi (3) + Ganda (4)',
-      'Dhop + Dhuno + Oil',
-      'Havan',
-    ],
-  },
-  {
-    title: 'Dasami',
-    itemColumns: ['Flowers', 'Prasad (Khajur + Podha)', 'Dhop + Dhuno + Oil', 'Godakshma'],
-  },
-  {
-    title: 'Panchadin Anudan',
-    itemColumns: [
-      'Bhog',
-      'Gauravera',
-      'Mahi Sowgat',
-      'Panchti Golkima (4)',
-      'Ghadi Golkima (6)',
-      'Water Bottle',
-    ],
-  },
+  { title: 'Panchami' },
+  { title: 'Soshti' },
+  { title: 'Saptami' },
+  { title: 'Ashtami' },
+  { title: 'Sondhi Pujo' },
+  { title: 'Navami' },
+  { title: 'Dasami' },
+  { title: 'Panchadin Anudan' },
 ];
+
+// Column layout used by every Anudan category table (0-based indexes)
+const ANUDAN_HEADERS = [
+  'Customer Name',
+  'Mobile Number',
+  'Email',
+  'Base Amount (₹)',
+  'Gateway Charges (₹)',
+  'Actual Amount Paid (₹)',
+  'Transaction ID',
+  'Order ID',
+  'Timestamp',
+];
+const ANUDAN_COL = {
+  BASE_AMOUNT: 3,
+  GATEWAY_CHARGES: 4,
+  ACTUAL_AMOUNT: 5,
+};
 
 function getAnudanCategoryConfig(day: string): AnudanCategoryConfig | undefined {
   if (!day) return undefined;
@@ -564,21 +516,14 @@ export class IciciPaymentController {
 
     const rows: any[][] = [];
     const blocks: Array<{ config: AnudanCategoryConfig; titleRow: number; headerRow: number; totalRow: number; numColumns: number }> = [];
+    const numColumns = ANUDAN_HEADERS.length;
 
     for (const config of ANUDAN_CATEGORIES) {
-      const headers = [
-        'Customer Name', 'Mobile Number', 'Email',
-        ...config.itemColumns,
-        'Base Amount (₹)', 'Gateway Charges (₹)', 'Actual Amount Paid (₹)',
-        'Payment Status', 'Transaction ID', 'Order ID', 'Timestamp',
-      ];
-      const numColumns = headers.length;
-
       const titleRow = rows.length;
       rows.push([config.title]);
 
       const headerRow = rows.length;
-      rows.push(headers);
+      rows.push([...ANUDAN_HEADERS]);
 
       const totalRow = rows.length;
       const totalRowData = new Array(numColumns).fill('');
@@ -626,20 +571,19 @@ export class IciciPaymentController {
     if (!block) return;
 
     const data = await this.sheetsService.getSheetData(this.ANUDAN_SHEET_NAME);
-    const actualAmountColIndex = 3 + config.itemColumns.length + 2; // name/mobile/email + items -> base, gateway, actual
 
     let totalActual = 0;
     for (let i = block.headerRowIndex + 1; i < block.totalRowIndex; i++) {
-      totalActual += parseFloat(data[i]?.[actualAmountColIndex]) || 0;
+      totalActual += parseFloat(data[i]?.[ANUDAN_COL.ACTUAL_AMOUNT]) || 0;
     }
 
     const summaryRow = new Array(block.numColumns).fill('');
     summaryRow[0] = 'TOTAL';
-    summaryRow[actualAmountColIndex] = totalActual;
+    summaryRow[ANUDAN_COL.ACTUAL_AMOUNT] = totalActual;
 
     await this.sheetsService.updateRow(this.ANUDAN_SHEET_NAME, block.totalRowIndex, summaryRow);
     await this.sheetsService.formatRowBold(this.ANUDAN_SHEET_NAME, block.totalRowIndex, block.numColumns);
-    await this.sheetsService.formatCellsBold(this.ANUDAN_SHEET_NAME, block.totalRowIndex, [actualAmountColIndex]);
+    await this.sheetsService.formatCellsBold(this.ANUDAN_SHEET_NAME, block.totalRowIndex, [ANUDAN_COL.ACTUAL_AMOUNT]);
   }
 
   /**
@@ -672,7 +616,6 @@ export class IciciPaymentController {
           payment.userInfo?.name || '',
           payment.userInfo?.phone || '',
           payment.userInfo?.email || '',
-          ...config.itemColumns.map(() => ''), // descriptive item columns — fill in per-item detail here if you later track it
           alloc.base,
           alloc.gateway,
           alloc.actual,
@@ -683,9 +626,7 @@ export class IciciPaymentController {
         ];
 
         await this.sheetsService.insertRowAt(this.ANUDAN_SHEET_NAME, block.totalRowIndex, rowData);
-
-        const actualAmountColIndex = 3 + config.itemColumns.length + 2;
-        await this.sheetsService.formatCellsBold(this.ANUDAN_SHEET_NAME, block.totalRowIndex, [actualAmountColIndex]);
+        await this.sheetsService.formatCellsBold(this.ANUDAN_SHEET_NAME, block.totalRowIndex, [ANUDAN_COL.ACTUAL_AMOUNT]);
 
         await this.recalculateAnudanCategoryTotal(config);
       }
