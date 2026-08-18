@@ -8,7 +8,6 @@ import { PageHero } from '../components/common/PageHero';
 import UserInfoForm, { type UserInfoFormRef } from '../components/ui/UserInfoForm';
 import AnudanReceipt from '../components/Payment/AnudanReceipt';
 import { AnudanAmountChangedModal } from '../components/AnudanAmountChangedModal';
-import BookingSoonModal from '../components/ui/BookingSoonModal';
 import type { AnudanCard as AnudanCardType } from '../types/anudan.types';
 import { API_URL } from '../config/api';
 import { apiService } from '../services/api';
@@ -28,8 +27,6 @@ export const Anudan: React.FC = () => {
   // Modal state for insufficient amount error
   const [showAmountChangedModal, setShowAmountChangedModal] = useState(false);
   const [modalData, setModalData] = useState<{ remaining: number; requested: number } | null>(null);
-  const [showBookingSoonModal, setShowBookingSoonModal] = useState(false);
-  const [hasShownPopup, setHasShownPopup] = useState(false);
   
   // Fetch all remaining amounts
   const [allRemainingAmounts, setAllRemainingAmounts] = useState<Record<string, number>>({});
@@ -65,23 +62,6 @@ export const Anudan: React.FC = () => {
     return () => clearInterval(interval);
   }, [API_URL]);
 
-  // Show popup when user scrolls to offering section
-  useEffect(() => {
-    const handleScroll = () => {
-      if (hasShownPopup || !offeringSectionRef.current) return;
-
-      const rect = offeringSectionRef.current.getBoundingClientRect();
-      const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
-
-      if (isVisible) {
-        setShowBookingSoonModal(true);
-        setHasShownPopup(true);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [hasShownPopup]);
 
   // Basket state
   const [basket, setBasket] = useState<BasketItem[]>([]);
@@ -93,7 +73,7 @@ export const Anudan: React.FC = () => {
 
   // User info and payment state
   const [isUserInfoFilled, setIsUserInfoFilled] = useState(false);
-  const [isProcessing] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
   const [showUserInfoForm, setShowUserInfoForm] = useState(false);
   const [showReceipt, setShowReceipt] = useState(false);
   const [receiptData, setReceiptData] = useState<any>(null);
@@ -129,17 +109,53 @@ export const Anudan: React.FC = () => {
       toast.error('Your basket is empty');
       return;
     }
-    setShowBookingSoonModal(true);
+    setShowUserInfoForm(true);
     setShowMobileBasket(false);
+    requestAnimationFrame(() => userInfoSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
   };
 
-  const handlePayment = () => {
+  const handlePayment = async () => {
+    if (!userInfoFormRef.current?.validateForm()) return;
     if (basket.length === 0) {
       toast.error('Your basket is empty');
       return;
     }
+    if (!isConfirmed) return;
 
-    setShowBookingSoonModal(true);
+    setIsProcessing(true);
+    try {
+      const orderId = `ANUDAN-${Date.now()}`;
+      const transactionId = `AND-${Date.now()}-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
+      const response = await fetch(`${API_URL}/api/anudan/paid-booking`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          categories: basket.map(({ card, amount }) => ({ day: card.day, amount, items: card.items, remark: '' })),
+          userInfo: userInfoFormRef.current.getUserInfo(),
+          orderId,
+          transactionId,
+          timestamp: new Date().toISOString(),
+        }),
+      });
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        if (result.errorCode === 'INSUFFICIENT_REMAINING_AMOUNT') {
+          setModalData({ remaining: result.remainingAmount, requested: result.requestedAmount });
+          setShowAmountChangedModal(true);
+          refresh();
+          return;
+        }
+        throw new Error(result.error || result.message || 'Unable to start payment. Please try again.');
+      }
+
+      if (!result.paymentUrl) throw new Error('Payment link was not returned. Please try again.');
+      window.location.assign(result.paymentUrl);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Unable to start payment. Please try again.');
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   return (
@@ -219,7 +235,6 @@ export const Anudan: React.FC = () => {
                     remainingAmount={allRemainingAmounts[card.day] || 0}
                     isLoading={isLoadingRemaining}
                     onAddToBasket={addToBasket}
-                    onBookingSoon={() => setShowBookingSoonModal(true)}
                   />
                 </div>
               ))}
@@ -457,7 +472,6 @@ export const Anudan: React.FC = () => {
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }}
       />
-      <BookingSoonModal isOpen={showBookingSoonModal} onClose={() => setShowBookingSoonModal(false)} />
     </LazyMotion>
     </div>
   );

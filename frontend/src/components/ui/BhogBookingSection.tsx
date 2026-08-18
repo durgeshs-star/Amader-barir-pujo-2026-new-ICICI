@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import BhogBookingCard from './BhogBookingCard';
 import UserInfoForm from './UserInfoForm';
-import BookingSoonModal from './BookingSoonModal';
 import type { UserInfoFormRef } from './UserInfoForm';
 import type { BhogBookingSectionProps, BhogBookingState } from '../../types/bhog';
+import { API_URL } from '../../config/api';
+import { toast } from 'react-toastify';
 
 export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
   title,
@@ -24,28 +25,8 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
 
   const userInfoFormRef = React.useRef<UserInfoFormRef>(null);
   const [isUserInfoFilled, setIsUserInfoFilled] = useState(false);
-  const [isLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [isConfirmed, setIsConfirmed] = useState(false);
-  const [showBookingSoonModal, setShowBookingSoonModal] = useState(false);
-  const [hasShownPopup, setHasShownPopup] = useState(false);
-
-  // Show popup when user scrolls to bhog plates selection section
-  useEffect(() => {
-    const handleScroll = () => {
-      if (hasShownPopup || !sectionRef.current) return;
-
-      const rect = sectionRef.current.getBoundingClientRect();
-      const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
-
-      if (isVisible) {
-        setShowBookingSoonModal(true);
-        setHasShownPopup(true);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [hasShownPopup]);
 
   const handleValueChange = (categoryId: string, value: number) => {
     setBookings((prev) => ({
@@ -96,6 +77,60 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
   };
 
   const bookingSummary = getBookingSummary();
+
+  const handleBooking = async () => {
+    if (!userInfoFormRef.current?.validateForm()) return;
+    if (!isFreeBooking() && !isConfirmed) return;
+
+    const selectedCategories = categories
+      .filter((category) => (bookings[category.id] || 0) > 0)
+      .map((category) => ({
+        id: category.id,
+        title: category.title,
+        price: category.price,
+        quantity: bookings[category.id] || 0,
+      }));
+
+    if (selectedCategories.length === 0) return;
+
+    setIsLoading(true);
+    try {
+      const isFree = isFreeBooking();
+      const transactionId = `BHG-${Date.now()}-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
+      const orderId = `BHG-ORD-${Date.now()}`;
+      const response = await fetch(`${API_URL}/api/bhog/${isFree ? 'free-booking' : 'paid-booking'}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title,
+          categories: selectedCategories,
+          timestamp: new Date().toISOString(),
+          isFree,
+          userInfo: userInfoFormRef.current.getUserInfo(),
+          orderId,
+          transactionId,
+        }),
+      });
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || 'Unable to start your booking. Please try again.');
+      }
+
+      if (isFree) {
+        const { orderId: freeOrderId, transactionId: freeTransactionId } = result.data;
+        window.location.assign(`/payment/success?orderId=${encodeURIComponent(freeOrderId)}&transactionId=${encodeURIComponent(freeTransactionId)}&amount=0&currency=INR&fromBhog=true`);
+        return;
+      }
+
+      if (!result.paymentUrl) throw new Error('Payment link was not returned. Please try again.');
+      window.location.assign(result.paymentUrl);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Unable to start your booking. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>
@@ -230,9 +265,9 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
           <div className="block lg:hidden mt-4">
             {isFreeBooking() ? (
               <button
-                onClick={() => setShowBookingSoonModal(true)}
-                className="w-full px-6 py-3 bg-gray-300 text-gray-500 font-semibold rounded-xl border-0 transition-all duration-300 cursor-not-allowed opacity-70 flex items-center justify-center space-x-2 h-[52px]"
-                aria-disabled="true"
+                onClick={handleBooking}
+                disabled={isLoading}
+                className="w-full px-6 py-3 bg-primary text-white font-semibold rounded-xl border-0 transition-all duration-300 hover:bg-primary/90 flex items-center justify-center space-x-2 h-[52px] disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 {isLoading ? (
                   <>
@@ -248,9 +283,9 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
               </button>
             ) : (
               <button
-                onClick={() => setShowBookingSoonModal(true)}
-                className="w-full px-6 py-3 bg-gray-300 text-gray-500 font-semibold rounded-xl border-0 transition-all duration-300 cursor-not-allowed opacity-70 flex items-center justify-center space-x-2 h-[52px]"
-                aria-disabled="true"
+                onClick={handleBooking}
+                disabled={isLoading}
+                className="w-full px-6 py-3 bg-primary text-white font-semibold rounded-xl border-0 transition-all duration-300 hover:bg-primary/90 flex items-center justify-center space-x-2 h-13 disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 {isLoading ? (
                   <>
@@ -284,9 +319,9 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
             <div className="flex-shrink-0">
               {isFreeBooking() ? (
                 <button
-                  onClick={() => setShowBookingSoonModal(true)}
-                  className="min-w-[150px] px-6 py-2.5 bg-gray-300 text-gray-500 font-semibold rounded-md border-0 transition-all duration-300 cursor-not-allowed opacity-70 flex items-center justify-center gap-2"
-                  aria-disabled="true"
+                  onClick={handleBooking}
+                  disabled={isLoading}
+                  className="min-w-[150px] px-6 py-2.5 bg-primary text-white font-semibold rounded-md border-0 transition-all duration-300 hover:bg-primary/90 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                   {isLoading ? (
                     <>
@@ -302,9 +337,9 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
                 </button>
               ) : (
                 <button
-                  onClick={() => setShowBookingSoonModal(true)}
-                  className="min-w-[150px] px-6 py-2.5 bg-gray-300 text-gray-500 font-semibold rounded-md border-0 transition-all duration-300 cursor-not-allowed opacity-70 flex items-center justify-center gap-2"
-                  aria-disabled="true"
+                  onClick={handleBooking}
+                  disabled={isLoading}
+                  className="min-w-[150px] px-6 py-2.5 bg-primary text-white font-semibold rounded-md border-0 transition-all duration-300 hover:bg-primary/90 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                   {isLoading ? (
                     <>
@@ -324,7 +359,6 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
         </div>
 
       </section>
-      <BookingSoonModal isOpen={showBookingSoonModal} onClose={() => setShowBookingSoonModal(false)} />
     </>
   );
 };

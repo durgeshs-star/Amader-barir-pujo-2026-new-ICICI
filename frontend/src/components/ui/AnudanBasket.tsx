@@ -71,8 +71,7 @@ export const AnudanBasket: React.FC<AnudanBasketProps> = ({ items, onRemove, onC
         </div>
         <button
           onClick={onCheckout}
-          className="w-full bg-gray-300 text-gray-500 font-semibold py-3 rounded-lg transition-all shadow-md opacity-70 cursor-not-allowed"
-          aria-disabled="true"
+          className="w-full bg-primary text-white font-semibold py-3 rounded-lg transition-all shadow-md hover:bg-primary/90"
         >
           Offer Anudan
         </button>
