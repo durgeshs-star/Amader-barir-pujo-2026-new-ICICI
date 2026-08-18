@@ -162,21 +162,21 @@ const TestimonialsSection: React.FC = () => {
                   },
                 }}
                 className="
-  origin-bottom
-  italic
-  font-sans
-  font-normal
-  text-secondary
-  text-[5px]
-  sm:text-base
-  md:text-md
-  lg:text-lg
-  xl:text-[22px]
-  leading-[1.45]
-  tracking-normal
-  text-balance
-  will-change-transform
-"
+                  origin-bottom
+                  italic
+                  font-sans
+                  font-normal
+                  text-secondary
+                  text-base
+                  sm:text-lg
+                  md:text-xl
+                  lg:text-2xl
+                  xl:text-[24px]
+                  leading-[1.5]
+                  tracking-normal
+                  text-balance
+                  will-change-transform
+                "
               >
                 "{active.quote}"
               </motion.blockquote>
@@ -191,27 +191,29 @@ const TestimonialsSection: React.FC = () => {
                   transition: {
                     ...transition,
                     delay: 0.25,
-                  },
-                }}
-                exit={{
-                  opacity: 0,
-                  scale: 0.98,
-                  y: -20,
-                  transition,
-                }}
-                className="mt-8 origin-bottom will-change-transform"
-              >
-                <cite
-                  className="
-                    not-italic
-                    text-sm
-                    font-bold
-                    tracking-[0.18em]
-                    uppercase
-                    text-primary
-                    font-fraunces
-                  "
+                    },
+                  }}
+                  exit={{
+                    opacity: 0,
+                    scale: 0.98,
+                    y: -20,
+                    transition,
+                  }}
+                  className="mt-6 origin-bottom will-change-transform"
                 >
+                  <cite
+                    className="
+                      not-italic
+                      text-xs
+                      sm:text-sm
+                      md:text-base
+                      font-bold
+                      tracking-[0.18em]
+                      uppercase
+                      text-primary
+                      font-fraunces
+                    "
+                  >
                  {active.name}
                 </cite>
               </motion.figcaption>

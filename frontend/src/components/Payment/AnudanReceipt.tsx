@@ -110,14 +110,14 @@ export const AnudanReceipt: React.FC<AnudanReceiptProps> = ({ receiptData: propR
         {/* Header */}
         <div style={{ textAlign: 'center', borderBottom: '2px solid #d97706', paddingBottom: '12px', marginBottom: '12px' }}>
           <img
-            src="/assets/images/ABP-Logo.png"
+            src="/assets/img/ABP-Logo.png"
             alt="Amader Bari'r Pujo Logo"
-            style={{ width: '120px', height: '120px', margin: '0 auto 8px auto' }}
+            style={{ width: '240px', height: '80px', margin: '0 auto 8px auto', display: 'block', objectFit: 'contain' }}
           />
           <h1 style={{ fontSize: '22px', fontWeight: 'bold', color: '#92400e', fontFamily: 'serif', marginBottom: '4px' }}>
             অমাদের বাড়ির পুজো
           </h1>
-          <h2 style={{ fontSize: '18px', color: '#d97706', fontFamily: 'serif', marginBottom: '4px' }}>Amader  Pujo</h2>
+          <h2 style={{ fontSize: '18px', color: '#d97706', fontFamily: 'serif', marginBottom: '4px' }}>Amader Bari'r Pujo</h2>
           <p style={{ fontSize: '13px', color: '#4b5563' }}>Durga Pujo 2026 - Wakad, Pune</p>
           <p style={{ fontSize: '12px', color: '#b45309', marginTop: '2px', fontStyle: 'italic' }}>A ProPlus Data Foundation Initiative</p>
           <p style={{ fontSize: '12px', color: '#b45309', fontWeight: 'bold' }}>Darpan ID: MH/2025/0627499</p>
@@ -281,7 +281,7 @@ export const AnudanReceipt: React.FC<AnudanReceiptProps> = ({ receiptData: propR
         <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: '1px solid #e5e7eb', textAlign: 'center', fontSize: '11px', color: '#6b7280' }}>
           <p style={{ marginBottom: '4px' }}>This is a computer-generated receipt. No signature required.</p>
           <p style={{ marginBottom: '4px' }}>Anudan contributions, once made, are non-refundable and non-transferable.</p>
-          <p style={{ marginBottom: '4px' }}>Thank you for your generous Anudan contribution to Amader  Pujo!</p>
+          <p style={{ marginBottom: '4px' }}>Thank you for your generous Anudan contribution to Amader Bari'r Pujo!</p>
           <p>For queries regarding this receipt, contact:  {CONTACT_EMAIL}</p>
         </div>
       </div>

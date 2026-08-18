@@ -67,7 +67,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
         <div className="flex justify-between items-center px-4 py-4 border-b border-[rgb(180,160,130)]">
           <Link to="/" onClick={handleLinkClick} className="block select-none">
             <div className="flex items-center gap-2.5">
-              <div className="w-45 h-10flex items-center justify-center p-0.5">
+              <div className="w-45 h-10 flex items-center justify-center p-0.5">
                 <img
                   src="/assets/img/ABP-Logo.png"
                   alt="Amader Bari'r Pujo logo"
