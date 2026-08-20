@@ -18,12 +18,18 @@ export const Footer: React.FC = () => {
               Contact
             </h3>
             <ul className="space-y-3 text-sm list-none p-0 m-0 pt-2">
+              <li className="flex items-start gap-3">
+                <FaPhoneAlt className="text-accent mt-1 shrink-0" size={12} />
+                <a href="tel:+918329202009" className="text-text-on-primary hover:text-accent transition-colors">+91 83292 02009</a>
+              </li>
+              {/* Previous phone numbers - commented out
               <li className="flex items-start gap-2">
                 <FaPhoneAlt className="text-accent mt-1 shrink-0" size={12} />
                 <a href="tel:+919879879302" className="text-text-on-primary hover:text-accent transition-colors">+91 7798 57 7880</a>
                 <span className="mx-2" aria-hidden="true">|</span>
                 <a href="tel:+919049008727" className="text-text-on-primary hover:text-accent transition-colors">+91 9049 00 8727</a>
               </li>
+              */}
               <li className="flex items-start gap-3">
                 <FaEnvelope className="text-accent mt-1 shrink-0" size={12} />
                 <a href={`mailto:${CONTACT_EMAIL}`} className="break-all text-text-on-primary hover:text-accent transition-colors">
@@ -33,9 +39,19 @@ export const Footer: React.FC = () => {
               <li className="flex items-start gap-3">
                 <FaMapMarkerAlt className="text-accent mt-1 shrink-0" size={14} />
                 <span className="leading-relaxed text-text-on-primary">
+                  PL NO 37, FL 3 AND 4, SUMA APTS,<br />
+                  28/2 ANAND NGR, VITTHALWD., ANANDNAGAR,<br />
+                  PUNE CITY, PUNE, MAHARASHTRA, INDIA - 411051
+                </span>
+              </li>
+              {/* Previous address - commented out
+              <li className="flex items-start gap-3">
+                <FaMapMarkerAlt className="text-accent mt-1 shrink-0" size={14} />
+                <span className="leading-relaxed text-text-on-primary">
                   Wakad, Pimpri-Chinchwad, Pune, <br />Maharashtra 411057
                 </span>
               </li>
+              */}
             </ul>
           </div>
 
@@ -97,6 +113,16 @@ export const Footer: React.FC = () => {
               <li>
                 <Link to="/privacy-policy" className="hover:text-accent transition-colors block py-1 text-text-on-primary">
                   Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link to="/cancellation-policy" className="hover:text-accent transition-colors block py-1 text-text-on-primary">
+                  Cancellation Policy
+                </Link>
+              </li>
+              <li>
+                <Link to="/return-refund-policy" className="hover:text-accent transition-colors block py-1 text-text-on-primary">
+                  Return & Refund Policy
                 </Link>
               </li>
             </ul>

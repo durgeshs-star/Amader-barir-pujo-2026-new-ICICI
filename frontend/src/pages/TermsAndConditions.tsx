@@ -172,6 +172,9 @@ const TermsAndConditions: React.FC = () => {
       content: [
         "For questions regarding these Terms & Conditions, registrations, donations, or payments, please contact the Amader Bari'r Pujo® Organizing Committee using the contact information provided on this website.",
         <br key="br2" />,
+        <strong key="s1">For any queries or for more information, please contact us at </strong>,
+        <a key="email" href="mailto:info@abp.proplusdatafoundation.com" className="text-blue-600 hover:text-blue-700 underline">info@abp.proplusdatafoundation.com</a>,
+        <br key="br3" />,
         "Thank you for supporting Amader Bari'r Pujo®. Together, we celebrate culture, community, and traditions that continue to bring us all closer.",
       ],
     },
