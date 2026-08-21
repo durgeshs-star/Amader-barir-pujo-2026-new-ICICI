@@ -1,5 +1,10 @@
 node_modules/
 dist/
 .env
-*.log
+.env.local
+.wwebjs_auth/
 .DS_Store
+*.log
+npm-debug.log*
+.idea/
+.vscode/

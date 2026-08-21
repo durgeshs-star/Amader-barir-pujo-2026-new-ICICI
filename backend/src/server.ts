@@ -23,6 +23,9 @@ import { createBhogRoutes } from './routes/bhogRoutes';
 import { createQuestionairRoutes } from './routes/questionairRoutes';
 import { createAnudanRoutes } from './routes/anudanRoutes';
 import { createIciciPaymentRoutes } from './routes/iciciPaymentRoutes';
+import notificationRoutes from './routes/notificationRoutes';
+import whatsappPaymentRoutes from './routes/whatsappPaymentRoutes';
+import { whatsappService } from './utils/whatsappService';
 import { errorHandler } from './middleware/errorHandler';
 
 dotenv.config();
@@ -84,6 +87,9 @@ const bhogController = new BhogController(sheetsService);
 const questionairController = new QuestionairController(sheetsService);
 const anudanController = new AnudanController(sheetsService);
 
+// Initialize WhatsApp service
+console.log('🔄 Initializing WhatsApp service...');
+
 // Routes
 app.use('/api', createContactRoutes(contactController));
 app.use('/api', createVolunteerRoutes(volunteerController));
@@ -92,10 +98,40 @@ app.use('/api/payment', createIciciPaymentRoutes());
 app.use('/api/bhog', createBhogRoutes(bhogController));
 app.use('/api', createQuestionairRoutes(questionairController));
 app.use('/api/anudan', createAnudanRoutes(sheetsService));
+app.use('/api/notifications', notificationRoutes);
+app.use('/api/payments', whatsappPaymentRoutes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+// WhatsApp API info endpoint
+app.get('/api/whatsapp-info', (req, res) => {
+  res.json({
+    name: 'WhatsApp Automation API',
+    version: '1.0.0',
+    status: 'running',
+    endpoints: {
+      health: '/health',
+      notificationStatus: '/api/notifications/status',
+      sendMessage: 'POST /api/notifications/send-message',
+      sendOrderConfirmation: 'POST /api/notifications/send-order-confirmation',
+      sendReminder: 'POST /api/notifications/send-reminder',
+      paymentSuccess: 'POST /api/payments/success',
+      validateResponse: 'POST /api/payments/validate-response'
+    },
+    paymentIntegration: {
+      description: 'WhatsApp payment receipt integration with ICICI gateway',
+      features: [
+        'Automatic payment receipt sending via WhatsApp',
+        'PDF attachment support',
+        'ICICI response parsing',
+        'Phone number cleaning and validation',
+        'Custom formatted receipt messages'
+      ]
+    }
+  });
 });
 
 // Get server's public IP address
