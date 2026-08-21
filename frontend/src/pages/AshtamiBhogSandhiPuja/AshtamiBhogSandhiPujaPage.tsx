@@ -2,11 +2,13 @@ import React from "react";
 import SEO from "../../components/ui/SEO";
 import PageHero from "../../components/common/PageHero";
 import PujaBookingCard from "../../components/ui/PujaBookingCard";
+import { ComingSoonPopup } from "../../components/ui/ComingSoonPopup";
 
 const AshtamiBhogSandhiPujaPage: React.FC = () => {
 
   return (
     <div className="relative">
+      <ComingSoonPopup />
       <SEO
         title="Ashtami Sandhi Puja Bhog Booking"
         description="Ashtami Sandhi Puja Bhog Booking — Experience the sacred transition through our specially prepared Sandhi Puja Prasad at Amader Barir Pujo."

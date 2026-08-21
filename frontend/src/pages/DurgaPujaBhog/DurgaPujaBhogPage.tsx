@@ -2,6 +2,7 @@ import React from "react";
 import SEO from "../../components/ui/SEO";
 import PageHero from "../../components/common/PageHero";
 import BhogBookingSection from "../../components/ui/BhogBookingSection";
+import { ComingSoonPopup } from "../../components/ui/ComingSoonPopup";
 import { BHOG_BOOKING_CATEGORIES } from "../../config/pujaConfig";
 import type { BhogBookingCategory } from "../../types/bhog";
 
@@ -10,6 +11,7 @@ const DurgaPujaBhogPage: React.FC = () => {
 
   return (
     <div className="relative">
+      <ComingSoonPopup />
       <SEO
         title="Durga Puja Bhog Schedule"
         description="Durga Puja Bhog Schedule — Learn about our Durga Puja Bhog offerings, procedures, and their spiritual significance at Amader Barir Pujo."

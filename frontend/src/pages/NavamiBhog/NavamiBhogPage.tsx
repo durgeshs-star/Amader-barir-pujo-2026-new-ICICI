@@ -2,11 +2,13 @@ import React from "react";
 import SEO from "../../components/ui/SEO";
 import PageHero from "../../components/common/PageHero";
 import PujaBookingCard from "../../components/ui/PujaBookingCard";
+import { ComingSoonPopup } from "../../components/ui/ComingSoonPopup";
 
 const NavamiBhogPage: React.FC = () => {
 
   return (
     <div className="relative">
+      <ComingSoonPopup />
       <SEO
         title="Navami Bhog Schedule"
         description="Navami Bhog Schedule — Learn about our Navami Bhog offerings, procedures, and their spiritual significance at Amader Barir Pujo."
