@@ -6,6 +6,9 @@ export class ContactRepository implements IContactRepository {
   private submissions: ContactSubmission[] = [];
 
   async submitContact(data: ContactFormData, ipAddress?: string): Promise<ContactSubmission> {
+    console.log('[ContactRepository] Saving contact submission');
+    console.time('ContactRepository Save');
+    
     const submission: ContactSubmission = {
       ...data,
       id: uuidv4(),
@@ -14,6 +17,8 @@ export class ContactRepository implements IContactRepository {
     };
 
     this.submissions.push(submission);
+    console.timeEnd('ContactRepository Save');
+    console.log('[ContactRepository] Contact saved with ID:', submission.id);
 
     return submission;
   }

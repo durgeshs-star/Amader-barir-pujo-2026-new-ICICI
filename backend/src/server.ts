@@ -69,9 +69,25 @@ app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 app.use(compression());
 
+// Request timeout middleware
+app.use((req, res, next) => {
+  // Set a 60-second timeout for all requests
+  req.setTimeout(60000, () => {
+    console.error(`[TIMEOUT] Request timeout for ${req.method} ${req.url}`);
+    if (!res.headersSent) {
+      res.status(408).json({
+        success: false,
+        message: 'Request timeout',
+        error: 'The server took too long to process your request'
+      });
+    }
+  });
+  next();
+});
+
 // Log all incoming requests for debugging
 app.use((req, res, next) => {
-  console.log(`[REQUEST] ${req.method} ${req.url}`);
+  console.log(`[REQUEST] ${req.method} ${req.url} - ${new Date().toISOString()}`);
   next();
 });
 
@@ -213,6 +229,14 @@ const startServer = async () => {
     app.listen(PORT, () => {
       console.log(`Server running on thee port ${PORT}`);
       console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+      
+      // Clean up old receipt files daily
+      setInterval(() => {
+        const { receiptService } = require('./services/ReceiptService');
+        receiptService.cleanupOldReceipts().catch((error: Error) => {
+          console.error('Receipt cleanup error:', error);
+        });
+      }, 24 * 60 * 60 * 1000); // Run every 24 hours
     });
   } catch (error) {
     console.error('Failed to start server:', error);
