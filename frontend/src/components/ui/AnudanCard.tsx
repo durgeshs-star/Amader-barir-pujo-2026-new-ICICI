@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { m } from 'framer-motion';
 import type { AnudanCard as AnudanCardType } from '../../types/anudan.types';
 
@@ -6,11 +6,11 @@ interface AnudanCardProps {
   card: AnudanCardType;
   remainingAmount?: number;
   isLoading?: boolean;
-  // onAddToBasket?: (card: AnudanCardType, amount: number) => void;
-  // onBookingSoon?: () => void;
+  onAddToBasket?: (card: AnudanCardType, amount: number) => void;
+  onBookingSoon?: () => void;
 }
 
-export const AnudanCard: React.FC<AnudanCardProps> = ({ card, isLoading = false }) => {
+export const AnudanCard: React.FC<AnudanCardProps> = ({ card, isLoading = false, onAddToBasket, onBookingSoon }) => {
   // Calculate total sum of all items in this section
   const totalCost = card.items.reduce((acc, item) => {
     const num = parseInt(item.cost.replace(/\D/g, ''), 10) || 0;
@@ -19,26 +19,26 @@ export const AnudanCard: React.FC<AnudanCardProps> = ({ card, isLoading = false 
 
   const isFullySponsored = false;
 
-  // const [inputAmount, setInputAmount] = useState<string>('');
-  // const [error, setError] = useState<string>('');
+  const [inputAmount, setInputAmount] = useState<string>('');
+  const [error, setError] = useState<string>('');
 
-  // const handleOfferAnudan = () => {
-  //   const amount = parseInt(inputAmount, 10);
+  const handleOfferAnudan = () => {
+    const amount = parseInt(inputAmount, 10);
 
-  //   if (!inputAmount || isNaN(amount) || amount <= 0) {
-  //     setError('Please enter a valid amount');
-  //     return;
-  //   }
+    if (!inputAmount || isNaN(amount) || amount <= 0) {
+      setError('Please enter a valid amount');
+      return;
+    }
 
-  //   if (amount > totalCost) {
-  //     setError(`Amount cannot exceed total amount of ₹${totalCost.toLocaleString('en-IN')}`);
-  //     return;
-  //   }
+    if (amount > totalCost) {
+      setError(`Amount cannot exceed total amount of ₹${totalCost.toLocaleString('en-IN')}`);
+      return;
+    }
 
-  //   setError('');
-  //   onAddToBasket?.(card, amount);
-  //   setInputAmount('');
-  // };
+    setError('');
+    onAddToBasket?.(card, amount);
+    setInputAmount('');
+  };
 
   return (
     <div className={`border rounded-2xl p-6 md:p-8 transition-all duration-300 shadow-sm relative overflow-hidden group ${
@@ -78,7 +78,7 @@ export const AnudanCard: React.FC<AnudanCardProps> = ({ card, isLoading = false 
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         
         {/* Left: Day & Items */}
-        <div className="min-w-0 flex-1">
+        <div className="flex-1">
           <h3 className={`text-2xl md:text-3xl font-bold font-fraunces mb-4 ${
             isFullySponsored ? 'text-gray-400' : 'text-primary'
           }`}>
@@ -132,8 +132,7 @@ export const AnudanCard: React.FC<AnudanCardProps> = ({ card, isLoading = false 
               </m.span>
               <div className="mt-2 md:mt-4 w-full md:w-auto">
                 <div className="relative">
-                  {/* Input field commented out */}
-                  {/* <span className="absolute left-4 top-1.5 text-gray-500">₹</span>
+                  <span className="absolute left-4 top-1.5 text-gray-500">₹</span>
                   <input
                     type="text"
                     inputMode="numeric"
@@ -148,14 +147,10 @@ export const AnudanCard: React.FC<AnudanCardProps> = ({ card, isLoading = false 
                     className={`w-full pl-8 pr-4 py-2 border rounded-lg text-sm mb-2 bg-[oklch(96.2% 0.059 95.617)] ${
                       error ? 'border-red-500' : 'border-[rgb(180,160,130)]'
                     } ${isFullySponsored ? 'bg-gray-100 cursor-not-allowed' : ''}`}
-                  /> */}
+                  />
                 </div>
-                
-                {/* Error message commented out */}
-                {/* {error && <p className="text-red-500 text-xs mb-2">{error}</p>} */}
-                
-                {/* Old button code commented out */}
-                {/* <button
+                {error && <p className="text-red-500 text-xs mb-2">{error}</p>}
+                <button
                   onClick={() => {
                     if (onBookingSoon) {
                       onBookingSoon();
@@ -171,15 +166,6 @@ export const AnudanCard: React.FC<AnudanCardProps> = ({ card, isLoading = false 
                   }`}
                 >
                   {isFullySponsored ? 'Offering Fulfilled' : 'Offer Anudan'}
-                </button> */}
-                
-                {/* Disabled button - payments temporarily disabled */}
-                <button
-                  disabled={true}
-                  className="w-full px-6 py-2 text-sm font-semibold rounded-lg shadow-md text-center border-0 transition-all bg-gray-300 text-gray-500 cursor-not-allowed opacity-70"
-                  title="Offering temporarily disabled"
-                >
-                  💳 Offering Coming Soon
                 </button>
               </div>
             </>

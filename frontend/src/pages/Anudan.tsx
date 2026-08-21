@@ -67,10 +67,10 @@ export const Anudan: React.FC = () => {
   // Basket state
   const [basket, setBasket] = useState<BasketItem[]>([]);
   const [showMobileBasket, setShowMobileBasket] = useState(false);
-  // const [notification, setNotification] = useState<{ show: boolean; message: string }>({
-  //   show: false,
-  //   message: ''
-  // });
+  const [notification, setNotification] = useState<{ show: boolean; message: string }>({
+    show: false,
+    message: ''
+  });
 
   // User info and payment state
   const [isUserInfoFilled, setIsUserInfoFilled] = useState(false);
@@ -81,25 +81,25 @@ export const Anudan: React.FC = () => {
   const [isConfirmed, setIsConfirmed] = useState(false);
 
 
-  // const addToBasket = (card: AnudanCardType, amount: number) => {
-  //   const existingItemIndex = basket.findIndex(item => item.card.day === card.day);
+  const addToBasket = (card: AnudanCardType, amount: number) => {
+    const existingItemIndex = basket.findIndex(item => item.card.day === card.day);
 
-  //   if (existingItemIndex !== -1) {
-  //     // Item already in basket, add the new amount to existing amount
-  //     const updatedBasket = [...basket];
-  //     const currentAmount = updatedBasket[existingItemIndex].amount;
-  //     const newTotalAmount = currentAmount + amount;
+    if (existingItemIndex !== -1) {
+      // Item already in basket, add the new amount to existing amount
+      const updatedBasket = [...basket];
+      const currentAmount = updatedBasket[existingItemIndex].amount;
+      const newTotalAmount = currentAmount + amount;
       
-  //     updatedBasket[existingItemIndex] = { card, amount: newTotalAmount };
-  //     setBasket(updatedBasket);
-  //     setNotification({ show: true, message: 'Anudan amount updated in basket' });
-  //   } else {
-  //     // Add new item to basket
-  //     setBasket([...basket, { card, amount }]);
-  //     setNotification({ show: true, message: 'Anudan added to basket' });
-  //   }
-  //   setTimeout(() => setNotification({ show: false, message: '' }), 2000);
-  // };
+      updatedBasket[existingItemIndex] = { card, amount: newTotalAmount };
+      setBasket(updatedBasket);
+      setNotification({ show: true, message: 'Anudan amount updated in basket' });
+    } else {
+      // Add new item to basket
+      setBasket([...basket, { card, amount }]);
+      setNotification({ show: true, message: 'Anudan added to basket' });
+    }
+    setTimeout(() => setNotification({ show: false, message: '' }), 2000);
+  };
 
   const removeFromBasket = (cardDay: string) => {
     setBasket(basket.filter(item => item.card.day !== cardDay));
@@ -237,7 +237,7 @@ export const Anudan: React.FC = () => {
                     card={card}
                     remainingAmount={allRemainingAmounts[card.day] || 0}
                     isLoading={isLoadingRemaining}
-                    // onAddToBasket={addToBasket}
+                    onAddToBasket={addToBasket}
                   />
                 </div>
               ))}
@@ -302,7 +302,7 @@ export const Anudan: React.FC = () => {
       )}
 
       {/* Notification Toast */}
-      {/* {notification.show && (
+      {notification.show && (
         <m.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -311,7 +311,7 @@ export const Anudan: React.FC = () => {
         >
           {notification.message}
         </m.div>
-      )} */}
+      )}
 
       {/* User Info Form Section */}
       {showUserInfoForm && (
