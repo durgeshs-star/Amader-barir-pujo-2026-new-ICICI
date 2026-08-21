@@ -316,7 +316,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
                 <span>{totalCount === 1 ? 'booking selected' : 'bookings selected'}</span>
               </p>
             </div>
-            {/* <div className="flex-shrink-0">
+            <div className="flex-shrink-0">
               {isFreeBooking() ? (
                 <button
                   onClick={handleBooking}
@@ -354,8 +354,8 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
                   )}
                 </button>
               )}
-            </div> */}
-            <div className="flex-shrink-0">
+            </div>
+            {/* <div className="flex-shrink-0">
   {isFreeBooking() ? (
     <button
       disabled={true}
@@ -373,7 +373,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
       💳 Payment Coming Soon
     </button>
   )}
-</div>
+</div> */}
           </div>
         </div>
 
