@@ -3,6 +3,7 @@ import SEO from '../components/ui/SEO';
 import { useParams, Link } from 'react-router-dom';
 import Button from '../components/ui/Button';
 import BookingSoonModal from '../components/ui/BookingSoonModal';
+import { ComingSoonPopup } from '../components/ui/ComingSoonPopup';
 
 interface BhogMenu {
   title: string;
@@ -79,6 +80,7 @@ export const BhogBooking: React.FC = () => {
 
   return (
     <div className="relative pt-10 md:pt-14 pb-20 min-h-screen">
+      <ComingSoonPopup />
       <SEO
         title={activeDay ? `${activeDay.title} Booking` : 'Bhog Booking'}
         description="Book your sacred Prasad Bhog for Durga Puja 2026 at Amader Barir Pujo, Wakad Pune. Available for Saptami, Ashtami, Navami and Lakshmi Puja."

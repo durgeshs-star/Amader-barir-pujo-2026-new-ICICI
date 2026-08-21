@@ -2,11 +2,13 @@ import React from "react";
 import SEO from "../../components/ui/SEO";
 import PageHero from "../../components/common/PageHero";
 import PujaBookingCard from "../../components/ui/PujaBookingCard";
+import { ComingSoonPopup } from "../../components/ui/ComingSoonPopup";
 
 const LakshmiPujaBhogPage: React.FC = () => {
 
   return (
     <div className="relative">
+      <ComingSoonPopup />
       <SEO
         title="Lakshmi Puja Bhog Schedule"
         description="Lakshmi Puja Bhog Schedule — Learn about our Lakshmi Puja Bhog offerings, procedures, and their spiritual significance at Amader Barir Pujo."
