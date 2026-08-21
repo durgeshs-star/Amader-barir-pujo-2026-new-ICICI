@@ -13,6 +13,7 @@ import { BhogRepository } from '../repositories/BhogRepository';
 import { GoogleSheetsService } from '../services/GoogleSheetsService';
 import { anudanStateService } from '../services/anudanState.service';
 import { iciciPGService, PaymentCallbackPayload } from '../services/iciciPG.service';
+import { whatsappNotificationService } from '../services/WhatsAppNotificationService';
 
 /**
  * Calculates ICICI PG gateway charges (2.75% surcharge + 18% GST on surcharge)
@@ -310,6 +311,19 @@ export class IciciPaymentController {
         payment.paymentStatus = 'success';
         await payment.save();
 
+        // 🎯 SEND WHATSAPP NOTIFICATION + PDF RECEIPT
+        try {
+          console.log('\n📱 Triggering WhatsApp notification for successful Anudan payment...');
+          const whatsappResult = await whatsappNotificationService.sendPaymentReceipt(payment, 'anudan');
+          if (whatsappResult.success) {
+            console.log('✅ WhatsApp receipt sent successfully');
+          } else {
+            console.error('⚠️ WhatsApp notification failed (payment still successful):', whatsappResult.error);
+          }
+        } catch (whatsappError) {
+          console.error('⚠️ WhatsApp notification error (payment still successful):', whatsappError);
+        }
+
         // Broadcast SSE updates for each category
         for (const category of payment.categories) {
           const campaignId = category.day;
@@ -430,6 +444,19 @@ export class IciciPaymentController {
         payment.iciciResponseCode = callbackBody.responseCode;
         payment.paymentStatus = 'success';
         await payment.save();
+
+        // 🎯 SEND WHATSAPP NOTIFICATION + PDF RECEIPT
+        try {
+          console.log('\n📱 Triggering WhatsApp notification for successful Bhog payment...');
+          const whatsappResult = await whatsappNotificationService.sendPaymentReceipt(payment, 'bhog');
+          if (whatsappResult.success) {
+            console.log('✅ WhatsApp receipt sent successfully');
+          } else {
+            console.error('⚠️ WhatsApp notification failed (payment still successful):', whatsappResult.error);
+          }
+        } catch (whatsappError) {
+          console.error('⚠️ WhatsApp notification error (payment still successful):', whatsappError);
+        }
 
         // Log to Google Sheets (non-critical)
         await this.logBhogToSheets(payment);

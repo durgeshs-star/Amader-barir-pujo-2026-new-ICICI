@@ -6,6 +6,9 @@ export class VolunteerRepository implements IVolunteerRepository {
   private submissions: VolunteerSubmission[] = [];
 
   async submitVolunteer(data: VolunteerFormData, ipAddress?: string): Promise<VolunteerSubmission> {
+    console.log('[VolunteerRepository] Saving volunteer submission');
+    console.time('VolunteerRepository Save');
+    
     const submission: VolunteerSubmission = {
       ...data,
       id: uuidv4(),
@@ -14,6 +17,8 @@ export class VolunteerRepository implements IVolunteerRepository {
     };
 
     this.submissions.push(submission);
+    console.timeEnd('VolunteerRepository Save');
+    console.log('[VolunteerRepository] Volunteer saved with ID:', submission.id);
 
     return submission;
   }
