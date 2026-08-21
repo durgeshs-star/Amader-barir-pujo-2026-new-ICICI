@@ -98,6 +98,34 @@ app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
+// WhatsApp API info endpoint
+app.get('/api/whatsapp-info', (req, res) => {
+  res.json({
+    name: 'WhatsApp Automation API',
+    version: '1.0.0',
+    status: 'running',
+    endpoints: {
+      health: '/health',
+      notificationStatus: '/api/notifications/status',
+      sendMessage: 'POST /api/notifications/send-message',
+      sendOrderConfirmation: 'POST /api/notifications/send-order-confirmation',
+      sendReminder: 'POST /api/notifications/send-reminder',
+      paymentSuccess: 'POST /api/payments/success',
+      validateResponse: 'POST /api/payments/validate-response'
+    },
+    paymentIntegration: {
+      description: 'WhatsApp payment receipt integration with ICICI gateway',
+      features: [
+        'Automatic payment receipt sending via WhatsApp',
+        'PDF attachment support',
+        'ICICI response parsing',
+        'Phone number cleaning and validation',
+        'Custom formatted receipt messages'
+      ]
+    }
+  });
+});
+
 // Get server's public IP address
 app.get('/my-ip', async (req, res) => {
   const response = await fetch('https://api.ipify.org?format=json');
