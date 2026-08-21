@@ -4,7 +4,7 @@ import { API_URL } from '../config/api';
 // Create a centralized axios instance with the backend base URL
 const apiClient = axios.create({
   baseURL: API_URL,
-  timeout: 10000, // 10 seconds timeout
+  timeout: 45000, // 45 seconds timeout - increased for email sending
   headers: {
     'Content-Type': 'application/json',
   },
