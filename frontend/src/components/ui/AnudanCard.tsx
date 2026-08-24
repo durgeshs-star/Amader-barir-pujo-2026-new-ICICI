@@ -10,14 +10,18 @@ interface AnudanCardProps {
   onBookingSoon?: () => void;
 }
 
-export const AnudanCard: React.FC<AnudanCardProps> = ({ card, isLoading = false, onAddToBasket, onBookingSoon }) => {
+export const AnudanCard: React.FC<AnudanCardProps> = ({ card, remainingAmount = 0, isLoading = false, onAddToBasket, onBookingSoon }) => {
   // Calculate total sum of all items in this section
   const totalCost = card.items.reduce((acc, item) => {
     const num = parseInt(item.cost.replace(/\D/g, ''), 10) || 0;
     return acc + num;
   }, 0);
 
-  const isFullySponsored = false;
+  // Calculate paid amount
+  const paidAmount = totalCost - remainingAmount;
+  const hasPayment = paidAmount > 0;
+
+  const isFullySponsored = remainingAmount === 0;
 
   const [inputAmount, setInputAmount] = useState<string>('');
   const [error, setError] = useState<string>('');
@@ -30,8 +34,8 @@ export const AnudanCard: React.FC<AnudanCardProps> = ({ card, isLoading = false,
       return;
     }
 
-    if (amount > totalCost) {
-      setError(`Amount cannot exceed total amount of ₹${totalCost.toLocaleString('en-IN')}`);
+    if (amount > remainingAmount) {
+      setError(`Amount cannot exceed remaining amount of ₹${remainingAmount.toLocaleString('en-IN')}`);
       return;
     }
 
@@ -105,9 +109,6 @@ export const AnudanCard: React.FC<AnudanCardProps> = ({ card, isLoading = false,
         <div className="shrink-0 flex flex-col items-start md:items-end md:pl-8 md:border-l border-[rgb(180,160,130)] mt-2 md:mt-0 pt-4 md:pt-0 border-t md:border-t-0 w-full md:w-auto">
           {isFullySponsored ? (
             <>
-              <span className="text-xs text-green-600 uppercase tracking-wider font-semibold mb-1">
-                Offering Fulfilled 🎉
-              </span>
               <m.span
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -119,24 +120,40 @@ export const AnudanCard: React.FC<AnudanCardProps> = ({ card, isLoading = false,
           ) : (
             <>
               <span className="text-xs text-muted uppercase tracking-wider font-semibold mb-1">
-                Total Amount
+                {hasPayment ? 'Amount Due' : 'Total Amount'}
               </span>
-              <m.span
-                key={totalCost}
-                initial={{ opacity: 0.7, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3 }}
-                className="text-3xl md:text-4xl font-bold text-amber-600 font-fraunces mb-2"
-              >
-                ₹{totalCost.toLocaleString('en-IN')}
-              </m.span>
+              <div className="flex flex-col items-start md:items-end">
+                {hasPayment && (
+                  <m.span
+                    initial={{ opacity: 0.7 }}
+                    animate={{ opacity: 1 }}
+                    className="text-sm text-gray-400 line-through mb-1"
+                  >
+                    ₹{totalCost.toLocaleString('en-IN')}
+                  </m.span>
+                )}
+                <m.span
+                  key={remainingAmount}
+                  initial={{ opacity: 0.7, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.3 }}
+                  className="text-3xl md:text-4xl font-bold text-amber-600 font-fraunces mb-2"
+                >
+                  ₹{remainingAmount.toLocaleString('en-IN')}
+                </m.span>
+                {hasPayment && (
+                  <span className="text-xs text-gray-500 font-medium">
+                    ₹{paidAmount.toLocaleString('en-IN')} paid ({((paidAmount / totalCost) * 100).toFixed(0)}%)
+                  </span>
+                )}
+              </div>
               <div className="mt-2 md:mt-4 w-full md:w-auto">
                 <div className="relative">
                   <span className="absolute left-4 top-1.5 text-gray-500">₹</span>
                   <input
                     type="text"
                     inputMode="numeric"
-                    placeholder="Enter amount"
+                    placeholder={`Max ₹${remainingAmount.toLocaleString('en-IN')}`}
                     value={inputAmount}
                     onChange={(e) => {
                       // Only allow digits
