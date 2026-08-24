@@ -3,6 +3,8 @@ dist/
 .env
 .env.local
 .wwebjs_auth/
+.wwebjs_cache/
+session/
 .DS_Store
 *.log
 npm-debug.log*
