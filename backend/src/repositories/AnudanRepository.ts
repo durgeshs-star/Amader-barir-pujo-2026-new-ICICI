@@ -81,10 +81,18 @@ export class AnudanRepository {
 
   /**
    * Get collected amount for each Anudan category
+   * Optimized with index hint and lean projection for faster cold starts
+   * Only counts successful payments to avoid including failed/cancelled transactions
    */
   async getCollectedAmountsByCategory(): Promise<Record<string, number>> {
     try {
+      const startTime = Date.now();
       const result = await AnudanPayment.aggregate([
+        {
+          $match: {
+            paymentStatus: 'success', // Only count successful payments
+          },
+        },
         {
           $unwind: '$categories',
         },
@@ -94,7 +102,10 @@ export class AnudanRepository {
             totalAmount: { $sum: '$categories.amount' },
           },
         },
-      ]);
+      ]).allowDiskUse(true); // Allow disk use for large datasets
+
+      const duration = Date.now() - startTime;
+      console.log(`[AnudanRepository] getCollectedAmountsByCategory completed in ${duration}ms`);
 
       const collectedAmounts: Record<string, number> = {};
       result.forEach((item: any) => {

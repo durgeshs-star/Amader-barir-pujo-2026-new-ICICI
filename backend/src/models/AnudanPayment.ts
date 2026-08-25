@@ -158,6 +158,8 @@ const AnudanPaymentSchema = new Schema<IAnudanPayment>(
 
 AnudanPaymentSchema.index({ transactionId: 1 });
 AnudanPaymentSchema.index({ 'categories.day': 1 });
+AnudanPaymentSchema.index({ 'categories.day': 1, 'categories.amount': 1 }); // Compound index for aggregation
+AnudanPaymentSchema.index({ paymentStatus: 1 }); // Index for filtering successful payments
 AnudanPaymentSchema.index({ createdAt: -1 });
 
 export const AnudanPayment = mongoose.model<IAnudanPayment>('AnudanPayment', AnudanPaymentSchema);

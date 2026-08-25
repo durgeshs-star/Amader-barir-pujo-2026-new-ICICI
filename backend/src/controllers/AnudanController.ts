@@ -208,8 +208,14 @@ export class AnudanController {
    */
   getRemainingAmounts = async (req: Request, res: Response): Promise<void> => {
     try {
+      const isReady = anudanStateService.isReady();
       const result = anudanPaymentService.getAllRemaining();
-      res.status(200).json(result);
+
+      // Add initialization status to response
+      res.status(200).json({
+        ...result,
+        isReady
+      });
     } catch (error: any) {
       console.error('Error fetching remaining amounts:', error);
       res.status(500).json(errorResponse('Failed to fetch remaining amounts'));

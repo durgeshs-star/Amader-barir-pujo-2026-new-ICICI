@@ -111,7 +111,11 @@ app.use('/api/anudan', createAnudanRoutes(sheetsService));
 
 // Health check endpoint
 app.get('/health', (req, res) => {
-  res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
+  res.status(200).json({
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    anudanInitialized: anudanStateService.isReady()
+  });
 });
 
 // Get server's public IP address

@@ -20,6 +20,7 @@ class AnudanStateService {
   private state: Map<string, CampaignState>;
   private anudanRepository: AnudanRepository;
   private heartbeatInterval: NodeJS.Timeout | null = null;
+  private isInitialized: boolean = false;
 
   constructor() {
     this.state = new Map();
@@ -32,30 +33,42 @@ class AnudanStateService {
    */
   async initialize(): Promise<void> {
     try {
+      const startTime = Date.now();
+      console.log('[AnudanStateService] Starting initialization...');
+
       const collectedAmounts = await this.anudanRepository.getCollectedAmountsByCategory();
-      
+
       // Initialize state for each category
       Object.entries(ANUDAN_CONFIG.TOTAL_COSTS).forEach(([category, totalCost]) => {
         const collected = collectedAmounts[category] || 0;
         const remaining = Math.max(0, totalCost - collected);
-        
+
         this.state.set(category, {
           remainingAmount: remaining,
           mutex: new Mutex(),
           subscribers: new Map(),
         });
-        
+
         console.log(`Anudan state initialized for ${category}: remaining = ₹${remaining}`);
       });
 
       // Start SSE heartbeat
       this.startHeartbeat();
-      
-      console.log('Anudan state service initialized successfully');
+
+      this.isInitialized = true;
+      const duration = Date.now() - startTime;
+      console.log(`[AnudanStateService] Initialization completed in ${duration}ms`);
     } catch (error) {
       console.error('Failed to initialize Anudan state:', error);
       throw error;
     }
+  }
+
+  /**
+   * Check if state service is initialized
+   */
+  isReady(): boolean {
+    return this.isInitialized;
   }
 
   /**
