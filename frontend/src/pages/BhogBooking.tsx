@@ -75,9 +75,6 @@ export const BhogBooking: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Temporary: Redirect to home instead of showing booking modal
-    window.location.href = '/';
-    return;
     setShowBookingSoonModal(true);
   };
 
@@ -245,7 +242,7 @@ export const BhogBooking: React.FC = () => {
                     </label>
                   </div>
                 </div>
-                <Button type="button" variant="primary" fullWidth className="py-2.5 text-xs" onClick={() => window.location.href = '/'}>
+                <Button type="button" variant="primary" fullWidth className="py-2.5 text-xs" onClick={handleSubmit}>
                   Request Bhog Plates
                 </Button>
               </form>

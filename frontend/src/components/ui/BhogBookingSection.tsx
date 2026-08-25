@@ -78,13 +78,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
 
   const bookingSummary = getBookingSummary();
 
-  // @ts-ignore - temporarily disabled
   const handleBooking = async () => {
-    // Temporary: Redirect to home instead of payment
-    window.location.href = '/';
-    return;
-
-    // @ts-ignore - commented out for temporary disable
     if (!userInfoFormRef.current?.validateForm()) return;
     if (!isFreeBooking() && !isConfirmed) return;
 
@@ -99,7 +93,6 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
 
     if (selectedCategories.length === 0) return;
 
-    // @ts-ignore - temporarily disabled
     setIsLoading(true);
     try {
       const isFree = isFreeBooking();
@@ -133,10 +126,8 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
       if (!result.paymentUrl) throw new Error('Payment link was not returned. Please try again.');
       window.location.assign(result.paymentUrl);
     } catch (error: unknown) {
-      // @ts-ignore - temporarily disabled
       toast.error(error instanceof Error ? error.message : 'Unable to start your booking. Please try again.');
     } finally {
-      // @ts-ignore - temporarily disabled
       setIsLoading(false);
     }
   };
@@ -274,7 +265,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
           <div className="block lg:hidden mt-4">
             {isFreeBooking() ? (
               <button
-                onClick={() => window.location.href = '/'}
+                onClick={handleBooking}
                 disabled={isLoading}
                 className="w-full px-6 py-3 bg-primary text-white font-semibold rounded-xl border-0 transition-all duration-300 hover:bg-primary/90 flex items-center justify-center space-x-2 h-[52px] disabled:opacity-70 disabled:cursor-not-allowed"
               >
@@ -292,7 +283,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
               </button>
             ) : (
               <button
-                onClick={() => window.location.href = '/'}
+                onClick={handleBooking}
                 disabled={isLoading}
                 className="w-full px-6 py-3 bg-primary text-white font-semibold rounded-xl border-0 transition-all duration-300 hover:bg-primary/90 flex items-center justify-center space-x-2 h-13 disabled:opacity-70 disabled:cursor-not-allowed"
               >
@@ -328,7 +319,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
             <div className="flex-shrink-0">
               {isFreeBooking() ? (
                 <button
-                  onClick={() => window.location.href = '/'}
+                  onClick={handleBooking}
                   disabled={isLoading}
                   className="min-w-[150px] px-6 py-2.5 bg-primary text-white font-semibold rounded-md border-0 transition-all duration-300 hover:bg-primary/90 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
                 >
@@ -346,7 +337,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
                 </button>
               ) : (
                 <button
-                  onClick={() => window.location.href = '/'}
+                  onClick={handleBooking}
                   disabled={isLoading}
                   className="min-w-[150px] px-6 py-2.5 bg-primary text-white font-semibold rounded-md border-0 transition-all duration-300 hover:bg-primary/90 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
                 >

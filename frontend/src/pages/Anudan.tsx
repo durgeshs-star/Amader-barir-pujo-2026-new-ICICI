@@ -125,10 +125,6 @@ export const Anudan: React.FC = () => {
     }
     if (!isConfirmed) return;
 
-    // Temporary: Redirect to home instead of payment
-    window.location.href = '/';
-    return;
-
     setIsProcessing(true);
     try {
       const orderId = `ANUDAN-${Date.now()}`;

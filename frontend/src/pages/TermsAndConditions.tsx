@@ -36,12 +36,12 @@ const TermsAndConditions: React.FC = () => {
       ],
     },
     {
-      title: "5. Donations & Payments",
+      title: "5. Anudan & Payments",
       content: "Our website may accept payments for:",
       list: [
         "Event registrations",
         "Sponsorships",
-        "Donations",
+        "Anudan",
         "Merchandise",
         "Stall bookings",
         "Other community initiatives",
@@ -64,7 +64,7 @@ const TermsAndConditions: React.FC = () => {
       title: "6. Refund & Cancellation Policy",
       content: "Unless expressly mentioned for a particular event or service:",
       list: [
-        "Donations are non-refundable.",
+        "Anudan is non-refundable.",
         "Booth registration payments are non-refundable once confirmed.",
         "If Amader Bari'r Pujo® cancels an event for reasons within its control, refund decisions will be communicated separately.",
       ],
