@@ -10,11 +10,10 @@ const SaraswatiPuja: React.FC = () => {
   return (
     <div className="relative">
       <SEO
-        title="Saraswati Puja - Celebration of Knowledge & Learning"
-        description="Join us in celebrating Saraswati Puja, the festival of knowledge, wisdom, music, and arts. Experience Hathe Khori, traditional rituals, and community worship at Amader Barir Pujo."
-        keywords="Saraswati Puja, Hathe Khori, Vidyarambham, Bengali festival, Goddess Saraswati, Basant Panchami, Amader Barir Pujo"
-        ogImage="/assets/img/Saraswati-Pujo.jpg"
-        canonical="https://www.abp.proplusdatafoundation.com/saraswati-puja"
+        title="Saraswati Puja in Pune"
+        description="Join us for Saraswati Puja in Pune — the festival of knowledge, wisdom, music, and arts. Experience Hathe Khori, traditional rituals, and community worship at Amader Barir Pujo."
+        keywords="Saraswati Puja Pune, Hathe Khori, Vidyarambham, Bengali festival Pune, Goddess Saraswati, Basant Panchami"
+        ogImage="/assets/img/saraswati-puja16.webp"
       />
 
       <PageHero

@@ -1,5 +1,6 @@
 import React from "react";
 import LegalContent from "../components/ui/LegalContent";
+import SEO from "../components/ui/SEO";
 
 const ReturnRefundPolicy: React.FC = () => {
   const sections = [
@@ -60,6 +61,10 @@ const ReturnRefundPolicy: React.FC = () => {
 
   return (
     <div className="relative">
+      <SEO 
+        title="Return & Refund Policy"
+        description="Return & Refund Policy for Amader Barir Puja payments, bookings, registrations, contributions, and donations. Learn about our no-refund policy."
+      />
       <LegalContent
         title="Return & Refund Policy"
         subtitle="A ProPlus Data Foundation Initiative. This Return & Refund Policy governs all payments made through the Amader Barir Pujo (ABP) 2026 website."

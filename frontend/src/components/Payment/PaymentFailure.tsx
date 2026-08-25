@@ -7,6 +7,7 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import SEO from '../ui/SEO';
 
 interface PaymentFailureProps {
   transactionId?: string;
@@ -42,6 +43,7 @@ export const PaymentFailure: React.FC<PaymentFailureProps> = ({
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
+      <SEO title="Payment Failed" robots="noindex,follow" />
       <div className="max-w-md w-full rounded-2xl shadow-2xl p-8 text-center">
         {/* Failure Icon */}
         <div className="mx-auto mb-6 flex items-center justify-center w-20 h-20 bg-red-100 rounded-full">

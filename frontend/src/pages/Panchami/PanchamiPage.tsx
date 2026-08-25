@@ -11,11 +11,10 @@ const PanchamiPage: React.FC = () => {
   return (
     <div className="relative">
       <SEO
-        title="Panchami Pujo Schedule"
-        description="Panchami Pujo Schedule — Learn about our Panchami Pujo offerings, procedures, and their spiritual significance at Amader Barir Pujo."
-        keywords="Panchami pujo, Durga Puja 2026 schedule, Amader Barir Pujo Panchami"
-        ogImage="/assets/img/banner/1.webp"
-        canonical="https://www.abp.proplusdatafoundation.com/panchami"
+        title="Panchami Puja Schedule 2026"
+        description="Panchami Puja Schedule for Durga Puja 2026 in Pune. Learn about the rituals, timings, and spiritual significance of Panchami at Amader Barir Pujo."
+        keywords="Panchami Puja, Durga Puja 2026 Pune, Panchami Puja schedule, Amader Barir Pujo Panchami"
+        ogImage="/assets/img/panchami-photo.webp"
       />
 
       <PageHero

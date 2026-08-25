@@ -9,9 +9,12 @@
 
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { BhogReceipt } from './BhogReceipt';
-import { AnudanReceipt } from './AnudanReceipt';
+import { lazy, Suspense } from 'react';
 import { API_URL } from '../../config/api';
+import SEO from '../ui/SEO';
+
+const BhogReceipt = lazy(() => import('./BhogReceipt'));
+const AnudanReceipt = lazy(() => import('./AnudanReceipt'));
 
 interface PaymentSuccessProps {
   orderId?: string;
@@ -137,8 +140,9 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
     );
 
     return (
-      <div className="min-h-screen px-4 py-8">
-        <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen px-4 py-8">
+      <SEO title="Payment Successful" robots="noindex,follow" />
+      <div className="max-w-4xl mx-auto">
           {/* Success Header */}
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-gray-900 text-center">
@@ -153,17 +157,20 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
               <p className="mt-2 text-gray-600 text-center">Loading receipt...</p>
             </div>
           ) : isAnudanPayment ? (
-            <AnudanReceipt
-              receiptData={receiptData ? {
-                ...receiptData,
-                totalAmount: finalTotalAmount,
-              } : undefined}
-            />
+            <Suspense fallback={<p className="mt-2 text-gray-600 text-center">Loading receipt...</p>}>
+              <AnudanReceipt
+                receiptData={receiptData ? {
+                  ...receiptData,
+                  totalAmount: finalTotalAmount,
+                } : undefined}
+              />
+            </Suspense>
           ) : (
-            <BhogReceipt
-              receiptData={receiptData ? {
-                orderId: receiptData.orderId,
-                transactionId: receiptData.transactionId,
+            <Suspense fallback={<p className="mt-2 text-gray-600 text-center">Loading receipt...</p>}>
+              <BhogReceipt
+                receiptData={receiptData ? {
+                  orderId: receiptData.orderId,
+                  transactionId: receiptData.transactionId,
                 title: receiptData.bookings?.[0]?.day || 'Bhog Booking',
                 categories: (receiptData.categories?.length ? receiptData.categories : receiptData.bookings || []).map((booking: any, index: number) => ({
                   id: booking.id || `booking-${index}`,
@@ -191,6 +198,7 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
                 }),
               } : undefined}
             />
+            </Suspense>
           )}
 
           {/* Action Buttons */}
@@ -210,6 +218,7 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
   // Regular payment success
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
+      <SEO title="Payment Successful" robots="noindex,follow" />
       <div className="max-w-md w-full rounded-2xl shadow-2xl p-8 text-center">
         {/* Success Icon */}
         <div className="mx-auto mb-6 flex items-center justify-center w-20 h-20 bg-green-100 rounded-full">

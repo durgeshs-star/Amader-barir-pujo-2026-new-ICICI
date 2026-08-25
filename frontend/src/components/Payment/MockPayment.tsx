@@ -10,6 +10,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import { API_URL } from '../../config/api';
+import SEO from '../ui/SEO';
 
 export const MockPayment: React.FC = () => {
   const navigate = useNavigate();
@@ -56,6 +57,7 @@ export const MockPayment: React.FC = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
+      <SEO title="Mock Payment" robots="noindex,follow" />
       <div className="max-w-lg w-full rounded-2xl shadow-2xl p-8">
         {/* Header */}
         <div className="text-center mb-8">

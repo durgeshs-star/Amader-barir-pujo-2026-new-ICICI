@@ -11,11 +11,10 @@ const ShashtiPage: React.FC = () => {
   return (
     <div className="relative">
       <SEO
-        title="Soshti Pujo Schedule"
-        description="Soshti Pujo Schedule — Discover our Soshti Pujo timeline, events, and meaningful traditions at Amader Barir Pujo."
-        keywords="Soshti pujo, Durga Puja 2026 day 2, Amader Barir Pujo Soshti"
-        ogImage="/assets/img/banner/1.webp"
-        canonical="https://www.abp.proplusdatafoundation.com/shashti"
+        title="Shashti Puja Schedule 2026"
+        description="Shashti Puja Schedule for Durga Puja 2026 in Pune. Discover the timeline, events, and meaningful traditions of Shashti at Amader Barir Pujo."
+        keywords="Shashti Puja, Durga Puja 2026 Pune, Shashti Puja schedule, Amader Barir Pujo Shashti"
+        ogImage="/assets/img/shashthi.webp"
       />
 
       <PageHero

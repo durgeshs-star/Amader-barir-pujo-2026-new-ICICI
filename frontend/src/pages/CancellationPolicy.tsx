@@ -1,5 +1,6 @@
 import React from "react";
 import LegalContent from "../components/ui/LegalContent";
+import SEO from "../components/ui/SEO";
 
 const CancellationPolicy: React.FC = () => {
   const sections = [
@@ -58,6 +59,10 @@ const CancellationPolicy: React.FC = () => {
 
   return (
     <div className="relative">
+      <SEO 
+        title="Cancellation Policy"
+        description="Cancellation Policy for Amader Barir Pujo bookings, registrations, and services. Learn about our cancellation terms and conditions."
+      />
       <LegalContent
         title="Cancellation Policy"
         subtitle="A ProPlus Data Foundation Initiative. This Cancellation Policy governs the cancellation of bookings, registrations, and services made through the Amader Barir Pujo (ABP) 2026 website."
