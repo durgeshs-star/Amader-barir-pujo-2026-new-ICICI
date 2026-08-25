@@ -2,13 +2,13 @@ import React from "react";
 import SEO from "../../components/ui/SEO";
 import PageHero from "../../components/common/PageHero";
 import PujaBookingCard from "../../components/ui/PujaBookingCard";
-import { ComingSoonPopup } from "../../components/ui/ComingSoonPopup";
+// import { ComingSoonPopup } from "../../components/ui/ComingSoonPopup";
 
 const AshtamiBhogPage: React.FC = () => {
 
   return (
     <div className="relative">
-      <ComingSoonPopup />
+      {/* <ComingSoonPopup /> */}
       <SEO
         title="Ashtami Bhog Schedule"
         description="Ashtami Bhog Schedule — Learn about our Ashtami Bhog offerings, procedures, and their spiritual significance at Amader Barir Pujo."

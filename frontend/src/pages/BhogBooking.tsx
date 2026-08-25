@@ -3,7 +3,7 @@ import SEO from '../components/ui/SEO';
 import { useParams, Link } from 'react-router-dom';
 import Button from '../components/ui/Button';
 import BookingSoonModal from '../components/ui/BookingSoonModal';
-import { ComingSoonPopup } from '../components/ui/ComingSoonPopup';
+// import { ComingSoonPopup } from '../components/ui/ComingSoonPopup';
 
 interface BhogMenu {
   title: string;
@@ -75,12 +75,15 @@ export const BhogBooking: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    // Temporary: Redirect to home instead of showing booking modal
+    window.location.href = '/';
+    return;
     setShowBookingSoonModal(true);
   };
 
   return (
     <div className="relative pt-10 md:pt-14 pb-20 min-h-screen">
-      <ComingSoonPopup />
+      {/* <ComingSoonPopup /> */}
       <SEO
         title={activeDay ? `${activeDay.title} Booking` : 'Bhog Booking'}
         description="Book your sacred Prasad Bhog for Durga Puja 2026 at Amader Barir Pujo, Wakad Pune. Available for Saptami, Ashtami, Navami and Lakshmi Puja."
@@ -102,11 +105,11 @@ export const BhogBooking: React.FC = () => {
         </div>
 
         {/* Payment Gateway Disclaimer */}
-        <div className="mb-8 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+        {/* <div className="mb-8 p-4 bg-amber-50 border border-amber-200 rounded-lg">
           <p className="text-amber-800 text-sm font-semibold text-center">
             ⚠️ Payment Gateway Integration is in Progress.
           </p>
-        </div>
+        </div> */}
 
         {/* Days Tab Controls */}
         <div className="flex flex-wrap items-center justify-center gap-2 mb-10 p-2.5 rounded-xl border border-gray-150 shadow-sm select-none">
@@ -242,7 +245,7 @@ export const BhogBooking: React.FC = () => {
                     </label>
                   </div>
                 </div>
-                <Button type="submit" variant="primary" fullWidth className="py-2.5 text-xs opacity-70 cursor-not-allowed" aria-disabled="true">
+                <Button type="button" variant="primary" fullWidth className="py-2.5 text-xs" onClick={() => window.location.href = '/'}>
                   Request Bhog Plates
                 </Button>
               </form>
