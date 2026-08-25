@@ -59,7 +59,7 @@ export const PujaBookingCard: React.FC<PujaBookingCardProps> = ({
 
   return (
     <>
-      <div className="text-center mb-8 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+      {/* <div className="text-center mb-8 p-4 bg-amber-50 border border-amber-200 rounded-lg">
         {isClosed ? (
           <p className="text-center text-red-800 text-sm font-semibold">
             ⚠️ Bookings are now closed for {pujaName}
@@ -69,7 +69,7 @@ export const PujaBookingCard: React.FC<PujaBookingCardProps> = ({
             ⚠️ Payment Gateway Integration is in Progress.
           </p>
         )}
-      </div>
+      </div> */}
 
       {isClosed ? (
         <div className="border-2 border-red-200 rounded-2xl p-8 md:p-12 text-center">

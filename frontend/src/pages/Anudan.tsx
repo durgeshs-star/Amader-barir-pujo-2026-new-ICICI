@@ -8,7 +8,7 @@ import { PageHero } from '../components/common/PageHero';
 import UserInfoForm, { type UserInfoFormRef } from '../components/ui/UserInfoForm';
 import AnudanReceipt from '../components/Payment/AnudanReceipt';
 import { AnudanAmountChangedModal } from '../components/AnudanAmountChangedModal';
-import { ComingSoonPopup } from '../components/ui/ComingSoonPopup';
+// import { ComingSoonPopup } from '../components/ui/ComingSoonPopup';
 import type { AnudanCard as AnudanCardType } from '../types/anudan.types';
 import { API_URL } from '../config/api';
 import { apiService } from '../services/api';
@@ -123,6 +123,10 @@ export const Anudan: React.FC = () => {
     }
     if (!isConfirmed) return;
 
+    // Temporary: Redirect to home instead of payment
+    window.location.href = '/';
+    return;
+
     setIsProcessing(true);
     try {
       const orderId = `ANUDAN-${Date.now()}`;
@@ -162,7 +166,7 @@ export const Anudan: React.FC = () => {
 
   return (
     <div className="relative">
-      <ComingSoonPopup />
+      {/* <ComingSoonPopup /> */}
       <LazyMotion features={domAnimation} strict>
       <SEO
         title="Anudan | Amader Barir Pujo"
