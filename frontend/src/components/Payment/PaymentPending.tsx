@@ -9,6 +9,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { API_URL } from '../../config/api';
+import SEO from '../ui/SEO';
 
 interface PaymentPendingProps {
   transactionId?: string;
@@ -74,6 +75,7 @@ export const PaymentPending: React.FC<PaymentPendingProps> = ({
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
+      <SEO title="Payment Processing" robots="noindex,follow" />
       <div className="max-w-md w-full rounded-2xl shadow-2xl p-8 text-center">
         {/* Loading Animation */}
         <div className="mx-auto mb-6 flex items-center justify-center w-20 h-20 bg-blue-100 rounded-full">

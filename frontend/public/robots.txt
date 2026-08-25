@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.abp.proplusdatafoundation.com/sitemap.xml
+Sitemap: https://abp.proplusdatafoundation.com/sitemap.xml

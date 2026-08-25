@@ -20,9 +20,10 @@ export interface SEOProps {
   robots?: string;
 }
 
-const SITE_NAME = 'Amader Barir Pujo, Pune';
+const SITE_NAME = 'Amader Barir Pujo';
+const BASE_URL = 'https://abp.proplusdatafoundation.com';
 const DEFAULT_DESCRIPTION =
-  'Amader Barir Pujo, Pune — Discover devotional services, sacred festivals, community meals, and spiritual programs. Open to everyone.';
+  'Amader Barir Pujo — A vibrant Bengali community celebration in Pune. Devotional services, Bhog, cultural programs, and sacred rituals. Open to everyone.';
 const DEFAULT_OG_IMAGE = '/assets/img/banner/1.webp';
 const THEME_COLOR = '#782850';
 
@@ -36,11 +37,28 @@ export const SEO: React.FC<SEOProps> = ({
   titleOnly = false,
   robots = 'index,follow',
 }) => {
-  const fullTitle = title
-    ? titleOnly
-      ? title
-      : `${title} | ${SITE_NAME}`
-    : SITE_NAME;
+  // Generate canonical URL if not provided
+  const finalCanonical = canonical || (typeof window !== 'undefined' ? window.location.href : BASE_URL);
+
+  // Generate title avoiding duplicates
+  let fullTitle: string;
+  if (title) {
+    if (titleOnly) {
+      fullTitle = title;
+    } else {
+      // Avoid duplicate "Pune" in title
+      const hasPuneInTitle = title.toLowerCase().includes('pune');
+      const hasPuneInSiteName = SITE_NAME.toLowerCase().includes('pune');
+      
+      if (hasPuneInTitle && hasPuneInSiteName) {
+        fullTitle = title;
+      } else {
+        fullTitle = `${title} | ${SITE_NAME}`;
+      }
+    }
+  } else {
+    fullTitle = SITE_NAME;
+  }
 
   return (
     <Helmet>
@@ -48,7 +66,7 @@ export const SEO: React.FC<SEOProps> = ({
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
       {keywords && <meta name="keywords" content={keywords} />}
-      {canonical && <link rel="canonical" href={canonical} />}
+      <link rel="canonical" href={finalCanonical} />
       <meta name="robots" content={robots} />
 
       {/* ── Theme / PWA ────────────────────────────────── */}
@@ -64,7 +82,7 @@ export const SEO: React.FC<SEOProps> = ({
       <meta property="og:title"       content={fullTitle} />
       <meta property="og:description" content={description} />
       <meta property="og:image"       content={ogImage} />
-      {canonical && <meta property="og:url" content={canonical} />}
+      <meta property="og:url"         content={finalCanonical} />
       <meta property="og:site_name"   content={SITE_NAME} />
 
       {/* ── Twitter Card ───────────────────────────────── */}

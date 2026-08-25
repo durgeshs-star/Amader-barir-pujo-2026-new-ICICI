@@ -5,6 +5,7 @@ import { TextField } from '../components/form/TextField';
 import { RadioGroup } from '../components/form/RadioGroup';
 import { SelectField } from '../components/form/SelectField';
 import { Modal } from '../components/ui/Modal';
+import SEO from '../components/ui/SEO';
 import { submitQuestionair } from '../services/questionair';
 import { useWakeBackend } from '../hooks/useWakeBackend';
 import { useQuestionairForm } from '../hooks/useQuestionairForm';
@@ -80,6 +81,7 @@ const Questionair: React.FC = () => {
 
   return (
     <div className="relative h-full">
+      <SEO title="Volunteer Questionnaire" robots="noindex,follow" />
       <section className="w-full">
         <picture>
           <source media="(max-width: 767px)" srcSet="/assets/img/Mobile-Questionaire-Banner.svg" />

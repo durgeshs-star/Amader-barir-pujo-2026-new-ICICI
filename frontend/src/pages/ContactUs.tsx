@@ -89,11 +89,10 @@ export const ContactUs: React.FC = () => {
     <div className="relative">
       <LazyMotion features={domAnimation} strict>
       <SEO
-        title="Contact Us"
-        description="Get in touch with the Amader Bari'r Pujo organizing committee. Call, email, or visit us in Wakad, Pune during the Durga Puja celebrations."
-        keywords="Contact Amader Bari'r Pujo, Durga Puja Pune contact, Bengali community Wakad Pune"
+        title="Contact Amader Barir Pujo"
+        description="Get in touch with the Amader Barir Pujo organizing committee in Pune. Call, email, or visit us in Wakad during the Durga Puja celebrations."
+        keywords="Contact Amader Barir Pujo, Durga Puja Pune contact, Bengali community Wakad Pune"
         ogImage="/assets/img/banner/1.webp"
-        canonical="https://www.abp.proplusdatafoundation.com/contact-us"
       />
 
       <PageHero

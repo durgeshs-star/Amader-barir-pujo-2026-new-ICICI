@@ -19,10 +19,10 @@ export const Home: React.FC = React.memo(() => {
   return (
     <div className="relative">
       <SEO
-        description="Amader Barir Pujo, Pune — A vibrant Bengali community celebration. Devotional services, Bhog, cultural programs, and sacred rituals. Open to everyone."
-        keywords="Durga Puja Pune, Bengali community Pune, Amader Barir Pujo, Wakad Durga Puja 2026"
+        title="Durga Puja in Pune 2026"
+        description="Amader Barir Pujo — A vibrant Bengali community celebration in Pune. Join us for Durga Puja 2026 with devotional services, Bhog, cultural programs, and sacred rituals. Open to everyone."
+        keywords="Durga Puja Pune, Durga Puja 2026 Pune, Bengali community Pune, Amader Barir Pujo, Wakad Durga Puja"
         ogImage="/assets/img/banner/1.webp"
-        canonical="https://www.abp.proplusdatafoundation.com/"
       />
       <Hero />
       <Suspense fallback={<SectionSkeleton />}>

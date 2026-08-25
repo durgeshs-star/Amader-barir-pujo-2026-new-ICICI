@@ -100,11 +100,10 @@ const VolunteerContent: React.FC = React.memo(() => {
     <div className="relative">
       <LazyMotion features={domAnimation} strict>
       <SEO
-        title="Volunteer | Amader Barir Pujo"
-        description="Join Amader Barir Pujo as a volunteer to serve the community during Durga Puja 2026 in Wakad, Pune. Offer your seva, build community connections, and make a difference in our vibrant Bengali celebration."
-        keywords="Volunteer Durga Puja Pune, Amader Barir Pujo volunteer, community seva Wakad, Bengali festival volunteer Pune, Durga Puja seva opportunities"
+        title="Volunteer for Durga Puja 2026"
+        description="Join Amader Barir Pujo as a volunteer to serve the community during Durga Puja 2026 in Pune. Offer your seva, build community connections, and make a difference in our vibrant Bengali celebration."
+        keywords="Volunteer Durga Puja Pune, Amader Barir Pujo volunteer, community seva Pune, Bengali festival volunteer, Durga Puja seva opportunities"
         ogImage="/assets/img/banner/1.webp"
-        canonical="https://www.abp.proplusdatafoundation.com/volunteer"
       />
 
       <PageHero

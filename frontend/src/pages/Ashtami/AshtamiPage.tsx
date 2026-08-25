@@ -11,11 +11,10 @@ const AshtamiPage: React.FC = () => {
   return (
     <div className="relative">
       <SEO
-        title="Ashtami Pujo Schedule"
-        description="Ashtami Pujo Schedule — Learn about our Ashtami Pujo offerings, procedures, and their spiritual significance at Amader Barir Pujo."
-        keywords="Ashtami pujo, Maha Ashtami, Sandhi Puja, Durga Puja 2026 schedule, Amader Barir Pujo Ashtami"
-        ogImage="/assets/img/banner/1.webp"
-        canonical="https://www.abp.proplusdatafoundation.com/ashtami"
+        title="Ashtami Puja Schedule 2026"
+        description="Ashtami Puja Schedule for Durga Puja 2026 in Pune. Learn about Maha Ashtami rituals, Sandhi Puja timings, and spiritual significance at Amader Barir Pujo."
+        keywords="Ashtami Puja, Maha Ashtami, Sandhi Puja Pune, Durga Puja 2026 Pune, Ashtami Puja schedule"
+        ogImage="/assets/img/ashtami.webp"
       />
 
       <PageHero

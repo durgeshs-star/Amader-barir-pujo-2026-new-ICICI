@@ -6,10 +6,12 @@ import { AnudanBasket } from '../components/ui/AnudanBasket';
 import { anudanCards } from '../assets/data/anudanData';
 import { PageHero } from '../components/common/PageHero';
 import UserInfoForm, { type UserInfoFormRef } from '../components/ui/UserInfoForm';
-import AnudanReceipt from '../components/Payment/AnudanReceipt';
 import { AnudanAmountChangedModal } from '../components/AnudanAmountChangedModal';
 // import { ComingSoonPopup } from '../components/ui/ComingSoonPopup';
 import type { AnudanCard as AnudanCardType } from '../types/anudan.types';
+import { lazy, Suspense } from 'react';
+
+const AnudanReceipt = lazy(() => import('../components/Payment/AnudanReceipt'));
 import { API_URL } from '../config/api';
 import { apiService } from '../services/api';
 import { useAnudanRemaining } from '../hooks/useAnudanRemaining';
@@ -169,11 +171,10 @@ export const Anudan: React.FC = () => {
       {/* <ComingSoonPopup /> */}
       <LazyMotion features={domAnimation} strict>
       <SEO
-        title="Anudan | Amader Barir Pujo"
-        description="Offer your Anudan (অনুদান) to Amader Barir Pujo 2026 in Wakad, Pune. Support devotional services, sacred festivals, Bhog distribution, and spiritual community programs through your generous contribution."
-        keywords="Anudan Durga Puja Pune, Durga Puja donation, Amader Barir Pujo contribution, Puja items sponsorship, Bengali festival donation Wakad, seva donation Pune"
+        title="Anudan for Durga Puja 2026"
+        description="Offer your Anudan (অনুদান) to Amader Barir Pujo 2026 in Pune. Support devotional services, sacred festivals, Bhog distribution, and spiritual community programs through your generous contribution."
+        keywords="Anudan Durga Puja Pune, Durga Puja donation, Amader Barir Pujo contribution, Puja items sponsorship, Bengali festival donation, seva donation Pune"
         ogImage="/assets/img/banner/1.webp"
-        canonical="https://www.abp.proplusdatafoundation.com/anudan"
       />
       <PageHero
         title="Anudan"
@@ -459,7 +460,9 @@ export const Anudan: React.FC = () => {
             </div>
 
             <div className="p-6">
-              <AnudanReceipt receiptData={receiptData} />
+              <Suspense fallback={<div className="text-center py-8">Loading receipt...</div>}>
+                <AnudanReceipt receiptData={receiptData} />
+              </Suspense>
             </div>
           </m.div>
         </div>
