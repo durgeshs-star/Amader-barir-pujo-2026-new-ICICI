@@ -6,7 +6,7 @@ const ReturnRefundPolicy: React.FC = () => {
   const sections = [
     {
       title: "1. Introduction",
-      content: "This Return & Refund Policy outlines the terms regarding payments, refunds, and returns for services, bookings, registrations, contributions, and donations made through the Amader Barir Pujo (ABP) 2026 website. Please read this policy carefully before making any payment.",
+      content: "This Return & Refund Policy outlines the terms regarding payments, refunds, and returns for services, bookings, registrations, contributions, and anudan made through the Amader Barir Pujo (ABP) 2026 website. Please read this policy carefully before making any payment.",
     },
     {
       title: "2. No Refund Policy",
@@ -14,7 +14,7 @@ const ReturnRefundPolicy: React.FC = () => {
     },
     {
       title: "",
-      content: "No refund requests will normally be accepted after successful payment. No returns or refunds are provided for event-related bookings, registrations, contributions, donations, or services purchased through the website.",
+      content: "No refund requests will normally be accepted after successful payment. No returns or refunds are provided for event-related bookings, registrations, contributions, anudan, or services purchased through the website.",
     },
     {
       title: "3. Payment Confirmation",
@@ -63,7 +63,7 @@ const ReturnRefundPolicy: React.FC = () => {
     <div className="relative">
       <SEO 
         title="Return & Refund Policy"
-        description="Return & Refund Policy for Amader Barir Puja payments, bookings, registrations, contributions, and donations. Learn about our no-refund policy."
+        description="Return & Refund Policy for Amader Barir Puja payments, bookings, registrations, contributions, and anudan. Learn about our no-refund policy."
       />
       <LegalContent
         title="Return & Refund Policy"

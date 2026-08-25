@@ -65,12 +65,12 @@ export const Legal: React.FC = () => {
 
               <h2 className="text-lg font-bold text-primary font-fraunces pt-2">Service Availability</h2>
               <p>
-                Bhog bookings, volunteer registrations, and donations are offered to users in good faith to facilitate smooth Durga Pujo community operations. We reserve the right to modify menu details, schedules, or volunteer placements based on logistics and safety constraints.
+                Bhog bookings, volunteer registrations, and anudan are offered to users in good faith to facilitate smooth Durga Pujo community operations. We reserve the right to modify menu details, schedules, or volunteer placements based on logistics and safety constraints.
               </p>
 
               <h2 className="text-lg font-bold text-primary font-fraunces pt-2">Refund &amp; Contributions</h2>
               <p>
-                Seva donations (Anudan) and suggested contributions for Bhog booking are non-refundable and are utilized entirely towards hosting the Pujo and serving free meals (Prasad) to the community.
+                Seva anudan and suggested contributions for Bhog booking are non-refundable and are utilized entirely towards hosting the Pujo and serving free meals (Prasad) to the community.
               </p>
 
               <h2 className="text-lg font-bold text-primary font-fraunces pt-2">Code of Conduct</h2>
