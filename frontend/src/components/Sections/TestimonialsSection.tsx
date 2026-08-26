@@ -33,15 +33,21 @@ const TestimonialsSection: React.FC = () => {
       quote:
         'Some memories stay with us long after the celebrations end. Amader Bari Durga Pujo 2025 was one such experience. Dhaak, dhunuchi naach, prayers, warm khichuri, laughter, and genuine connections made it feel like family. Heartfelt thanks to the organizers for creating such a beautiful, unforgettable experience. Asche bochor abar hobe!',
     },
-    {
-      name: 'Sneha Gupta',
-      quote:
-        'A truly divine experience! The atmosphere during Durga Pujo was magical, and the rituals were performed beautifully.',
-    },
-    {
-      name: 'Ananya Dutta',
-      quote: `I honestly didn't expect to feel so emotional. The moment the dhaak started, it reminded me of home. We came for a few hours and ended up spending almost the whole day. For those few moments, Pune felt a little more like Kolkata. Khub bhalo legechilo.`,
-    },
+   {
+    name: 'Sneha Gupta',
+    quote:
+      'A truly divine Bengali Durga Puja experience in Pune! The atmosphere was beautiful, the rituals were performed wonderfully, and it was lovely to see everyone come together for a free and welcoming Durga Puja celebration.',
+  },
+  {
+    name: 'Ananya Dutta',
+    quote:
+      `I honestly didn't expect to feel so emotional. The moment the dhaak started, it reminded me of home. We came to this Bengali Durga Puja celebration in Pune from the Wakad area for a few hours and ended up spending almost the whole day. For those few moments, Pune felt a little more like Kolkata. Khub bhalo legechilo.`,
+  },
+  {
+    name: 'Sourav Chatterjee',
+    quote:
+      'It was wonderful to experience a traditional Bengali Durga Puja in Pune, especially for families from Wakad, Hinjewadi and nearby areas. The beautiful rituals, dhaak, cultural atmosphere and warm community made the Puja feel truly special.',
+  },
   ];
 
   const goTo = (index: number) => {
@@ -168,10 +174,10 @@ const TestimonialsSection: React.FC = () => {
                   font-normal
                   text-secondary
                   text-base
-                  sm:text-lg
-                  md:text-xl
-                  lg:text-2xl
-                  xl:text-[24px]
+                  sm:text-md
+                  md:text-lg
+                  lg:text-xl
+                  xl:text-[20px]
                   leading-[1.5]
                   tracking-normal
                   text-balance

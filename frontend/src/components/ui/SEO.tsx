@@ -38,7 +38,9 @@ export const SEO: React.FC<SEOProps> = ({
   robots = 'index,follow',
 }) => {
   // Generate canonical URL if not provided
-  const finalCanonical = canonical || (typeof window !== 'undefined' ? window.location.href : BASE_URL);
+  const finalCanonical = canonical || (typeof window !== 'undefined' 
+    ? `${BASE_URL}${window.location.pathname}` 
+    : BASE_URL);
 
   // Generate title avoiding duplicates
   let fullTitle: string;

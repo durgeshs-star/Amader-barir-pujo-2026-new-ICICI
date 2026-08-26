@@ -110,7 +110,7 @@ const VolunteerContent: React.FC = React.memo(() => {
         title="Be a Bari'r Member"
         height="h-[35vh] md:h-[60vh]"
         subtitle="Maa brings us together.
-Come with your time, your talent, or simply your heart. Together, let's create a Pujo that every visitor will remember and every volunteer will cherish."
+          Come with your time, your talent, or simply your heart. Together, let's create a Pujo that every visitor will remember and every volunteer will cherish. Open to everyone — join our free community celebration."
       />
 
       {/* Why Volunteer Section */}

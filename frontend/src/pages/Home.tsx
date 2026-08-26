@@ -19,9 +19,9 @@ export const Home: React.FC = React.memo(() => {
   return (
     <div className="relative">
       <SEO
-        title="Durga Puja in Pune 2026"
-        description="Amader Barir Pujo — A vibrant Bengali community celebration in Pune. Join us for Durga Puja 2026 with devotional services, Bhog, cultural programs, and sacred rituals. Open to everyone."
-        keywords="Durga Puja Pune, Durga Puja 2026 Pune, Bengali community Pune, Amader Barir Pujo, Wakad Durga Puja"
+        title="Free Bengali Durga Puja in Pune 2026 | Amader Barir Pujo"
+        description="Amader Barir Pujo 2026 is a free Bengali Durga Puja celebration in Pune, welcoming families and visitors from Wakad, Hinjewadi and surrounding areas."
+        keywords="Free Durga Puja Pune, Bengali Durga Puja Pune, Durga Puja Pune 2026, Durga Puja in Wakad, Durga Puja near Hinjewadi, Durga Puja pandal Pune, Amader Barir Pujo"
         ogImage="/assets/img/banner/1.webp"
       />
       <Hero />

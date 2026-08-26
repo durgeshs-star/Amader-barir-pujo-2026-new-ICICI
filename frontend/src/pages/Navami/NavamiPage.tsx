@@ -11,14 +11,14 @@ const NavamiPage: React.FC = () => {
   return (
     <div className="relative">
       <SEO
-        title="Navami Puja Schedule 2026"
-        description="Navami Puja Schedule for Durga Puja 2026 in Pune. Learn about Maha Navami rituals, Havan ceremony, and spiritual significance at Amader Barir Pujo."
-        keywords="Navami Puja, Maha Navami, Durga Puja 2026 Pune, Navami Puja schedule, Amader Barir Pujo Navami"
+        title="Navami 2026 | Bengali Durga Puja Pune | Amader Barir Pujo"
+        description="Celebrate Navami during Amader Barir Pujo 2026, a Bengali Durga Puja celebration in Pune."
+        keywords="Navami 2026, Bengali Durga Puja Pune, Amader Barir Pujo 2026"
         ogImage="/assets/img/navami.webp"
       />
 
       <PageHero
-        title="Navami"
+        title="Navami 2026"
         height="h-[35vh] md:h-[60vh]"
       />
 

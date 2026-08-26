@@ -65,19 +65,19 @@ export const Gallery: React.FC = React.memo(() => {
   return (
     <div className="relative pt-10 md:pt-14 pb-20 min-h-screen">
       <SEO 
-        title="Durga Puja Photo Gallery"
-        description="Browse photos from Amader Barir Puja celebrations in Pune — Durga Puja rituals, Bhog distribution, cultural programs, and community moments captured during our vibrant Bengali festival."
-        keywords="Durga Puja gallery Pune, Amader Barir Pujo photos, Bengali festival photos, Puja celebration images, Bhog photos Pune"
+        title="Bengali Durga Puja Pune | Puja Pandal & Celebration Gallery"
+        description="Explore the Amader Barir Pujo gallery — Bengali Durga Puja pandal and celebration photos from Pune. View Durga Puja rituals, cultural programs, and community moments."
+        keywords="Bengali Durga Puja Pune, Durga Puja pandal Pune, Amader Barir Pujo gallery, Durga Puja celebrations Pune, Puja pandal photos"
       />
       <div className="max-w-6xl mx-auto px-3 sm:px-2 lg:px-16 xl:px-0 pb-4 lg:py-8 xl:py-0">
 
         {/* Title - CSS animation instead of framer-motion */}
         <div className="text-center mb-10 animate-fade-in-down">
           <h1 className="text-4xl md:text-6xl font-bold text-primary font-fraunces mb-3">
-            Pujo Gallery
+            Durga Puja Gallery
           </h1>
           <p className="text-sm text-muted font-medium text-center">
-            Memories of spiritual moments and celebrations
+            Explore our Durga Pujo pandal and celebration photos from Pune
           </p>
           <div className="w-16 h-1 bg-accent mx-auto mt-4 rounded-full animate-expand-width" />
         </div>

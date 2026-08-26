@@ -8,14 +8,14 @@ const About = React.memo(() => {
   return (
     <div className="relative">
       <SEO
-        title="About Amader Barir Pujo"
-        description="Learn about Amader Barir Pujo — a vibrant Bengali community celebration in Pune organized by Pro Plus Data Foundation. Discover our journey, vision, mission, and the spirit of togetherness."
-        keywords="About Amader Barir Pujo, Durga Puja Pune, Bengali Community Pune, Pro Plus Data Foundation, Wakad Pune"
+        title="About Amader Barir Pujo | Bengali Durga Puja Pune"
+        description="Discover Amader Barir Pujo 2026 — a free Bengali Durga Puja celebration in Pune. Learn about our traditions, community spirit, and the joy of Durga Puja in Wakad and Hinjewadi."
+        keywords="Bengali Durga Puja Pune, Amader Barir Pujo 2026, Bengali community Pune, Durga Puja traditions, Durga Puja in Wakad, Durga Puja near Hinjewadi"
         ogImage="/assets/img/banner/1.webp"
       />
 
       <PageHero
-        title="About Us"
+        title="About Amader Barir Pujo"
         subtitle="Keeping traditions alive while celebrating faith, culture and togetherness."
         height="h-[35vh] md:h-[60vh]"
       />

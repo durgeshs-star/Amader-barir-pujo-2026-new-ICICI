@@ -53,6 +53,9 @@ export const Footer: React.FC = () => {
               </li>
               */}
             </ul>
+            <p className="text-xs text-text-inverse-muted pt-2 leading-relaxed">
+              Amader Barir Pujo 2026 is a Bengali Durga Puja celebration in Pune, welcoming the community from Wakad, Hinjewadi and surrounding areas.
+            </p>
           </div>
 
           {/* Column 2: Information Links */}

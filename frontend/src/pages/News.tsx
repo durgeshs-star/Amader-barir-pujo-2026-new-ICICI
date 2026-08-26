@@ -25,10 +25,11 @@ export const News: React.FC = () => {
   return (
     <div className="relative min-h-screen">
       <SEO
-        description="Latest news and media coverage about Amader Barir Pujo, Pune. Stay updated with our community celebrations and events."
-        keywords="Amader Barir Pujo news, Durga Puja Pune news, Bengali community news, media coverage"
+        title="Durga Puja Events Pune | Amader Barir Pujo News"
+        description="Read about Durga Puja events and celebrations in Pune. Stay updated with Amader Barir Pujo news, media coverage, and community stories."
+        keywords="Durga Puja events Pune, Durga Puja celebrations Pune, Bengali Durga Puja Pune, Durga Puja pandals Pune, Amader Barir Pujo news"
         ogImage="/assets/img/banner/1.webp"
-        canonical="https://www.abp.proplusdatafoundation.com/news"
+        canonical="https://abp.proplusdatafoundation.com/news"
       />
 
       {/* Page Header with Hero Image */}

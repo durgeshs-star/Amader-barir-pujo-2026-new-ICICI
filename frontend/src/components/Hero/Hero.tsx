@@ -51,7 +51,7 @@ xl:object-[50%_78%]"
 
           {/* Title — large display, two visual lines */}
           <h1
-            className="font-fraunces-italic leading-tight mb-4 sm:mb-6 lg:mb-4 xl:mb-6 select-text text-3xl xs:text-4xl sm:text-5xl md:text-5xl lg:text-4xl xl:text-5xl font-bold text-white text-center lg:text-left wrap-break-word"
+            className="font-fraunces-italic leading-tight mb-3 sm:mb-4 lg:mb-3 xl:mb-4 select-text text-3xl xs:text-4xl sm:text-5xl md:text-5xl lg:text-4xl xl:text-5xl font-bold text-white text-center lg:text-left wrap-break-word"
             style={{ textShadow: '0 2px 12px rgba(0,0,0,0.5)' }}
           >
             আমাদের বাড়ির পূজো
@@ -66,8 +66,14 @@ xl:object-[50%_78%]"
             style={{ textShadow: '0 1px 6px rgba(0,0,0,0.6)' }}
           >
             <p>More than a celebration, it's a feeling we carry with us.</p>
-            <p>A place where strangers become friends, children grow up making memories, and with Maa at the heart of it all, the familiar rhythm of dhaak, laughter, and adda reminds us what together feels like.</p>
-            <p className="font-bold text-accent text-center text-lg lg:text-base xl:text-lg lg:text-left">Free for all. Just as Pujo should be.</p>
+            <p>
+  Amader Barir Pujo 2026 is a free Bengali Durga Puja celebration in Pune,
+  welcoming families and visitors from Wakad, Hinjewadi and surrounding areas —
+  a place where strangers become friends, children grow up making memories,
+  and with Maa at the heart of it all, the familiar rhythm of dhaak, laughter,
+  and adda reminds us what together feels like.
+</p>
+            <p className="font-bold text-accent text-center text-lg lg:text-base xl:text-lg lg:text-left">Free Durga Puja in Pune. Just as Pujo should be.</p>
           </div>
 
           {/* Bengali content */}

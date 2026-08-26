@@ -11,13 +11,13 @@ const DashamiPage: React.FC = () => {
   return (
     <div className="relative">
       <SEO
-        title="Dashami Puja Schedule 2026"
-        description="Dashami Puja Schedule for Durga Puja 2026 in Pune. Learn about Vijaya Dashami rituals, Sindoor Khela, immersion procession, and spiritual significance at Amader Barir Pujo."
-        keywords="Dashami Puja, Vijaya Dashami, Sindoor Khela Pune, Durga Puja 2026 Pune, Dashami Puja schedule"
+        title="Dashami 2026 | Bengali Durga Puja Pune | Amader Barir Pujo"
+        description="Celebrate Dashami during Amader Barir Pujo 2026, a Bengali Durga Puja celebration in Pune."
+        keywords="Dashami 2026, Bengali Durga Puja Pune, Amader Barir Pujo 2026"
         ogImage="/assets/img/dashami.webp"
       />
 
-      <PageHero title="Dashami" height="h-[35vh] md:h-[60vh]" />
+      <PageHero title="Dashami 2026" height="h-[35vh] md:h-[60vh]" />
 
       <ScheduleIntro paragraph={dashamiIntroParagraph}>
         <h2 className="font-fraunces font-bold text-3xl md:text-5xl text-primary italic">
