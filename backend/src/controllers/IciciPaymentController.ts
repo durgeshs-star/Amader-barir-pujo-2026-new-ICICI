@@ -104,6 +104,7 @@ const ANUDAN_HEADERS = [
   'Base Amount (₹)',
   'Gateway Charges (₹)',
   'Actual Amount Paid (₹)',
+  'Payment Status',
   'Transaction ID',
   'Order ID',
   'Timestamp',
