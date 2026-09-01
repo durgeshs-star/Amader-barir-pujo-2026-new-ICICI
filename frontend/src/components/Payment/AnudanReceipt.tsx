@@ -99,7 +99,7 @@ export const AnudanReceipt: React.FC<AnudanReceiptProps> = ({ receiptData: propR
       <div
         ref={receiptRef}
         style={{
-          backgroundColor: 'var(--color-surface)',
+          backgroundColor: '#F8E9CE',
           border: '2px solid #d97706',
           borderRadius: '8px',
           padding: '16px 24px',
