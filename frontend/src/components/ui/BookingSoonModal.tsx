@@ -26,10 +26,10 @@ const BookingSoonModal: React.FC<BookingSoonModalProps> = ({ isOpen, onClose }) 
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1">
             <h3 className="text-base font-bold text-primary sm:text-lg">
-              A little more waiting. Then, let’s Pujo!
+              Bhog Bookings will open soon
             </h3>
             <p className="mt-2 text-sm leading-relaxed text-secondary">
-              Anudan and Bhog bookings will open soon.
+              Thank you for your interest. Bhog bookings will be available shortly.
             </p>
           </div>
           <button

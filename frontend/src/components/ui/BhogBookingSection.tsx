@@ -3,6 +3,7 @@ import BhogBookingCard from './BhogBookingCard';
 import UserInfoForm from './UserInfoForm';
 import type { UserInfoFormRef } from './UserInfoForm';
 import type { BhogBookingSectionProps, BhogBookingState } from '../../types/bhog';
+import BookingSoonModal from './BookingSoonModal';
 
 export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
   title,
@@ -24,6 +25,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
   const userInfoFormRef = React.useRef<UserInfoFormRef>(null);
   const [isUserInfoFilled, setIsUserInfoFilled] = useState(false);
   const [isConfirmed, setIsConfirmed] = useState(false);
+  const [showBookingSoonModal, setShowBookingSoonModal] = useState(true);
 
   const handleValueChange = (categoryId: string, value: number) => {
     setBookings((prev) => ({
@@ -208,15 +210,13 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
 
         {/* Mobile Payment Button - Right after disclaimer when ready */}
         {totalCount > 0 && isUserInfoFilled && (isFreeBooking() || isConfirmed) && (
-          <div className="block lg:hidden mt-4">
-            <button
-              onClick={undefined}
-              disabled={true}
-              className="w-full px-6 py-3 bg-gray-300 text-gray-600 font-semibold rounded-xl border-0 transition-all duration-300 flex items-center justify-center space-x-2 h-[52px] cursor-not-allowed opacity-80"
-            >
-              <span>Bookings Closed</span>
-            </button>
-          </div>
+          <button
+            type="button"
+            disabled
+            className="block lg:hidden w-full mt-4 px-6 py-3 bg-gray-300 text-gray-600 font-semibold rounded-xl border-0 transition-all duration-300 flex items-center justify-center space-x-2 h-[52px] cursor-not-allowed opacity-80"
+          >
+            <span>Bookings Closed</span>
+          </button>
         )}
 
         {/* Desktop Payment Section - Right-aligned button layout */}
@@ -232,19 +232,18 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
                 <span>{totalCount === 1 ? 'booking selected' : 'bookings selected'}</span>
               </p>
             </div>
-            <div className="flex-shrink-0">
-              <button
-                onClick={undefined}
-                disabled={true}
-                className="min-w-[150px] px-6 py-2.5 bg-gray-300 text-gray-600 font-semibold rounded-md border-0 transition-all duration-300 flex items-center justify-center gap-2 cursor-not-allowed opacity-80"
-              >
-                Bookings Closed
-              </button>
-            </div>
+            <button
+              type="button"
+              disabled
+              className="flex-shrink-0 min-w-[150px] px-6 py-2.5 bg-gray-300 text-gray-600 font-semibold rounded-md border-0 transition-all duration-300 flex items-center justify-center gap-2 cursor-not-allowed opacity-80"
+            >
+              Bookings Closed
+            </button>
           </div>
         </div>
 
       </section>
+      <BookingSoonModal isOpen={showBookingSoonModal} onClose={() => setShowBookingSoonModal(false)} />
     </>
   );
 };
