@@ -11,7 +11,7 @@ interface AnudanCardProps {
   onBookingSoon?: () => void;
 }
 
-export const AnudanCard: React.FC<AnudanCardProps> = ({ card, remainingAmount = 0, successfulPayment = 0, isLoading = false, onAddToBasket, onBookingSoon }) => {
+export const AnudanCard: React.FC<AnudanCardProps> = ({ card, successfulPayment = 0, isLoading = false, onAddToBasket, onBookingSoon }) => {
   // Calculate total sum of all items in this section
   const totalCost = card.items.reduce((acc, item) => {
     const num = parseInt(item.cost.replace(/\D/g, ''), 10) || 0;
@@ -21,6 +21,11 @@ export const AnudanCard: React.FC<AnudanCardProps> = ({ card, remainingAmount = 
   // Calculate paid amount from successful payments (not reserved/pending)
   const paidAmount = successfulPayment || 0;
   const hasPayment = paidAmount > 0;
+
+  // Display due amount based on actual successful payments only.
+  // This prevents pending reservations from collapsing the visible amount due and keeps
+  // the UI arithmetic consistent: paid + due = total category cost.
+  const displayRemaining = Math.max(totalCost - paidAmount, 0);
 
   // Only show as fulfilled when there's actual successful payment equal to total cost
   const isFullySponsored = successfulPayment >= totalCost && successfulPayment > 0;
@@ -36,8 +41,8 @@ export const AnudanCard: React.FC<AnudanCardProps> = ({ card, remainingAmount = 
       return;
     }
 
-    if (amount > remainingAmount) {
-      setError(`Amount cannot exceed remaining amount of ₹${remainingAmount.toLocaleString('en-IN')}`);
+    if (amount > displayRemaining) {
+      setError(`Amount cannot exceed remaining amount of ₹${displayRemaining.toLocaleString('en-IN')}`);
       return;
     }
 
@@ -135,13 +140,13 @@ export const AnudanCard: React.FC<AnudanCardProps> = ({ card, remainingAmount = 
                   </m.span>
                 )}
                 <m.span
-                  key={remainingAmount}
+                  key={displayRemaining}
                   initial={{ opacity: 0.7, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.3 }}
                   className="text-3xl md:text-4xl font-bold text-amber-600 font-fraunces mb-2"
                 >
-                  ₹{remainingAmount.toLocaleString('en-IN')}
+                  ₹{displayRemaining.toLocaleString('en-IN')}
                 </m.span>
                 {hasPayment && (
                   <span className="text-xs text-gray-500 font-medium">
@@ -155,7 +160,7 @@ export const AnudanCard: React.FC<AnudanCardProps> = ({ card, remainingAmount = 
                   <input
                     type="text"
                     inputMode="numeric"
-                    placeholder={`Max ₹${remainingAmount.toLocaleString('en-IN')}`}
+                    placeholder={`Max ₹${displayRemaining.toLocaleString('en-IN')}`}
                     value={inputAmount}
                     onChange={(e) => {
                       // Only allow digits
