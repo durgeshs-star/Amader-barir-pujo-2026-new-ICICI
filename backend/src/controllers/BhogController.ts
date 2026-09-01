@@ -9,6 +9,7 @@ import { GoogleSheetsService } from '../services/GoogleSheetsService';
 import { BhogRepository } from '../repositories/BhogRepository';
 import { iciciPGService, InitiateSalePayload } from '../services/iciciPG.service';
 import { sanitizeMerchantTxnNo } from '../services/iciciHash.service';
+import { isBhogBookingClosedByTitle, getCutoffErrorMessageByTitle } from '../config/bhogCutoffConfig';
 
 // ---------------------------------------------------------------------------
 // Bhog sheet column layout — kept identical to the layout written by
@@ -160,6 +161,15 @@ export class BhogController {
         return;
       }
 
+      // Check booking cutoff - reject if closed
+      if (isBhogBookingClosedByTitle(title)) {
+        res.status(409).json({
+          success: false,
+          error: getCutoffErrorMessageByTitle(title)
+        });
+        return;
+      }
+
       const { totalAmount, totalCount } = this.calculateBookingTotals(categories);
 
       // Ensure this is indeed a free booking
@@ -263,6 +273,15 @@ export class BhogController {
         res.status(400).json({
           success: false,
           error: 'Invalid booking data. Title and categories are required.'
+        });
+        return;
+      }
+
+      // Check booking cutoff - reject if closed BEFORE initiating payment
+      if (isBhogBookingClosedByTitle(title)) {
+        res.status(409).json({
+          success: false,
+          error: getCutoffErrorMessageByTitle(title)
         });
         return;
       }
