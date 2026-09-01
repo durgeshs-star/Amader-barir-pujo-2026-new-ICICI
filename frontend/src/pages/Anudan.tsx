@@ -284,16 +284,16 @@ export const Anudan: React.FC = () => {
       </section>
 
       {/* Mobile Basket Icon */}
-      <div className="xl:hidden fixed bottom-6 sm:bottom-8 right-4 sm:right-6 z-50">
+      <div className="xl:hidden fixed bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 -ml-2 z-50 flex items-center justify-center">
         <button
           onClick={() => setShowMobileBasket(true)}
-          className="relative bg-primary text-white p-4 rounded-full shadow-lg hover:bg-primary/90 transition-all"
+          className="relative bg-primary text-white p-4 rounded-full shadow-lg hover:bg-primary/90 transition-all flex items-center justify-center"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
           </svg>
           {basket.length > 0 && (
-            <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-600 rounded-full flex items-center justify-center text-xs font-bold animate-pulse">
+            <span className="absolute -top-2 right-1 w-5 h-5 bg-red-600 rounded-full flex items-center justify-center text-[10px] font-bold animate-pulse leading-none text-white">
               {basket.length}
             </span>
           )}
