@@ -13,33 +13,33 @@ export const PUJA_BOOKING_CUTOFFS: Record<string, PujaBookingCutoff> = {
   saptami: {
     pujaName: "Maha Saptami",
     pujaDate: "Sat, 17 Oct 2026",
-    cutoffISO: "2026-10-16T17:30:00+05:30",
+    cutoffISO: "2026-10-16T12:00:00+05:30",
   },
   ashtami: {
     pujaName: "Maha Ashtami",
-    pujaDate: "Mon, 19 Oct 2026",
-    cutoffISO: "2026-10-18T17:30:00+05:30",
+    pujaDate: "Sun, 18 Oct 2026",
+    cutoffISO: "2026-10-17T12:00:00+05:30",
   },
   sandhiPuja: {
     pujaName: "Sandhi Puja",
     pujaDate: "Mon, 19 Oct 2026",
-    cutoffISO: "2026-10-18T17:30:00+05:30",
+    cutoffISO: "2026-10-18T12:00:00+05:30",
   },
   navami: {
     pujaName: "Maha Navami",
-    pujaDate: "Mon, 19 Oct 2026",
-    cutoffISO: "2026-10-18T17:30:00+05:30",
+    pujaDate: "Tue, 20 Oct 2026",
+    cutoffISO: "2026-10-19T12:00:00+05:30",
   },
-  lakshmiPuja: {
-    pujaName: "Lakshmi Puja",
-    pujaDate: "Sun, 25 Oct 2026",
-    cutoffISO: "2026-10-24T17:30:00+05:30",
-  },
-  saraswatiPuja: {
-    pujaName: "Saraswati Puja",
-    pujaDate: "Thu, 11 Feb 2027",
-    cutoffISO: "2027-02-10T17:30:00+05:30",
-  },
+  // lakshmiPuja: {
+  //   pujaName: "Lakshmi Puja",
+  //   pujaDate: "Sun, 25 Oct 2026",
+  //   cutoffISO: "2026-10-24T12:00:00+05:30",
+  // },
+  // saraswatiPuja: {
+  //   pujaName: "Saraswati Puja",
+  //   pujaDate: "Thu, 11 Feb 2027",
+  //   cutoffISO: "2027-02-10T12:00:00+05:30",
+  // },
 };
 
 /**

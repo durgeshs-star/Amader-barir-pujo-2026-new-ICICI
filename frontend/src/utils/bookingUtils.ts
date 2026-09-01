@@ -12,21 +12,22 @@ import { PUJA_BOOKING_CUTOFFS } from "../config/pujaConfig";
  */
 export const isBookingClosed = (pujaKey: string): boolean => {
   const cutoffConfig = PUJA_BOOKING_CUTOFFS[pujaKey];
-  
+
   if (!cutoffConfig) {
     console.warn(`[BookingUtils] No cutoff config found for puja key: ${pujaKey}`);
     return false;
   }
 
+  // cutoffISO already contains IST offset, so direct comparison is timezone-independent
   const now = new Date();
   const cutoffDate = new Date(cutoffConfig.cutoffISO);
-  
+
   const isClosed = now >= cutoffDate;
-  
+
   if (isClosed) {
-    console.log(`[BookingUtils] Booking closed for ${cutoffConfig.pujaName}. Cutoff: ${cutoffConfig.cutoffISO}`);
+    console.log(`[BookingUtils] Booking closed for ${cutoffConfig.pujaName}. Cutoff: ${cutoffConfig.cutoffISO}, Current: ${now.toISOString()}`);
   }
-  
+
   return isClosed;
 };
 
@@ -57,14 +58,15 @@ export const getPujaName = (pujaKey: string): string => {
  */
 export const getTimeUntilCutoff = (pujaKey: string): number => {
   const cutoffConfig = PUJA_BOOKING_CUTOFFS[pujaKey];
-  
+
   if (!cutoffConfig) {
     return 0;
   }
 
+  // cutoffISO already contains IST offset, so direct comparison is timezone-independent
   const now = new Date();
   const cutoffDate = new Date(cutoffConfig.cutoffISO);
   const remaining = cutoffDate.getTime() - now.getTime();
-  
+
   return Math.max(0, remaining);
 };
