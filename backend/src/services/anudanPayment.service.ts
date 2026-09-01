@@ -134,7 +134,10 @@ export class AnudanPaymentService {
   }
 
   /**
-   * Get all remaining amounts for all campaigns
+   * Get all remaining amounts AND successful payment amounts for all campaigns
+   * Frontend needs to know:
+   * - remainingAmounts: how much is still needed
+   * - successfulPayments: how much was actually paid successfully (not reserved/pending)
    */
   getAllRemaining(): any {
     const remainingAmounts: Record<string, number> = {};
@@ -142,6 +145,21 @@ export class AnudanPaymentService {
       remainingAmounts[campaignId] = anudanStateService.getRemaining(campaignId);
     });
     return successResponse({ remainingAmounts });
+  }
+
+  /**
+   * Get successfully collected amounts (actual paid, not reserved/pending)
+   * This is used by frontend to show what's truly fulfilled
+   */
+  async getSuccessfulPaymentAmounts(): Promise<Record<string, number>> {
+    const amounts: Record<string, number> = {};
+    Object.keys(require('../config/anudan.config').ANUDAN_CONFIG.TOTAL_COSTS).forEach((campaignId) => {
+      amounts[campaignId] = 0;
+    });
+    
+    // Query MongoDB for successful payments only
+    const collectedAmounts = await this.anudanRepository.getCollectedAmountsByCategory();
+    return { ...amounts, ...collectedAmounts };
   }
 }
 

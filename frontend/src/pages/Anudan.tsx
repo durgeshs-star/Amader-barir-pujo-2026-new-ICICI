@@ -33,6 +33,7 @@ export const Anudan: React.FC = () => {
   
   // Fetch all remaining amounts
   const [allRemainingAmounts, setAllRemainingAmounts] = useState<Record<string, number>>({});
+  const [successfulPayments, setSuccessfulPayments] = useState<Record<string, number>>({});
   const [isLoadingRemaining, setIsLoadingRemaining] = useState(true);
 
   // Use SSE hook for real-time remaining amounts (for each category)
@@ -51,6 +52,9 @@ export const Anudan: React.FC = () => {
         const response = await apiService.getAnudanRemaining();
         if (response.success && response.data && response.data.remainingAmounts) {
           setAllRemainingAmounts(response.data.remainingAmounts);
+        }
+        if (response.success && response.data && response.data.successfulPayments) {
+          setSuccessfulPayments(response.data.successfulPayments);
         }
       } catch (error) {
         console.error('Failed to fetch remaining amounts:', error);
@@ -84,6 +88,9 @@ export const Anudan: React.FC = () => {
 
 
   const addToBasket = (card: AnudanCardType, amount: number) => {
+    // Play notification sound
+    playNotificationSound();
+    
     const existingItemIndex = basket.findIndex(item => item.card.day === card.day);
 
     if (existingItemIndex !== -1) {
@@ -101,6 +108,25 @@ export const Anudan: React.FC = () => {
       setNotification({ show: true, message: 'Anudan added to basket' });
     }
     setTimeout(() => setNotification({ show: false, message: '' }), 2000);
+  };
+
+  const playNotificationSound = () => {
+    // Create a simple beep sound using Web Audio API
+    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+    
+    oscillator.connect(gain);
+    gain.connect(audioContext.destination);
+    
+    oscillator.frequency.value = 800; // Hz
+    oscillator.type = 'sine';
+    
+    gain.gain.setValueAtTime(0.3, audioContext.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+    
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.1);
   };
 
   const removeFromBasket = (cardDay: string) => {
@@ -237,6 +263,7 @@ export const Anudan: React.FC = () => {
                   <AnudanCard
                     card={card}
                     remainingAmount={allRemainingAmounts[card.day] || 0}
+                    successfulPayment={successfulPayments[card.day] || 0}
                     isLoading={isLoadingRemaining}
                     onAddToBasket={addToBasket}
                   />
@@ -275,12 +302,12 @@ export const Anudan: React.FC = () => {
 
       {/* Mobile Basket Modal */}
       {showMobileBasket && (
-        <div className="xl:hidden fixed inset-0 z-50 bg-black/50 flex items-end justify-center">
+        <div className="xl:hidden fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
           <m.div
-            initial={{ y: '100%' }}
-            animate={{ y: 0 }}
-            exit={{ y: '100%' }}
-            className="w-full max-w-2xl max-h-[80vh] rounded-t-2xl bg-[rgb(248,233,206)] p-4 sm:p-6 overflow-y-auto shadow-2xl"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.8, opacity: 0 }}
+            className="w-full max-w-2xl max-h-[80vh] rounded-2xl bg-[rgb(248,233,206)] p-4 sm:p-6 overflow-y-auto shadow-2xl"
           >
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-xl font-bold text-primary font-fraunces">Anudan Basket</h3>

@@ -5,23 +5,25 @@ import type { AnudanCard as AnudanCardType } from '../../types/anudan.types';
 interface AnudanCardProps {
   card: AnudanCardType;
   remainingAmount?: number;
+  successfulPayment?: number; // How much was actually paid successfully
   isLoading?: boolean;
   onAddToBasket?: (card: AnudanCardType, amount: number) => void;
   onBookingSoon?: () => void;
 }
 
-export const AnudanCard: React.FC<AnudanCardProps> = ({ card, remainingAmount = 0, isLoading = false, onAddToBasket, onBookingSoon }) => {
+export const AnudanCard: React.FC<AnudanCardProps> = ({ card, remainingAmount = 0, successfulPayment = 0, isLoading = false, onAddToBasket, onBookingSoon }) => {
   // Calculate total sum of all items in this section
   const totalCost = card.items.reduce((acc, item) => {
     const num = parseInt(item.cost.replace(/\D/g, ''), 10) || 0;
     return acc + num;
   }, 0);
 
-  // Calculate paid amount
-  const paidAmount = totalCost - remainingAmount;
+  // Calculate paid amount from successful payments (not reserved/pending)
+  const paidAmount = successfulPayment || 0;
   const hasPayment = paidAmount > 0;
 
-  const isFullySponsored = remainingAmount === 0;
+  // Only show as fulfilled when there's actual successful payment equal to total cost
+  const isFullySponsored = successfulPayment >= totalCost && successfulPayment > 0;
 
   const [inputAmount, setInputAmount] = useState<string>('');
   const [error, setError] = useState<string>('');

@@ -205,15 +205,19 @@ export class AnudanController {
   /**
    * Get real-time remaining amounts for each Anudan category (from in-memory state only)
    * This endpoint never queries MongoDB - it only reads the in-memory value
+   * 
+   * Also returns successful payment amounts so frontend knows what's truly fulfilled
    */
   getRemainingAmounts = async (req: Request, res: Response): Promise<void> => {
     try {
       const isReady = anudanStateService.isReady();
-      const result = anudanPaymentService.getAllRemaining();
+      const remainingResult = anudanPaymentService.getAllRemaining();
+      const successfulPayments = await anudanPaymentService.getSuccessfulPaymentAmounts();
 
-      // Add initialization status to response
+      // Add initialization status and successful payments to response
       res.status(200).json({
-        ...result,
+        ...remainingResult,
+        successfulPayments, // How much was actually paid successfully
         isReady
       });
     } catch (error: any) {

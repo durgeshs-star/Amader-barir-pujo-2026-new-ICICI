@@ -18,8 +18,8 @@ export class AbandonedPaymentCleanupService {
   private cleanupInterval: NodeJS.Timeout | null = null;
   
   // Configuration
-  private readonly CLEANUP_CHECK_INTERVAL_MS = 5 * 60 * 1000; // Check every 5 minutes
-  private readonly PENDING_PAYMENT_TIMEOUT_MS = 30 * 60 * 1000; // 30 minutes
+  private readonly CLEANUP_CHECK_INTERVAL_MS = 3 * 60 * 1000; // Check every 3 minutes
+  private readonly PENDING_PAYMENT_TIMEOUT_MS = 10 * 60 * 1000; // 10 minutes
 
   /**
    * Start the cleanup job (runs periodically)
