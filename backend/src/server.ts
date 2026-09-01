@@ -11,6 +11,7 @@ import { PaymentRepository } from './repositories/PaymentRepository';
 import { EmailService } from './services/EmailService';
 import { GoogleSheetsService } from './services/GoogleSheetsService';
 import { anudanStateService } from './services/anudanState.service';
+import { abandonedPaymentCleanupService } from './services/AbandonedPaymentCleanup';
 import { ContactController } from './controllers/ContactController';
 import { VolunteerController } from './controllers/VolunteerController';
 import { BhogController } from './controllers/BhogController';
@@ -192,6 +193,9 @@ const startServer = async () => {
 
     // Initialize Anudan state service (loads from MongoDB)
     await anudanStateService.initialize();
+
+    // Start cleanup service for abandoned payments
+    abandonedPaymentCleanupService.start();
 
     // Start Express server
     app.listen(PORT, () => {

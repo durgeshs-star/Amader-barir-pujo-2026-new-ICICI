@@ -39,7 +39,7 @@ export interface IAnudanPayment extends Document {
   convenienceFee?: number;
   serviceTax?: number;
   othCharge?: number;
-  paymentStatus?: 'pending' | 'success' | 'failed' | 'cancelled';
+  paymentStatus?: 'pending' | 'success' | 'failed' | 'cancelled' | 'abandoned';
   // WhatsApp notification tracking
   whatsappNotificationSent?: boolean;
   whatsappNotificationSentAt?: Date;
@@ -136,7 +136,7 @@ const AnudanPaymentSchema = new Schema<IAnudanPayment>(
     },
     paymentStatus: {
       type: String,
-      enum: ['pending', 'success', 'failed', 'cancelled'],
+      enum: ['pending', 'success', 'failed', 'cancelled', 'abandoned'],
       default: 'pending',
     },
     // WhatsApp notification tracking

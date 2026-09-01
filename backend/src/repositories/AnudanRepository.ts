@@ -27,7 +27,7 @@ export class AnudanRepository {
       remark: string;
     }>;
     totalAmount: number;
-    paymentStatus?: 'pending' | 'success' | 'failed' | 'cancelled';
+    paymentStatus?: 'pending' | 'success' | 'failed' | 'cancelled' | 'abandoned';
     iciciTxnId?: string;
     iciciPaymentId?: string;
     iciciPaymentMode?: string;

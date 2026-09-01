@@ -34,7 +34,7 @@ export class BhogRepository {
       quantity: number;
     }>;
     totalAmount: number;
-    paymentStatus?: 'pending' | 'success' | 'failed' | 'cancelled';
+    paymentStatus?: 'pending' | 'success' | 'failed' | 'cancelled' | 'abandoned';
     iciciTxnId?: string;
     iciciPaymentId?: string;
     iciciPaymentMode?: string;
