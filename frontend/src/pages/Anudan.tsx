@@ -307,7 +307,7 @@ export const Anudan: React.FC = () => {
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}
-            className="w-full max-w-2xl max-h-[80vh] rounded-2xl bg-[rgb(248,233,206)] p-4 sm:p-6 overflow-y-auto shadow-2xl"
+            className="mx-auto w-full max-w-2xl max-h-[80vh] rounded-2xl bg-[rgb(248,233,206)] p-4 sm:p-6 overflow-y-auto shadow-2xl"
           >
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-xl font-bold text-primary font-fraunces">Anudan Basket</h3>

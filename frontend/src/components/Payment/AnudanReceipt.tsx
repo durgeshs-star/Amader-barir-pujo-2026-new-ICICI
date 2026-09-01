@@ -87,8 +87,37 @@ export const AnudanReceipt: React.FC<AnudanReceiptProps> = ({ receiptData: propR
     try {
       await html2pdf().set(opt).from(element).save();
     } catch (error) {
-      console.error('Error generating PDF:', error);
-      toast.error('Failed to generate receipt. Please try again.');
+      console.error('html2pdf failed, falling back to browser print:', error);
+
+      try {
+        const printWindow = window.open('', '_blank', 'noopener,noreferrer,width=900,height=700');
+        if (!printWindow) {
+          toast.error('Please allow pop-ups to download the receipt.');
+          return;
+        }
+
+        const printable = element.cloneNode(true) as HTMLElement;
+        printable.style.width = '100%';
+        printable.style.maxWidth = '700px';
+        printable.style.margin = '0 auto';
+
+        printWindow.document.write('<!DOCTYPE html><html><head><title>Anudan Receipt</title><style>' +
+          'body{margin:0;padding:24px;background:#fff;color:#111;font-family:Arial,sans-serif;} ' +
+          'table{border-collapse:collapse;width:100%;font-size:13px;} ' +
+          'th,td{padding:8px 10px;border-bottom:1px solid #e5e7eb;} ' +
+          'th{background:#d97706;color:#fff;text-align:left;} ' +
+          'p{margin:4px 0;} ' +
+          '@media print{body{padding:0;} button{display:none;}}' +
+          '</style></head><body>');
+        printWindow.document.write(printable.outerHTML);
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.focus();
+        setTimeout(() => printWindow.print(), 250);
+      } catch (fallbackError) {
+        console.error('Fallback receipt print failed:', fallbackError);
+        toast.error('Failed to generate receipt. Please try again.');
+      }
     }
   };
 
