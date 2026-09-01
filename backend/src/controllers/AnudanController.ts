@@ -3,7 +3,7 @@ import { GoogleSheetsService } from '../services/GoogleSheetsService';
 import { AnudanRepository } from '../repositories/AnudanRepository';
 import { anudanPaymentService } from '../services/anudanPayment.service';
 import { anudanStateService } from '../services/anudanState.service';
-import { errorResponse } from '../utils/response.util';
+import { errorResponse, successResponse } from '../utils/response.util';
 import { iciciPGService, InitiateSalePayload } from '../services/iciciPG.service';
 import { sanitizeMerchantTxnNo } from '../services/iciciHash.service';
 
@@ -211,15 +211,17 @@ export class AnudanController {
   getRemainingAmounts = async (req: Request, res: Response): Promise<void> => {
     try {
       const isReady = anudanStateService.isReady();
-      const remainingResult = anudanPaymentService.getAllRemaining();
+      const remainingAmounts = anudanPaymentService.getAllRemaining().data.remainingAmounts;
       const successfulPayments = await anudanPaymentService.getSuccessfulPaymentAmounts();
 
-      // Add initialization status and successful payments to response
-      res.status(200).json({
-        ...remainingResult,
-        successfulPayments, // How much was actually paid successfully
-        isReady
-      });
+      // Return both remaining amounts and successful payments
+      res.status(200).json(
+        successResponse({
+          remainingAmounts,
+          successfulPayments, // How much was actually paid successfully
+          isReady
+        })
+      );
     } catch (error: any) {
       console.error('Error fetching remaining amounts:', error);
       res.status(500).json(errorResponse('Failed to fetch remaining amounts'));

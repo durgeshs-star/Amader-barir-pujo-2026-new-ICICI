@@ -106,12 +106,14 @@ export class AnudanRepository {
 
       const duration = Date.now() - startTime;
       console.log(`[AnudanRepository] getCollectedAmountsByCategory completed in ${duration}ms`);
+      console.log(`[AnudanRepository] Result:`, JSON.stringify(result, null, 2));
 
       const collectedAmounts: Record<string, number> = {};
       result.forEach((item: any) => {
         collectedAmounts[item._id] = item.totalAmount;
       });
 
+      console.log(`[AnudanRepository] Collected amounts:`, JSON.stringify(collectedAmounts, null, 2));
       return collectedAmounts;
     } catch (error) {
       console.error('Error fetching collected amounts by category:', error);
