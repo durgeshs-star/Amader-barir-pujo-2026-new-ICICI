@@ -13,6 +13,7 @@ import { BhogRepository } from '../repositories/BhogRepository';
 import { GoogleSheetsService } from '../services/GoogleSheetsService';
 import { anudanStateService } from '../services/anudanState.service';
 import { iciciPGService, PaymentCallbackPayload } from '../services/iciciPG.service';
+import { whatsAppService } from '../services/WhatsAppService';
 
 /**
  * Calculates ICICI PG gateway charges (2.75% surcharge + 18% GST on surcharge)
@@ -432,6 +433,11 @@ export class IciciPaymentController {
         payment.paymentStatus = 'success';
         await payment.save();
 
+        // Send WhatsApp confirmation (non-critical, fire and forget)
+        this.sendBhogWhatsAppConfirmation(payment).catch((error) => {
+          console.error('[WhatsApp] Failed to send Bhog confirmation:', error.message);
+        });
+
         // Log to Google Sheets (non-critical)
         await this.logBhogToSheets(payment);
 
@@ -801,6 +807,104 @@ export class IciciPaymentController {
     }
     const parsed = parseFloat(String(value));
     return isNaN(parsed) ? 0 : Math.round((parsed + Number.EPSILON) * 100) / 100;
+  }
+
+  /**
+   * Send WhatsApp confirmation for Bhog booking
+   * Idempotent: checks if notification already sent before sending
+   * Fire and forget: errors are logged but don't affect payment status
+   */
+  private async sendBhogWhatsAppConfirmation(payment: any): Promise<void> {
+    try {
+      // Idempotency check: don't send if already sent
+      if (payment.whatsappNotificationSent) {
+        console.log(`[WhatsApp] Notification already sent for Bhog payment ${payment.transactionId}, skipping`);
+        return;
+      }
+
+      // Extract booking details
+      const booking = payment.bookings?.[0] || {};
+      const categories = payment.categories || [];
+      const dayTitle = booking.day || categories[0]?.title || 'General Bhog';
+      
+      // Calculate total plates
+      const quantities = this.extractBhogQuantities(categories);
+      const totalPlates = booking.quantity || (quantities.adult + quantities.children05 + quantities.children5Plus + quantities.seniorCitizen);
+      
+      // Determine Bhog timing based on day
+      const bhogTiming = this.getBhogTiming(dayTitle);
+      
+      // Determine date for the Bhog day
+      const bhogDate = this.getBhogDate(dayTitle);
+
+      // Prepare WhatsApp template parameters
+      const params = {
+        customerName: payment.userInfo?.name || 'Customer',
+        day: dayTitle,
+        date: bhogDate,
+        numberOfBhog: String(totalPlates),
+        type: 'Bhog',
+        bhogTiming: bhogTiming,
+        whatsappNumber: payment.userInfo?.phone || '',
+      };
+
+      // Send WhatsApp message
+      await whatsAppService.sendBhogBookingConfirmation(params);
+
+      // Mark notification as sent
+      payment.whatsappNotificationSent = true;
+      payment.whatsappNotificationSentAt = new Date();
+      payment.whatsappNotificationError = undefined;
+      await payment.save();
+
+      console.log(`[WhatsApp] Bhog confirmation sent successfully for ${payment.transactionId}`);
+    } catch (error: any) {
+      // Log error but don't throw - payment success is independent of WhatsApp
+      console.error(`[WhatsApp] Failed to send Bhog confirmation for ${payment.transactionId}:`, error.message);
+      
+      // Store error in payment document
+      try {
+        payment.whatsappNotificationSent = false;
+        payment.whatsappNotificationError = error.message;
+        await payment.save();
+      } catch (saveError: any) {
+        console.error('[WhatsApp] Failed to save notification error:', saveError.message);
+      }
+    }
+  }
+
+  /**
+   * Get Bhog timing based on day title
+   */
+  private getBhogTiming(dayTitle: string): string {
+    const titleLower = dayTitle.toLowerCase();
+    
+    if (titleLower.includes('panchami')) return '12:30 PM - 2:30 PM';
+    if (titleLower.includes('saptami')) return '12:30 PM - 2:30 PM';
+    if (titleLower.includes('ashtami')) return '12:30 PM - 2:30 PM';
+    if (titleLower.includes('navami')) return '12:30 PM - 2:30 PM';
+    if (titleLower.includes('durga puja')) return '12:30 PM - 2:30 PM';
+    if (titleLower.includes('lakshmi puja')) return '12:30 PM - 2:30 PM';
+    if (titleLower.includes('saraswati puja')) return '12:30 PM - 2:30 PM';
+    
+    return '12:30 PM - 2:30 PM';
+  }
+
+  /**
+   * Get Bhog date based on day title
+   */
+  private getBhogDate(dayTitle: string): string {
+    const titleLower = dayTitle.toLowerCase();
+    
+    if (titleLower.includes('panchami')) return '15 October 2026';
+    if (titleLower.includes('saptami')) return '16 October 2026';
+    if (titleLower.includes('ashtami')) return '17 October 2026';
+    if (titleLower.includes('navami')) return '19 October 2026';
+    if (titleLower.includes('durga puja')) return '20 October 2026';
+    if (titleLower.includes('lakshmi puja')) return 'TBD';
+    if (titleLower.includes('saraswati puja')) return 'TBD';
+    
+    return '15-21 October 2026';
   }
 
   /**

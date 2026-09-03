@@ -24,6 +24,7 @@ import { createBhogRoutes } from './routes/bhogRoutes';
 import { createQuestionairRoutes } from './routes/questionairRoutes';
 import { createAnudanRoutes } from './routes/anudanRoutes';
 import { createIciciPaymentRoutes } from './routes/iciciPaymentRoutes';
+import { createWhatsAppRoutes } from './routes/whatsappRoutes';
 import { errorHandler } from './middleware/errorHandler';
 
 dotenv.config();
@@ -109,6 +110,7 @@ app.use('/api/payment', createIciciPaymentRoutes());
 app.use('/api/bhog', createBhogRoutes(bhogController));
 app.use('/api', createQuestionairRoutes(questionairController));
 app.use('/api/anudan', createAnudanRoutes(sheetsService));
+app.use('/api/whatsapp', createWhatsAppRoutes());
 
 // Health check endpoint
 app.get('/health', (req, res) => {
