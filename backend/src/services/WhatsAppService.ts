@@ -28,17 +28,24 @@ export class WhatsAppService {
   private phoneNumberId: string;
   private accessToken: string;
   private apiVersion: string;
+  private templateName: string;
+  private templateLanguage: string;
 
   constructor() {
     this.phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID || '';
     this.accessToken = process.env.WHATSAPP_ACCESS_TOKEN || '';
     this.apiVersion = process.env.WHATSAPP_GRAPH_API_VERSION || 'v18.0';
+    this.templateName = process.env.WHATSAPP_TEMPLATE_NAME || '';
+    this.templateLanguage = process.env.WHATSAPP_TEMPLATE_LANGUAGE || 'en';
 
     if (!this.phoneNumberId) {
       console.warn('[WhatsAppService] WHATSAPP_PHONE_NUMBER_ID not configured');
     }
     if (!this.accessToken) {
       console.warn('[WhatsAppService] WHATSAPP_ACCESS_TOKEN not configured');
+    }
+    if (!this.templateName) {
+      console.warn('[WhatsAppService] WHATSAPP_TEMPLATE_NAME not configured');
     }
 
     this.axiosInstance = axios.create({
@@ -171,7 +178,7 @@ export class WhatsAppService {
 
   /**
    * Send Bhog booking confirmation template
-   * Template name: bhog_booking_confirmation
+   * Template name and language are configured via environment variables
    */
   async sendBhogBookingConfirmation(
     params: BhogBookingConfirmationParams
@@ -210,8 +217,8 @@ export class WhatsAppService {
 
     return this.sendTemplateMessage(
       params.whatsappNumber,
-      'bhog_booking_confirmation',
-      'en',
+      this.templateName,
+      this.templateLanguage,
       components
     );
   }
