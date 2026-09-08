@@ -145,9 +145,9 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
           transactionId,
         });
 
-        if (response.success && response.redirectUrl) {
+        if (response.success && response.paymentUrl) {
           // Redirect to payment gateway
-          window.location.href = response.redirectUrl;
+          window.location.href = response.paymentUrl;
         } else {
           toast.error(response.error || 'Payment initiation failed');
         }
