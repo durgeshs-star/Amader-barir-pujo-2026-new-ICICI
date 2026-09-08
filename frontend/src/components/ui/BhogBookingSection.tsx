@@ -4,6 +4,8 @@ import UserInfoForm from './UserInfoForm';
 import type { UserInfoFormRef } from './UserInfoForm';
 import type { BhogBookingSectionProps, BhogBookingState } from '../../types/bhog';
 import BookingSoonModal from './BookingSoonModal';
+import { apiService } from '../../services/api';
+import { toast } from 'react-toastify';
 
 export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
   title,
@@ -25,7 +27,8 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
   const userInfoFormRef = React.useRef<UserInfoFormRef>(null);
   const [isUserInfoFilled, setIsUserInfoFilled] = useState(false);
   const [isConfirmed, setIsConfirmed] = useState(false);
-  const [showBookingSoonModal, setShowBookingSoonModal] = useState(true);
+  const [showBookingSoonModal, setShowBookingSoonModal] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleValueChange = (categoryId: string, value: number) => {
     setBookings((prev) => ({
@@ -77,8 +80,85 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
 
   const bookingSummary = getBookingSummary();
 
-  // Bhog payment flow intentionally disabled for now.
-  // The booking logic remains untouched; the UI simply blocks checkout buttons.
+  const handleBookingSubmit = async () => {
+    if (!userInfoFormRef.current) {
+      toast.error('Please fill in your information');
+      return;
+    }
+
+    const userInfo = userInfoFormRef.current.getUserInfo();
+    if (!userInfo.name || !userInfo.phone || !userInfo.email) {
+      toast.error('Please fill in all required fields');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const bookingData = {
+        title,
+        categories: categories.map(cat => ({
+          id: cat.id,
+          title: cat.title,
+          description: cat.description,
+          price: cat.price,
+          quantity: bookings[cat.id] || 0,
+        })),
+        timestamp: new Date().toISOString(),
+        isFree: isFreeBooking(),
+        userInfo,
+      };
+
+      if (isFreeBooking()) {
+        // Free booking
+        const orderId = `BHG-FREE-${Date.now()}`;
+        const transactionId = `TXN-${Date.now()}`;
+        
+        const response = await apiService.submitFreeBhogBooking({
+          ...bookingData,
+          orderId,
+          transactionId,
+        });
+
+        if (response.success) {
+          toast.success('Booking successful!');
+          // Reset form
+          setBookings(() => {
+            const initialState: BhogBookingState = {};
+            categories.forEach((cat) => {
+              initialState[cat.id] = 0;
+            });
+            return initialState;
+          });
+          setIsConfirmed(false);
+        } else {
+          toast.error(response.error || 'Booking failed');
+        }
+      } else {
+        // Paid booking
+        const orderId = `BHG-PAID-${Date.now()}`;
+        const transactionId = `TXN-${Date.now()}`;
+        
+        const response = await apiService.submitPaidBhogBooking({
+          ...bookingData,
+          orderId,
+          transactionId,
+        });
+
+        if (response.success && response.redirectUrl) {
+          // Redirect to payment gateway
+          window.location.href = response.redirectUrl;
+        } else {
+          toast.error(response.error || 'Payment initiation failed');
+        }
+      }
+    } catch (error: any) {
+      console.error('Booking error:', error);
+      toast.error(error.response?.data?.error || error.message || 'Booking failed');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <>
@@ -212,10 +292,11 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
         {totalCount > 0 && isUserInfoFilled && (isFreeBooking() || isConfirmed) && (
           <button
             type="button"
-            disabled
-            className="block lg:hidden w-full mt-4 px-6 py-3 bg-gray-300 text-gray-600 font-semibold rounded-xl border-0 transition-all duration-300 flex items-center justify-center space-x-2 h-[52px] cursor-not-allowed opacity-80"
+            onClick={handleBookingSubmit}
+            disabled={isSubmitting}
+            className="block lg:hidden w-full mt-4 px-6 py-3 bg-primary text-white font-semibold rounded-xl border-0 transition-all duration-300 flex items-center justify-center space-x-2 h-[52px] hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <span>Bookings Closed</span>
+            <span>{isSubmitting ? 'Processing...' : (isFreeBooking() ? 'Book Now (Free)' : 'Proceed to Payment')}</span>
           </button>
         )}
 
@@ -234,10 +315,11 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
             </div>
             <button
               type="button"
-              disabled
-              className="flex-shrink-0 min-w-[150px] px-6 py-2.5 bg-gray-300 text-gray-600 font-semibold rounded-md border-0 transition-all duration-300 flex items-center justify-center gap-2 cursor-not-allowed opacity-80"
+              onClick={handleBookingSubmit}
+              disabled={isSubmitting}
+              className="flex-shrink-0 min-w-[150px] px-6 py-2.5 bg-primary text-white font-semibold rounded-md border-0 transition-all duration-300 flex items-center justify-center gap-2 hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Bookings Closed
+              {isSubmitting ? 'Processing...' : (isFreeBooking() ? 'Book Now (Free)' : 'Proceed to Payment')}
             </button>
           </div>
         </div>
