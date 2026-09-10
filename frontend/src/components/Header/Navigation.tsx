@@ -1,4 +1,4 @@
-﻿import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { NavLink } from 'react-router-dom';
 import type { NavItem } from '../../config/navData';
 import { pujoScheduleDays, bhogBookingDays } from '../../config/navData';
@@ -54,7 +54,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ label, items }) => {
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
       >
-        <span>{label}</span>
+        <span className={label === 'Bhog Booking' ? 'bhog-beep' : undefined}>{label}</span>
       </button>
 
       {/* Dropdown panel */}

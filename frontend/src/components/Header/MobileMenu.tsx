@@ -166,7 +166,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
                 className="w-full flex justify-between items-center py-2 text-[15px] font-medium text-secondary hover:text-primary transition-colors text-left bg-transparent border-0 cursor-pointer"
                 aria-expanded={bhogOpen}
               >
-                <span>Bhog Booking</span>
+                <span className="bhog-beep">Bhog Booking</span>
                 {bhogOpen ? <FaChevronUp size={12} /> : <FaChevronDown size={12} />}
               </button>
               <ul
