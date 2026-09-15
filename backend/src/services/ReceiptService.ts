@@ -223,19 +223,25 @@ export class ReceiptService {
         doc.fontSize(12);
 
         let totalBase = 0;
-        const items = payment.categories || payment.bookings || [];
-        
+        // Use categories if available (contains actual selected Bhog categories)
+        // Fall back to bookings only if categories is not available
+        const items = payment.categories && payment.categories.length > 0
+          ? payment.categories.filter((cat: any) => cat.quantity > 0)
+          : payment.bookings || [];
+
+        console.log('[ReceiptService] Bhog receipt items:', items);
+
         items.forEach((item: any) => {
           if (item.title) {
-            // Categories format
-            doc.text(`${item.title}: ${item.quantity} x ₹${item.price} = ₹${(item.quantity * item.price).toFixed(2)}`);
+            // Categories format (preferred - contains actual Bhog categories)
+            doc.text(`${item.title}: ${item.quantity} ${item.quantity === 1 ? 'plate' : 'plates'} @ ₹${item.price} = ₹${(item.quantity * item.price).toFixed(2)}`);
             if (item.description) {
               doc.text(`  Description: ${item.description}`, { indent: 20 });
             }
             totalBase += item.quantity * item.price;
           } else {
-            // Bookings format
-            doc.text(`${item.day}: ${item.quantity} x ₹${item.amount} = ₹${(item.quantity * item.amount).toFixed(2)}`);
+            // Bookings format (fallback)
+            doc.text(`${item.day}: ${item.quantity} ${item.quantity === 1 ? 'plate' : 'plates'} @ ₹${item.amount} = ₹${(item.quantity * item.amount).toFixed(2)}`);
             if (item.remark) {
               doc.text(`  Remark: ${item.remark}`, { indent: 20 });
             }
