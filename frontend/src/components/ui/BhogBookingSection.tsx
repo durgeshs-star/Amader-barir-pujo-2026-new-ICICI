@@ -80,7 +80,14 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
 
   const bookingSummary = getBookingSummary();
 
+  const isDisabledPuja = title.toLowerCase().includes('saraswati') || title.toLowerCase().includes('lakshmi');
+
   const handleBookingSubmit = async () => {
+    if (isDisabledPuja) {
+      setShowBookingSoonModal(true);
+      return;
+    }
+
     if (!userInfoFormRef.current) {
       toast.error('Please fill in your information');
       return;
@@ -298,10 +305,10 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
           <button
             type="button"
             onClick={handleBookingSubmit}
-            disabled={isSubmitting}
+            disabled={isSubmitting || isDisabledPuja}
             className="block lg:hidden w-full mt-4 px-6 py-3 bg-primary text-white font-semibold rounded-xl border-0 transition-all duration-300 flex items-center justify-center space-x-2 h-[52px] hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <span>{isSubmitting ? 'Processing...' : (isFreeBooking() ? 'Book Now (Free)' : 'Proceed to Payment')}</span>
+            <span>{isSubmitting ? 'Processing...' : (isDisabledPuja ? 'Opening Soon' : (isFreeBooking() ? 'Book Now (Free)' : 'Proceed to Payment'))}</span>
           </button>
         )}
 
@@ -321,10 +328,10 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
             <button
               type="button"
               onClick={handleBookingSubmit}
-              disabled={isSubmitting}
+              disabled={isSubmitting || isDisabledPuja}
               className="flex-shrink-0 min-w-[150px] px-6 py-2.5 bg-primary text-white font-semibold rounded-md border-0 transition-all duration-300 flex items-center justify-center gap-2 hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isSubmitting ? 'Processing...' : (isFreeBooking() ? 'Book Now (Free)' : 'Proceed to Payment')}
+              {isSubmitting ? 'Processing...' : (isDisabledPuja ? 'Opening Soon' : (isFreeBooking() ? 'Book Now (Free)' : 'Proceed to Payment'))}
             </button>
           </div>
         </div>

@@ -24,10 +24,10 @@ const BHOG_HEADERS = [
   'Customer Name',
   'Mobile Number',
   'Email',
-  'Adult Plates',
-  'Children 0-5 Plates',
-  'Children 5+ Plates',
+  'Pandal Bhog Plates',
   'Senior Citizen Plates',
+  'Packed Bhog Plates',
+  'Children 0-5 Plates',
   'Total Plates',
   'Base Amount (₹)',
   'Gateway Charges (₹)',
@@ -38,10 +38,10 @@ const BHOG_HEADERS = [
   'Timestamp',
 ];
 const BHOG_COL = {
-  ADULT: 3,
-  CHILDREN_0_5: 4,
-  CHILDREN_5_PLUS: 5,
-  SENIOR: 6,
+  PANDAL_BHOG: 3,
+  SENIOR_CITIZEN: 4,
+  PACKED_BHOG: 5,
+  CHILDREN_0_5: 6,
   TOTAL_PLATES: 7,
   BASE_AMOUNT: 8,
   GATEWAY_CHARGES: 9,
@@ -82,49 +82,75 @@ export class BhogController {
 
   /**
    * Determine sheet name based on booking title
+   * Priority: Sandhi Puja must be checked before normal Ashtami
    */
   private getSheetNameFromTitle(title: string): string {
     const titleLower = title.toLowerCase();
-    
+    const sheetName = this.determineSheetName(titleLower);
+    console.log(`[BhogSheetRouting] title="${title}" -> sheet="${sheetName}"`);
+    return sheetName;
+  }
+
+  /**
+   * Core sheet name determination logic
+   * Separated for clarity and testability
+   */
+  private determineSheetName(titleLower: string): string {
+    // Check for Sandhi Puja FIRST (before normal Ashtami)
+    // Recognize both spellings: "puja" and "pujo", as well as "sandhi"
+    if (
+      titleLower.includes('sandhi puja') ||
+      titleLower.includes('sandhi pujo') ||
+      titleLower.includes('sandhi')
+    ) {
+      return 'Ashtami Sandhi Puja';
+    }
+
+    // Normal Ashtami Bhog (must NOT match Sandhi Puja)
+    if (titleLower.includes('ashtami')) {
+      return 'Ashtami Bhog';
+    }
+
+    // Other Bhog types
     if (titleLower.includes('panchami')) return 'Panchami Bhog';
     if (titleLower.includes('saptami')) return 'Saptami Bhog';
-    if (titleLower.includes('ashtami')) return 'Ashtami Bhog';
     if (titleLower.includes('navami')) return 'Navami Bhog';
     if (titleLower.includes('durga puja')) return 'Durga Puja Bhog';
-    if (titleLower.includes('lakshmi puja')) return 'Lakshmi Puja Bhog';
-    if (titleLower.includes('saraswati puja')) return 'Saraswati Puja Bhog';
-    
+    if (titleLower.includes('lakshmi')) return 'Lakshmi Puja Bhog';
+    if (titleLower.includes('saraswati')) return 'Saraswati Puja Bhog';
+
     return 'General Bhog Bookings';
   }
 
   /**
    * Extract bhog quantities from categories with defaults
+   * Maps frontend category IDs to sheet columns
    */
   private extractBhogQuantities(categories: any[]): {
-    adult: number;
-    children05: number;
-    children5Plus: number;
+    pandalBhog: number;
     seniorCitizen: number;
+    packedBhog: number;
+    children05: number;
   } {
     const quantities = {
-      adult: 0,
-      children05: 0,
-      children5Plus: 0,
-      seniorCitizen: 0
+      pandalBhog: 0,
+      seniorCitizen: 0,
+      packedBhog: 0,
+      children05: 0
     };
 
     for (const category of categories) {
-      const id = category.id.toLowerCase();
-      const quantity = category.quantity || 0;
+      const id = String(category.id || '').toLowerCase();
+      const quantity = Number(category.quantity) || 0;
 
-      if (id.includes('adult')) {
-        quantities.adult = quantity;
-      } else if (id.includes('children-0-5') || id.includes('children05')) {
-        quantities.children05 = quantity;
-      } else if (id.includes('children-5') || id.includes('children5')) {
-        quantities.children5Plus = quantity;
-      } else if (id.includes('senior')) {
+      if (id === 'bhog-booking') {
+        quantities.pandalBhog = quantity;
+      } else if (id === 'bhog-booking-senior' || id.includes('senior')) {
         quantities.seniorCitizen = quantity;
+      } else if (id === 'packed-bhog') {
+        quantities.packedBhog = quantity;
+      } else if (id === 'children-0-5' || id.includes('children05')) {
+        quantities.children05 = quantity;
       }
     }
 
@@ -205,10 +231,10 @@ export class BhogController {
       rowData[0] = userInfo?.name || '';
       rowData[1] = userInfo?.phone || '';
       rowData[2] = userInfo?.email || '';
-      rowData[BHOG_COL.ADULT] = quantities.adult;
+      rowData[BHOG_COL.PANDAL_BHOG] = quantities.pandalBhog;
+      rowData[BHOG_COL.SENIOR_CITIZEN] = quantities.seniorCitizen;
+      rowData[BHOG_COL.PACKED_BHOG] = quantities.packedBhog;
       rowData[BHOG_COL.CHILDREN_0_5] = quantities.children05;
-      rowData[BHOG_COL.CHILDREN_5_PLUS] = quantities.children5Plus;
-      rowData[BHOG_COL.SENIOR] = quantities.seniorCitizen;
       rowData[BHOG_COL.TOTAL_PLATES] = totalCount;
       rowData[BHOG_COL.BASE_AMOUNT] = 0;
       rowData[BHOG_COL.GATEWAY_CHARGES] = 0;

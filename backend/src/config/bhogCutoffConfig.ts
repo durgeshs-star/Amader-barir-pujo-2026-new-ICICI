@@ -67,6 +67,9 @@ export const getCutoffConfig = (pujaKey: string): BhogCutoffConfig | undefined =
  */
 export const getCutoffConfigByTitle = (title: string): BhogCutoffConfig | undefined => {
   const titleLower = title.toLowerCase();
+  if (titleLower.includes('sandhi')) {
+    return BHOG_CUTOFF_CONFIGS.find(config => config.pujaKey === 'sandhiPuja');
+  }
   return BHOG_CUTOFF_CONFIGS.find(config => 
     titleLower.includes(config.pujaKey.toLowerCase()) ||
     titleLower.includes(config.pujaName.toLowerCase())
