@@ -119,9 +119,9 @@
 
   /* Surfaces */
   --color-dark-bg: #2A0A14;
-  --color-light-bg: oklch(98.7% 0.022 95.277);
-  --color-surface: oklch(98.7% 0.022 95.277);
-  --color-surface-alt: oklch(98.7% 0.022 95.277);
+  --color-light-bg: #FDF6F8;
+  --color-surface: #FDF6F8;
+  --color-surface-alt: #FDF6F8;
   --color-surface-inverse: #2A0A14;
 
   /* Semantic text */

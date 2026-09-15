@@ -8,7 +8,7 @@ export class EmailService implements IEmailService {
 
   constructor() {
     console.log('[EmailService] Initializing SMTP transporter');
-    
+
     // Validate EMAIL_FROM is set
     this.emailFrom = process.env.EMAIL_FROM || '';
     if (!this.emailFrom) {
@@ -17,18 +17,27 @@ export class EmailService implements IEmailService {
     } else {
       console.log('[EmailService] Email FROM address:', this.emailFrom);
     }
-    
+
+    // Validate SMTP_HOST is set
+    const smtpHost = process.env.SMTP_HOST;
+    if (!smtpHost) {
+      console.error('[EmailService] CRITICAL: SMTP_HOST environment variable is not set. Emails will fail.');
+      console.error('[EmailService] Set SMTP_HOST=mail.abp.proplusdatafoundation.com for cPanel SMTP.');
+    } else {
+      console.log('[EmailService] SMTP host:', smtpHost);
+    }
+
     this.transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST || 'smtp.gmail.com',
-      port: Number(process.env.SMTP_PORT || '587'),
-      secure: Number(process.env.SMTP_PORT || '587') === 465,
+      host: smtpHost,
+      port: Number(process.env.SMTP_PORT || '465'),
+      secure: process.env.SMTP_SECURE === 'true' || Number(process.env.SMTP_PORT || '465') === 465,
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS,
       },
       // Timeout settings to prevent hanging
       connectionTimeout: 30000, // 30 seconds
-      greetingTimeout: 30000,   // 30 seconds  
+      greetingTimeout: 30000,   // 30 seconds
       socketTimeout: 30000,     // 30 seconds
       // TLS settings
       tls: {
