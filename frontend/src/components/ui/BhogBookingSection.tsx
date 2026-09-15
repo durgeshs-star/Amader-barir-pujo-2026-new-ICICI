@@ -122,6 +122,11 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
 
         if (response.success) {
           toast.success('Booking successful!');
+          
+          // Redirect to payment success page to show receipt
+          const { orderId, transactionId, totalAmount } = response.data;
+          window.location.href = `/payment/success?orderId=${encodeURIComponent(orderId)}&transactionId=${encodeURIComponent(transactionId)}&amount=${totalAmount}&fromBhog=true`;
+          
           // Reset form
           setBookings(() => {
             const initialState: BhogBookingState = {};

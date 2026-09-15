@@ -196,8 +196,9 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
                   const categoryId = String(category.id || '').toLowerCase();
                   return category.quantity > 0 && (categoryId === 'children-0-5' || categoryId.includes('senior'));
                 }),
+                receiptPath: receiptData.receiptPath,
               } : undefined}
-            />
+              />
             </Suspense>
           )}
 

@@ -75,8 +75,10 @@ export class ReceiptService {
     // Create receipts directory if it doesn't exist
     this.receiptsDir = path.join(process.cwd(), 'receipts');
     if (!fs.existsSync(this.receiptsDir)) {
+      console.log('[ReceiptService] Creating receipts directory:', this.receiptsDir);
       fs.mkdirSync(this.receiptsDir, { recursive: true });
     }
+    console.log('[ReceiptService] Receipts directory:', this.receiptsDir);
   }
 
   /**
@@ -273,16 +275,28 @@ export class ReceiptService {
         doc.end();
 
         stream.on('finish', () => {
-          console.log(`✅ Bhog receipt generated: ${filePath}`);
-          resolve(filePath);
+          // Verify file exists and has content
+          try {
+            const stats = fs.statSync(filePath);
+            if (stats.size === 0) {
+              console.error('[ReceiptService] Bhog receipt file is empty:', filePath);
+              reject(new Error('Generated receipt file is empty'));
+              return;
+            }
+            console.log(`✅ Bhog receipt generated: ${filePath} (size: ${stats.size} bytes)`);
+            resolve(filePath);
+          } catch (statError) {
+            console.error('[ReceiptService] Failed to verify receipt file:', statError);
+            reject(statError);
+          }
         });
 
         stream.on('error', (error) => {
-          console.error('❌ Error generating Bhog receipt:', error);
+          console.error('❌ Bhog receipt stream error:', error);
           reject(error);
         });
       } catch (error) {
-        console.error('❌ Error creating Bhog receipt:', error);
+        console.error('❌ Bhog receipt generation error:', error);
         reject(error);
       }
     });

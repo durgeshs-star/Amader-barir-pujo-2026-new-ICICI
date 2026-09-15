@@ -9,6 +9,7 @@ import React, { useRef } from 'react';
 import html2pdf from 'html2pdf.js';
 import { toast } from 'react-toastify';
 import { CONTACT_EMAIL } from '../../config/constants';
+import { API_URL } from '../../config/api';
 
 interface BhogCategory {
   id: string;
@@ -38,6 +39,8 @@ interface BhogReceiptData {
   convenienceFee?: number;
   serviceTax?: number;
   othCharge?: number;
+  // Server-side receipt path
+  receiptPath?: string;
 }
 
 interface BhogReceiptProps {
@@ -68,15 +71,66 @@ export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propRecei
   };
 
   const handleDownloadReceipt = async () => {
-    console.log('Download button clicked');
+    console.log('[BhogReceipt] Download button clicked');
+    console.log('[BhogReceipt] Receipt data:', receiptData);
+    console.log('[BhogReceipt] receiptPath:', receiptData.receiptPath);
 
+    // First try to download from server if receiptPath is available
+    if (receiptData.receiptPath) {
+      try {
+        console.log('[BhogReceipt] Downloading from server:', receiptData.receiptPath);
+        const filename = receiptData.receiptPath.split('/').pop() || `Receipt-${receiptData.orderId}.pdf`;
+        const downloadUrl = `${API_URL}/api/bhog/receipt/${encodeURIComponent(filename)}`;
+        
+        console.log('[BhogReceipt] Fetching PDF from:', downloadUrl);
+        const response = await fetch(downloadUrl);
+        
+        console.log('[BhogReceipt] Response status:', response.status);
+        console.log('[BhogReceipt] Response ok:', response.ok);
+        
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error('[BhogReceipt] Server error response:', errorText);
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        const blob = await response.blob();
+        console.log('[BhogReceipt] PDF blob received, size:', blob.size);
+        console.log('[BhogReceipt] Blob type:', blob.type);
+        
+        if (blob.size === 0) {
+          throw new Error('Received empty PDF file from server');
+        }
+        
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Bhog-Receipt-${receiptData.orderId}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+        
+        console.log('[BhogReceipt] PDF downloaded successfully from server');
+        toast.success('Receipt downloaded successfully');
+        return;
+      } catch (error) {
+        console.error('[BhogReceipt] Server download failed, falling back to client-side generation:', error);
+        console.error('[BhogReceipt] Server download error details:', error instanceof Error ? error.message : String(error));
+        // Fall through to client-side generation
+      }
+    } else {
+      console.log('[BhogReceipt] No receiptPath available, using client-side generation');
+    }
+
+    // Fallback: client-side PDF generation using html2pdf.js
     if (!receiptRef.current) {
-      console.error('Receipt ref is not available');
+      console.error('[BhogReceipt] Receipt ref is not available');
       toast.error('Unable to generate receipt. Please try again.');
       return;
     }
 
-    console.log('Receipt ref found:', receiptRef.current);
+    console.log('[BhogReceipt] Receipt ref found:', receiptRef.current);
     const element = receiptRef.current;
 
     const opt = {
@@ -97,11 +151,14 @@ export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propRecei
     };
 
     try {
-      console.log('Starting PDF generation with options:', opt);
+      console.log('[BhogReceipt] Starting client-side PDF generation with options:', opt);
+      console.log('[BhogReceipt] Element to convert:', element);
       await html2pdf().set(opt).from(element).save();
-      console.log('PDF generated successfully');
+      console.log('[BhogReceipt] PDF generated and downloaded successfully');
+      toast.success('Receipt downloaded successfully');
     } catch (error) {
-      console.error('Error generating PDF:', error);
+      console.error('[BhogReceipt] Error generating PDF:', error);
+      console.error('[BhogReceipt] Error details:', error instanceof Error ? error.message : String(error));
       toast.error('Failed to generate receipt. Please try again.');
     }
   };

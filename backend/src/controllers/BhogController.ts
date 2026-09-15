@@ -10,6 +10,8 @@ import { BhogRepository } from '../repositories/BhogRepository';
 import { iciciPGService, InitiateSalePayload } from '../services/iciciPG.service';
 import { sanitizeMerchantTxnNo } from '../services/iciciHash.service';
 import { isBhogBookingClosedByTitle, getCutoffErrorMessageByTitle } from '../config/bhogCutoffConfig';
+import { ReceiptService } from '../services/ReceiptService';
+import { EmailService } from '../services/EmailService';
 
 // ---------------------------------------------------------------------------
 // Bhog sheet column layout — kept identical to the layout written by
@@ -50,10 +52,14 @@ const BHOG_BOLD_COLUMNS = [BHOG_COL.TOTAL_PLATES, BHOG_COL.ACTUAL_AMOUNT];
 export class BhogController {
   private sheetsService: GoogleSheetsService;
   private bhogRepository: BhogRepository;
+  private receiptService: ReceiptService;
+  private emailService: EmailService;
 
   constructor(sheetsService: GoogleSheetsService) {
     this.sheetsService = sheetsService;
     this.bhogRepository = new BhogRepository();
+    this.receiptService = new ReceiptService();
+    this.emailService = new EmailService();
   }
 
   /** Get the saved Bhog booking so the payment-success page can render its receipt. */
@@ -215,7 +221,7 @@ export class BhogController {
       await this.appendOrInsertBhogRow(sheetName, rowData);
 
       // Store booking in MongoDB
-      await this.bhogRepository.createPayment({
+      const savedPayment = await this.bhogRepository.createPayment({
         orderId,
         transactionId,
         timestamp: receiptTimestamp,
@@ -226,7 +232,7 @@ export class BhogController {
           quantity: totalCount,
           remark: 'Free booking'
         }],
-        categories,
+        categories: categories.filter(cat => cat.quantity > 0), // Only include selected categories
         totalAmount,
         paymentStatus: 'success'
       });
@@ -234,18 +240,55 @@ export class BhogController {
       // Recalculate the single TOTAL row at the bottom of the sheet
       await this.recalculateBhogTotal(sheetName);
 
+      // Generate receipt for free Bhog booking
+      let receiptPath: string | null = null;
+      try {
+        console.log('[Free Bhog] Generating receipt for transactionId:', transactionId);
+        receiptPath = await this.receiptService.generateBhogReceipt(savedPayment);
+        console.log('[Free Bhog] Receipt generated successfully at:', receiptPath);
+        
+        // Save receiptPath to the payment document
+        savedPayment.receiptPath = receiptPath;
+        await savedPayment.save();
+      } catch (receiptError) {
+        console.error('[Free Bhog] Failed to generate receipt:', receiptError);
+        // Receipt generation failure should not fail the booking
+      }
+
+      // Send confirmation email with receipt attachment
+      if (receiptPath && userInfo?.email) {
+        try {
+          console.log('[Free Bhog] Sending confirmation email to:', userInfo.email);
+          await this.emailService.sendBhogConfirmationEmail({
+            to: userInfo.email,
+            customerName: userInfo.name,
+            day: title,
+            date: new Date().toLocaleDateString('en-IN', { dateStyle: 'long' }),
+            numberOfBhog: totalCount.toString(),
+            bhogTiming: 'Lunch',
+            isFree: true,
+            totalAmount: 0,
+            receiptPath,
+          });
+          
+          savedPayment.emailNotificationSent = true;
+          savedPayment.emailNotificationSentAt = new Date();
+          await savedPayment.save();
+          console.log('[Free Bhog] Confirmation email sent successfully');
+        } catch (emailError) {
+          console.error('[Free Bhog] Failed to send confirmation email:', emailError);
+        }
+      }
+
       res.status(200).json({
         success: true,
         message: 'Free bhog booking recorded successfully',
         data: {
-          title,
-          categories,
-          totalAmount,
-          totalCount,
-          timestamp: receiptTimestamp,
-          userInfo,
           orderId,
           transactionId,
+          totalAmount,
+          fromBhog: true,
+          receiptPath,
         }
       });
     } catch (error: any) {

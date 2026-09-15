@@ -48,6 +48,12 @@ export interface IBhogPayment extends Document {
   whatsappNotificationSent?: boolean;
   whatsappNotificationSentAt?: Date;
   whatsappNotificationError?: string;
+  // Email notification tracking
+  emailNotificationSent?: boolean;
+  emailNotificationSentAt?: Date;
+  emailNotificationError?: string;
+  // Server-side receipt path
+  receiptPath?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -159,6 +165,21 @@ const BhogPaymentSchema = new Schema<IBhogPayment>(
       type: Date,
     },
     whatsappNotificationError: {
+      type: String,
+    },
+    // Email notification tracking
+    emailNotificationSent: {
+      type: Boolean,
+      default: false,
+    },
+    emailNotificationSentAt: {
+      type: Date,
+    },
+    emailNotificationError: {
+      type: String,
+    },
+    // Server-side receipt path
+    receiptPath: {
       type: String,
     },
   },
