@@ -43,15 +43,8 @@ export class EmailService implements IEmailService {
       logger: process.env.NODE_ENV === 'development',
     });
 
-    // Verify SMTP connection on startup
-    console.log('[EmailService] Verifying SMTP connection');
-    this.transporter.verify((error, success) => {
-      if (error) {
-        console.error('[EmailService] SMTP verification failed:', error);
-      } else {
-        console.log('[EmailService] SMTP server is ready to send emails');
-      }
-    });
+    // SMTP errors are handled by each send operation. Avoid opening a second
+    // connection here, which some providers reset while a message is sending.
   }
 
   async sendEmail(options: EmailOptions): Promise<void> {
@@ -88,21 +81,31 @@ export class EmailService implements IEmailService {
     }
   }
 
-  /**
-   * Send Bhog booking confirmation email with receipt attachment
-   */
+  /** Send a Bhog booking confirmation email to the booking customer. */
   async sendBhogConfirmationEmail(params: {
     to: string;
     customerName: string;
     day: string;
     date: string;
-    numberOfBhog: string;
     bhogTiming: string;
     isFree: boolean;
     totalAmount: number;
-    receiptPath: string;
+    categories: Array<{ title: string; quantity: number }>;
   }): Promise<void> {
-    const { to, customerName, day, date, numberOfBhog, bhogTiming, isFree, totalAmount, receiptPath } = params;
+    const { to, customerName, day, date, bhogTiming, isFree, totalAmount, categories } = params;
+    const totalPlates = categories.reduce((sum, category) => sum + Number(category.quantity || 0), 0);
+    const categoryText = categories
+      .map((category) => `- ${category.title}: ${category.quantity} ${category.quantity === 1 ? 'plate' : 'plates'}`)
+      .join('\n');
+    const categoryHtml = categories
+      .map((category) => `<li><strong>${category.title}:</strong> ${category.quantity} ${category.quantity === 1 ? 'plate' : 'plates'}</li>`)
+      .join('');
+    const paymentSummary = isFree
+      ? 'Booking Type: FREE\nAmount Paid: INR 0.00'
+      : `Booking Type: PAID\nAmount Paid: INR ${totalAmount.toFixed(2)}`;
+    const paymentSummaryHtml = isFree
+      ? '<li><strong>Booking Type:</strong> FREE</li><li><strong>Amount Paid:</strong> INR 0.00</li>'
+      : `<li><strong>Booking Type:</strong> PAID</li><li><strong>Amount Paid:</strong> INR ${totalAmount.toFixed(2)}</li>`;
 
     const emailText = `
 Dear ${customerName},
@@ -112,13 +115,13 @@ Your Bhog booking has been confirmed!
 Booking Details:
 - Day: ${day}
 - Date: ${date}
-- Number of Bhog: ${numberOfBhog}
 - Bhog Timing: ${bhogTiming}
-- ${isFree ? 'Booking Type: FREE' : `Total Amount: ₹${totalAmount.toFixed(2)}`}
+- Total Plates: ${totalPlates}
+- Categories:
+${categoryText}
+- ${paymentSummary}
 
 Thank you for your booking with Amader Barir Pujo 2026.
-
-Please find your receipt attached to this email.
 
 Warm regards,
 Amader Barir Puja 2026 Team
@@ -135,14 +138,16 @@ Amader Barir Puja 2026 Team
     <ul style="list-style: none; padding: 0;">
       <li><strong>Day:</strong> ${day}</li>
       <li><strong>Date:</strong> ${date}</li>
-      <li><strong>Number of Bhog:</strong> ${numberOfBhog}</li>
       <li><strong>Bhog Timing:</strong> ${bhogTiming}</li>
-      <li><strong>${isFree ? 'Booking Type: FREE' : `Total Amount: ₹${totalAmount.toFixed(2)}`}</strong></li>
+      <li><strong>Total Plates:</strong> ${totalPlates}</li>
+      <li><strong>Categories:</strong>
+        <ul>${categoryHtml}</ul>
+      </li>
+      ${paymentSummaryHtml}
     </ul>
   </div>
   
   <p>Thank you for your booking with Amader Barir Pujo 2026.</p>
-  <p>Please find your receipt attached to this email.</p>
   
   <p style="margin-top: 30px;">Warm regards,<br>Amader Barir Puja 2026 Team</p>
 </div>
@@ -154,12 +159,6 @@ Amader Barir Puja 2026 Team
       subject: 'Your Bhog Booking Confirmation – Amader Barir Pujo 2026',
       text: emailText,
       html: emailHtml,
-      attachments: [
-        {
-          filename: `Bhog_Receipt_${day}_${Date.now()}.pdf`,
-          path: receiptPath,
-        },
-      ],
     };
 
     console.log('[EmailService] Sending Bhog confirmation email to:', to);

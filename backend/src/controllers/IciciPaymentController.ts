@@ -14,6 +14,8 @@ import { GoogleSheetsService } from '../services/GoogleSheetsService';
 import { anudanStateService } from '../services/anudanState.service';
 import { iciciPGService, PaymentCallbackPayload } from '../services/iciciPG.service';
 import { whatsAppService } from '../services/WhatsAppService';
+import { ReceiptService } from '../services/ReceiptService';
+import { EmailService } from '../services/EmailService';
 
 /**
  * Calculates ICICI PG gateway charges (2.75% surcharge + 18% GST on surcharge)
@@ -136,6 +138,8 @@ export class IciciPaymentController {
   private anudanRepository: AnudanRepository;
   private bhogRepository: BhogRepository;
   private sheetsService: GoogleSheetsService;
+  private receiptService: ReceiptService;
+  private emailService: EmailService;
   private readonly FRONTEND_URL: string;
   private readonly ANUDAN_SHEET_NAME = 'Anudan Contributions';
 
@@ -143,6 +147,8 @@ export class IciciPaymentController {
     this.anudanRepository = new AnudanRepository();
     this.bhogRepository = new BhogRepository();
     this.sheetsService = new GoogleSheetsService();
+    this.receiptService = new ReceiptService();
+    this.emailService = new EmailService();
     this.FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
   }
 
@@ -312,6 +318,54 @@ export class IciciPaymentController {
         payment.paymentStatus = 'success';
         await payment.save();
 
+        // Generate receipt for Anudan payment
+        let receiptPath: string | null = null;
+        try {
+          console.log('[Anudan] Generating receipt for:', payment.transactionId);
+          receiptPath = await this.receiptService.generateAnudanReceipt(payment);
+          console.log('[Anudan] Receipt generated:', receiptPath);
+        } catch (receiptError) {
+          console.error('[Anudan] Failed to generate receipt:', receiptError);
+          // Don't fail the payment if receipt generation fails
+        }
+
+        // Send Anudan confirmation email with its receipt attachment.
+        if (receiptPath && payment.userInfo?.email && !payment.emailNotificationSent) {
+          try {
+            console.log('[Anudan] Sending confirmation email to:', payment.userInfo.email);
+            const categories = payment.categories.map((cat: any) => ({
+              day: cat.day,
+              amount: cat.amount,
+            }));
+            await this.emailService.sendAnudanConfirmationEmail({
+              to: payment.userInfo.email,
+              customerName: payment.userInfo.name,
+              categories,
+              totalAmount: payment.actualAmountCharged || payment.totalAmount,
+              receiptPath,
+            });
+            
+            // Update payment with email notification status
+            payment.emailNotificationSent = true;
+            payment.emailNotificationSentAt = new Date();
+            await payment.save();
+            console.log('[Anudan] Confirmation email sent successfully');
+          } catch (emailError) {
+            console.error('[Anudan] Failed to send confirmation email:', emailError);
+            // Store error but don't fail the payment
+            try {
+              payment.emailNotificationError = typeof emailError === 'object' ? String(emailError) : 'Unknown email error';
+              await payment.save();
+            } catch (saveError) {
+              console.error('[Anudan] Failed to save email error:', saveError);
+            }
+          }
+        } else if (!payment.userInfo?.email) {
+          console.warn('[Anudan] No email provided, skipping confirmation email');
+        } else if (payment.emailNotificationSent) {
+          console.log('[Anudan] Email already sent, skipping');
+        }
+
         // Broadcast SSE updates for each category
         for (const category of payment.categories) {
           const campaignId = category.day;
@@ -432,6 +486,61 @@ export class IciciPaymentController {
         payment.iciciResponseCode = callbackBody.responseCode;
         payment.paymentStatus = 'success';
         await payment.save();
+
+        // Generate receipt for paid Bhog booking
+        let receiptPath: string | null = null;
+        try {
+          console.log('[Paid Bhog] Generating receipt for:', payment.transactionId);
+          receiptPath = await this.receiptService.generateBhogReceipt(payment);
+          console.log('[Paid Bhog] Receipt generated:', receiptPath);
+        } catch (receiptError) {
+          console.error('[Paid Bhog] Failed to generate receipt:', receiptError);
+          // Don't fail the payment if receipt generation fails
+        }
+
+        // Send booking details to the customer. Receipt generation is independent
+        // from email delivery and no PDF is attached.
+        if (payment.userInfo?.email && !payment.emailNotificationSent) {
+          try {
+            console.log('[Paid Bhog] Sending confirmation email to:', payment.userInfo.email);
+            const booking = payment.bookings?.[0] || payment.categories?.[0] || {};
+            const categories = (payment.categories?.length ? payment.categories : payment.bookings || [])
+              .filter((category: any) => Number(category.quantity) > 0)
+              .map((category: any) => ({
+                title: category.title || category.day || category.id || 'Bhog',
+                quantity: Number(category.quantity),
+              }));
+            await this.emailService.sendBhogConfirmationEmail({
+              to: payment.userInfo.email,
+              customerName: payment.userInfo.name,
+              day: booking.day || 'Bhog',
+              date: new Date().toLocaleDateString('en-IN', { dateStyle: 'long' }),
+              bhogTiming: 'Lunch',
+              isFree: false,
+              totalAmount: payment.actualAmountCharged || payment.totalAmount,
+              categories,
+            });
+            
+            // Update payment with email notification status
+            payment.emailNotificationSent = true;
+            payment.emailNotificationSentAt = new Date();
+            await payment.save();
+            console.log('[Paid Bhog] Confirmation email sent successfully');
+          } catch (emailError) {
+            console.error('[Paid Bhog] Failed to send confirmation email:', emailError);
+            // Store error but don't fail the payment
+            try {
+              payment.emailNotificationError = typeof emailError === 'object' ? String(emailError) : 'Unknown email error';
+              await payment.save();
+            } catch (saveError) {
+              console.error('[Paid Bhog] Failed to save email error:', saveError);
+            }
+          }
+        } else if (!payment.userInfo?.email) {
+          console.warn('[Paid Bhog] No email provided, skipping confirmation email');
+        } else if (payment.emailNotificationSent) {
+          console.log('[Paid Bhog] Email already sent, skipping');
+        }
 
         // Send WhatsApp confirmation (non-critical, fire and forget)
         this.sendBhogWhatsAppConfirmation(payment).catch((error) => {

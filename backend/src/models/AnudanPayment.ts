@@ -44,6 +44,10 @@ export interface IAnudanPayment extends Document {
   whatsappNotificationSent?: boolean;
   whatsappNotificationSentAt?: Date;
   whatsappNotificationError?: string;
+  // Email notification tracking
+  emailNotificationSent?: boolean;
+  emailNotificationSentAt?: Date;
+  emailNotificationError?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -148,6 +152,17 @@ const AnudanPaymentSchema = new Schema<IAnudanPayment>(
       type: Date,
     },
     whatsappNotificationError: {
+      type: String,
+    },
+    // Email notification tracking
+    emailNotificationSent: {
+      type: Boolean,
+      default: false,
+    },
+    emailNotificationSentAt: {
+      type: Date,
+    },
+    emailNotificationError: {
       type: String,
     },
   },

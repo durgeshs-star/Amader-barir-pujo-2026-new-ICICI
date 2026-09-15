@@ -255,8 +255,9 @@ export class BhogController {
         // Receipt generation failure should not fail the booking
       }
 
-      // Send confirmation email with receipt attachment
-      if (receiptPath && userInfo?.email) {
+      // Send booking details to the customer. Receipt generation is independent
+      // from email delivery and no PDF is attached.
+      if (userInfo?.email) {
         try {
           console.log('[Free Bhog] Sending confirmation email to:', userInfo.email);
           await this.emailService.sendBhogConfirmationEmail({
@@ -264,11 +265,15 @@ export class BhogController {
             customerName: userInfo.name,
             day: title,
             date: new Date().toLocaleDateString('en-IN', { dateStyle: 'long' }),
-            numberOfBhog: totalCount.toString(),
             bhogTiming: 'Lunch',
             isFree: true,
             totalAmount: 0,
-            receiptPath,
+            categories: categories
+              .filter((category: any) => Number(category.quantity) > 0)
+              .map((category: any) => ({
+                title: category.title || category.id || 'Bhog',
+                quantity: Number(category.quantity),
+              })),
           });
           
           savedPayment.emailNotificationSent = true;
