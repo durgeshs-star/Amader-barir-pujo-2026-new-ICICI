@@ -255,8 +255,7 @@ export class BhogController {
         // Receipt generation failure should not fail the booking
       }
 
-      // Send booking details to the customer. Receipt generation is independent
-      // from email delivery and no PDF is attached.
+      // Send booking details to the customer with receipt attachment
       if (userInfo?.email) {
         try {
           console.log('[Free Bhog] Sending confirmation email to:', userInfo.email);
@@ -274,14 +273,17 @@ export class BhogController {
                 title: category.title || category.id || 'Bhog',
                 quantity: Number(category.quantity),
               })),
+            receiptPath: receiptPath || undefined,
           });
-          
+
           savedPayment.emailNotificationSent = true;
           savedPayment.emailNotificationSentAt = new Date();
           await savedPayment.save();
           console.log('[Free Bhog] Confirmation email sent successfully');
         } catch (emailError) {
-          console.error('[Free Bhog] Failed to send confirmation email:', emailError);
+          console.error('[Free Bhog] Failed to send confirmation email to:', userInfo.email);
+          console.error('[Free Bhog] Email error details:', emailError instanceof Error ? emailError.message : String(emailError));
+          // Email failure should not fail the booking
         }
       }
 

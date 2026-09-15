@@ -7,24 +7,30 @@ export class EmailService implements IEmailService {
   private emailFrom: string;
 
   constructor() {
-    console.log('[EmailService] Initializing SMTP transporter');
+    console.log('[EmailService] SMTP configuration loaded');
 
     // Validate EMAIL_FROM is set
     this.emailFrom = process.env.EMAIL_FROM || '';
     if (!this.emailFrom) {
       console.error('[EmailService] CRITICAL: EMAIL_FROM environment variable is not set. Emails will fail.');
-      console.error('[EmailService] Set EMAIL_FROM=info@abp.proplusdatafoundation.com in production environment.');
+      console.error('[EmailService] Set EMAIL_FROM=info@proplusdatafoundation.com in production environment.');
     } else {
-      console.log('[EmailService] Email FROM address:', this.emailFrom);
+      console.log('[EmailService] Email from:', this.emailFrom);
     }
 
     // Validate SMTP_HOST is set
     const smtpHost = process.env.SMTP_HOST;
     if (!smtpHost) {
       console.error('[EmailService] CRITICAL: SMTP_HOST environment variable is not set. Emails will fail.');
-      console.error('[EmailService] Set SMTP_HOST=mail.abp.proplusdatafoundation.com for cPanel SMTP.');
+      console.error('[EmailService] Set SMTP_HOST=proplusdatafoundation.com for production SMTP.');
     } else {
       console.log('[EmailService] SMTP host:', smtpHost);
+    }
+
+    // Log SMTP user (without password)
+    const smtpUser = process.env.SMTP_USER;
+    if (smtpUser) {
+      console.log('[EmailService] SMTP user:', smtpUser);
     }
 
     this.transporter = nodemailer.createTransport({
@@ -32,17 +38,13 @@ export class EmailService implements IEmailService {
       port: Number(process.env.SMTP_PORT || '465'),
       secure: process.env.SMTP_SECURE === 'true' || Number(process.env.SMTP_PORT || '465') === 465,
       auth: {
-        user: process.env.SMTP_USER,
+        user: smtpUser,
         pass: process.env.SMTP_PASS,
       },
       // Timeout settings to prevent hanging
       connectionTimeout: 30000, // 30 seconds
       greetingTimeout: 30000,   // 30 seconds
       socketTimeout: 30000,     // 30 seconds
-      // TLS settings
-      tls: {
-        rejectUnauthorized: false,
-      },
       // Pool settings
       pool: true,
       maxConnections: 1,
@@ -52,8 +54,18 @@ export class EmailService implements IEmailService {
       logger: process.env.NODE_ENV === 'development',
     });
 
-    // SMTP errors are handled by each send operation. Avoid opening a second
-    // connection here, which some providers reset while a message is sending.
+    // Verify SMTP configuration at startup
+    this.verifySmtpConnection();
+  }
+
+  private async verifySmtpConnection(): Promise<void> {
+    try {
+      await this.transporter.verify();
+      console.log('[EmailService] SMTP connection verified successfully');
+    } catch (error) {
+      console.error('[EmailService] SMTP connection verification failed:', error);
+      // Don't throw - allow application to start even if SMTP is temporarily unavailable
+    }
   }
 
   async sendEmail(options: EmailOptions): Promise<void> {
@@ -100,8 +112,9 @@ export class EmailService implements IEmailService {
     isFree: boolean;
     totalAmount: number;
     categories: Array<{ title: string; quantity: number }>;
+    receiptPath?: string;
   }): Promise<void> {
-    const { to, customerName, day, date, bhogTiming, isFree, totalAmount, categories } = params;
+    const { to, customerName, day, date, bhogTiming, isFree, totalAmount, categories, receiptPath } = params;
     const totalPlates = categories.reduce((sum, category) => sum + Number(category.quantity || 0), 0);
     const categoryText = categories
       .map((category) => `- ${category.title}: ${category.quantity} ${category.quantity === 1 ? 'plate' : 'plates'}`)
@@ -157,12 +170,13 @@ Amader Barir Puja 2026 Team
   </div>
   
   <p>Thank you for your booking with Amader Barir Pujo 2026.</p>
+  ${receiptPath ? '<p>Please find your receipt attached to this email.</p>' : ''}
   
   <p style="margin-top: 30px;">Warm regards,<br>Amader Barir Puja 2026 Team</p>
 </div>
     `.trim();
 
-    const mailOptions = {
+    const mailOptions: any = {
       from: this.emailFrom,
       to,
       subject: 'Your Bhog Booking Confirmation – Amader Barir Pujo 2026',
@@ -170,12 +184,23 @@ Amader Barir Puja 2026 Team
       html: emailHtml,
     };
 
+    // Attach receipt if provided
+    if (receiptPath) {
+      mailOptions.attachments = [
+        {
+          filename: `Bhog_Receipt_${Date.now()}.pdf`,
+          path: receiptPath,
+        },
+      ];
+    }
+
     console.log('[EmailService] Sending Bhog confirmation email to:', to);
     try {
       const info = await this.transporter.sendMail(mailOptions);
       console.log('[EmailService] Bhog confirmation email sent successfully:', info.messageId);
     } catch (error) {
-      console.error('[EmailService] Failed to send Bhog confirmation email:', error);
+      console.error('[EmailService] Failed to send Bhog confirmation email to:', to);
+      console.error('[EmailService] Error details:', error instanceof Error ? error.message : String(error));
       throw error;
     }
   }

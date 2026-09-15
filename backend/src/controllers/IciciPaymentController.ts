@@ -344,14 +344,15 @@ export class IciciPaymentController {
               totalAmount: payment.actualAmountCharged || payment.totalAmount,
               receiptPath,
             });
-            
+
             // Update payment with email notification status
             payment.emailNotificationSent = true;
             payment.emailNotificationSentAt = new Date();
             await payment.save();
             console.log('[Anudan] Confirmation email sent successfully');
           } catch (emailError) {
-            console.error('[Anudan] Failed to send confirmation email:', emailError);
+            console.error('[Anudan] Failed to send confirmation email to:', payment.userInfo.email);
+            console.error('[Anudan] Email error details:', emailError instanceof Error ? emailError.message : String(emailError));
             // Store error but don't fail the payment
             try {
               payment.emailNotificationError = typeof emailError === 'object' ? String(emailError) : 'Unknown email error';
@@ -498,8 +499,7 @@ export class IciciPaymentController {
           // Don't fail the payment if receipt generation fails
         }
 
-        // Send booking details to the customer. Receipt generation is independent
-        // from email delivery and no PDF is attached.
+        // Send booking details to the customer with receipt attachment
         if (payment.userInfo?.email && !payment.emailNotificationSent) {
           try {
             console.log('[Paid Bhog] Sending confirmation email to:', payment.userInfo.email);
@@ -519,15 +519,17 @@ export class IciciPaymentController {
               isFree: false,
               totalAmount: payment.actualAmountCharged || payment.totalAmount,
               categories,
+              receiptPath: receiptPath || undefined,
             });
-            
+
             // Update payment with email notification status
             payment.emailNotificationSent = true;
             payment.emailNotificationSentAt = new Date();
             await payment.save();
             console.log('[Paid Bhog] Confirmation email sent successfully');
           } catch (emailError) {
-            console.error('[Paid Bhog] Failed to send confirmation email:', emailError);
+            console.error('[Paid Bhog] Failed to send confirmation email to:', payment.userInfo.email);
+            console.error('[Paid Bhog] Email error details:', emailError instanceof Error ? emailError.message : String(emailError));
             // Store error but don't fail the payment
             try {
               payment.emailNotificationError = typeof emailError === 'object' ? String(emailError) : 'Unknown email error';
@@ -541,11 +543,6 @@ export class IciciPaymentController {
         } else if (payment.emailNotificationSent) {
           console.log('[Paid Bhog] Email already sent, skipping');
         }
-
-        // Send WhatsApp confirmation (non-critical, fire and forget)
-        this.sendBhogWhatsAppConfirmation(payment).catch((error) => {
-          console.error('[WhatsApp] Failed to send Bhog confirmation:', error.message);
-        });
 
         // Log to Google Sheets (non-critical)
         await this.logBhogToSheets(payment);
