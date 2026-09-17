@@ -22,6 +22,7 @@ const ContactUs = lazy(() => import('./pages/ContactUs'));
 const News = lazy(() => import('./pages/News'));
 const TermsAndConditions = lazy(() => import('./pages/TermsAndConditions'));
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
+const DataDeletionInstructions = lazy(() => import('./pages/DataDeletionInstructions'));
 const CancellationPolicy = lazy(() => import('./pages/CancellationPolicy'));
 const ReturnRefundPolicy = lazy(() => import('./pages/ReturnRefundPolicy'));
 const PanchamiPage = lazy(() => import('./pages/Panchami/PanchamiPage'));
@@ -119,6 +120,7 @@ const AppShell: React.FC = () => {
             {/* Legal policies */}
             <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/data-deletion" element={<DataDeletionInstructions />} />
             <Route path="/cancellation-policy" element={<CancellationPolicy />} />
             <Route path="/return-refund-policy" element={<ReturnRefundPolicy />} />
 
