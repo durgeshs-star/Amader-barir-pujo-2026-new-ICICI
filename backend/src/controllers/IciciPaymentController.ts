@@ -342,7 +342,6 @@ export class IciciPaymentController {
             await this.emailService.sendAnudanConfirmationEmail({
               to: payment.userInfo.email,
               customerName: payment.userInfo.name,
-              customerEmail: payment.userInfo.email,
               customerPhone: payment.userInfo.phone,
               categories,
               totalAmount: payment.actualAmountCharged || payment.totalAmount,
@@ -520,7 +519,6 @@ export class IciciPaymentController {
             await this.emailService.sendBhogConfirmationEmail({
               to: payment.userInfo.email,
               customerName: payment.userInfo.name,
-              customerEmail: payment.userInfo.email,
               customerPhone: payment.userInfo.phone,
               day: booking.day || 'Bhog',
               date: new Date().toLocaleDateString('en-IN', { dateStyle: 'long' }),

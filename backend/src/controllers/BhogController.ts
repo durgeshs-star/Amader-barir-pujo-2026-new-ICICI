@@ -12,6 +12,7 @@ import { sanitizeMerchantTxnNo } from '../services/iciciHash.service';
 import { isBhogBookingClosedByTitle, getCutoffErrorMessageByTitle } from '../config/bhogCutoffConfig';
 import { ReceiptService } from '../services/ReceiptService';
 import { EmailService } from '../services/EmailService';
+import { whatsAppService } from '../services/WhatsAppService';
 
 // ---------------------------------------------------------------------------
 // Bhog sheet column layout — kept identical to the layout written by
@@ -281,13 +282,14 @@ export class BhogController {
         // Receipt generation failure should not fail the booking
       }
 
-      // Send booking details to the customer with receipt attachment
+      // Send booking details to the customer (no attachment).
       if (userInfo?.email) {
         try {
           console.log('[Free Bhog] Sending confirmation email to:', userInfo.email);
           await this.emailService.sendBhogConfirmationEmail({
             to: userInfo.email,
             customerName: userInfo.name,
+            customerPhone: userInfo.phone,
             day: title,
             date: new Date().toLocaleDateString('en-IN', { dateStyle: 'long' }),
             bhogTiming: 'Lunch',
@@ -299,7 +301,9 @@ export class BhogController {
                 title: category.title || category.id || 'Bhog',
                 quantity: Number(category.quantity),
               })),
-            receiptPath: receiptPath || undefined,
+            orderId: orderId,
+            transactionId: transactionId,
+            paymentStatus: 'success',
           });
 
           savedPayment.emailNotificationSent = true;
@@ -312,6 +316,10 @@ export class BhogController {
           // Email failure should not fail the booking
         }
       }
+
+      // Send WhatsApp confirmation for free Bhog booking
+      // Fire and forget: errors are logged but don't affect booking status
+      await this.sendBhogWhatsAppConfirmation(savedPayment);
 
       res.status(200).json({
         success: true,
@@ -518,6 +526,112 @@ export class BhogController {
     } else {
       await this.sheetsService.appendRow(sheetName, summaryRow);
       await this.sheetsService.formatRowBold(sheetName, data.length, BHOG_HEADERS.length);
+    }
+  }
+
+  /**
+   * Get Bhog timing based on day title
+   */
+  private getBhogTiming(dayTitle: string): string {
+    const titleLower = dayTitle.toLowerCase();
+    
+    if (titleLower.includes('sandhi puja') || titleLower.includes('sandhi pujo') || titleLower.includes('sandhi')) return '12:30 PM - 2:30 PM';
+    if (titleLower.includes('panchami')) return '12:30 PM - 2:30 PM';
+    if (titleLower.includes('saptami')) return '12:30 PM - 2:30 PM';
+    if (titleLower.includes('ashtami')) return '12:30 PM - 2:30 PM';
+    if (titleLower.includes('navami')) return '12:30 PM - 2:30 PM';
+    if (titleLower.includes('durga puja')) return '12:30 PM - 2:30 PM';
+    if (titleLower.includes('lakshmi puja')) return '12:30 PM - 2:30 PM';
+    if (titleLower.includes('saraswati puja')) return '12:30 PM - 2:30 PM';
+    
+    return '12:30 PM - 2:30 PM';
+  }
+
+  /**
+   * Get Bhog date based on day title
+   */
+  private getBhogDate(dayTitle: string): string {
+    const titleLower = dayTitle.toLowerCase();
+    
+    if (titleLower.includes('sandhi puja') || titleLower.includes('sandhi pujo') || titleLower.includes('sandhi')) return '19 October 2026';
+    if (titleLower.includes('panchami')) return '15 October 2026';
+    if (titleLower.includes('saptami')) return '16 October 2026';
+    if (titleLower.includes('ashtami')) return '17 October 2026';
+    if (titleLower.includes('navami')) return '19 October 2026';
+    if (titleLower.includes('durga puja')) return '20 October 2026';
+    if (titleLower.includes('lakshmi puja')) return 'TBD';
+    if (titleLower.includes('saraswati puja')) return 'TBD';
+    
+    return '15-21 October 2026';
+  }
+
+  /**
+   * Send WhatsApp confirmation for free Bhog booking
+   * Idempotent: checks if notification already sent before sending
+   * Fire and forget: errors are logged but don't affect booking status
+   */
+  private async sendBhogWhatsAppConfirmation(payment: any): Promise<void> {
+    try {
+      // Idempotency check: don't send if already sent
+      if (payment.whatsappNotificationSent) {
+        console.log(`[WhatsApp] Notification already sent for Bhog payment ${payment.transactionId}, skipping`);
+        return;
+      }
+
+      // Extract booking details
+      const booking = payment.bookings?.[0] || {};
+      const categories = payment.categories || [];
+      const dayTitle = booking.day || categories[0]?.title || 'General Bhog';
+
+      // Calculate total plates
+      const quantities = this.extractBhogQuantities(categories);
+      const totalPlates = booking.quantity || (quantities.pandalBhog + quantities.seniorCitizen + quantities.packedBhog + quantities.children05);
+      
+      // Determine Bhog timing based on day
+      const bhogTiming = this.getBhogTiming(dayTitle);
+      
+      // Determine date for the Bhog day
+      const bhogDate = this.getBhogDate(dayTitle);
+
+      // Extract Bhog type from categories (e.g., "Pandal Bhog", "Senior Citizen Bhog", "Packed Bhog")
+      const bhogTypes = categories
+        .filter((cat: any) => Number(cat.quantity) > 0)
+        .map((cat: any) => cat.title || cat.description || 'Bhog');
+      const bhogType = bhogTypes.length > 0 ? bhogTypes.join(', ') : 'Bhog';
+
+      // Prepare WhatsApp template parameters
+      const params = {
+        customerName: payment.userInfo?.name || 'Customer',
+        day: dayTitle,
+        date: bhogDate,
+        numberOfBhog: String(totalPlates),
+        type: bhogType,
+        bhogTiming: bhogTiming,
+        whatsappNumber: payment.userInfo?.phone || '',
+      };
+
+      // Send WhatsApp message
+      await whatsAppService.sendBhogBookingConfirmation(params);
+
+      // Mark notification as sent
+      payment.whatsappNotificationSent = true;
+      payment.whatsappNotificationSentAt = new Date();
+      payment.whatsappNotificationError = undefined;
+      await payment.save();
+
+      console.log(`[WhatsApp] Bhog confirmation sent successfully for ${payment.transactionId}`);
+    } catch (error: any) {
+      // Log error but don't throw - booking success is independent of WhatsApp
+      console.error(`[WhatsApp] Failed to send Bhog confirmation for ${payment.transactionId}:`, error.message);
+      
+      // Store error in payment document
+      try {
+        payment.whatsappNotificationSent = false;
+        payment.whatsappNotificationError = error.message;
+        await payment.save();
+      } catch (saveError: any) {
+        console.error('[WhatsApp] Failed to save notification error:', saveError.message);
+      }
     }
   }
 }
