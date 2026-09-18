@@ -21,6 +21,16 @@ export interface BhogBookingConfirmationParams {
 }
 
 /**
+ * Anudan contribution confirmation template parameters
+ */
+export interface AnudanConfirmationParams {
+  customerName: string;
+  categories: Array<{ day: string; amount: number }>;
+  totalAmount: string;
+  whatsappNumber: string;
+}
+
+/**
  * WhatsApp Service class
  */
 export class WhatsAppService {
@@ -34,9 +44,9 @@ export class WhatsAppService {
   constructor() {
     this.phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID || '';
     this.accessToken = process.env.WHATSAPP_ACCESS_TOKEN || '';
-    this.apiVersion = process.env.WHATSAPP_GRAPH_API_VERSION || 'v18.0';
+    this.apiVersion = process.env.WHATSAPP_GRAPH_API_VERSION || 'v25.0';
     this.templateName = process.env.WHATSAPP_TEMPLATE_NAME || '';
-    this.templateLanguage = process.env.WHATSAPP_TEMPLATE_LANGUAGE || 'en';
+    this.templateLanguage = process.env.WHATSAPP_TEMPLATE_LANGUAGE || 'en_IN';
 
     if (!this.phoneNumberId) {
       console.warn('[WhatsAppService] WHATSAPP_PHONE_NUMBER_ID not configured');
@@ -54,7 +64,16 @@ export class WhatsAppService {
         'Authorization': `Bearer ${this.accessToken}`,
         'Content-Type': 'application/json',
       },
+      timeout: 30000, // 30 second timeout to prevent hanging
     });
+
+    // Validate required configuration at startup
+    if (process.env.NODE_ENV === 'production') {
+      if (!this.phoneNumberId || !this.accessToken || !this.templateName) {
+        console.error('[WhatsAppService] CRITICAL: WhatsApp Cloud API is not properly configured for production. Messages will fail.');
+        console.error('[WhatsAppService] Required: WHATSAPP_PHONE_NUMBER_ID, WHATSAPP_ACCESS_TOKEN, WHATSAPP_TEMPLATE_NAME');
+      }
+    }
   }
 
   /**
@@ -102,8 +121,9 @@ export class WhatsAppService {
     languageCode: string = 'en',
     components?: any[]
   ): Promise<any> {
+    let normalizedPhone: string | undefined;
     try {
-      const normalizedPhone = this.normalizePhoneNumber(to);
+      normalizedPhone = this.normalizePhoneNumber(to);
 
       const payload = {
         messaging_product: 'whatsapp',
@@ -127,11 +147,17 @@ export class WhatsAppService {
       console.log(`[WhatsAppService] Template sent successfully. Message ID: ${response.data?.messages?.[0]?.id}`);
       return response.data;
     } catch (error: any) {
-      console.error('[WhatsAppService] Failed to send template message:', {
+      // Log error without exposing access token
+      const errorDetails = {
         templateName,
-        to,
-        error: error.response?.data || error.message,
-      });
+        to: normalizedPhone || to,
+        status: error.response?.status,
+        metaErrorCode: error.response?.data?.error?.code,
+        metaErrorType: error.response?.data?.error?.type,
+        metaErrorMessage: error.response?.data?.error?.message,
+        message: error.message,
+      };
+      console.error('[WhatsAppService] Failed to send template message:', errorDetails);
       throw error;
     }
   }
@@ -183,6 +209,10 @@ export class WhatsAppService {
   async sendBhogBookingConfirmation(
     params: BhogBookingConfirmationParams
   ): Promise<any> {
+    if (!this.templateName) {
+      throw new Error('WhatsApp template name not configured. Set WHATSAPP_TEMPLATE_NAME environment variable.');
+    }
+
     const components = [
       {
         type: 'body',
@@ -218,6 +248,53 @@ export class WhatsAppService {
     return this.sendTemplateMessage(
       params.whatsappNumber,
       this.templateName,
+      this.templateLanguage,
+      components
+    );
+  }
+
+  /**
+   * Send Anudan contribution confirmation template
+   * Note: This method is a placeholder for when an Anudan template is approved in Meta
+   * Currently not called in the payment flow until a template is configured
+   */
+  async sendAnudanConfirmation(
+    params: AnudanConfirmationParams
+  ): Promise<any> {
+    const anudanTemplateName = process.env.WHATSAPP_ANUDAN_TEMPLATE_NAME;
+    if (!anudanTemplateName) {
+      console.warn('[WhatsAppService] Anudan template not configured. WhatsApp notifications for Anudan are disabled until WHATSAPP_ANUDAN_TEMPLATE_NAME is set.');
+      return null;
+    }
+
+    // Build category summary for the template
+    const categorySummary = params.categories
+      .map(cat => `${cat.day}: ₹${cat.amount}`)
+      .join(', ');
+
+    const components = [
+      {
+        type: 'body',
+        parameters: [
+          {
+            type: 'text',
+            text: params.customerName,
+          },
+          {
+            type: 'text',
+            text: categorySummary,
+          },
+          {
+            type: 'text',
+            text: params.totalAmount,
+          },
+        ],
+      },
+    ];
+
+    return this.sendTemplateMessage(
+      params.whatsappNumber,
+      anudanTemplateName,
       this.templateLanguage,
       components
     );

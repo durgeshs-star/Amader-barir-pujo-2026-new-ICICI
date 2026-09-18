@@ -331,8 +331,8 @@ export class IciciPaymentController {
           // Don't fail the payment if receipt generation fails
         }
 
-        // Send Anudan confirmation email with its receipt attachment.
-        if (receiptPath && payment.userInfo?.email && !payment.emailNotificationSent) {
+        // Send Anudan confirmation email (no attachment).
+        if (payment.userInfo?.email && !payment.emailNotificationSent) {
           try {
             console.log('[Anudan] Sending confirmation email to:', payment.userInfo.email);
             const categories = payment.categories.map((cat: any) => ({
@@ -342,9 +342,14 @@ export class IciciPaymentController {
             await this.emailService.sendAnudanConfirmationEmail({
               to: payment.userInfo.email,
               customerName: payment.userInfo.name,
+              customerEmail: payment.userInfo.email,
+              customerPhone: payment.userInfo.phone,
               categories,
               totalAmount: payment.actualAmountCharged || payment.totalAmount,
-              receiptPath,
+              orderId: payment.orderId,
+              transactionId: payment.transactionId,
+              paymentStatus: payment.paymentStatus,
+              paymentDateTime: payment.iciciPaymentDateTime || payment.timestamp,
             });
 
             // Update payment with email notification status
@@ -501,7 +506,7 @@ export class IciciPaymentController {
           // Don't fail the payment if receipt generation fails
         }
 
-        // Send booking details to the customer with receipt attachment
+        // Send booking details to the customer (no attachment).
         if (payment.userInfo?.email && !payment.emailNotificationSent) {
           try {
             console.log('[Paid Bhog] Sending confirmation email to:', payment.userInfo.email);
@@ -515,13 +520,17 @@ export class IciciPaymentController {
             await this.emailService.sendBhogConfirmationEmail({
               to: payment.userInfo.email,
               customerName: payment.userInfo.name,
+              customerEmail: payment.userInfo.email,
+              customerPhone: payment.userInfo.phone,
               day: booking.day || 'Bhog',
               date: new Date().toLocaleDateString('en-IN', { dateStyle: 'long' }),
               bhogTiming: 'Lunch',
               isFree: false,
               totalAmount: payment.actualAmountCharged || payment.totalAmount,
               categories,
-              receiptPath: receiptPath || undefined,
+              orderId: payment.orderId,
+              transactionId: payment.transactionId,
+              paymentStatus: payment.paymentStatus,
             });
 
             // Update payment with email notification status
@@ -545,6 +554,11 @@ export class IciciPaymentController {
         } else if (payment.emailNotificationSent) {
           console.log('[Paid Bhog] Email already sent, skipping');
         }
+
+        // Send WhatsApp confirmation (fire and forget - errors don't affect payment)
+        this.sendBhogWhatsAppConfirmation(payment).catch((err) => {
+          console.error('[Paid Bhog] WhatsApp confirmation error (non-critical):', err.message);
+        });
 
         // Log to Google Sheets (non-critical)
         await this.logBhogToSheets(payment);
@@ -962,13 +976,19 @@ export class IciciPaymentController {
       // Determine date for the Bhog day
       const bhogDate = this.getBhogDate(dayTitle);
 
+      // Extract Bhog type from categories (e.g., "Pandal Bhog", "Senior Citizen Bhog", "Packed Bhog")
+      const bhogTypes = categories
+        .filter((cat: any) => Number(cat.quantity) > 0)
+        .map((cat: any) => cat.title || cat.description || 'Bhog');
+      const bhogType = bhogTypes.length > 0 ? bhogTypes.join(', ') : 'Bhog';
+
       // Prepare WhatsApp template parameters
       const params = {
         customerName: payment.userInfo?.name || 'Customer',
         day: dayTitle,
         date: bhogDate,
         numberOfBhog: String(totalPlates),
-        type: 'Bhog',
+        type: bhogType,
         bhogTiming: bhogTiming,
         whatsappNumber: payment.userInfo?.phone || '',
       };
