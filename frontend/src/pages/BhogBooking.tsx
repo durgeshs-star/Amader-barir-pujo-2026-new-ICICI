@@ -110,7 +110,7 @@ export const BhogBooking: React.FC = () => {
 
         {/* Days Tab Controls */}
         <div className="flex flex-wrap items-center justify-center gap-2 mb-10 p-2.5 rounded-xl border border-gray-150 shadow-sm select-none">
-          {Object.keys(bhogDays).map((key) => {
+          {Object.keys(bhogDays).filter(key => key !== 'lakshmi-puja').map((key) => {
             const label = bhogDays[key].title.replace(' Bhog', '');
             const isActive = activeDayKey === key;
             return (
