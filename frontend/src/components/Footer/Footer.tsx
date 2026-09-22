@@ -125,7 +125,7 @@ export const Footer: React.FC = () => {
             <div className="space-y-3 text-sm">
               <div className="pt-2">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m19!1m8!1m3!1d1890.7322603623002!2d73.744257!3d18.598165!3m2!1i1024!2i768!4f13.1!4m8!3e0!4m0!4m5!1s0x3bc2bbeb10eb10db%3A0x18c37f8274a71fd!2sSant%20Tukaram%20Garden%20And%20Banquet%20Hall%20%7C%20Dropada%20Lawns%2C%20Dange%20Chowk%20Rd%2C%20Bhatewara%20Nagar%2C%20Hinjawadi%2C%20Wakad%2C%20Pimpri-Chinchwad%2C%20Maharashtra%20411057!3m2!1d18.5985952!2d73.7442186!5e0!3m2!1sen!2sin!4v1785820156064!5m2!1sen!2sin"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d668.471029054216!2d73.74381365498652!3d18.59912582891456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2bbd8367730c1%3A0xa15050249c60b09a!2sSant%20Tukaram%20Garden%20Mangal%20Karyalay%2C%20Wakad!5e0!3m2!1sen!2sin!4v1790051466866!5m2!1sen!2sin"
                   height="200"
                   style={{ border: 0 }}
                   allowFullScreen
