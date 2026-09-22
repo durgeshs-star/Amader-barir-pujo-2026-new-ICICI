@@ -65,7 +65,7 @@ export const Gallery: React.FC = React.memo(() => {
   return (
     <div className="relative pt-10 md:pt-14 pb-20 min-h-screen">
       <SEO 
-        title="Bengali Durga Puja Pune | Puja Pandal & Celebration Gallery"
+        title="Bengali Durga Puja Pune | Puja Pandal & Celebration Gallery | Durga Puja PCMC Pune"
         description="Explore the Amader Barir Pujo gallery — Bengali Durga Puja pandal and celebration photos from Pune. View Durga Puja rituals, cultural programs, and community moments."
         keywords="Bengali Durga Puja Pune, Durga Puja pandal Pune, Amader Barir Pujo gallery, Durga Puja celebrations Pune, Puja pandal photos"
       />

@@ -11,9 +11,9 @@ const AshtamiSandhiPujaPage: React.FC = () => {
   return (
     <div className="relative">
       <SEO
-        title="Ashtami Sandhi Puja Schedule"
-        description="Ashtami Sandhi Puja Schedule — Experience the sacred transition between Ashtami and Navami at Amader Barir Pujo 2026."
-        keywords="Ashtami Sandhi Puja, Sandhi Puja schedule, Durga Puja 2026, Amader Barir Pujo Ashtami Sandhi"
+        title="Ashtami Sandhi Puja Schedule | Durga Puja PCMC Pune"
+        description="Ashtami Sandhi Puja Schedule — Experience the sacred transition between Ashtami and Navami at Amader Barir Pujo."
+        keywords="Ashtami Sandhi Puja, Sandhi Puja schedule, Durga Puja, Amader Barir Pujo Ashtami Sandhi"
         ogImage="/assets/img/banner/1.webp"
         canonical="https://www.abp.proplusdatafoundation.com/ashtami-sandhi-puja"
       />

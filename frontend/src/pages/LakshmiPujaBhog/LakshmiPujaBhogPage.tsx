@@ -10,9 +10,9 @@ const LakshmiPujaBhogPage: React.FC = () => {
     <div className="relative">
       {/* <ComingSoonPopup /> */}
       <SEO
-        title="Lakshmi Puja Bhog Schedule"
+        title="Lakshmi Puja Bhog Schedule | Durga Puja PCMC Pune"
         description="Lakshmi Puja Bhog Schedule — Learn about our Lakshmi Puja Bhog offerings, procedures, and their spiritual significance at Amader Barir Pujo."
-        keywords="Lakshmi Puja bhog, Lakshmi Puja 2026 bhog booking, Amader Barir Pujo Lakshmi Puja Bhog"
+        keywords="Lakshmi Puja bhog, Lakshmi Puja bhog booking, Amader Barir Pujo Lakshmi Puja Bhog"
         ogImage="/assets/img/banner/1.webp"
         canonical="https://www.abp.proplusdatafoundation.com/lakshmi-puja-bhog"
       />

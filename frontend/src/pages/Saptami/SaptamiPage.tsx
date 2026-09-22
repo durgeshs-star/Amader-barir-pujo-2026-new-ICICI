@@ -11,14 +11,14 @@ const SaptamiPage: React.FC = () => {
   return (
     <div className="relative">
       <SEO
-        title="Saptami 2026 | Bengali Durga Puja Pune | Amader Barir Pujo"
-        description="Celebrate Saptami during Amader Barir Pujo 2026, a Bengali Durga Puja celebration in Pune."
-        keywords="Saptami 2026, Bengali Durga Puja Pune, Amader Barir Pujo 2026"
+        title="Saptami | Bengali Durga Puja Pune | Amader Barir Pujo"
+        description="Celebrate Saptami during Amader Barir Pujo, a Bengali Durga Puja celebration in Pune."
+        keywords="Saptami, Bengali Durga Puja Pune, Amader Barir Pujo"
         ogImage="/assets/img/saptami.webp"
       />
 
       <PageHero
-        title="Saptami 2026"
+        title="Saptami"
         height="h-[35vh] md:h-[60vh]"
       />
 

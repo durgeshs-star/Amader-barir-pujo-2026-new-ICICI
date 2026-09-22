@@ -100,7 +100,7 @@ const VolunteerContent: React.FC = React.memo(() => {
     <div className="relative">
       <LazyMotion features={domAnimation} strict>
       <SEO
-        title="Volunteer for Durga Puja 2026"
+        title="Volunteer for Durga Puja 2026 | Durga Puja PCMC Pune | Amader Barir Pujo"
         description="Join Amader Barir Pujo as a volunteer to serve the community during Durga Puja 2026 in Pune. Offer your seva, build community connections, and make a difference in our vibrant Bengali celebration."
         keywords="Volunteer Durga Puja Pune, Amader Barir Pujo volunteer, community seva Pune, Bengali festival volunteer, Durga Puja seva opportunities"
         ogImage="/assets/img/banner/1.webp"
@@ -193,7 +193,7 @@ className="bg-light-bg rounded-xl p-8 text-center hover:shadow-lg transition-sha
                   </div>
                   <div>
                     <h3 className="font-fraunces text-lg font-bold text-primary mb-2">
-                      Pujo Days 2026
+                      Pujo Days
                     </h3>
                     <p className="text-text-secondary text-sm">
                       October 15 - 21, 2026

@@ -8,9 +8,9 @@ const SaraswatiPujaBhogPage: React.FC = () => {
   return (
     <div className="relative">
       <SEO
-        title="Saraswati Puja Bhog Schedule"
+        title="Saraswati Puja Bhog Schedule | Durga Puja PCMC Pune"
         description="Saraswati Puja Bhog Schedule — Learn about our Saraswati Puja Bhog offerings, procedures, and their spiritual significance at Amader Barir Pujo."
-        keywords="Saraswati Puja bhog, Saraswati Puja 2026 bhog booking, Amader Barir Pujo Saraswati Puja Bhog"
+        keywords="Saraswati Puja bhog, Saraswati Puja bhog booking, Amader Barir Pujo Saraswati Puja Bhog"
         ogImage="/assets/img/banner/1.webp"
         canonical="https://www.abp.proplusdatafoundation.com/saraswati-puja-bhog"
       />

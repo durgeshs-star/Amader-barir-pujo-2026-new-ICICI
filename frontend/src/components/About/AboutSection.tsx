@@ -23,7 +23,7 @@ const AboutSection = () => {
           nebe?", you'll realize you were never a guest here.
         </p>
         <p className="text-dark-bg text-base lg:text-lg leading-7 font-sans lg:leading-8 text-center animate-fade-in">
-          Amader Barir Pujo 2026 brings the authentic Bengali Durga Puja experience to Pune, celebrating our rich traditions, cultural heritage, and community spirit. Located in Wakad and serving families from Hinjewadi and surrounding areas, we welcome everyone to join this free Bengali Durga Puja celebration. Experience the sacred rituals, devotional music, cultural programs, and the warmth of togetherness that makes Durga Puja special.
+          Amader Barir Pujo brings the authentic Bengali Durga Puja experience to Pune, celebrating our rich traditions, cultural heritage, and community spirit. Located in Wakad and serving families from Hinjewadi and surrounding areas, we welcome everyone to join this free Bengali Durga Puja celebration. Experience the sacred rituals, devotional music, cultural programs, and the warmth of togetherness that makes Durga Puja special.
         </p>
       </div>
 

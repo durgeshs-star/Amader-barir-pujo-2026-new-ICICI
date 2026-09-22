@@ -94,8 +94,8 @@ export const Schedule: React.FC = () => {
     <div className="relative pt-10 md:pt-14 pb-20 min-h-screen">
       <SEO
         title={activeDay ? `${activeDay.title} Schedule` : 'Pujo Schedule'}
-        description="View the complete Durga Puja 2026 schedule for Amader Barir Pujo — day-wise rituals, timings, and programs for Panchami through Dashami."
-        keywords="Durga Puja schedule 2026 Pune, Pujo timetable Wakad, Amader Barir Pujo schedule"
+        description="View the complete Durga Puja schedule for Amader Barir Pujo — day-wise rituals, timings, and programs for Panchami through Dashami."
+        keywords="Durga Puja schedule Pune, Pujo timetable Wakad, Amader Barir Pujo schedule"
         ogImage="/assets/img/banner/1.webp"
         canonical="https://www.abp.proplusdatafoundation.com/pujo-schedule"
       />
@@ -107,7 +107,7 @@ export const Schedule: React.FC = () => {
             Durga Pujo Schedule 2026
           </h1>
           <p className="text-sm text-muted font-medium text-center">
-            Explore the Amader Barir Pujo 2026 schedule and plan your Bengali Durga Pujo celebration in Pune.
+            Explore the Amader Barir Pujo schedule and plan your Bengali Durga Pujo celebration in Pune.
           </p>
           <div className="w-16 h-1 bg-accent mx-auto mt-4 rounded-full" />
         </div>

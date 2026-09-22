@@ -67,7 +67,7 @@ xl:object-[50%_78%]"
           >
             <p>More than a celebration, it's a feeling we carry with us.</p>
             <p>
-  Amader Barir Pujo 2026 is a free Bengali Durga Puja celebration in Pune,
+  Amader Barir Pujo is a free Bengali Durga Puja celebration in Pune,
   welcoming families and visitors from Wakad, Hinjewadi and surrounding areas —
   a place where strangers become friends, children grow up making memories,
   and with Maa at the heart of it all, the familiar rhythm of dhaak, laughter,

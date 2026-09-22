@@ -10,9 +10,9 @@ const NavamiBhogPage: React.FC = () => {
     <div className="relative">
       {/* <ComingSoonPopup /> */}
       <SEO
-        title="Navami Bhog Schedule"
+        title="Navami Bhog Schedule | Durga Puja PCMC Pune"
         description="Navami Bhog Schedule — Learn about our Navami Bhog offerings, procedures, and their spiritual significance at Amader Barir Pujo."
-        keywords="Navami bhog, Maha Navami bhog booking, Durga Puja 2026 bhog, Amader Barir Pujo Navami Bhog"
+        keywords="Navami bhog, Maha Navami bhog booking, Durga Puja bhog, Amader Barir Pujo Navami Bhog"
         ogImage="/assets/img/banner/1.webp"
         canonical="https://www.abp.proplusdatafoundation.com/bhog-booking/navami"
       />

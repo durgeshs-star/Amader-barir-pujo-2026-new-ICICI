@@ -11,13 +11,13 @@ const DashamiPage: React.FC = () => {
   return (
     <div className="relative">
       <SEO
-        title="Dashami 2026 | Bengali Durga Puja Pune | Amader Barir Pujo"
-        description="Celebrate Dashami during Amader Barir Pujo 2026, a Bengali Durga Puja celebration in Pune."
-        keywords="Dashami 2026, Bengali Durga Puja Pune, Amader Barir Pujo 2026"
+        title="Dashami | Bengali Durga Puja Pune | Amader Barir Pujo"
+        description="Celebrate Dashami during Amader Barir Pujo, a Bengali Durga Puja celebration in Pune."
+        keywords="Dashami, Bengali Durga Puja Pune, Amader Barir Pujo"
         ogImage="/assets/img/dashami.webp"
       />
 
-      <PageHero title="Dashami 2026" height="h-[35vh] md:h-[60vh]" />
+      <PageHero title="Dashami" height="h-[35vh] md:h-[60vh]" />
 
       <ScheduleIntro paragraph={dashamiIntroParagraph}>
         <h2 className="font-fraunces font-bold text-3xl md:text-5xl text-primary italic">

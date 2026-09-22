@@ -10,9 +10,9 @@ const AshtamiBhogSandhiPujaPage: React.FC = () => {
     <div className="relative">
       {/* <ComingSoonPopup /> */}
       <SEO
-        title="Ashtami Sandhi Puja Bhog Booking"
-        description="Book Ashtami Sandhi Puja Bhog at Amader Barir Pujo in Pune. Experience the sacred transition through our specially prepared Sandhi Puja Prasad during Durga Puja 2026."
-        keywords="Ashtami Sandhi Puja bhog, Sandhi Puja bhog booking Pune, Durga Puja 2026 bhog, Amader Barir Pujo Ashtami Sandhi Bhog"
+        title="Ashtami Sandhi Puja Bhog Booking | Durga Puja PCMC Pune"
+        description="Book Ashtami Sandhi Puja Bhog at Amader Barir Pujo in Pune. Experience the sacred transition through our specially prepared Sandhi Puja Prasad during Durga Puja."
+        keywords="Ashtami Sandhi Puja bhog, Sandhi Puja bhog booking Pune, Durga Puja bhog, Amader Barir Pujo Ashtami Sandhi Bhog"
         ogImage="/assets/img/banner/1.webp"
       />
 

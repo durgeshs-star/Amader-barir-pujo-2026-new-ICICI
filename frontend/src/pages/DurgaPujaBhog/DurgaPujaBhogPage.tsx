@@ -13,9 +13,9 @@ const DurgaPujaBhogPage: React.FC = () => {
     <div className="relative">
       {/* <ComingSoonPopup /> */}
       <SEO
-        title="Durga Puja Bhog Schedule"
+        title="Durga Puja Bhog Schedule | Durga Puja PCMC Pune | Amader Barir Pujo"
         description="Durga Puja Bhog Schedule — Learn about our Durga Puja Bhog offerings, procedures, and their spiritual significance at Amader Barir Pujo."
-        keywords="Durga Puja bhog, Durga Puja 2026 bhog booking, Amader Barir Pujo Durga Puja Bhog"
+        keywords="Durga Puja bhog, Durga Puja bhog booking, Amader Barir Pujo Durga Puja Bhog"
         ogImage="/assets/img/banner/1.webp"
         canonical="https://www.abp.proplusdatafoundation.com/durga-puja-bhog"
       />
