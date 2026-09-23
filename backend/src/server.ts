@@ -165,6 +165,11 @@ const startServer = async () => {
         throw new Error('FRONTEND_URL is not set. Required for callback redirects');
       }
 
+      // Validate callback URL format - specifically check for double slashes
+      if (returnURL.includes('//') && !returnURL.includes('://')) {
+        throw new Error(`ICICI_PG_RETURN_URL contains invalid double slashes: ${returnURL}. Expected format: https://domain.com/api/payment/icici-callback`);
+      }
+
       // Prevent localhost/ngrok in production
       if (process.env.NODE_ENV === 'production') {
         if (returnURL.includes('localhost')) {

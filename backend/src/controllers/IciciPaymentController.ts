@@ -184,60 +184,77 @@ export class IciciPaymentController {
    */
   handleIciciCallback = async (req: Request, res: Response): Promise<void> => {
     try {
+      // Stage 1: Callback reception logging
+      console.log('[ICICI CALLBACK] Received');
+      console.log('[ICICI CALLBACK] Method:', req.method);
+      console.log('[ICICI CALLBACK] URL:', req.originalUrl || req.url);
+      console.log('[ICICI CALLBACK] Content-Type:', req.get('Content-Type'));
+      console.log('[ICICI CALLBACK] Has body:', !!req.body && Object.keys(req.body).length > 0);
+
       const body = req.body as PaymentCallbackPayload;
-      const receivedHash = body.secureHash;
 
-      // DEBUG: Log the complete raw callback body for investigation
-      console.log('=== ICICI CALLBACK RAW BODY (BUG DEBUG) ===');
-      console.log('Full req.body:', JSON.stringify(body, null, 2));
-      console.log('Object.keys(req.body):', Object.keys(body));
-      console.log('===========================================');
+      // Log non-sensitive identifier fields
+      console.log('[ICICI CALLBACK] merchantTxnNo:', body.merchantTxnNo || 'NOT_PROVIDED');
+      console.log('[ICICI CALLBACK] transactionId:', body.txnID || 'NOT_PROVIDED');
+      console.log('[ICICI CALLBACK] responseCode:', body.responseCode || 'NOT_PROVIDED');
+      console.log('[ICICI CALLBACK] merchantId:', body.merchantId || 'NOT_PROVIDED');
 
-      console.log('ICICI Callback Received Full Payload:', JSON.stringify(body, null, 2));
+      // Validate required fields
+      if (!body.merchantTxnNo) {
+        console.error('[ICICI CALLBACK] FAILED: merchantTxnNo not provided');
+        return res.redirect(
+          `${this.FRONTEND_URL}/payment/failure?errorMessage=Missing%20transaction%20identifier`
+        );
+      }
 
-      // Verify secureHash
+      // Stage 2: Hash verification
       const isValidHash = iciciPGService.verifyCallback(body);
       if (!isValidHash) {
-        console.error('ICICI callback hash verification failed - possible tampering', body.merchantTxnNo);
+        console.error('[ICICI CALLBACK] FAILED: Hash verification failed');
         return res.redirect(
           `${this.FRONTEND_URL}/payment/failure?transactionId=${body.merchantTxnNo}&errorMessage=Hash%20verification%20failed`
         );
       }
+      console.log('[ICICI CALLBACK] Hash verification passed');
 
-      // Validate merchantId
+      // Stage 3: Merchant validation
       const merchantId = process.env.ICICI_PG_MERCHANT_ID;
       if (body.merchantId !== merchantId) {
-        console.error('ICICI callback merchantId mismatch', body.merchantId, merchantId);
+        console.error('[ICICI CALLBACK] FAILED: Merchant ID mismatch');
         return res.redirect(
           `${this.FRONTEND_URL}/payment/failure?transactionId=${body.merchantTxnNo}&errorMessage=Invalid%20merchant`
         );
       }
 
-      // Check payment success
+      // Stage 4: Payment success determination
       const isSuccess = iciciPGService.isPaymentSuccessful(body.responseCode);
+      console.log('[ICICI CALLBACK] Payment success determination:', isSuccess);
 
-      // Determine flow type from addlParam1 (if available in callback)
-      console.log('Looking up payment for transactionId:', body.merchantTxnNo);
+      // Stage 5: Payment lookup
+      console.log('[ICICI CALLBACK] Looking up payment for merchantTxnNo:', body.merchantTxnNo);
       const anudanPayment = await this.anudanRepository.getPaymentByTransactionId(body.merchantTxnNo);
       const bhogPayment = await this.bhogRepository.getPaymentByTransactionId(body.merchantTxnNo);
 
-      console.log('Anudan payment found:', !!anudanPayment);
-      console.log('Bhog payment found:', !!bhogPayment);
+      console.log('[ICICI CALLBACK] Anudan payment found:', !!anudanPayment);
+      console.log('[ICICI CALLBACK] Bhog payment found:', !!bhogPayment);
 
-      if (anudanPayment) {
-        // Anudan payment flow
-        await this.handleAnudanCallback(anudanPayment, body, isSuccess, res);
-      } else if (bhogPayment) {
-        // Bhog payment flow
-        await this.handleBhogCallback(bhogPayment, body, isSuccess, res);
-      } else {
-        console.error('Payment not found for transactionId:', body.merchantTxnNo);
+      if (!anudanPayment && !bhogPayment) {
+        console.error('[ICICI CALLBACK] FAILED: Payment not found for merchantTxnNo:', body.merchantTxnNo);
         return res.redirect(
           `${this.FRONTEND_URL}/payment/failure?transactionId=${body.merchantTxnNo}&errorMessage=Payment%20not%20found`
         );
       }
+
+      console.log('[ICICI CALLBACK] Payment found');
+
+      // Stage 6: Route to appropriate handler
+      if (anudanPayment) {
+        await this.handleAnudanCallback(anudanPayment, body, isSuccess, res);
+      } else if (bhogPayment) {
+        await this.handleBhogCallback(bhogPayment, body, isSuccess, res);
+      }
     } catch (error: any) {
-      console.error('Error handling ICICI callback:', error);
+      console.error('[ICICI CALLBACK] FAILED: Internal error:', error.message);
       return res.redirect(
         `${this.FRONTEND_URL}/payment/failure?errorMessage=Internal%20server%20error`
       );
@@ -283,11 +300,13 @@ export class IciciPaymentController {
 
       // Idempotency check - if already processed, just redirect
       if (payment.paymentStatus === 'success') {
-        console.log('Anudan payment already processed, redirecting to success:', payment.transactionId);
+        console.log('[ICICI CALLBACK] Anudan payment already processed, redirecting to success:', payment.transactionId);
         return res.redirect(this.getSuccessRedirectUrl(payment, 'anudan', finalTotalAmount));
       }
 
       if (isSuccess) {
+        console.log('[ICICI CALLBACK] Payment verification passed');
+
         payment.baseAmount = baseAmount;
         payment.gatewayCharges = gatewayCharges;
         payment.totalAmount = finalTotalAmount;
@@ -306,7 +325,7 @@ export class IciciPaymentController {
         payment.markModified('serviceTax');
         payment.markModified('othCharge');
 
-        console.log(`Anudan payment ICICI breakdown -> Base: ₹${baseAmount}, Gateway Charges: ₹${gatewayCharges}, Total Paid: ₹${finalTotalAmount}`);
+        console.log(`[ICICI CALLBACK] Amount breakdown -> Base: ₹${baseAmount}, Gateway Charges: ₹${gatewayCharges}, Total Paid: ₹${finalTotalAmount}`);
 
         // Sanity check: log if actual charged amount differs significantly from expected
         this.logAmountDiscrepancy('Anudan', baseAmount, finalTotalAmount, actualAmountCharged, convenienceFee, serviceTax, othCharge);
@@ -320,21 +339,23 @@ export class IciciPaymentController {
         payment.paymentStatus = 'success';
         await payment.save();
 
+        console.log('[ICICI CALLBACK] Payment marked SUCCESS');
+
         // Generate receipt for Anudan payment
         let receiptPath: string | null = null;
         try {
-          console.log('[Anudan] Generating receipt for:', payment.transactionId);
+          console.log('[ICICI CALLBACK] Generating receipt for:', payment.transactionId);
           receiptPath = await this.receiptService.generateAnudanReceipt(payment);
-          console.log('[Anudan] Receipt generated:', receiptPath);
+          console.log('[ICICI CALLBACK] Receipt generated:', receiptPath);
         } catch (receiptError) {
-          console.error('[Anudan] Failed to generate receipt:', receiptError);
+          console.error('[ICICI CALLBACK] Failed to generate receipt:', receiptError);
           // Don't fail the payment if receipt generation fails
         }
 
         // Send Anudan confirmation email (no attachment).
         if (payment.userInfo?.email && !payment.emailNotificationSent) {
           try {
-            console.log('[Anudan] Sending confirmation email to:', payment.userInfo.email);
+            console.log('[ICICI CALLBACK] Sending confirmation email to:', payment.userInfo.email);
             const categories = payment.categories.map((cat: any) => ({
               day: cat.day,
               amount: cat.amount,
@@ -355,22 +376,22 @@ export class IciciPaymentController {
             payment.emailNotificationSent = true;
             payment.emailNotificationSentAt = new Date();
             await payment.save();
-            console.log('[Anudan] Confirmation email sent successfully');
+            console.log('[ICICI CALLBACK] Confirmation email sent successfully');
           } catch (emailError) {
-            console.error('[Anudan] Failed to send confirmation email to:', payment.userInfo.email);
-            console.error('[Anudan] Email error details:', emailError instanceof Error ? emailError.message : String(emailError));
+            console.error('[ICICI CALLBACK] Failed to send confirmation email to:', payment.userInfo.email);
+            console.error('[ICICI CALLBACK] Email error details:', emailError instanceof Error ? emailError.message : String(emailError));
             // Store error but don't fail the payment
             try {
               payment.emailNotificationError = typeof emailError === 'object' ? String(emailError) : 'Unknown email error';
               await payment.save();
             } catch (saveError) {
-              console.error('[Anudan] Failed to save email error:', saveError);
+              console.error('[ICICI CALLBACK] Failed to save email error:', saveError);
             }
           }
         } else if (!payment.userInfo?.email) {
-          console.warn('[Anudan] No email provided, skipping confirmation email');
+          console.warn('[ICICI CALLBACK] No email provided, skipping confirmation email');
         } else if (payment.emailNotificationSent) {
-          console.log('[Anudan] Email already sent, skipping');
+          console.log('[ICICI CALLBACK] Email already sent, skipping');
         }
 
         // Broadcast SSE updates for each category
@@ -378,16 +399,24 @@ export class IciciPaymentController {
           const campaignId = category.day;
           const remaining = anudanStateService.getRemaining(campaignId);
           anudanStateService.broadcast(campaignId, remaining);
-          console.log(`SSE broadcast for ${campaignId}: remaining ₹${remaining}`);
+          console.log(`[ICICI CALLBACK] SSE broadcast for ${campaignId}: remaining ₹${remaining}`);
         }
 
-        // Log to Google Sheets (non-critical) — writes one row per category
-        // into that category's own table on the Anudan sheet.
-        await this.logAnudanToSheets(payment);
+        // Log to Google Sheets (non-critical - payment success already persisted)
+        try {
+          console.log('[ICICI CALLBACK] Processing Google Sheet logging');
+          await this.logAnudanToSheets(payment);
+          console.log('[ICICI CALLBACK] Google Sheet processing completed');
+        } catch (sheetsError) {
+          console.error('[ICICI CALLBACK] Google Sheet processing failed (non-critical):', sheetsError);
+          // Don't fail the payment - payment status already saved as success
+        }
 
-        console.log('Anudan payment successful:', payment.transactionId);
+        console.log('[ICICI CALLBACK] Anudan success processing completed');
+        console.log('[ICICI CALLBACK] Payment successful:', payment.transactionId);
         return res.redirect(this.getSuccessRedirectUrl(payment, 'anudan', finalTotalAmount));
       } else {
+        console.log('[ICICI CALLBACK] Payment verification failed - marking as failed');
         // Payment failed - rollback reservations
         payment.iciciTxnId = callbackBody.txnID;
         payment.iciciPaymentId = callbackBody.paymentID;
@@ -400,17 +429,17 @@ export class IciciPaymentController {
         // Rollback reservations for each category
         for (const category of payment.categories) {
           await anudanStateService.rollback(category.day, category.amount);
-          console.log(`Rolled back ₹${category.amount} for ${category.day}`);
+          console.log(`[ICICI CALLBACK] Rolled back ₹${category.amount} for ${category.day}`);
         }
 
         const errorMessage = callbackBody.respDescription || 'Payment failed';
-        console.log('Anudan payment failed:', payment.transactionId, errorMessage);
+        console.log('[ICICI CALLBACK] Anudan payment failed:', payment.transactionId, errorMessage);
         return res.redirect(
           `${this.FRONTEND_URL}/payment/failure?transactionId=${payment.transactionId}&errorMessage=${encodeURIComponent(errorMessage)}`
         );
       }
     } catch (error: any) {
-      console.error('Error handling Anudan callback:', error);
+      console.error('[ICICI CALLBACK] FAILED: Error handling Anudan callback:', error.message);
       return res.redirect(
         `${this.FRONTEND_URL}/payment/failure?transactionId=${payment.transactionId}&errorMessage=Internal%20error`
       );
@@ -462,6 +491,8 @@ export class IciciPaymentController {
       }
 
       if (isSuccess) {
+        console.log('[ICICI CALLBACK] Payment verification passed');
+
         payment.baseAmount = baseAmount;
         payment.gatewayCharges = gatewayCharges;
         payment.totalAmount = finalTotalAmount;
@@ -480,7 +511,7 @@ export class IciciPaymentController {
         payment.markModified('serviceTax');
         payment.markModified('othCharge');
 
-        console.log(`Bhog payment ICICI breakdown -> Base: ₹${baseAmount}, Gateway Charges: ₹${gatewayCharges}, Total Paid: ₹${finalTotalAmount}`);
+        console.log(`[ICICI CALLBACK] Amount breakdown -> Base: ₹${baseAmount}, Gateway Charges: ₹${gatewayCharges}, Total Paid: ₹${finalTotalAmount}`);
 
         // Sanity check: log if actual charged amount differs significantly from expected
         this.logAmountDiscrepancy('Bhog', baseAmount, finalTotalAmount, actualAmountCharged, convenienceFee, serviceTax, othCharge);
@@ -494,21 +525,23 @@ export class IciciPaymentController {
         payment.paymentStatus = 'success';
         await payment.save();
 
+        console.log('[ICICI CALLBACK] Payment marked SUCCESS');
+
         // Generate receipt for paid Bhog booking
         let receiptPath: string | null = null;
         try {
-          console.log('[Paid Bhog] Generating receipt for:', payment.transactionId);
+          console.log('[ICICI CALLBACK] Generating receipt for:', payment.transactionId);
           receiptPath = await this.receiptService.generateBhogReceipt(payment);
-          console.log('[Paid Bhog] Receipt generated:', receiptPath);
+          console.log('[ICICI CALLBACK] Receipt generated:', receiptPath);
         } catch (receiptError) {
-          console.error('[Paid Bhog] Failed to generate receipt:', receiptError);
+          console.error('[ICICI CALLBACK] Failed to generate receipt:', receiptError);
           // Don't fail the payment if receipt generation fails
         }
 
         // Send booking details to the customer (no attachment).
         if (payment.userInfo?.email && !payment.emailNotificationSent) {
           try {
-            console.log('[Paid Bhog] Sending confirmation email to:', payment.userInfo.email);
+            console.log('[ICICI CALLBACK] Sending confirmation email to:', payment.userInfo.email);
             const booking = payment.bookings?.[0] || payment.categories?.[0] || {};
             const categories = (payment.categories?.length ? payment.categories : payment.bookings || [])
               .filter((category: any) => Number(category.quantity) > 0)
@@ -535,35 +568,46 @@ export class IciciPaymentController {
             payment.emailNotificationSent = true;
             payment.emailNotificationSentAt = new Date();
             await payment.save();
-            console.log('[Paid Bhog] Confirmation email sent successfully');
+            console.log('[ICICI CALLBACK] Confirmation email sent successfully');
           } catch (emailError) {
-            console.error('[Paid Bhog] Failed to send confirmation email to:', payment.userInfo.email);
-            console.error('[Paid Bhog] Email error details:', emailError instanceof Error ? emailError.message : String(emailError));
+            console.error('[ICICI CALLBACK] Failed to send confirmation email to:', payment.userInfo.email);
+            console.error('[ICICI CALLBACK] Email error details:', emailError instanceof Error ? emailError.message : String(emailError));
             // Store error but don't fail the payment
             try {
               payment.emailNotificationError = typeof emailError === 'object' ? String(emailError) : 'Unknown email error';
               await payment.save();
             } catch (saveError) {
-              console.error('[Paid Bhog] Failed to save email error:', saveError);
+              console.error('[ICICI CALLBACK] Failed to save email error:', saveError);
             }
           }
         } else if (!payment.userInfo?.email) {
-          console.warn('[Paid Bhog] No email provided, skipping confirmation email');
+          console.warn('[ICICI CALLBACK] No email provided, skipping confirmation email');
         } else if (payment.emailNotificationSent) {
-          console.log('[Paid Bhog] Email already sent, skipping');
+          console.log('[ICICI CALLBACK] Email already sent, skipping');
+        }
+
+        // Log to Google Sheets (non-critical - payment success already persisted)
+        try {
+          console.log('[ICICI CALLBACK] Processing Google Sheet logging');
+          await this.logBhogToSheets(payment);
+          console.log('[ICICI CALLBACK] Google Sheet processing completed');
+        } catch (sheetsError) {
+          console.error('[ICICI CALLBACK] Google Sheet processing failed (non-critical):', sheetsError);
+          // Don't fail the payment - payment status already saved as success
         }
 
         // Send WhatsApp confirmation (fire and forget - errors don't affect payment)
+        console.log('[ICICI CALLBACK] Processing WhatsApp notification');
         this.sendBhogWhatsAppConfirmation(payment).catch((err) => {
-          console.error('[Paid Bhog] WhatsApp confirmation error (non-critical):', err.message);
+          console.error('[ICICI CALLBACK] WhatsApp processing failed (non-critical):', err.message);
         });
+        console.log('[ICICI CALLBACK] WhatsApp processing completed');
 
-        // Log to Google Sheets (non-critical)
-        await this.logBhogToSheets(payment);
-
-        console.log('Bhog payment successful:', payment.transactionId);
+        console.log('[ICICI CALLBACK] Bhog success processing completed');
+        console.log('[ICICI CALLBACK] Payment successful:', payment.transactionId);
         return res.redirect(this.getSuccessRedirectUrl(payment, 'bhog', finalTotalAmount));
       } else {
+        console.log('[ICICI CALLBACK] Payment verification failed - marking as failed');
         // Payment failed
         payment.iciciTxnId = callbackBody.txnID;
         payment.iciciPaymentId = callbackBody.paymentID;
@@ -574,13 +618,13 @@ export class IciciPaymentController {
         await payment.save();
 
         const errorMessage = callbackBody.respDescription || 'Payment failed';
-        console.log('Bhog payment failed:', payment.transactionId, errorMessage);
+        console.log('[ICICI CALLBACK] Bhog payment failed:', payment.transactionId, errorMessage);
         return res.redirect(
           `${this.FRONTEND_URL}/payment/failure?transactionId=${payment.transactionId}&errorMessage=${encodeURIComponent(errorMessage)}`
         );
       }
     } catch (error: any) {
-      console.error('Error handling Bhog callback:', error);
+      console.error('[ICICI CALLBACK] FAILED: Error handling Bhog callback:', error.message);
       return res.redirect(
         `${this.FRONTEND_URL}/payment/failure?transactionId=${payment.transactionId}&errorMessage=Internal%20error`
       );

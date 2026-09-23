@@ -81,7 +81,9 @@ async function main(): Promise<void> {
     console.log(`✅ ngrok tunnel active: ${url}\n`);
 
     // Update ICICI_PG_RETURN_URL in .env
-    const callbackUrl = `${url}/api/payment/icici-callback`;
+    // Remove trailing slash from ngrok URL to prevent double slashes
+    const cleanUrl = url.replace(/\/$/, '');
+    const callbackUrl = `${cleanUrl}/api/payment/icici-callback`;
     console.log(`📝 Updating ICICI_PG_RETURN_URL in .env...`);
     await updateEnvVar(ENV_FILE, 'ICICI_PG_RETURN_URL', callbackUrl);
     console.log(`✅ ICICI_PG_RETURN_URL updated: ${callbackUrl}\n`);

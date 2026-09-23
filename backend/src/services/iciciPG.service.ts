@@ -463,8 +463,15 @@ export class IciciPGService {
    * 
    * @param responseCode - The response code from ICICI
    * @returns true if successful, false otherwise
+   * 
+   * ICICI Response Codes:
+   * - '000' or '0000': Transaction successful
+   * - 'R1000': Initiate sale successful (used in initiate response)
+   * - Other codes: Various failure states
    */
   isPaymentSuccessful(responseCode: string): boolean {
+    // For callback responses, successful payments have responseCode '000' or '0000'
+    // R1000 is used in initiate responses, not callback responses
     return responseCode === '000' || responseCode === '0000';
   }
 }
