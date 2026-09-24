@@ -206,8 +206,16 @@ export class GoogleSheetsService {
    * running TOTAL row) rather than at the very bottom of the sheet.
    */
   async insertRowAt(sheetName: string, rowIndex: number, rowData: any[]): Promise<void> {
-    await this.insertBlankRowAt(sheetName, rowIndex);
-    await this.updateRow(sheetName, rowIndex, rowData);
+    try {
+      console.log(`[GoogleSheetsService] Preparing to insert row at index ${rowIndex} (1-based row ${rowIndex + 1}) in sheet "${sheetName}"...`);
+      await this.insertBlankRowAt(sheetName, rowIndex);
+      console.log(`[GoogleSheetsService] Successfully inserted blank row at index ${rowIndex} in sheet "${sheetName}"`);
+      await this.updateRow(sheetName, rowIndex, rowData);
+      console.log(`[GoogleSheetsService] Successfully wrote row data at index ${rowIndex} in sheet "${sheetName}"`);
+    } catch (error) {
+      console.error(`[GoogleSheetsService] Failed to insert row at index ${rowIndex} in sheet "${sheetName}":`, error);
+      throw error;
+    }
   }
 
   /**
@@ -223,7 +231,11 @@ export class GoogleSheetsService {
         (s: any) => s.properties.title === sheetName
       );
 
-      return sheet?.properties.sheetId || 0;
+      if (!sheet || sheet.properties?.sheetId === undefined || sheet.properties?.sheetId === null) {
+        throw new Error(`Sheet tab "${sheetName}" not found in spreadsheet`);
+      }
+
+      return sheet.properties.sheetId;
     } catch (error) {
       console.error(`Failed to get sheet ID for ${sheetName}:`, error);
       throw error;

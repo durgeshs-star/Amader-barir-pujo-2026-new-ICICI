@@ -30,11 +30,12 @@ Copy `.env.example` to `.env` and configure:
 PORT=3001
 NODE_ENV=development
 
-# Email Configuration (Gmail example)
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587
-SMTP_USER=your-email@gmail.com
-SMTP_PASS=your-app-password
+# Email Configuration (cPanel/GoDaddy)
+SMTP_HOST=mail.abp.proplusdatafoundation.com
+SMTP_PORT=465
+SMTP_SECURE=true
+SMTP_USER=info@abp.proplusdatafoundation.com
+SMTP_PASS=your_cpanel_mailbox_password
 EMAIL_FROM=info@abp.proplusdatafoundation.com
 EMAIL_TO=durgesh.s@proplusdata.co
 VOLUNTEER_EMAIL_TO=durgesh.s@proplusdata.co

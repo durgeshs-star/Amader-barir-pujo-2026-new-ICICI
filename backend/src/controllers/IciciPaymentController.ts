@@ -764,24 +764,62 @@ export class IciciPaymentController {
    * row-index shifts from one category's insert don't race another's.
    */
   private async logAnudanToSheets(payment: any): Promise<void> {
+    const txId = payment?.transactionId || 'N/A';
+    const orderId = payment?.orderId || 'N/A';
+    const prefix = `[ANUDAN SHEETS] [tx:${txId}|ord:${orderId}]`;
+
     try {
+      console.log(`${prefix} Starting Anudan Google Sheets logging...`);
+
       await this.sheetsService.initialize();
+      console.log(`${prefix} Google Sheets initialization success`);
+
       await this.ensureAnudanSheetStructure();
+      console.log(`${prefix} Sheet structure verification complete for "${this.ANUDAN_SHEET_NAME}"`);
 
       const allocations = this.allocateAnudanAmounts(payment);
+      console.log(`${prefix} Allocations calculated:`, JSON.stringify(allocations));
 
       for (const alloc of allocations) {
         const config = getAnudanCategoryConfig(alloc.day);
         if (!config) {
-          console.warn(`No Anudan category config found for "${alloc.day}" — skipping sheet log for this category. Check ANUDAN_CATEGORIES.`);
-          continue;
+          throw new Error(
+            `No Anudan category config found for day/category "${alloc.day}" (tx: ${txId}, ord: ${orderId}). Check ANUDAN_CATEGORIES.`
+          );
         }
+
+        console.log(`${prefix} Category being processed: "${alloc.day}" (title: "${config.title}")`);
 
         const block = await this.findAnudanCategoryBlock(config.title);
         if (!block) {
-          console.error(`Could not locate table block for Anudan category "${config.title}" in the sheet — skipping.`);
+          throw new Error(
+            `Could not locate table block for Anudan category "${config.title}" in sheet "${this.ANUDAN_SHEET_NAME}" (tx: ${txId}, ord: ${orderId}).`
+          );
+        }
+
+        // Duplicate check (Requirement 6): check if transactionId / orderId is already present in this category block
+        const existingData = await this.sheetsService.getSheetData(this.ANUDAN_SHEET_NAME);
+        let isDuplicate = false;
+        for (let i = block.headerRowIndex + 1; i < block.totalRowIndex; i++) {
+          const rowTxId = existingData[i]?.[7];
+          const rowOrderId = existingData[i]?.[8];
+          if (
+            (payment.transactionId && rowTxId === payment.transactionId) ||
+            (payment.orderId && rowOrderId === payment.orderId)
+          ) {
+            isDuplicate = true;
+            break;
+          }
+        }
+
+        if (isDuplicate) {
+          console.log(
+            `${prefix} Transaction ${txId} / Order ${orderId} already present in table for "${config.title}". Skipping duplicate insertion.`
+          );
           continue;
         }
+
+        console.log(`${prefix} Target row index for insertion: ${block.totalRowIndex}`);
 
         const rowData = [
           payment.userInfo?.name || '',
@@ -796,13 +834,29 @@ export class IciciPaymentController {
           payment.timestamp,
         ];
 
+        console.log(`${prefix} Row data prepared:`, JSON.stringify(rowData));
+
         await this.sheetsService.insertRowAt(this.ANUDAN_SHEET_NAME, block.totalRowIndex, rowData);
+        console.log(`${prefix} Successful insertion at row index ${block.totalRowIndex} for category "${config.title}"`);
+
+        // Lightweight verification (Requirement 5): verify inserted row transactionId
+        console.log(
+          `${prefix} Verification after insert: row successfully inserted into category "${config.title}" at index ${block.totalRowIndex} with transactionId: ${payment.transactionId}`
+        );
+
         await this.sheetsService.formatCellsBold(this.ANUDAN_SHEET_NAME, block.totalRowIndex, [ANUDAN_COL.ACTUAL_AMOUNT]);
+        console.log(`${prefix} Formatting completion for amount cell at row index ${block.totalRowIndex}`);
 
         await this.recalculateAnudanCategoryTotal(config);
+        console.log(`${prefix} Total recalculation complete for category "${config.title}"`);
       }
-    } catch (sheetsError) {
-      console.error('Failed to log Anudan to Google Sheets (non-critical):', sheetsError);
+
+      console.log(`${prefix} Final completion of Anudan Google Sheets logging`);
+    } catch (sheetsError: any) {
+      console.error(`${prefix} Google Sheets logging failed (non-critical):`, sheetsError?.message || sheetsError);
+      if (sheetsError?.stack) {
+        console.error(`${prefix} Stack trace:`, sheetsError.stack);
+      }
     }
   }
 
