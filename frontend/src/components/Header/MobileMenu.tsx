@@ -211,11 +211,11 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
             </li>
 
             {/* Volunteer Link (Sidebar primary button) */}
-            <li className="pt-4">
+            <li className="pt-6">
               <Link
                 to="/volunteer"
                 onClick={handleLinkClick}
-                className="block text-center py-3 text-sm font-semibold text-text-on-primary bg-primary hover:bg-primary-dark rounded-md transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                className="block text-center py-4 text-sm font-bold uppercase tracking-wide text-text-on-primary bg-primary hover:bg-primary-dark rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               >
                 Be a Bari'r Member
               </Link>

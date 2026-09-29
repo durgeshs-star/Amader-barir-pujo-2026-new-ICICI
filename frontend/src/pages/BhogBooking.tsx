@@ -3,6 +3,7 @@ import SEO from '../components/ui/SEO';
 import { useParams, Link } from 'react-router-dom';
 import Button from '../components/ui/Button';
 import BookingSoonModal from '../components/ui/BookingSoonModal';
+import FloatingBhogCTA from '../components/common/FloatingBhogCTA';
 // import { ComingSoonPopup } from '../components/ui/ComingSoonPopup';
 
 interface BhogMenu {
@@ -88,6 +89,9 @@ export const BhogBooking: React.FC = () => {
         ogImage="/assets/img/banner/1.webp"
         canonical="https://www.abp.proplusdatafoundation.com/bhog-booking"
       />
+
+      <FloatingBhogCTA fixed />
+
       <div className="max-w-5xl mx-auto px-6">
         
         {/* Title */}

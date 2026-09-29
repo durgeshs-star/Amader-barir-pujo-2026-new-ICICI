@@ -2,6 +2,7 @@ import React from "react";
 import SEO from "../../components/ui/SEO";
 import PageHero from "../../components/common/PageHero";
 import PujaBookingCard from "../../components/ui/PujaBookingCard";
+import FloatingBhogCTA from "../../components/common/FloatingBhogCTA";
 // import { ComingSoonPopup } from "../../components/ui/ComingSoonPopup";
 
 const LakshmiPujaBhogPage: React.FC = () => {
@@ -20,7 +21,9 @@ const LakshmiPujaBhogPage: React.FC = () => {
       <PageHero
         title="Lakshmi Pujo Bhog"
         height="h-[35vh] md:h-[60vh]"
-      />
+      >
+        <FloatingBhogCTA />
+      </PageHero>
 
       <section className="content-layer py-8">
         <div className="max-w-4xl mx-auto px-6">

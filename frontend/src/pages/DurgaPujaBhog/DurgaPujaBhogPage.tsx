@@ -2,6 +2,7 @@ import React from "react";
 import SEO from "../../components/ui/SEO";
 import PageHero from "../../components/common/PageHero";
 import BhogBookingSection from "../../components/ui/BhogBookingSection";
+import FloatingBhogCTA from "../../components/common/FloatingBhogCTA";
 // import { ComingSoonPopup } from "../../components/ui/ComingSoonPopup";
 import { BHOG_BOOKING_CATEGORIES } from "../../config/pujaConfig";
 import type { BhogBookingCategory } from "../../types/bhog";
@@ -24,7 +25,9 @@ const DurgaPujaBhogPage: React.FC = () => {
         title="Durga Puja Bhog"
         subtitle=" "
         height="h-[35vh] md:h-[60vh]"
-      />
+      >
+        <FloatingBhogCTA />
+      </PageHero>
 
       <section className="content-layer py-14 md:py-20">
         <div className="max-w-4xl mx-auto px-6">

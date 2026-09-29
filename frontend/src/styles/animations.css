@@ -57,6 +57,22 @@
   will-change: transform, color, text-shadow;
 }
 
+/* ── Bhog button pulse animation (for floating CTA button) ────────────────────────── */
+@keyframes bhog-button-pulse {
+  0%   { transform: scale(1);    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+  20%  { transform: scale(1.05); box-shadow: 0 0 20px rgba(212, 160, 23, 0.8), 0 4px 6px rgba(0, 0, 0, 0.1); border-color: #FFD700; }
+  40%  { transform: scale(1);    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+  60%  { transform: scale(1.04); box-shadow: 0 0 15px rgba(201, 144, 10, 0.7), 0 4px 6px rgba(0, 0, 0, 0.1); border-color: #FFD700; }
+  80%  { transform: scale(1);    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+  100% { transform: scale(1);    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+}
+
+.bhog-button-pulse {
+  display: inline-block;
+  animation: bhog-button-pulse 2s ease-in-out infinite;
+  will-change: transform, box-shadow, border-color;
+}
+
 /* ── Custom Utility Classes for Animations ───────────────────────── */
 .animate-fade-in {
   animation: fadeIn 0.3s ease-out forwards;

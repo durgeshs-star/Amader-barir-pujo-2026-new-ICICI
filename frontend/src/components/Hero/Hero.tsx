@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from '../ui/Button';
+import FloatingBhogCTA from '../common/FloatingBhogCTA';
 
 export const Hero: React.FC = React.memo(() => {
   // const handleScrollToContent = () => {
@@ -43,6 +44,11 @@ xl:object-[50%_78%]"
           }}
           aria-hidden="true"
         />
+
+        {/* Floating Bhog Booking CTA - Mobile Only */}
+        <div className="relative z-30 pointer-events-auto">
+          <FloatingBhogCTA />
+        </div>
       </div>
 
       {/* Content — below image on mobile, overlaid on left on desktop */}

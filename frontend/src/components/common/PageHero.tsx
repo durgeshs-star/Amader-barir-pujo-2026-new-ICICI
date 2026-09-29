@@ -9,6 +9,7 @@ export interface PageHeroProps {
   overlay?: string;
   height?: string;
   objectPosition?: string;
+  children?: React.ReactNode;
 }
 
 const DEFAULT_BACKGROUND = "/assets/img/new-hero-image.webp";
@@ -23,10 +24,11 @@ export const PageHero: React.FC<PageHeroProps> = React.memo(({
   overlay = "", // Overlay is now handled by the inline style gradient
   height = DEFAULT_HEIGHT,
   objectPosition = "center",
+  children,
 }) => {
   return (
     <>
-      <section className={`relative ${height} overflow-hidden`} style={{ minHeight: '320px' }}>
+      <section className={`relative ${height}`} style={{ minHeight: '320px' }}>
         <img
           src={backgroundImage}
           srcSet={srcset}
@@ -41,12 +43,18 @@ export const PageHero: React.FC<PageHeroProps> = React.memo(({
           height={1080}
         />
 
-        <div 
-          className={`absolute inset-0 ${overlay}`} 
+        <div
+          className={`absolute inset-0 ${overlay}`}
           style={{
             background: 'linear-gradient(to right, rgba(42, 10, 20, 0.85) 0%, rgba(42, 10, 20, 0.65) 5%, rgba(0, 0, 0, 0) 15%), linear-gradient(to left, rgba(42, 10, 20, 0.85) 0%, rgba(42, 10, 20, 0.65) 5%, rgba(0, 0, 0, 0) 15%)'
           }}
         />
+
+        {children && (
+          <div className="absolute inset-0 z-30 pointer-events-auto">
+            {children}
+          </div>
+        )}
       </section>
 
       <section className="relative z-10 pt-8 md:pt-4">
