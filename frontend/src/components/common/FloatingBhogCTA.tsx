@@ -100,7 +100,7 @@ export const FloatingBhogCTA: React.FC<FloatingBhogCTAProps> = ({ fixed = false 
                 <li key={item.path}>
                   <NavLink
                     to={item.path}
-                    className="px-5 py-3 text-[14px] font-semibold tracking-wide transition-all duration-200 block border-l-[3px] border-transparent hover:border-primary hover:bg-primary hover:text-white text-gray-800 cursor-pointer"
+                    className="px-5 py-1.75 text-[14px] font-semibold tracking-wide transition-all duration-200 block border-l-[3px] border-transparent hover:border-primary hover:bg-primary hover:text-white text-gray-800 cursor-pointer"
                     onClick={(e) => {
                       e.preventDefault();
                       setBhogOpen(false);
