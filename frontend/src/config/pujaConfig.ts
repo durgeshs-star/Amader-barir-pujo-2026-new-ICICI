@@ -43,7 +43,7 @@ export const PUJA_BOOKING_CUTOFFS: Record<string, PujaBookingCutoff> = {
 };
 
 /**
- * Standard Bhog booking categories
+ * Standard Bhog booking categories (Saptami, Ashtami, Sandhi Puja, etc.)
  */
 export const BHOG_BOOKING_CATEGORIES = [
   {
@@ -75,3 +75,49 @@ export const BHOG_BOOKING_CATEGORIES = [
     max: 2,
   },
 ];
+
+/**
+ * Navami Bhog booking categories
+ * Pandal Bhog: ₹350, Packed Bhog: ₹375
+ */
+export const NAVAMI_BHOG_BOOKING_CATEGORIES = [
+  {
+    id: "bhog-booking",
+    title: "Pandal Bhog",
+    description: "per person",
+    price: 350,
+    max: 5,
+  },
+  {
+    id: "bhog-booking-senior",
+    title: "Senior Citizen (age above 60)",
+    description: "per person",
+    price: 100,
+    max: 10,
+  },
+  {
+    id: "packed-bhog",
+    title: "Packed Bhog",
+    description: "per person",
+    price: 375,
+    max: 10,
+  },
+  {
+    id: "children-0-5",
+    title: "Children aged 0 to 5",
+    description: "",
+    price: 0,
+    max: 2,
+  },
+];
+
+/**
+ * Get Bhog booking categories for a specific puja key
+ */
+export const getBhogBookingCategories = (pujaKey?: string) => {
+  if (pujaKey && pujaKey.toLowerCase() === "navami") {
+    return NAVAMI_BHOG_BOOKING_CATEGORIES;
+  }
+  return BHOG_BOOKING_CATEGORIES;
+};
+

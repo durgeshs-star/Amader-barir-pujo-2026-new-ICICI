@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import BhogBookingSection from './BhogBookingSection';
-import { BHOG_BOOKING_CATEGORIES } from '../../config/pujaConfig';
+import { getBhogBookingCategories } from '../../config/pujaConfig';
 import { isBookingClosed, getPujaName, getCutoffTimestamp } from '../../utils/bookingUtils';
 import { logBookingBlocked } from '../../utils/logger';
 import type { BhogBookingCategory } from '../../types/bhog';
@@ -96,7 +96,7 @@ export const PujaBookingCard: React.FC<PujaBookingCardProps> = ({
           title={title}
           subtitle={subtitle}
           description={description}
-          categories={BHOG_BOOKING_CATEGORIES as BhogBookingCategory[]}
+          categories={getBhogBookingCategories(pujaKey) as BhogBookingCategory[]}
           paymentUrl={paymentUrl}
           disclaimer={disclaimer}
         />
