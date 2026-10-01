@@ -199,26 +199,93 @@ export class BhogController {
       categories: any[];
     }> = [];
 
+    console.log(`[Bhog] bookings[] present: ${Array.isArray(body.bookings)}`);
+    if (Array.isArray(body.bookings)) {
+      console.log(`[Bhog] Booking count: ${body.bookings.length}`);
+    }
+
+    const normalizeCategories = (categories: any[], day: string): any[] => {
+      if (categories.length === 0) {
+        throw new Error(`Booking for ${day} must include categories.`);
+      }
+
+      return categories.map((category, index) => {
+        const id = typeof category?.id === 'string' ? category.id.trim() : '';
+        const title = typeof category?.title === 'string' ? category.title.trim() : '';
+        const price = Number(category?.price);
+        const quantity = Number(category?.quantity);
+
+        if (!id || !title) {
+          throw new Error(`Category ${index + 1} for ${day} must include an ID and title.`);
+        }
+        if (category?.price === undefined || category?.price === null || category?.price === '' || !Number.isFinite(price) || price < 0) {
+          throw new Error(`Category ${title} for ${day} must have a valid price.`);
+        }
+        if (category?.quantity === undefined || category?.quantity === null || category?.quantity === '' || !Number.isInteger(quantity) || quantity < 0) {
+          throw new Error(`Category ${title} for ${day} must have a valid non-negative integer quantity.`);
+        }
+
+        return { ...category, id, title, price, quantity };
+      });
+    };
+
     if (Array.isArray(body.bookings) && body.bookings.length > 0) {
-      dayBookings = body.bookings.map((b: any) => {
-        const cats = Array.isArray(b.categories) ? b.categories : [];
-        const dayCats = cats.filter((c: any) => Number(c.quantity) > 0);
-        const dayAmount = dayCats.reduce((sum: number, c: any) => sum + ((Number(c.price) || 0) * (Number(c.quantity) || 0)), 0);
-        const dayQty = dayCats.reduce((sum: number, c: any) => sum + (Number(c.quantity) || 0), 0);
+      console.log('[Bhog] Multi-day request detected');
+
+      dayBookings = body.bookings.map((booking: any, index: number) => {
+        const day = typeof booking?.day === 'string' ? booking.day.trim() : '';
+        const dayKey = typeof booking?.dayKey === 'string' ? booking.dayKey.trim() : '';
+        if (!day || !dayKey) {
+          throw new Error(`Booking ${index + 1} must include a day and dayKey.`);
+        }
+        if (!Array.isArray(booking.categories)) {
+          throw new Error(`Booking for ${day} must include a categories array.`);
+        }
+
+        const categories = normalizeCategories(booking.categories, day);
+        const dayCats = categories.filter((category) => category.quantity > 0);
+        const calculatedAmount = dayCats.reduce((sum, category) => sum + category.price * category.quantity, 0);
+        const dayAmount = Math.round((calculatedAmount + Number.EPSILON) * 100) / 100;
+        const dayQty = dayCats.reduce((sum, category) => sum + category.quantity, 0);
+        const suppliedAmount = Number(booking.amount);
+        const suppliedQuantity = Number(booking.quantity);
+
+        if (booking.amount === undefined || booking.amount === null || booking.amount === '' || !Number.isFinite(suppliedAmount) || suppliedAmount < 0) {
+          throw new Error(`Booking for ${day} must have a valid amount.`);
+        }
+        if (Math.round((suppliedAmount + Number.EPSILON) * 100) / 100 !== dayAmount) {
+          throw new Error(`Booking amount for ${day} does not match its category totals.`);
+        }
+        if (booking.quantity === undefined || booking.quantity === null || booking.quantity === '' || !Number.isInteger(suppliedQuantity) || suppliedQuantity !== dayQty) {
+          throw new Error(`Booking quantity for ${day} does not match its category quantities.`);
+        }
+        if (dayCats.length === 0) {
+          throw new Error(`Booking for ${day} must contain at least one selected category.`);
+        }
+
+        console.log(`[Bhog] ${day} (${dayKey}) categories: ${dayCats.map((category) => `${category.id}=${category.quantity}`).join(', ')}`);
         return {
-          day: b.day || 'Bhog',
-          dayKey: b.dayKey,
-          amount: Math.round((dayAmount + Number.EPSILON) * 100) / 100,
+          day,
+          dayKey,
+          amount: dayAmount,
           quantity: dayQty,
-          remark: b.remark || '',
+          remark: booking.remark || '',
           categories: dayCats,
         };
-      }).filter((b: any) => b.quantity > 0 || (Array.isArray(b.categories) && b.categories.length > 0));
+      });
     } else if (body.title && Array.isArray(body.categories)) {
-      const activeCats = body.categories.filter((c: any) => Number(c.quantity) > 0);
-      const { totalAmount, totalCount } = this.calculateBookingTotals(body.categories);
+      const title = typeof body.title === 'string' ? body.title.trim() : '';
+      if (!title) {
+        throw new Error('A booking title is required.');
+      }
+      const categories = normalizeCategories(body.categories, title);
+      const activeCats = categories.filter((category) => category.quantity > 0);
+      const { totalAmount, totalCount } = this.calculateBookingTotals(activeCats);
+      if (totalCount === 0) {
+        throw new Error('At least one bhog selection is required.');
+      }
       dayBookings = [{
-        day: body.title,
+        day: title,
         dayKey: body.dayKey,
         amount: totalAmount,
         quantity: totalCount,
@@ -240,11 +307,17 @@ export class BhogController {
 
     const totalAmount = dayBookings.reduce((sum, b) => sum + b.amount, 0);
     const totalCount = dayBookings.reduce((sum, b) => sum + b.quantity, 0);
+    const calculatedTotal = Math.round((totalAmount + Number.EPSILON) * 100) / 100;
+
+    if (Array.isArray(body.bookings) && body.bookings.length > 0) {
+      console.log(`[Bhog] Calculated total: ₹${calculatedTotal}`);
+      console.log(`[Bhog] Free booking: ${body.isFree === true}`);
+    }
 
     return {
       dayBookings,
       flatCategories,
-      totalAmount: Math.round((totalAmount + Number.EPSILON) * 100) / 100,
+      totalAmount: calculatedTotal,
       totalCount,
     };
   }
@@ -261,7 +334,17 @@ export class BhogController {
       const orderId = `FREE-BHG-${receiptSuffix}`;
       const transactionId = `FREE-${receiptSuffix}`;
 
-      const { dayBookings, flatCategories, totalAmount, totalCount } = this.normalizeBhogPayload(req.body);
+      let normalizedPayload;
+      try {
+        normalizedPayload = this.normalizeBhogPayload(req.body);
+      } catch (validationError: any) {
+        res.status(400).json({
+          success: false,
+          error: validationError.message || 'Invalid booking data.',
+        });
+        return;
+      }
+      const { dayBookings, flatCategories, totalAmount, totalCount } = normalizedPayload;
 
       // Validate required fields
       if (dayBookings.length === 0 || totalCount === 0) {
@@ -419,7 +502,17 @@ export class BhogController {
         ? sanitizeMerchantTxnNo(transactionId)
         : '';
 
-      const { dayBookings, flatCategories, totalAmount, totalCount } = this.normalizeBhogPayload(req.body);
+      let normalizedPayload;
+      try {
+        normalizedPayload = this.normalizeBhogPayload(req.body);
+      } catch (validationError: any) {
+        res.status(400).json({
+          success: false,
+          error: validationError.message || 'Invalid booking data.',
+        });
+        return;
+      }
+      const { dayBookings, flatCategories, totalAmount, totalCount } = normalizedPayload;
 
       // Validate required fields
       if (dayBookings.length === 0 || totalCount === 0) {
