@@ -112,17 +112,25 @@ export class EmailService implements IEmailService {
     to: string;
     customerName: string;
     customerPhone?: string;
-    day: string;
-    date: string;
-    bhogTiming: string;
+    day?: string;
+    date?: string;
+    bhogTiming?: string;
     isFree: boolean;
     totalAmount: number;
-    categories: Array<{ title: string; quantity: number }>;
+    categories?: Array<{ title: string; quantity: number }>;
+    bookings?: Array<{
+      day: string;
+      date?: string;
+      bhogTiming?: string;
+      quantity?: number;
+      amount?: number;
+      categories?: Array<{ title: string; quantity: number }>;
+    }>;
     orderId?: string;
     transactionId?: string;
     paymentStatus?: string;
   }): Promise<void> {
-    const { to, customerName, customerPhone, day, date, bhogTiming, isFree, totalAmount, categories, orderId, transactionId, paymentStatus } = params;
+    const { to, customerName, customerPhone, day, date, bhogTiming, isFree, totalAmount, categories = [], bookings = [], orderId, transactionId, paymentStatus } = params;
     
     // Validate recipient email
     if (!to || !to.includes('@')) {
@@ -130,19 +138,71 @@ export class EmailService implements IEmailService {
       throw new Error('Invalid recipient email address');
     }
 
-    const totalPlates = categories.reduce((sum, category) => sum + Number(category.quantity || 0), 0);
-    const categoryText = categories
-      .map((category) => `- ${category.title}: ${category.quantity} ${category.quantity === 1 ? 'plate' : 'plates'}`)
-      .join('\n');
-    const categoryHtml = categories
-      .map((category) => `<li><strong>${category.title}:</strong> ${category.quantity} ${category.quantity === 1 ? 'plate' : 'plates'}</li>`)
-      .join('');
+    let totalPlates = 0;
+    let detailsText = '';
+    let detailsHtml = '';
+
+    if (bookings.length > 0) {
+      // Multi-day format
+      bookings.forEach((b) => {
+        const bCategories = b.categories || [];
+        const bPlates = b.quantity || bCategories.reduce((sum, c) => sum + Number(c.quantity || 0), 0);
+        totalPlates += bPlates;
+
+        detailsText += `\n[ ${b.day} ]\n`;
+        if (b.date) detailsText += `- Date: ${b.date}\n`;
+        if (b.bhogTiming) detailsText += `- Timing: ${b.bhogTiming}\n`;
+        detailsText += `- Plates: ${bPlates}\n`;
+        if (bCategories.length > 0) {
+          detailsText += bCategories.map(c => `  • ${c.title}: ${c.quantity} ${c.quantity === 1 ? 'plate' : 'plates'}`).join('\n') + '\n';
+        }
+
+        detailsHtml += `
+          <div style="margin-bottom: 12px; padding: 10px; background-color: #ffffff; border: 1px solid #e0e0e0; border-radius: 6px;">
+            <strong style="color: #8B4513; font-size: 15px;">${b.day}</strong>
+            <p style="margin: 4px 0 6px 0; font-size: 13px; color: #555;">${b.date ? `Date: ${b.date} | ` : ''}Timing: ${b.bhogTiming || '12:30 PM - 2:30 PM'} | Total: ${bPlates} plates</p>
+            <ul style="margin: 0; padding-left: 20px; font-size: 13px;">
+              ${bCategories.map(c => `<li><strong>${c.title}:</strong> ${c.quantity} ${c.quantity === 1 ? 'plate' : 'plates'}</li>`).join('')}
+            </ul>
+          </div>
+        `;
+      });
+    } else {
+      // Single day format
+      totalPlates = categories.reduce((sum, category) => sum + Number(category.quantity || 0), 0);
+      const categoryText = categories
+        .map((category) => `- ${category.title}: ${category.quantity} ${category.quantity === 1 ? 'plate' : 'plates'}`)
+        .join('\n');
+      const categoryHtml = categories
+        .map((category) => `<li><strong>${category.title}:</strong> ${category.quantity} ${category.quantity === 1 ? 'plate' : 'plates'}</li>`)
+        .join('');
+
+      detailsText = `
+- Bhog Day: ${day || 'Bhog'}
+- Bhog Date: ${date || 'October 2026'}
+- Bhog Timing: ${bhogTiming || '12:30 PM - 2:30 PM'}
+- Total Plates: ${totalPlates}
+- Categories:
+${categoryText}
+      `.trim();
+
+      detailsHtml = `
+        <li style="padding: 8px 0; border-bottom: 1px solid #e0e0e0;"><strong>Bhog Day:</strong> ${day || 'Bhog'}</li>
+        <li style="padding: 8px 0; border-bottom: 1px solid #e0e0e0;"><strong>Bhog Date:</strong> ${date || 'October 2026'}</li>
+        <li style="padding: 8px 0; border-bottom: 1px solid #e0e0e0;"><strong>Bhog Timing:</strong> ${bhogTiming || '12:30 PM - 2:30 PM'}</li>
+        <li style="padding: 8px 0; border-bottom: 1px solid #e0e0e0;"><strong>Total Plates:</strong> ${totalPlates}</li>
+        <li style="padding: 8px 0; border-bottom: 1px solid #e0e0e0;"><strong>Categories:</strong>
+          <ul style="margin: 5px 0 5px 20px;">${categoryHtml}</ul>
+        </li>
+      `;
+    }
+
     const paymentSummary = isFree
       ? 'Booking Type: FREE\nAmount Paid: INR 0.00'
       : `Booking Type: PAID\nAmount Paid: INR ${totalAmount.toFixed(2)}`;
     const paymentSummaryHtml = isFree
-      ? '<li><strong>Booking Type:</strong> FREE</li><li><strong>Amount Paid:</strong> INR 0.00</li>'
-      : `<li><strong>Booking Type:</strong> PAID</li><li><strong>Amount Paid:</strong> INR ${totalAmount.toFixed(2)}</li>`;
+      ? '<li style="padding: 8px 0; border-bottom: 1px solid #e0e0e0;"><strong>Booking Type:</strong> FREE</li><li style="padding: 8px 0; border-bottom: 1px solid #e0e0e0;"><strong>Amount Paid:</strong> INR 0.00</li>'
+      : `<li style="padding: 8px 0; border-bottom: 1px solid #e0e0e0;"><strong>Booking Type:</strong> PAID</li><li style="padding: 8px 0; border-bottom: 1px solid #e0e0e0;"><strong>Amount Paid:</strong> INR ${totalAmount.toFixed(2)}</li>`;
 
     const emailText = `
 Dear ${customerName},
@@ -153,12 +213,7 @@ Booking Details:
 - Name: ${customerName}
 - Email: ${to}
 ${customerPhone ? `- Phone: ${customerPhone}` : ''}
-- Bhog Day: ${day}
-- Bhog Date: ${date}
-- Bhog Timing: ${bhogTiming}
-- Total Plates: ${totalPlates}
-- Categories:
-${categoryText}
+${detailsText}
 - ${paymentSummary}
 ${orderId ? `- Order ID: ${orderId}` : ''}
 ${transactionId ? `- Transaction ID: ${transactionId}` : ''}
@@ -189,13 +244,13 @@ Amader Barir Puja 2026 Team
       <li style="padding: 8px 0; border-bottom: 1px solid #e0e0e0;"><strong>Name:</strong> ${customerName}</li>
       <li style="padding: 8px 0; border-bottom: 1px solid #e0e0e0;"><strong>Email:</strong> ${to}</li>
       ${customerPhone ? `<li style="padding: 8px 0; border-bottom: 1px solid #e0e0e0;"><strong>Phone:</strong> ${customerPhone}</li>` : ''}
-      <li style="padding: 8px 0; border-bottom: 1px solid #e0e0e0;"><strong>Bhog Day:</strong> ${day}</li>
-      <li style="padding: 8px 0; border-bottom: 1px solid #e0e0e0;"><strong>Bhog Date:</strong> ${date}</li>
-      <li style="padding: 8px 0; border-bottom: 1px solid #e0e0e0;"><strong>Bhog Timing:</strong> ${bhogTiming}</li>
       <li style="padding: 8px 0; border-bottom: 1px solid #e0e0e0;"><strong>Total Plates:</strong> ${totalPlates}</li>
-      <li style="padding: 8px 0; border-bottom: 1px solid #e0e0e0;"><strong>Categories:</strong>
-        <ul style="margin: 5px 0 5px 20px;">${categoryHtml}</ul>
-      </li>
+    </ul>
+    <div style="margin-top: 15px;">
+      <h4 style="color: #8B4513; margin-bottom: 8px;">Offerings & Days:</h4>
+      ${detailsHtml}
+    </div>
+    <ul style="list-style: none; padding: 0; margin: 10px 0 0 0;">
       ${paymentSummaryHtml}
       ${orderId ? `<li style="padding: 8px 0; border-bottom: 1px solid #e0e0e0;"><strong>Order ID:</strong> ${orderId}</li>` : ''}
       ${transactionId ? `<li style="padding: 8px 0; border-bottom: 1px solid #e0e0e0;"><strong>Transaction ID:</strong> ${transactionId}</li>` : ''}

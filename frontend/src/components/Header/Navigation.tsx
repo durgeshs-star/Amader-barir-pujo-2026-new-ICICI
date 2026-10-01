@@ -1,7 +1,7 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { NavLink } from 'react-router-dom';
 import type { NavItem } from '../../config/navData';
-import { pujoScheduleDays, bhogBookingDays } from '../../config/navData';
+import { pujoScheduleDays } from '../../config/navData';
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   `nav-link text-xs xl:text-sm font-medium uppercase tracking-wide xl:tracking-wider transition-colors duration-200 py-1 block text-text-secondary hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm ${isActive ? 'text-primary font-semibold border-b-2 border-primary' : ''
@@ -101,8 +101,11 @@ export const Navigation: React.FC = () => (
       <li>
         <NavLink to="/anudan" className={navLinkClass}>Anudan</NavLink>
       </li>
-
-      <DropdownMenu label="Bhog Booking" items={bhogBookingDays} />
+      <li>
+        <NavLink to="/bhog-booking" className={navLinkClass}>
+          <span className="bhog-beep">Bhog Booking</span>
+        </NavLink>
+      </li>
 
       <li>
         <NavLink to="/gallery" className={navLinkClass}>Gallery</NavLink>

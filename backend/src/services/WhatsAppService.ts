@@ -12,11 +12,7 @@ import axios, { AxiosInstance } from 'axios';
  */
 export interface BhogBookingConfirmationParams {
   customerName: string;
-  day: string;
-  date: string;
-  numberOfBhog: string;
-  type: string;
-  bhogTiming: string;
+  bookingDetails: string;
   whatsappNumber: string;
 }
 
@@ -223,23 +219,7 @@ export class WhatsAppService {
           },
           {
             type: 'text',
-            text: params.day,
-          },
-          {
-            type: 'text',
-            text: params.date,
-          },
-          {
-            type: 'text',
-            text: params.numberOfBhog,
-          },
-          {
-            type: 'text',
-            text: params.type,
-          },
-          {
-            type: 'text',
-            text: params.bhogTiming,
+            text: params.bookingDetails,
           },
         ],
       },
