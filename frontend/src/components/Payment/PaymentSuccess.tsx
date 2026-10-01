@@ -171,31 +171,76 @@ export const PaymentSuccess: React.FC<PaymentSuccessProps> = ({
                 receiptData={receiptData ? {
                   orderId: receiptData.orderId,
                   transactionId: receiptData.transactionId,
-                title: receiptData.bookings?.[0]?.day || 'Bhog Booking',
-                categories: (receiptData.categories?.length ? receiptData.categories : receiptData.bookings || []).map((booking: any, index: number) => ({
-                  id: booking.id || `booking-${index}`,
-                  title: booking.title || booking.day,
-                  price: roundCurrency(Number(booking.price ?? (booking.quantity ? booking.amount / booking.quantity : booking.amount)) || 0),
-                  description: booking.description || booking.remark || '',
-                  max: booking.quantity || 0,
-                  quantity: booking.quantity || 0,
-                })),
+                title: receiptData.bookings?.length === 1 ? receiptData.bookings[0].day : (receiptData.title || 'Bhog Booking'),
+                categories: (() => {
+                  const allCats: any[] = [];
+                  if (receiptData.bookings && receiptData.bookings.length > 0) {
+                    receiptData.bookings.forEach((b: any) => {
+                      if (b.categories && b.categories.length > 0) {
+                        b.categories.forEach((c: any) => {
+                          if (c.quantity > 0) {
+                            allCats.push({
+                              id: c.id || `${b.day}-${c.title}`,
+                              title: c.title,
+                              day: b.day,
+                              price: roundCurrency(Number(c.price) || 0),
+                              description: c.description || '',
+                              max: c.max || 10,
+                              quantity: Number(c.quantity) || 0,
+                            });
+                          }
+                        });
+                      } else if (b.quantity > 0) {
+                        allCats.push({
+                          id: b.id || b.day,
+                          title: b.day,
+                          day: b.day,
+                          price: roundCurrency(Number(b.amount / b.quantity) || 0),
+                          description: b.remark || '',
+                          max: b.quantity,
+                          quantity: b.quantity,
+                        });
+                      }
+                    });
+                  } else if (receiptData.categories && receiptData.categories.length > 0) {
+                    receiptData.categories.forEach((c: any, index: number) => {
+                      if (c.quantity > 0) {
+                        allCats.push({
+                          id: c.id || `category-${index}`,
+                          title: c.title || 'Bhog',
+                          day: c.day || receiptData.title || 'Bhog Offering',
+                          price: roundCurrency(Number(c.price) || 0),
+                          description: c.description || '',
+                          max: c.max || 10,
+                          quantity: Number(c.quantity) || 0,
+                        });
+                      }
+                    });
+                  }
+                  return allCats;
+                })(),
                 totalAmount: finalTotalAmount,
-                // Pass through ICICI fee breakdown fields
                 actualAmountCharged: receiptData.actualAmountCharged,
                 convenienceFee: receiptData.convenienceFee,
                 serviceTax: receiptData.serviceTax,
                 othCharge: receiptData.othCharge,
-                totalCount: (receiptData.categories?.length ? receiptData.categories : receiptData.bookings || []).reduce(
-                  (total: number, category: any) => total + (category.quantity || 0),
-                  0
-                ),
+                totalCount: (() => {
+                  if (receiptData.bookings && receiptData.bookings.length > 0) {
+                    return receiptData.bookings.reduce((sum: number, b: any) => sum + (Number(b.quantity) || 0), 0);
+                  }
+                  return (receiptData.categories || []).reduce((sum: number, c: any) => sum + (Number(c.quantity) || 0), 0);
+                })(),
                 timestamp: receiptData.timestamp,
                 userInfo: receiptData.userInfo,
-                requiresIdVerification: (receiptData.categories || []).some((category: any) => {
-                  const categoryId = String(category.id || '').toLowerCase();
-                  return category.quantity > 0 && (categoryId === 'children-0-5' || categoryId.includes('senior'));
-                }),
+                requiresIdVerification: (() => {
+                  const allCats = receiptData.categories || [];
+                  const bookingCats = (receiptData.bookings || []).flatMap((b: any) => b.categories || []);
+                  const combined = [...allCats, ...bookingCats];
+                  return combined.some((c: any) => {
+                    const id = String(c.id || '').toLowerCase();
+                    return Number(c.quantity) > 0 && (id === 'children-0-5' || id.includes('senior') || id.includes('child'));
+                  });
+                })(),
                 receiptPath: receiptData.receiptPath,
               } : undefined}
               />

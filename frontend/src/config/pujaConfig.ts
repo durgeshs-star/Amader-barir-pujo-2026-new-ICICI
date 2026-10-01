@@ -121,3 +121,57 @@ export const getBhogBookingCategories = (pujaKey?: string) => {
   return BHOG_BOOKING_CATEGORIES;
 };
 
+export interface UnifiedBhogDay {
+  key: string;
+  title: string;
+  shortName: string;
+  subtitle: string;
+  description: string;
+  date: string;
+  cutoffISO: string;
+  categories: typeof BHOG_BOOKING_CATEGORIES;
+}
+
+export const UNIFIED_BHOG_DAYS: UnifiedBhogDay[] = [
+  {
+    key: 'saptami',
+    title: 'Saptami Bhog',
+    shortName: 'Saptami',
+    subtitle: 'Bhog Booking',
+    description: 'Select the number of bhog.',
+    date: 'Sat, 17 Oct 2026',
+    cutoffISO: '2026-10-16T12:00:00+05:30',
+    categories: BHOG_BOOKING_CATEGORIES,
+  },
+  {
+    key: 'ashtami',
+    title: 'Ashtami Bhog',
+    shortName: 'Ashtami',
+    subtitle: 'Bhog Booking',
+    description: 'Select the number of bhog.',
+    date: 'Sun, 18 Oct 2026',
+    cutoffISO: '2026-10-17T12:00:00+05:30',
+    categories: BHOG_BOOKING_CATEGORIES,
+  },
+  {
+    key: 'sandhiPuja',
+    title: 'Ashtami Sandhi Pujo Bhog',
+    shortName: 'Ashtami Sandhi Pujo',
+    subtitle: 'Sacred Transition Bhog Booking',
+    description: 'Select the number of bhog.',
+    date: 'Mon, 19 Oct 2026',
+    cutoffISO: '2026-10-18T12:00:00+05:30',
+    categories: BHOG_BOOKING_CATEGORIES,
+  },
+  {
+    key: 'navami',
+    title: 'Navami Bhog',
+    shortName: 'Navami',
+    subtitle: 'Bhog Booking',
+    description: 'Select the number of bhog.',
+    date: 'Tue, 20 Oct 2026',
+    cutoffISO: '2026-10-19T12:00:00+05:30',
+    categories: NAVAMI_BHOG_BOOKING_CATEGORIES,
+  },
+];
+

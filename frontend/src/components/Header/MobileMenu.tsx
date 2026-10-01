@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaTimes, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import CountdownTimer from '../ui/CountdownTimer';
-import { pujoScheduleDays, bhogBookingDays } from '../../config/navData';
+import { pujoScheduleDays } from '../../config/navData';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -11,7 +11,6 @@ interface MobileMenuProps {
 
 export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
   const [scheduleOpen, setScheduleOpen] = useState(false);
-  const [bhogOpen, setBhogOpen] = useState(false);
 
   // Esc key closes menu
   useEffect(() => {
@@ -159,33 +158,15 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
               </Link>
             </li>
 
-            {/* Bhog Booking Dropdown */}
+            {/* Bhog Booking */}
             <li className="border-b border-[rgb(180,160,130)] pb-1">
-              <button
-                onClick={() => setBhogOpen(!bhogOpen)}
-                className="w-full flex justify-between items-center py-2 text-[15px] font-medium text-secondary hover:text-primary transition-colors text-left bg-transparent border-0 cursor-pointer"
-                aria-expanded={bhogOpen}
+              <Link
+                to="/bhog-booking"
+                onClick={handleLinkClick}
+                className="block py-2 text-[15px] font-medium text-secondary hover:text-primary transition-colors"
               >
                 <span className="bhog-beep">Bhog Booking</span>
-                {bhogOpen ? <FaChevronUp size={12} /> : <FaChevronDown size={12} />}
-              </button>
-              <ul
-                className={`list-none pl-4 space-y-1 overflow-hidden transition-all duration-300 ${
-                  bhogOpen ? 'max-h-[300px] mt-1 mb-2 opacity-100' : 'max-h-0 opacity-0'
-                }`}
-              >
-                {bhogBookingDays.map((day) => (
-                  <li key={day.path}>
-                    <Link
-                      to={day.path}
-                      onClick={handleLinkClick}
-                      className="block py-1.5 text-sm text-secondary hover:text-primary transition-colors"
-                    >
-                      {day.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+              </Link>
             </li>
 
             {/* Gallery */}

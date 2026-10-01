@@ -22,16 +22,26 @@ export class BhogRepository {
     };
     bookings: Array<{
       day: string;
+      dayKey?: string;
       amount: number;
       quantity: number;
-      remark: string;
+      remark?: string;
+      categories?: Array<{
+        id?: string;
+        title?: string;
+        description?: string;
+        price?: number;
+        quantity?: number;
+      }>;
     }>;
     categories?: Array<{
-      id: string;
-      title: string;
+      id?: string;
+      title?: string;
       description?: string;
-      price: number;
-      quantity: number;
+      price?: number;
+      quantity?: number;
+      day?: string;
+      dayKey?: string;
     }>;
     totalAmount: number;
     paymentStatus?: 'pending' | 'success' | 'failed' | 'cancelled' | 'abandoned';

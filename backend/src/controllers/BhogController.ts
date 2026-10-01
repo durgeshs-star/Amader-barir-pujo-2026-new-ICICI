@@ -13,6 +13,7 @@ import { isBhogBookingClosedByTitle, getCutoffErrorMessageByTitle } from '../con
 import { ReceiptService } from '../services/ReceiptService';
 import { EmailService } from '../services/EmailService';
 import { whatsAppService } from '../services/WhatsAppService';
+import { formatBhogBookingDetails } from '../utils/bhogWhatsAppFormatter';
 
 // ---------------------------------------------------------------------------
 // Bhog sheet column layout — kept identical to the layout written by
@@ -174,42 +175,119 @@ export class BhogController {
   }
 
   /**
-   * Handle free bhog booking (children aged 0-5 only)
+   * Helper to normalize request payload into standardized day bookings and flat categories
+   */
+  private normalizeBhogPayload(body: any): {
+    dayBookings: Array<{
+      day: string;
+      dayKey?: string;
+      amount: number;
+      quantity: number;
+      remark?: string;
+      categories: any[];
+    }>;
+    flatCategories: any[];
+    totalAmount: number;
+    totalCount: number;
+  } {
+    let dayBookings: Array<{
+      day: string;
+      dayKey?: string;
+      amount: number;
+      quantity: number;
+      remark?: string;
+      categories: any[];
+    }> = [];
+
+    if (Array.isArray(body.bookings) && body.bookings.length > 0) {
+      dayBookings = body.bookings.map((b: any) => {
+        const cats = Array.isArray(b.categories) ? b.categories : [];
+        const dayCats = cats.filter((c: any) => Number(c.quantity) > 0);
+        const dayAmount = dayCats.reduce((sum: number, c: any) => sum + ((Number(c.price) || 0) * (Number(c.quantity) || 0)), 0);
+        const dayQty = dayCats.reduce((sum: number, c: any) => sum + (Number(c.quantity) || 0), 0);
+        return {
+          day: b.day || 'Bhog',
+          dayKey: b.dayKey,
+          amount: Math.round((dayAmount + Number.EPSILON) * 100) / 100,
+          quantity: dayQty,
+          remark: b.remark || '',
+          categories: dayCats,
+        };
+      }).filter((b: any) => b.quantity > 0 || (Array.isArray(b.categories) && b.categories.length > 0));
+    } else if (body.title && Array.isArray(body.categories)) {
+      const activeCats = body.categories.filter((c: any) => Number(c.quantity) > 0);
+      const { totalAmount, totalCount } = this.calculateBookingTotals(body.categories);
+      dayBookings = [{
+        day: body.title,
+        dayKey: body.dayKey,
+        amount: totalAmount,
+        quantity: totalCount,
+        remark: '',
+        categories: activeCats,
+      }];
+    }
+
+    const flatCategories: any[] = [];
+    dayBookings.forEach((b) => {
+      b.categories.forEach((cat) => {
+        flatCategories.push({
+          ...cat,
+          day: b.day,
+          dayKey: b.dayKey,
+        });
+      });
+    });
+
+    const totalAmount = dayBookings.reduce((sum, b) => sum + b.amount, 0);
+    const totalCount = dayBookings.reduce((sum, b) => sum + b.quantity, 0);
+
+    return {
+      dayBookings,
+      flatCategories,
+      totalAmount: Math.round((totalAmount + Number.EPSILON) * 100) / 100,
+      totalCount,
+    };
+  }
+
+  /**
+   * Handle free bhog booking (children aged 0-5 only across all selected days)
    * Records the booking in Google Sheets without payment
    */
   async handleFreeBooking(req: Request, res: Response): Promise<void> {
     try {
-      const { title, categories, timestamp, isFree, userInfo } = req.body;
+      const { timestamp, isFree, userInfo } = req.body;
       const receiptTimestamp = timestamp || new Date().toISOString();
       const receiptSuffix = `${Date.now()}-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
       const orderId = `FREE-BHG-${receiptSuffix}`;
       const transactionId = `FREE-${receiptSuffix}`;
 
+      const { dayBookings, flatCategories, totalAmount, totalCount } = this.normalizeBhogPayload(req.body);
+
       // Validate required fields
-      if (!title || !categories || !Array.isArray(categories) || categories.length === 0) {
+      if (dayBookings.length === 0 || totalCount === 0) {
         res.status(400).json({
           success: false,
-          error: 'Invalid booking data. Title and categories are required.'
+          error: 'Invalid booking data. At least one bhog selection is required.'
         });
         return;
       }
 
-      // Check booking cutoff - reject if closed
-      if (isBhogBookingClosedByTitle(title)) {
-        res.status(409).json({
-          success: false,
-          error: getCutoffErrorMessageByTitle(title)
-        });
-        return;
+      // Check booking cutoff for each day in the cart
+      for (const booking of dayBookings) {
+        if (isBhogBookingClosedByTitle(booking.day)) {
+          res.status(409).json({
+            success: false,
+            error: getCutoffErrorMessageByTitle(booking.day)
+          });
+          return;
+        }
       }
-
-      const { totalAmount, totalCount } = this.calculateBookingTotals(categories);
 
       // Ensure this is indeed a free booking
       if (!isFree || totalAmount !== 0) {
         res.status(400).json({
           success: false,
-          error: 'Invalid free booking request.'
+          error: 'Invalid free booking request. Only children aged 0 to 5 are eligible for free booking.'
         });
         return;
       }
@@ -217,35 +295,35 @@ export class BhogController {
       // Initialize sheets service
       await this.sheetsService.initialize();
 
-      // Determine sheet name based on booking title
-      const sheetName = this.getSheetNameFromTitle(title);
+      // For EACH booked day, write a record to that day's respective sheet
+      for (const booking of dayBookings) {
+        const sheetName = this.getSheetNameFromTitle(booking.day);
+        await this.sheetsService.createSheetIfNotExists(sheetName, BHOG_HEADERS);
+        await this.sheetsService.formatHeaderRowAt(sheetName, BHOG_HEADERS.length);
 
-      // Create sheet if it doesn't exist with headers (same structure as paid bookings)
-      await this.sheetsService.createSheetIfNotExists(sheetName, BHOG_HEADERS);
-      await this.sheetsService.formatHeaderRowAt(sheetName, BHOG_HEADERS.length);
+        const quantities = this.extractBhogQuantities(booking.categories);
+        const dayPlates = booking.quantity || (quantities.pandalBhog + quantities.seniorCitizen + quantities.packedBhog + quantities.children05);
 
-      // Extract bhog quantities with defaults
-      const quantities = this.extractBhogQuantities(categories);
+        const rowData: any[] = [];
+        rowData[0] = userInfo?.name || '';
+        rowData[1] = userInfo?.phone || '';
+        rowData[2] = userInfo?.email || '';
+        rowData[BHOG_COL.PANDAL_BHOG] = quantities.pandalBhog;
+        rowData[BHOG_COL.SENIOR_CITIZEN] = quantities.seniorCitizen;
+        rowData[BHOG_COL.PACKED_BHOG] = quantities.packedBhog;
+        rowData[BHOG_COL.CHILDREN_0_5] = quantities.children05;
+        rowData[BHOG_COL.TOTAL_PLATES] = dayPlates;
+        rowData[BHOG_COL.BASE_AMOUNT] = 0;
+        rowData[BHOG_COL.GATEWAY_CHARGES] = 0;
+        rowData[BHOG_COL.ACTUAL_AMOUNT] = 0;
+        rowData[11] = 'Free';
+        rowData[12] = transactionId;
+        rowData[13] = orderId;
+        rowData[14] = receiptTimestamp;
 
-      // Build the row in the new column order: name, mobile, email, plates, charges, actual amount, status, ids, timestamp
-      const rowData: any[] = [];
-      rowData[0] = userInfo?.name || '';
-      rowData[1] = userInfo?.phone || '';
-      rowData[2] = userInfo?.email || '';
-      rowData[BHOG_COL.PANDAL_BHOG] = quantities.pandalBhog;
-      rowData[BHOG_COL.SENIOR_CITIZEN] = quantities.seniorCitizen;
-      rowData[BHOG_COL.PACKED_BHOG] = quantities.packedBhog;
-      rowData[BHOG_COL.CHILDREN_0_5] = quantities.children05;
-      rowData[BHOG_COL.TOTAL_PLATES] = totalCount;
-      rowData[BHOG_COL.BASE_AMOUNT] = 0;
-      rowData[BHOG_COL.GATEWAY_CHARGES] = 0;
-      rowData[BHOG_COL.ACTUAL_AMOUNT] = totalAmount;
-      rowData[11] = isFree ? 'Free' : 'Paid';
-      rowData[12] = transactionId;
-      rowData[13] = orderId;
-      rowData[14] = receiptTimestamp;
-
-      await this.appendOrInsertBhogRow(sheetName, rowData);
+        await this.appendOrInsertBhogRow(sheetName, rowData);
+        await this.recalculateBhogTotal(sheetName);
+      }
 
       // Store booking in MongoDB
       const savedPayment = await this.bhogRepository.createPayment({
@@ -253,19 +331,11 @@ export class BhogController {
         transactionId,
         timestamp: receiptTimestamp,
         userInfo: userInfo || { name: '', phone: '', email: '' },
-        bookings: [{
-          day: title,
-          amount: totalAmount,
-          quantity: totalCount,
-          remark: 'Free booking'
-        }],
-        categories: categories.filter(cat => cat.quantity > 0), // Only include selected categories
-        totalAmount,
+        bookings: dayBookings,
+        categories: flatCategories,
+        totalAmount: 0,
         paymentStatus: 'success'
       });
-
-      // Recalculate the single TOTAL row at the bottom of the sheet
-      await this.recalculateBhogTotal(sheetName);
 
       // Generate receipt for free Bhog booking
       let receiptPath: string | null = null;
@@ -274,15 +344,13 @@ export class BhogController {
         receiptPath = await this.receiptService.generateBhogReceipt(savedPayment);
         console.log('[Free Bhog] Receipt generated successfully at:', receiptPath);
         
-        // Save receiptPath to the payment document
         savedPayment.receiptPath = receiptPath;
         await savedPayment.save();
       } catch (receiptError) {
         console.error('[Free Bhog] Failed to generate receipt:', receiptError);
-        // Receipt generation failure should not fail the booking
       }
 
-      // Send booking details to the customer (no attachment).
+      // Send booking confirmation email
       if (userInfo?.email) {
         try {
           console.log('[Free Bhog] Sending confirmation email to:', userInfo.email);
@@ -290,17 +358,18 @@ export class BhogController {
             to: userInfo.email,
             customerName: userInfo.name,
             customerPhone: userInfo.phone,
-            day: title,
-            date: new Date().toLocaleDateString('en-IN', { dateStyle: 'long' }),
-            bhogTiming: 'Lunch',
             isFree: true,
             totalAmount: 0,
-            categories: categories
-              .filter((category: any) => Number(category.quantity) > 0)
-              .map((category: any) => ({
-                title: category.title || category.id || 'Bhog',
-                quantity: Number(category.quantity),
+            bookings: dayBookings.map((b) => ({
+              day: b.day,
+              date: this.getBhogDate(b.day),
+              bhogTiming: this.getBhogTiming(b.day),
+              quantity: b.quantity,
+              categories: b.categories.map((c: any) => ({
+                title: c.title || c.id || 'Bhog',
+                quantity: Number(c.quantity),
               })),
+            })),
             orderId: orderId,
             transactionId: transactionId,
             paymentStatus: 'success',
@@ -312,13 +381,10 @@ export class BhogController {
           console.log('[Free Bhog] Confirmation email sent successfully');
         } catch (emailError) {
           console.error('[Free Bhog] Failed to send confirmation email to:', userInfo.email);
-          console.error('[Free Bhog] Email error details:', emailError instanceof Error ? emailError.message : String(emailError));
-          // Email failure should not fail the booking
         }
       }
 
       // Send WhatsApp confirmation for free Bhog booking
-      // Fire and forget: errors are logged but don't affect booking status
       await this.sendBhogWhatsAppConfirmation(savedPayment);
 
       res.status(200).json({
@@ -327,7 +393,8 @@ export class BhogController {
         data: {
           orderId,
           transactionId,
-          totalAmount,
+          totalAmount: 0,
+          totalCount,
           fromBhog: true,
           receiptPath,
         }
@@ -347,30 +414,32 @@ export class BhogController {
    */
   async handlePaidBooking(req: Request, res: Response): Promise<void> {
     try {
-      const { title, categories, timestamp, isFree, userInfo, orderId, transactionId } = req.body;
+      const { timestamp, isFree, userInfo, orderId, transactionId } = req.body;
       const merchantTxnNo = typeof transactionId === 'string'
         ? sanitizeMerchantTxnNo(transactionId)
         : '';
 
+      const { dayBookings, flatCategories, totalAmount, totalCount } = this.normalizeBhogPayload(req.body);
+
       // Validate required fields
-      if (!title || !categories || !Array.isArray(categories) || categories.length === 0) {
+      if (dayBookings.length === 0 || totalCount === 0) {
         res.status(400).json({
           success: false,
-          error: 'Invalid booking data. Title and categories are required.'
+          error: 'Invalid booking data. At least one bhog selection is required.'
         });
         return;
       }
 
-      // Check booking cutoff - reject if closed BEFORE initiating payment
-      if (isBhogBookingClosedByTitle(title)) {
-        res.status(409).json({
-          success: false,
-          error: getCutoffErrorMessageByTitle(title)
-        });
-        return;
+      // Check booking cutoff for each day in the cart
+      for (const booking of dayBookings) {
+        if (isBhogBookingClosedByTitle(booking.day)) {
+          res.status(409).json({
+            success: false,
+            error: getCutoffErrorMessageByTitle(booking.day)
+          });
+          return;
+        }
       }
-
-      const { totalAmount, totalCount } = this.calculateBookingTotals(categories);
 
       // Validate payment info for paid bookings
       if (isFree === false && (!orderId || !merchantTxnNo)) {
@@ -381,6 +450,11 @@ export class BhogController {
         return;
       }
 
+      // Primary day title for ICICI PG metadata
+      const primaryDayTitle = dayBookings.length === 1
+        ? dayBookings[0].day
+        : `Unified Bhog (${dayBookings.map(b => b.day.replace(' Bhog', '')).join(', ')})`;
+
       // Step 1: Save to MongoDB with paymentStatus='pending'
       try {
         await this.bhogRepository.createPayment({
@@ -388,13 +462,8 @@ export class BhogController {
           transactionId: merchantTxnNo,
           timestamp: timestamp || new Date().toISOString(),
           userInfo: userInfo || { name: '', phone: '', email: '' },
-          bookings: [{
-            day: title,
-            amount: totalAmount,
-            quantity: totalCount,
-            remark: 'Paid booking'
-          }],
-          categories,
+          bookings: dayBookings,
+          categories: flatCategories,
           totalAmount,
           paymentStatus: 'pending'
         });
@@ -417,7 +486,7 @@ export class BhogController {
           customerMobileNo: userInfo?.phone,
           invoiceNo: orderId,
           addlParam1: 'bhog',
-          addlParam2: title,
+          addlParam2: primaryDayTitle,
         };
 
         const iciciResponse = await iciciPGService.initiateSale(initiateSalePayload);
@@ -429,8 +498,9 @@ export class BhogController {
           success: true,
           message: 'Paid bhog booking initiated successfully',
           data: {
-            title,
-            categories,
+            title: primaryDayTitle,
+            bookings: dayBookings,
+            categories: flatCategories,
             totalAmount,
             totalCount,
             timestamp: timestamp || new Date().toISOString(),
@@ -441,10 +511,8 @@ export class BhogController {
           paymentUrl,
         });
       } catch (iciciError: any) {
-        // ICICI API failed - mark payment as failed
         console.error('ICICI initiateSale failed for bhog booking:', iciciError);
         
-        // Update MongoDB payment status to failed
         try {
           const payment = await this.bhogRepository.getPaymentByTransactionId(merchantTxnNo);
           if (payment) {
@@ -578,35 +646,10 @@ export class BhogController {
         return;
       }
 
-      // Extract booking details
-      const booking = payment.bookings?.[0] || {};
-      const categories = payment.categories || [];
-      const dayTitle = booking.day || categories[0]?.title || 'General Bhog';
-
-      // Calculate total plates
-      const quantities = this.extractBhogQuantities(categories);
-      const totalPlates = booking.quantity || (quantities.pandalBhog + quantities.seniorCitizen + quantities.packedBhog + quantities.children05);
-      
-      // Determine Bhog timing based on day
-      const bhogTiming = this.getBhogTiming(dayTitle);
-      
-      // Determine date for the Bhog day
-      const bhogDate = this.getBhogDate(dayTitle);
-
-      // Extract Bhog type from categories (e.g., "Pandal Bhog", "Senior Citizen Bhog", "Packed Bhog")
-      const bhogTypes = categories
-        .filter((cat: any) => Number(cat.quantity) > 0)
-        .map((cat: any) => cat.title || cat.description || 'Bhog');
-      const bhogType = bhogTypes.length > 0 ? bhogTypes.join(', ') : 'Bhog';
-
       // Prepare WhatsApp template parameters
       const params = {
-        customerName: payment.userInfo?.name || 'Customer',
-        day: dayTitle,
-        date: bhogDate,
-        numberOfBhog: String(totalPlates),
-        type: bhogType,
-        bhogTiming: bhogTiming,
+        customerName: payment.userInfo?.name || '',
+        bookingDetails: formatBhogBookingDetails(payment.bookings || []),
         whatsappNumber: payment.userInfo?.phone || '',
       };
 

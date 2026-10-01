@@ -6,12 +6,20 @@ export interface IEmailService {
     to: string;
     customerName: string;
     customerPhone?: string;
-    day: string;
-    date: string;
-    bhogTiming: string;
+    day?: string;
+    date?: string;
+    bhogTiming?: string;
     isFree: boolean;
     totalAmount: number;
-    categories: Array<{ title: string; quantity: number }>;
+    categories?: Array<{ title: string; quantity: number }>;
+    bookings?: Array<{
+      day: string;
+      date?: string;
+      bhogTiming?: string;
+      quantity?: number;
+      amount?: number;
+      categories?: Array<{ title: string; quantity: number }>;
+    }>;
     orderId?: string;
     transactionId?: string;
     paymentStatus?: string;

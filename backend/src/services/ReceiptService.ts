@@ -6,6 +6,7 @@
 import PDFDocument from 'pdfkit';
 import fs from 'fs';
 import path from 'path';
+import { getCutoffConfig, getCutoffConfigByTitle } from '../config/bhogCutoffConfig';
 
 interface UserInfo {
   name: string;
@@ -44,9 +45,17 @@ interface BhogPayment {
   userInfo: UserInfo;
   bookings?: Array<{
     day: string;
+    dayKey?: string;
     amount: number;
     quantity: number;
     remark?: string;
+    categories?: Array<{
+      id: string;
+      title: string;
+      price: number;
+      quantity: number;
+      description?: string;
+    }>;
   }>;
   categories?: Array<{
     id: string;
@@ -220,36 +229,77 @@ export class ReceiptService {
 
         // Booking details
         doc.fontSize(14).text('Bhog Booking Details:', { underline: true });
+        doc.moveDown(0.5);
         doc.fontSize(12);
 
         let totalBase = 0;
-        // Use categories if available (contains actual selected Bhog categories)
-        // Fall back to bookings only if categories is not available
-        const items = payment.categories && payment.categories.length > 0
-          ? payment.categories.filter((cat: any) => cat.quantity > 0)
-          : payment.bookings || [];
 
-        console.log('[ReceiptService] Bhog receipt items:', items);
+        // Prefer the complete per-day booking data; retain support for legacy records.
+        if (payment.bookings && payment.bookings.length > 0) {
+          payment.bookings.forEach((booking) => {
+            doc.font('Helvetica-Bold').fontSize(13).text(booking.day);
+            doc.font('Helvetica').fontSize(11);
 
-        items.forEach((item: any) => {
-          if (item.title) {
-            // Categories format (preferred - contains actual Bhog categories)
-            doc.text(`${item.title}: ${item.quantity} ${item.quantity === 1 ? 'plate' : 'plates'} @ ₹${item.price} = ₹${(item.quantity * item.price).toFixed(2)}`);
-            if (item.description) {
-              doc.text(`  Description: ${item.description}`, { indent: 20 });
+            const dateConfig = (booking.dayKey && getCutoffConfig(booking.dayKey))
+              || getCutoffConfigByTitle(booking.day);
+            if (dateConfig) {
+              doc.text(this.formatBhogDate(dateConfig.bhogDate), { indent: 10 });
             }
-            totalBase += item.quantity * item.price;
-          } else {
-            // Bookings format (fallback)
-            doc.text(`${item.day}: ${item.quantity} ${item.quantity === 1 ? 'plate' : 'plates'} @ ₹${item.amount} = ₹${(item.quantity * item.amount).toFixed(2)}`);
-            if (item.remark) {
-              doc.text(`  Remark: ${item.remark}`, { indent: 20 });
-            }
-            totalBase += item.quantity * item.amount;
-          }
-        });
 
-        doc.moveDown();
+            const dayCategories = booking.categories && booking.categories.length > 0
+              ? booking.categories.filter((category) => Number(category.quantity) > 0)
+              : [];
+            let daySubtotal = 0;
+
+            if (dayCategories.length > 0) {
+              dayCategories.forEach((category) => {
+                const price = Number(category.price) || 0;
+                const qty = Number(category.quantity) || 0;
+                const itemTotal = price * qty;
+                daySubtotal += itemTotal;
+                doc.text(`${category.title} | Qty: ${qty} | Unit Price: ₹${price.toFixed(2)} | Amount: ₹${itemTotal.toFixed(2)}`, { indent: 10 });
+                if (category.description) {
+                  doc.text(`(${category.description})`, { indent: 15 });
+                }
+              });
+            } else {
+              const qty = Number(booking.quantity) || 0;
+              daySubtotal = Number(booking.amount) || 0;
+              doc.text(`${qty} ${qty === 1 ? 'plate' : 'plates'} = ₹${daySubtotal.toFixed(2)}`, { indent: 10 });
+              if (booking.remark) {
+                doc.text(`    Remark: ${booking.remark}`, { indent: 15 });
+              }
+            }
+
+            totalBase += daySubtotal;
+            doc.font('Helvetica-Bold').fontSize(11).text(`${booking.day} Total: ₹${daySubtotal.toFixed(2)}`);
+            doc.font('Helvetica').fontSize(11);
+            doc.moveDown(0.5);
+          });
+        } else if (payment.categories && payment.categories.length > 0) {
+          // Group categories by day if available, otherwise list them
+          const categoriesByDay: Record<string, any[]> = {};
+          payment.categories.forEach((cat: any) => {
+            if (Number(cat.quantity) > 0) {
+              const day = cat.day || 'Bhog Offering';
+              if (!categoriesByDay[day]) categoriesByDay[day] = [];
+              categoriesByDay[day].push(cat);
+            }
+          });
+
+          Object.keys(categoriesByDay).forEach((day) => {
+            doc.font('Helvetica-Bold').fontSize(13).text(day);
+            doc.font('Helvetica').fontSize(11);
+            categoriesByDay[day].forEach((cat: any) => {
+              const price = Number(cat.price) || 0;
+              const qty = Number(cat.quantity) || 0;
+              const itemTotal = price * qty;
+              totalBase += itemTotal;
+              doc.text(`  • ${cat.title}: ${qty} ${qty === 1 ? 'plate' : 'plates'} @ ₹${price.toFixed(2)} = ₹${itemTotal.toFixed(2)}`, { indent: 10 });
+            });
+            doc.moveDown(0.5);
+          });
+        }
 
         // Payment breakdown
         doc.fontSize(14).text('Payment Breakdown:', { underline: true });
@@ -264,6 +314,7 @@ export class ReceiptService {
         if (payment.serviceTax && payment.serviceTax > 0) {
           doc.text(`Service Tax: ₹${payment.serviceTax.toFixed(2)}`);
         }
+        doc.fontSize(14).text(`Grand Total: ₹${payment.totalAmount.toFixed(2)}`, { underline: true });
         doc.fontSize(14).text(`Total Amount Paid: ₹${(payment.actualAmountCharged || payment.totalAmount).toFixed(2)}`, { underline: true });
         doc.moveDown();
 
@@ -342,6 +393,15 @@ export class ReceiptService {
       year: 'numeric',
       hour: '2-digit',
       minute: '2-digit',
+    });
+  }
+
+  private formatBhogDate(dateString: string): string {
+    return new Date(`${dateString}T00:00:00Z`).toLocaleDateString('en-IN', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric',
+      timeZone: 'UTC',
     });
   }
 }

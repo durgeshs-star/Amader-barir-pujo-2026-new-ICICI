@@ -16,6 +16,7 @@ import { iciciPGService, PaymentCallbackPayload } from '../services/iciciPG.serv
 import { whatsAppService } from '../services/WhatsAppService';
 import { ReceiptService } from '../services/ReceiptService';
 import { EmailService } from '../services/EmailService';
+import { formatBhogBookingDetails } from '../utils/bhogWhatsAppFormatter';
 
 /**
  * Calculates ICICI PG gateway charges (2.75% surcharge + 18% GST on surcharge)
@@ -542,23 +543,34 @@ export class IciciPaymentController {
         if (payment.userInfo?.email && !payment.emailNotificationSent) {
           try {
             console.log('[ICICI CALLBACK] Sending confirmation email to:', payment.userInfo.email);
-            const booking = payment.bookings?.[0] || payment.categories?.[0] || {};
-            const categories = (payment.categories?.length ? payment.categories : payment.bookings || [])
-              .filter((category: any) => Number(category.quantity) > 0)
-              .map((category: any) => ({
-                title: category.title || category.day || category.id || 'Bhog',
-                quantity: Number(category.quantity),
-              }));
+            const bookings = (payment.bookings && payment.bookings.length > 0)
+              ? payment.bookings.map((b: any) => ({
+                  day: b.day,
+                  date: this.getBhogDate(b.day),
+                  bhogTiming: this.getBhogTiming(b.day),
+                  quantity: b.quantity,
+                  categories: (b.categories && b.categories.length > 0 ? b.categories : []).map((c: any) => ({
+                    title: c.title || c.id || 'Bhog',
+                    quantity: Number(c.quantity),
+                  })),
+                }))
+              : [{
+                  day: payment.categories?.[0]?.title || 'Bhog',
+                  date: new Date().toLocaleDateString('en-IN', { dateStyle: 'long' }),
+                  bhogTiming: '12:30 PM - 2:30 PM',
+                  categories: (payment.categories || []).map((c: any) => ({
+                    title: c.title || c.id || 'Bhog',
+                    quantity: Number(c.quantity),
+                  })),
+                }];
+
             await this.emailService.sendBhogConfirmationEmail({
               to: payment.userInfo.email,
               customerName: payment.userInfo.name,
               customerPhone: payment.userInfo.phone,
-              day: booking.day || 'Bhog',
-              date: new Date().toLocaleDateString('en-IN', { dateStyle: 'long' }),
-              bhogTiming: 'Lunch',
               isFree: false,
               totalAmount: payment.actualAmountCharged || payment.totalAmount,
-              categories,
+              bookings,
               orderId: payment.orderId,
               transactionId: payment.transactionId,
               paymentStatus: payment.paymentStatus,
@@ -572,7 +584,6 @@ export class IciciPaymentController {
           } catch (emailError) {
             console.error('[ICICI CALLBACK] Failed to send confirmation email to:', payment.userInfo.email);
             console.error('[ICICI CALLBACK] Email error details:', emailError instanceof Error ? emailError.message : String(emailError));
-            // Store error but don't fail the payment
             try {
               payment.emailNotificationError = typeof emailError === 'object' ? String(emailError) : 'Unknown email error';
               await payment.save();
@@ -902,43 +913,161 @@ export class IciciPaymentController {
   }
 
   /**
-   * Log Bhog payment to Google Sheets
+   * Split the Bhog payment's total base/gateway/actual amounts across the
+   * booked days proportionally to each day's own base amount.
+   */
+  private allocateBhogAmounts(payment: any): Array<{
+    day: string;
+    dayKey?: string;
+    categories: any[];
+    quantity: number;
+    base: number;
+    gateway: number;
+    actual: number;
+  }> {
+    const bookings = (payment.bookings && payment.bookings.length > 0)
+      ? payment.bookings
+      : [{
+          day: payment.categories?.[0]?.day || payment.categories?.[0]?.title || 'General Bhog',
+          categories: payment.categories || [],
+          quantity: (payment.categories || []).reduce((sum: number, c: any) => sum + (Number(c.quantity) || 0), 0),
+          amount: payment.baseAmount || payment.totalAmount || 0,
+        }];
+
+    const totalBase = payment.baseAmount || bookings.reduce((sum: number, b: any) => {
+      const bCats = b.categories || [];
+      const bBase = bCats.length > 0
+        ? bCats.reduce((catSum: number, c: any) => catSum + ((Number(c.price) || 0) * (Number(c.quantity) || 0)), 0)
+        : (Number(b.amount) || 0);
+      return sum + bBase;
+    }, 0);
+
+    const totalGateway = payment.gatewayCharges || 0;
+    const totalActual = payment.actualAmountCharged || payment.totalAmount || (totalBase + totalGateway);
+
+    const result: Array<{
+      day: string;
+      dayKey?: string;
+      categories: any[];
+      quantity: number;
+      base: number;
+      gateway: number;
+      actual: number;
+    }> = [];
+
+    let allocatedGateway = 0;
+    let allocatedActual = 0;
+
+    bookings.forEach((booking: any, index: number) => {
+      const bCats = booking.categories && booking.categories.length > 0
+        ? booking.categories
+        : (payment.categories || []).filter((c: any) => !c.day || c.day === booking.day);
+
+      const base = bCats.length > 0
+        ? bCats.reduce((sum: number, c: any) => sum + ((Number(c.price) || 0) * (Number(c.quantity) || 0)), 0)
+        : (Number(booking.amount) || 0);
+
+      const isLast = index === bookings.length - 1;
+      let gateway: number;
+      let actual: number;
+
+      if (isLast) {
+        gateway = Math.round(((totalGateway - allocatedGateway) + Number.EPSILON) * 100) / 100;
+        actual = Math.round(((totalActual - allocatedActual) + Number.EPSILON) * 100) / 100;
+      } else {
+        const ratio = totalBase > 0 ? base / totalBase : 0;
+        gateway = Math.round((totalGateway * ratio + Number.EPSILON) * 100) / 100;
+        actual = Math.round((base + gateway + Number.EPSILON) * 100) / 100;
+        allocatedGateway += gateway;
+        allocatedActual += actual;
+      }
+
+      result.push({
+        day: booking.day || 'General Bhog',
+        dayKey: booking.dayKey,
+        categories: bCats,
+        quantity: booking.quantity || bCats.reduce((sum: number, c: any) => sum + (Number(c.quantity) || 0), 0),
+        base,
+        gateway,
+        actual,
+      });
+    });
+
+    return result;
+  }
+
+  /**
+   * Log Bhog payment to Google Sheets — writes one row per booked day into that
+   * day's sheet (e.g. 'Saptami Bhog', 'Ashtami Bhog', 'Ashtami Sandhi Puja', 'Navami Bhog')
    */
   private async logBhogToSheets(payment: any): Promise<void> {
+    const txId = payment?.transactionId || 'N/A';
+    const orderId = payment?.orderId || 'N/A';
+    const prefix = `[BHOG SHEETS] [tx:${txId}|ord:${orderId}]`;
+
     try {
+      console.log(`${prefix} Starting Bhog Google Sheets logging...`);
       await this.sheetsService.initialize();
 
-      const booking = payment.bookings?.[0] || {};
-      const dayTitle = booking.day || payment.categories?.[0]?.title || 'General Bhog';
-      const sheetName = this.getSheetNameFromTitle(dayTitle);
+      const allocations = this.allocateBhogAmounts(payment);
+      console.log(`${prefix} Allocations calculated:`, JSON.stringify(allocations));
 
-      await this.sheetsService.createSheetIfNotExists(sheetName, BHOG_HEADERS);
-      await this.sheetsService.formatHeaderRowAt(sheetName, BHOG_HEADERS.length);
+      for (const alloc of allocations) {
+        const sheetName = this.getSheetNameFromTitle(alloc.day);
+        console.log(`${prefix} Logging for day "${alloc.day}" into sheet "${sheetName}"`);
 
-      const quantities = this.extractBhogQuantities(payment.categories || []);
-      const totalPlates = booking.quantity || (quantities.pandalBhog + quantities.seniorCitizen + quantities.packedBhog + quantities.children05);
+        await this.sheetsService.createSheetIfNotExists(sheetName, BHOG_HEADERS);
+        await this.sheetsService.formatHeaderRowAt(sheetName, BHOG_HEADERS.length);
 
-      const rowData: any[] = [];
-      rowData[0] = payment.userInfo.name;
-      rowData[1] = payment.userInfo.phone;
-      rowData[2] = payment.userInfo.email;
-      rowData[BHOG_COL.PANDAL_BHOG] = quantities.pandalBhog;
-      rowData[BHOG_COL.SENIOR_CITIZEN] = quantities.seniorCitizen;
-      rowData[BHOG_COL.PACKED_BHOG] = quantities.packedBhog;
-      rowData[BHOG_COL.CHILDREN_0_5] = quantities.children05;
-      rowData[BHOG_COL.TOTAL_PLATES] = totalPlates;
-      rowData[BHOG_COL.BASE_AMOUNT] = payment.baseAmount || (payment.totalAmount - (payment.gatewayCharges || 0));
-      rowData[BHOG_COL.GATEWAY_CHARGES] = payment.gatewayCharges || 0;
-      rowData[BHOG_COL.ACTUAL_AMOUNT] = payment.actualAmountCharged || payment.totalAmount;
-      rowData[11] = 'Paid';
-      rowData[12] = payment.transactionId;
-      rowData[13] = payment.orderId;
-      rowData[14] = payment.timestamp;
+        // Check duplicate transaction ID in this sheet
+        const existingData = await this.sheetsService.getSheetData(sheetName);
+        let isDuplicate = false;
+        for (let i = 1; i < existingData.length; i++) {
+          const rowTxId = existingData[i]?.[12];
+          const rowOrderId = existingData[i]?.[13];
+          if (
+            (payment.transactionId && rowTxId === payment.transactionId) ||
+            (payment.orderId && rowOrderId === payment.orderId)
+          ) {
+            isDuplicate = true;
+            break;
+          }
+        }
 
-      await this.appendOrInsertBhogRow(sheetName, rowData);
-      await this.recalculateBhogTotal(sheetName);
-    } catch (sheetsError) {
-      console.error('Failed to log Bhog to Google Sheets (non-critical):', sheetsError);
+        if (isDuplicate) {
+          console.log(`${prefix} Transaction ${txId} already present in sheet "${sheetName}". Skipping duplicate.`);
+          continue;
+        }
+
+        const quantities = this.extractBhogQuantities(alloc.categories);
+        const totalPlates = alloc.quantity || (quantities.pandalBhog + quantities.seniorCitizen + quantities.packedBhog + quantities.children05);
+
+        const rowData: any[] = [];
+        rowData[0] = payment.userInfo?.name || '';
+        rowData[1] = payment.userInfo?.phone || '';
+        rowData[2] = payment.userInfo?.email || '';
+        rowData[BHOG_COL.PANDAL_BHOG] = quantities.pandalBhog;
+        rowData[BHOG_COL.SENIOR_CITIZEN] = quantities.seniorCitizen;
+        rowData[BHOG_COL.PACKED_BHOG] = quantities.packedBhog;
+        rowData[BHOG_COL.CHILDREN_0_5] = quantities.children05;
+        rowData[BHOG_COL.TOTAL_PLATES] = totalPlates;
+        rowData[BHOG_COL.BASE_AMOUNT] = alloc.base;
+        rowData[BHOG_COL.GATEWAY_CHARGES] = alloc.gateway;
+        rowData[BHOG_COL.ACTUAL_AMOUNT] = alloc.actual;
+        rowData[11] = 'Paid';
+        rowData[12] = payment.transactionId;
+        rowData[13] = payment.orderId;
+        rowData[14] = payment.timestamp;
+
+        console.log(`${prefix} Inserting row data into "${sheetName}":`, JSON.stringify(rowData));
+        await this.appendOrInsertBhogRow(sheetName, rowData);
+        await this.recalculateBhogTotal(sheetName);
+        console.log(`${prefix} Total recalculated for sheet "${sheetName}"`);
+      }
+
+      console.log(`${prefix} Finished Bhog Google Sheets logging successfully`);
+    } catch (sheetsError: any) {
+      console.error(`${prefix} Failed to log Bhog to Google Sheets (non-critical):`, sheetsError?.message || sheetsError);
     }
   }
 
@@ -1057,35 +1186,10 @@ export class IciciPaymentController {
         return;
       }
 
-      // Extract booking details
-      const booking = payment.bookings?.[0] || {};
-      const categories = payment.categories || [];
-      const dayTitle = booking.day || categories[0]?.title || 'General Bhog';
-
-      // Calculate total plates
-      const quantities = this.extractBhogQuantities(categories);
-      const totalPlates = booking.quantity || (quantities.pandalBhog + quantities.seniorCitizen + quantities.packedBhog + quantities.children05);
-      
-      // Determine Bhog timing based on day
-      const bhogTiming = this.getBhogTiming(dayTitle);
-      
-      // Determine date for the Bhog day
-      const bhogDate = this.getBhogDate(dayTitle);
-
-      // Extract Bhog type from categories (e.g., "Pandal Bhog", "Senior Citizen Bhog", "Packed Bhog")
-      const bhogTypes = categories
-        .filter((cat: any) => Number(cat.quantity) > 0)
-        .map((cat: any) => cat.title || cat.description || 'Bhog');
-      const bhogType = bhogTypes.length > 0 ? bhogTypes.join(', ') : 'Bhog';
-
       // Prepare WhatsApp template parameters
       const params = {
-        customerName: payment.userInfo?.name || 'Customer',
-        day: dayTitle,
-        date: bhogDate,
-        numberOfBhog: String(totalPlates),
-        type: bhogType,
-        bhogTiming: bhogTiming,
+        customerName: payment.userInfo?.name || '',
+        bookingDetails: formatBhogBookingDetails(payment.bookings || []),
         whatsappNumber: payment.userInfo?.phone || '',
       };
 

@@ -32,12 +32,12 @@ const AshtamiPage = lazy(() => import('./pages/Ashtami/AshtamiPage'));
 const AshtamiSandhiPujaPage = lazy(() => import('./pages/AshtamiSandhiPuja/AshtamiSandhiPujaPage'));
 const NavamiPage = lazy(() => import('./pages/Navami/NavamiPage'));
 const DashamiPage = lazy(() => import('./pages/Dashami/DashamiPage'));
-const SaptamiBhogPage = lazy(() => import('./pages/SaptamiBhog/SaptamiBhogPage'));
-const AshtamiBhogPage = lazy(() => import('./pages/AshtamiBhog/AshtamiBhogPage'));
-const AshtamiBhogSandhiPujaPage = lazy(() => import('./pages/AshtamiBhogSandhiPuja/AshtamiBhogSandhiPujaPage'));
-const NavamiBhogPage = lazy(() => import('./pages/NavamiBhog/NavamiBhogPage'));
-const DurgaPujaBhogPage = lazy(() => import('./pages/DurgaPujaBhog/DurgaPujaBhogPage'));
-// Hidden for now - Lakshmi Puja and Saraswati Puja Bhog
+// Individual Bhog pages commented out - Unified under /bhog-booking
+// const SaptamiBhogPage = lazy(() => import('./pages/SaptamiBhog/SaptamiBhogPage'));
+// const AshtamiBhogPage = lazy(() => import('./pages/AshtamiBhog/AshtamiBhogPage'));
+// const AshtamiBhogSandhiPujaPage = lazy(() => import('./pages/AshtamiBhogSandhiPuja/AshtamiBhogSandhiPujaPage'));
+// const NavamiBhogPage = lazy(() => import('./pages/NavamiBhog/NavamiBhogPage'));
+// const DurgaPujaBhogPage = lazy(() => import('./pages/DurgaPujaBhog/DurgaPujaBhogPage'));
 // const LakshmiPujaBhogPage = lazy(() => import('./pages/LakshmiPujaBhog/LakshmiPujaBhogPage'));
 // const SaraswatiPujaBhogPage = lazy(() => import('./pages/SaraswatiPujaBhog/SaraswatiPujaBhogPage'));
 // const SaraswatiPuja = lazy(() => import('./pages/SaraswatiPuja'));
@@ -103,18 +103,17 @@ const AppShell: React.FC = () => {
             {/* <Route path="/saraswati-puja" element={<SaraswatiPuja />} /> */}
             {/* <Route path="/saraswati-puja-bhog" element={<SaraswatiPujaBhogPage />} /> */}
 
-            {/* Day specific bhog booking paths */}
-            <Route path="/bhog-booking/saptami" element={<SaptamiBhogPage />} />
-            <Route path="/bhog-booking/ashtami" element={<AshtamiBhogPage />} />
-            <Route path="/bhog-booking/ashtami-sandhi-puja" element={<AshtamiBhogSandhiPujaPage />} />
-            <Route path="/bhog-booking/navami" element={<NavamiBhogPage />} />
-            {/* Hidden for now - Lakshmi Puja and Saraswati Puja Bhog */}
+            {/* Individual bhog pages commented out - Unified under /bhog-booking */}
+            {/* <Route path="/bhog-booking/saptami" element={<SaptamiBhogPage />} /> */}
+            {/* <Route path="/bhog-booking/ashtami" element={<AshtamiBhogPage />} /> */}
+            {/* <Route path="/bhog-booking/ashtami-sandhi-puja" element={<AshtamiBhogSandhiPujaPage />} /> */}
+            {/* <Route path="/bhog-booking/navami" element={<NavamiBhogPage />} /> */}
+            {/* <Route path="/durga-puja-bhog" element={<DurgaPujaBhogPage />} /> */}
             {/* <Route path="/bhog-booking/lakshmi-puja" element={<LakshmiPujaBhogPage />} /> */}
             {/* <Route path="/bhog-booking/saraswati-puja" element={<SaraswatiPujaBhogPage />} /> */}
-            <Route path="/durga-puja-bhog" element={<DurgaPujaBhogPage />} />
             <Route path="/bhog-booking/:day" element={<BhogBooking />} />
-            {/* Fallback bhog booking page */}
             <Route path="/bhog-booking" element={<BhogBooking />} />
+            <Route path="/durga-puja-bhog" element={<Navigate to="/bhog-booking" replace />} />
 
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/contact-us" element={<ContactUs />} />

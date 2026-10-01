@@ -18,9 +18,17 @@ export interface IBhogPayment extends Document {
   };
   bookings: Array<{
     day: string;
+    dayKey?: string;
     amount: number;
     quantity: number;
-    remark: string;
+    remark?: string;
+    categories?: Array<{
+      id: string;
+      title: string;
+      description?: string;
+      price: number;
+      quantity: number;
+    }>;
   }>;
   categories?: Array<{
     id: string;
@@ -28,6 +36,8 @@ export interface IBhogPayment extends Document {
     description?: string;
     price: number;
     quantity: number;
+    day?: string;
+    dayKey?: string;
   }>;
   baseAmount?: number;
   gatewayCharges?: number;
@@ -92,6 +102,9 @@ const BhogPaymentSchema = new Schema<IBhogPayment>(
         type: String,
         required: true,
       },
+      dayKey: {
+        type: String,
+      },
       amount: {
         type: Number,
         required: true,
@@ -104,6 +117,13 @@ const BhogPaymentSchema = new Schema<IBhogPayment>(
         type: String,
         default: '',
       },
+      categories: [{
+        id: { type: String },
+        title: { type: String },
+        description: { type: String, default: '' },
+        price: { type: Number },
+        quantity: { type: Number },
+      }],
     }],
     categories: [{
       id: { type: String, required: true },
@@ -111,6 +131,8 @@ const BhogPaymentSchema = new Schema<IBhogPayment>(
       description: { type: String, default: '' },
       price: { type: Number, required: true },
       quantity: { type: Number, required: true },
+      day: { type: String },
+      dayKey: { type: String },
     }],
     baseAmount: {
       type: Number,

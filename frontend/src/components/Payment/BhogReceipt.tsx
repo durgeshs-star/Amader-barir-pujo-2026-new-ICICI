@@ -239,19 +239,47 @@ export const BhogReceipt: React.FC<BhogReceiptProps> = ({ receiptData: propRecei
               </tr>
             </thead>
             <tbody>
-              {receiptData.categories.map((category: any) => (
-                <tr key={category.id} style={{ borderBottom: '1px solid #e5e7eb' }}>
-                  <td style={{ padding: '4px 12px' }}>
-                    <div style={{ fontWeight: '600' }}>{category.title}</div>
-                    <div style={{ fontSize: '11px', color: '#6b7280', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '250px' }}>{category.description}</div>
-                  </td>
-                  <td style={{ padding: '4px 12px', textAlign: 'center' }}>{category.quantity}</td>
-                  <td style={{ padding: '4px 12px', textAlign: 'right' }}>₹{formatAmount(category.price)}</td>
-                  <td style={{ padding: '4px 12px', textAlign: 'right', fontWeight: '600' }}>
-                    ₹{formatAmount(category.price * category.quantity)}
-                  </td>
-                </tr>
-              ))}
+              {(() => {
+                // Group items by day if multiple days exist
+                const itemsByDay: Record<string, any[]> = {};
+                receiptData.categories.forEach((cat: any) => {
+                  if (cat.quantity > 0) {
+                    const dayName = cat.day || receiptData.title || 'Bhog Offering';
+                    if (!itemsByDay[dayName]) itemsByDay[dayName] = [];
+                    itemsByDay[dayName].push(cat);
+                  }
+                });
+
+                const dayKeys = Object.keys(itemsByDay);
+                const showDayHeaders = dayKeys.length > 1 || (dayKeys.length === 1 && dayKeys[0] !== (receiptData.title || 'Bhog Offering'));
+
+                return dayKeys.map((dayName) => (
+                  <React.Fragment key={dayName}>
+                    {showDayHeaders && (
+                      <tr style={{ backgroundColor: '#fef3c7', borderBottom: '1px solid #d97706' }}>
+                        <td colSpan={4} style={{ padding: '6px 12px', fontWeight: 'bold', color: '#92400e', fontSize: '13px' }}>
+                          ✦ {dayName}
+                        </td>
+                      </tr>
+                    )}
+                    {itemsByDay[dayName].map((category: any) => (
+                      <tr key={`${dayName}-${category.id}`} style={{ borderBottom: '1px solid #e5e7eb' }}>
+                        <td style={{ padding: '6px 12px' }}>
+                          <div style={{ fontWeight: '600' }}>{category.title}</div>
+                          {category.description && (
+                            <div style={{ fontSize: '11px', color: '#6b7280' }}>{category.description}</div>
+                          )}
+                        </td>
+                        <td style={{ padding: '6px 12px', textAlign: 'center' }}>{category.quantity}</td>
+                        <td style={{ padding: '6px 12px', textAlign: 'right' }}>₹{formatAmount(category.price)}</td>
+                        <td style={{ padding: '6px 12px', textAlign: 'right', fontWeight: '600' }}>
+                          ₹{formatAmount(category.price * category.quantity)}
+                        </td>
+                      </tr>
+                    ))}
+                  </React.Fragment>
+                ));
+              })()}
               {/* ICICI fee breakdown: show individual fee components if present */}
               {(() => {
                 const convenienceFee = Number((receiptData as any).convenienceFee || 0);
