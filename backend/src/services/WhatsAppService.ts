@@ -219,7 +219,7 @@ export class WhatsAppService {
           },
           {
             type: 'text',
-            text: params.bookingDetails,
+            text: params.bookingDetails.replace(/[\r\n\t]+/g, ' ').replace(/\s+/g, ' ').trim(),
           },
         ],
       },
