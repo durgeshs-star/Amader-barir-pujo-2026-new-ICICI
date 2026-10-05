@@ -50,9 +50,19 @@ export const Footer: React.FC = () => {
               Information
             </h3>
             <ul className="space-y-2 text-sm list-none p-0 m-0">
-              <li>
+              {/* <li>
                 <Link to="/panchami" className="text-text-on-primary hover:text-accent transition-colors block py-1">
                   Pujo Schedule
+                </Link>
+              </li> */}
+              <li>
+                <Link to="/anudan" className="hover:text-accent transition-colors block py-1 text-text-on-primary">
+                  Anudan
+                </Link>
+              </li>
+              <li>
+                <Link to="/bhog-booking" className="hover:text-accent transition-colors block py-1 text-text-on-primary">
+                  Bhog Booking
                 </Link>
               </li>
               <li>
@@ -63,11 +73,6 @@ export const Footer: React.FC = () => {
               <li>
                 <Link to="/volunteer" className="hover:text-accent transition-colors block py-1 text-text-on-primary">
                   Be a Bari'r Member
-                </Link>
-              </li>
-              <li>
-                <Link to="/anudan" className="hover:text-accent transition-colors block py-1 text-text-on-primary">
-                  Anudan
                 </Link>
               </li>
             </ul>
