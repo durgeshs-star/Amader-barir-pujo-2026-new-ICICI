@@ -107,7 +107,7 @@ export const Schedule: React.FC = () => {
             Durga Pujo Schedule 2026
           </h1>
           <p className="text-sm text-muted font-medium text-center">
-            Explore the Amader Barir Pujo schedule and plan your Bengali Durga Pujo celebration in Pune.
+            Explore the Amader Barir Pujo schedule and plan your Durga Pujo celebration in Pune.
           </p>
           <div className="w-16 h-1 bg-accent mx-auto mt-4 rounded-full" />
         </div>

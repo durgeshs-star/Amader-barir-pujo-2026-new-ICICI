@@ -11,9 +11,9 @@ const AshtamiPage: React.FC = () => {
   return (
     <div className="relative">
       <SEO
-        title="Ashtami | Bengali Durga Puja PCMC Pune | Amader Barir Pujo Wakad"
-        description="Celebrate Ashtami during Amader Barir Pujo, a Bengali Durga Puja celebration in Pune."
-        keywords="Ashtami, Bengali Durga Puja Pune, Amader Barir Pujo"
+        title="Ashtami | Durga Puja PCMC Pune | Amader Barir Pujo Wakad"
+        description="Celebrate Ashtami during Amader Barir Pujo, a Durga Puja celebration in Pune."
+        keywords="Ashtami, Durga Puja Pune, Amader Barir Pujo"
         ogImage="/assets/img/ashtami.webp"
       />
 

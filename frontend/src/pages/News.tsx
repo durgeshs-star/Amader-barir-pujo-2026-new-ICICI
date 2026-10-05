@@ -27,7 +27,7 @@ export const News: React.FC = () => {
       <SEO
         title="Durga Puja Events Pune | Amader Barir Pujo News"
         description="Read about Durga Puja events and celebrations in Pune. Stay updated with Amader Barir Pujo news, media coverage, and community stories."
-        keywords="Durga Puja events Pune, Durga Puja celebrations Pune, Bengali Durga Puja Pune, Durga Puja pandals Pune, Amader Barir Pujo news"
+        keywords="Durga Puja events Pune, Durga Puja celebrations Pune, Durga Puja Pune, Durga Puja pandals Pune, Amader Barir Pujo news"
         ogImage="/assets/img/banner/1.webp"
         canonical="https://abp.proplusdatafoundation.com/news"
       />

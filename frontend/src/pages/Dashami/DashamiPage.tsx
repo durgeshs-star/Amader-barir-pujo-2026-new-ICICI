@@ -11,9 +11,9 @@ const DashamiPage: React.FC = () => {
   return (
     <div className="relative">
       <SEO
-        title="Dashami | Bengali Durga Puja Pune | Amader Barir Pujo"
-        description="Celebrate Dashami during Amader Barir Pujo, a Bengali Durga Puja celebration in Pune."
-        keywords="Dashami, Bengali Durga Puja Pune, Amader Barir Pujo"
+        title="Dashami | Durga Puja Pune | Amader Barir Pujo"
+        description="Celebrate Dashami during Amader Barir Pujo, a Durga Puja celebration in Pune."
+        keywords="Dashami, Durga Puja Pune, Amader Barir Pujo"
         ogImage="/assets/img/dashami.webp"
       />
 

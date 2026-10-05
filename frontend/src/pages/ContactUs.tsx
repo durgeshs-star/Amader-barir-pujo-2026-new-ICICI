@@ -90,8 +90,8 @@ export const ContactUs: React.FC = () => {
       <LazyMotion features={domAnimation} strict>
       <SEO
         title="Contact Amader Barir Pujo | Durga Puja Wakad, Pune"
-        description="Contact Amader Barir Pujo in Wakad, Pune for information about the Bengali Durga Puja celebration."
-        keywords="Durga Puja in Wakad, Bengali Durga Puja Pune, Amader Barir Pujo contact, Pune"
+        description="Contact Amader Barir Pujo in Wakad, Pune for information about the Durga Puja celebration."
+        keywords="Durga Puja in Wakad, Durga Puja Pune, Amader Barir Pujo contact, Pune"
         ogImage="/assets/img/banner/1.webp"
       />
 

@@ -11,9 +11,9 @@ const PanchamiPage: React.FC = () => {
   return (
     <div className="relative">
       <SEO
-        title="Panchami | Bengali Durga Puja Pune | Amader Barir Pujo"
-        description="Celebrate Panchami during Amader Barir Pujo, a Bengali Durga Puja celebration in Pune."
-        keywords="Panchami, Bengali Durga Puja Pune, Amader Barir Pujo"
+        title="Panchami | Durga Puja Pune | Amader Barir Pujo"
+        description="Celebrate Panchami during Amader Barir Pujo, a Durga Puja celebration in Pune."
+        keywords="Panchami, Durga Puja Pune, Amader Barir Pujo"
         ogImage="/assets/img/panchami-photo.webp"
       />
 

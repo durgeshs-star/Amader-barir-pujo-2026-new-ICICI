@@ -11,9 +11,9 @@ const NavamiPage: React.FC = () => {
   return (
     <div className="relative">
       <SEO
-        title="Navami | Bengali Durga Puja Pune | Amader Barir Pujo"
-        description="Celebrate Navami during Amader Barir Pujo, a Bengali Durga Puja celebration in Pune."
-        keywords="Navami, Bengali Durga Puja Pune, Amader Barir Pujo"
+        title="Navami | Durga Puja Pune | Amader Barir Pujo"
+        description="Celebrate Navami during Amader Barir Pujo, a Durga Puja celebration in Pune."
+        keywords="Navami, Durga Puja Pune, Amader Barir Pujo"
         ogImage="/assets/img/navami.webp"
       />
 

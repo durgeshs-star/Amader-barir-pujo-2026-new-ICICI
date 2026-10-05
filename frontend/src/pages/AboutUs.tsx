@@ -9,8 +9,8 @@ const About = React.memo(() => {
     <div className="relative">
       <SEO
         title="About Amader Barir Pujo | Best Durga Puja Pune"
-        description="Discover Amader Barir Pujo, a free Bengali Durga Puja celebration in Pune. Learn about our traditions, community spirit, and the joy of Durga Puja in Wakad and Hinjewadi."
-        keywords="Bengali Durga Puja Pune, Amader Barir Pujo, Bengali community Pune, Durga Puja traditions, Durga Puja in Wakad, Durga Puja near Hinjewadi"
+        description="Discover Amader Barir Pujo, a free Durga Puja celebration in Pune. Learn about our traditions, community spirit, and the joy of Durga Puja in Wakad and Hinjewadi."
+        keywords="Durga Puja Pune, Amader Barir Pujo, Bengali community Pune, Durga Puja traditions, Durga Puja in Wakad, Durga Puja near Hinjewadi"
         ogImage="/assets/img/banner/1.webp"
       />
 

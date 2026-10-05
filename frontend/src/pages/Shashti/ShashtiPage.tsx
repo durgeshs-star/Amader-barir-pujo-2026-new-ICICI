@@ -11,9 +11,9 @@ const ShashtiPage: React.FC = () => {
   return (
     <div className="relative">
       <SEO
-        title="Shashti | Bengali Durga Puja Pune | Amader Barir Pujo"
-        description="Celebrate Shashti during Amader Barir Pujo, a Bengali Durga Puja celebration in Pune."
-        keywords="Shashti, Bengali Durga Puja Pune, Amader Barir Pujo"
+        title="Shashti | Durga Puja Pune | Amader Barir Pujo"
+        description="Celebrate Shashti during Amader Barir Pujo, a Durga Puja celebration in Pune."
+        keywords="Shashti, Durga Puja Pune, Amader Barir Pujo"
         ogImage="/assets/img/shashthi.webp"
       />
 

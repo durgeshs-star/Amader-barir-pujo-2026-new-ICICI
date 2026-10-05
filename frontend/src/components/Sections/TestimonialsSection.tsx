@@ -36,17 +36,17 @@ const TestimonialsSection: React.FC = () => {
    {
     name: 'Sneha Gupta',
     quote:
-      'A truly divine Bengali Durga Puja experience in Pune! The atmosphere was beautiful, the rituals were performed wonderfully, and it was lovely to see everyone come together for a free and welcoming Durga Puja celebration.',
+      'A truly divine Durga Puja experience in Pune! The atmosphere was beautiful, the rituals were performed wonderfully, and it was lovely to see everyone come together for a free and welcoming Durga Puja celebration.',
   },
   {
     name: 'Ananya Dutta',
     quote:
-      `I honestly didn't expect to feel so emotional. The moment the dhaak started, it reminded me of home. We came to this Bengali Durga Puja celebration in Pune from the Wakad area for a few hours and ended up spending almost the whole day. For those few moments, Pune felt a little more like Kolkata. Khub bhalo legechilo.`,
+      `I honestly didn't expect to feel so emotional. The moment the dhaak started, it reminded me of home. We came to this Durga Puja celebration in Pune from the Wakad area for a few hours and ended up spending almost the whole day. For those few moments, Pune felt a little more like Kolkata. Khub bhalo legechilo.`,
   },
   {
     name: 'Sourav Chatterjee',
     quote:
-      'It was wonderful to experience a traditional Bengali Durga Puja in Pune, especially for families from Wakad, Hinjewadi and nearby areas. The beautiful rituals, dhaak, cultural atmosphere and warm community made the Puja feel truly special.',
+      'It was wonderful to experience a traditional Durga Puja in Pune, especially for families from Wakad, Hinjewadi and nearby areas. The beautiful rituals, dhaak, cultural atmosphere and warm community made the Puja feel truly special.',
   },
   ];
 

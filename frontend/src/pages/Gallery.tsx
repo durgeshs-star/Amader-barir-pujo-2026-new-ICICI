@@ -65,9 +65,9 @@ export const Gallery: React.FC = React.memo(() => {
   return (
     <div className="relative pt-10 md:pt-14 pb-20 min-h-screen">
       <SEO 
-        title="Bengali Durga Puja Pune | Puja Pandal & Celebration Gallery | Durga Puja PCMC Pune"
-        description="Explore the Amader Barir Pujo gallery — Bengali Durga Puja pandal and celebration photos from Pune. View Durga Puja rituals, cultural programs, and community moments."
-        keywords="Bengali Durga Puja Pune, Durga Puja pandal Pune, Amader Barir Pujo gallery, Durga Puja celebrations Pune, Puja pandal photos"
+        title="Durga Puja Pune | Puja Pandal & Celebration Gallery | Durga Puja PCMC Pune"
+        description="Explore the Amader Barir Pujo gallery — Durga Puja pandal and celebration photos from Pune. View Durga Puja rituals, cultural programs, and community moments."
+        keywords="Durga Puja Pune, Durga Puja pandal Pune, Amader Barir Pujo gallery, Durga Puja celebrations Pune, Puja pandal photos"
       />
       <div className="max-w-6xl mx-auto px-3 sm:px-2 lg:px-16 xl:px-0 pb-4 lg:py-8 xl:py-0">
 
