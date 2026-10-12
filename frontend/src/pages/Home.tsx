@@ -4,6 +4,7 @@ import SEO from '../components/ui/SEO';
 
 // Lazy load below-fold sections to reduce initial JS bundle
 const SpiritSection = React.lazy(() => import('../components/Sections/SpiritSection'));
+const ScheduleSection = React.lazy(() => import('../components/Sections/ScheduleSection'));
 const TestimonialsSection = React.lazy(() => import('../components/Sections/TestimonialsSection'));
 
 const SectionSkeleton: React.FC = () => (
@@ -29,6 +30,9 @@ export const Home: React.FC = React.memo(() => {
         <div className="content-layer">
           <SpiritSection />
         </div>
+      </Suspense>
+      <Suspense fallback={<SectionSkeleton />}>
+        <ScheduleSection />
       </Suspense>
       <Suspense fallback={<SectionSkeleton />}>
         <div className="content-layer">
