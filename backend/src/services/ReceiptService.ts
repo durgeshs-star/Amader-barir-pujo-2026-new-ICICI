@@ -244,6 +244,7 @@ export class ReceiptService {
               || getCutoffConfigByTitle(booking.day);
             if (dateConfig) {
               doc.text(this.formatBhogDate(dateConfig.bhogDate), { indent: 10 });
+              doc.text(`Bhog Timing: 12:30 PM – 2:00 PM`, { indent: 10 });
             }
 
             const dayCategories = booking.categories && booking.categories.length > 0
@@ -290,6 +291,13 @@ export class ReceiptService {
           Object.keys(categoriesByDay).forEach((day) => {
             doc.font('Helvetica-Bold').fontSize(13).text(day);
             doc.font('Helvetica').fontSize(11);
+            
+            const dateConfig = getCutoffConfigByTitle(day);
+            if (dateConfig) {
+              doc.text(this.formatBhogDate(dateConfig.bhogDate), { indent: 10 });
+              doc.text(`Bhog Timing: 12:30 PM – 2:00 PM`, { indent: 10 });
+            }
+            
             categoriesByDay[day].forEach((cat: any) => {
               const price = Number(cat.price) || 0;
               const qty = Number(cat.quantity) || 0;
