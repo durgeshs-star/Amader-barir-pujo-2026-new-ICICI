@@ -1,7 +1,7 @@
 /**
  * ICICI Payment Reconciliation Service
  *
- * Hourly reconciliation of abandoned and pending payments against ICICI status API.
+ * 30-minute reconciliation of abandoned and pending payments against ICICI status API.
  * Recovers successful payments and sends missing WhatsApp/email confirmations.
  *
  * Key principles:
@@ -112,7 +112,7 @@ export class ICICIReconciliationService {
   private receiptService: ReceiptService;
 
   // Configuration
-  private readonly RECONCILIATION_INTERVAL_MS = 60 * 60 * 1000; // 1 hour
+  private readonly RECONCILIATION_INTERVAL_MS = 30 * 60 * 1000; // 30 minutes
   private readonly CUTOFF_HOURS = parseInt(process.env.RECONCILIATION_CUTOFF_HOURS || '168'); // 7 days default, configurable
   private readonly BATCH_SIZE = 20; // Process in batches to avoid overwhelming ICICI API
   private readonly BACKLOG_BATCH_SIZE = 10; // Smaller batch for backlog to be conservative with rate limits
