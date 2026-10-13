@@ -44,10 +44,15 @@ export interface IAnudanPayment extends Document {
   whatsappNotificationSent?: boolean;
   whatsappNotificationSentAt?: Date;
   whatsappNotificationError?: string;
+  whatsappNotificationClaimedAt?: Date;
   // Email notification tracking
   emailNotificationSent?: boolean;
   emailNotificationSentAt?: Date;
   emailNotificationError?: string;
+  emailNotificationClaimedAt?: Date;
+  // Anudan state deduction tracking
+  anudanStateDeducted?: boolean;
+  anudanStateDeductedAt?: Date;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -154,6 +159,9 @@ const AnudanPaymentSchema = new Schema<IAnudanPayment>(
     whatsappNotificationError: {
       type: String,
     },
+    whatsappNotificationClaimedAt: {
+      type: Date,
+    },
     // Email notification tracking
     emailNotificationSent: {
       type: Boolean,
@@ -165,6 +173,17 @@ const AnudanPaymentSchema = new Schema<IAnudanPayment>(
     emailNotificationError: {
       type: String,
     },
+    emailNotificationClaimedAt: {
+      type: Date,
+    },
+    // Anudan state deduction tracking
+    anudanStateDeducted: {
+      type: Boolean,
+      default: false,
+    },
+    anudanStateDeductedAt: {
+      type: Date,
+    },
   },
   {
     timestamps: true,
@@ -172,6 +191,7 @@ const AnudanPaymentSchema = new Schema<IAnudanPayment>(
 );
 
 AnudanPaymentSchema.index({ transactionId: 1 });
+AnudanPaymentSchema.index({ iciciTxnId: 1 }); // Index for ICICI transaction ID lookup
 AnudanPaymentSchema.index({ 'categories.day': 1 });
 AnudanPaymentSchema.index({ 'categories.day': 1, 'categories.amount': 1 }); // Compound index for aggregation
 AnudanPaymentSchema.index({ paymentStatus: 1 }); // Index for filtering successful payments
