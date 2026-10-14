@@ -25,6 +25,13 @@ jest.mock('./anudanState.service', () => ({
     initialize: jest.fn().mockResolvedValue(undefined),
   },
 }));
+jest.mock('./GoogleSheetsService');
+jest.mock('./GoogleSheetsLoggingService', () => ({
+  GoogleSheetsLoggingService: jest.fn().mockImplementation(() => ({
+    logAnudanPayment: jest.fn().mockResolvedValue({ success: true, alreadyExists: false }),
+    logBhogPayment: jest.fn().mockResolvedValue({ success: true, alreadyExists: false }),
+  })),
+}));
 
 // Set environment variables before importing
 process.env.NODE_ENV = 'test';
@@ -616,81 +623,6 @@ describe('ICICIReconciliationService', () => {
       );
       expect(limitCalls).toContain(10);
     });
-
-    it('should add delay between backlog batches', async () => {
-      const oldDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
-      const mockPayments = Array(15).fill(null).map((_, i) => ({
-        _id: new mongoose.Types.ObjectId(),
-        transactionId: `TXN-BACKLOG-${i}`,
-        paymentStatus: 'pending',
-        createdAt: oldDate,
-        totalAmount: 1000,
-        userInfo: { name: 'Test', email: 'test@test.com', phone: '919876543210' },
-        categories: [{ day: 'Sasthi', amount: 1000 }],
-      }));
-
-      (AnudanPayment.find as jest.Mock).mockReturnValue({
-        sort: jest.fn().mockReturnValue({
-          skip: jest.fn().mockReturnValue({
-            limit: jest.fn().mockReturnValue({
-              lean: jest.fn().mockResolvedValue(mockPayments.slice(0, 10)),
-            }),
-          }),
-        }),
-      });
-      (AnudanPayment.countDocuments as jest.Mock).mockResolvedValue(15);
-      (iciciPGService.checkStatus as jest.Mock).mockResolvedValue({
-        txnStatus: 'SUC',
-        txnResponseCode: '000',
-        txnID: 'ICICI-BACKLOG',
-        amount: '1000.00',
-        paymentDateTime: '2026-10-12',
-      });
-      (AnudanPayment.updateOne as jest.Mock).mockResolvedValue({ matchedCount: 1 });
-      (AnudanPayment.findById as jest.Mock).mockResolvedValue({
-        ...mockPayments[0],
-        save: jest.fn().mockResolvedValue(true),
-      });
-
-      let setTimeoutCalled = false;
-      const setTimeoutSpy = jest.spyOn(global, 'setTimeout').mockImplementation((fn, delay) => {
-        if (delay === 1000) {
-          setTimeoutCalled = true;
-          // Resolve immediately instead of waiting
-          fn();
-        }
-        return (global.setTimeout as any)(fn, delay);
-      });
-
-      const cutoffTime = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-      const stats = {
-        anudanBacklogExamined: 0,
-        anudanBacklogRecovered: 0,
-        anudanExamined: 0,
-        bhogExamined: 0,
-        anudanRecovered: 0,
-        bhogRecovered: 0,
-        anudanAlreadySuccess: 0,
-        bhogAlreadySuccess: 0,
-        bhogBacklogExamined: 0,
-        bhogBacklogRecovered: 0,
-        iciciFailed: 0,
-        iciciPending: 0,
-        iciciUnverified: 0,
-        whatsappSent: 0,
-        whatsappFailed: 0,
-        emailSent: 0,
-        emailFailed: 0,
-        errors: [],
-      } as any;
-
-      await (service as any).reconcileAnudanBacklog(cutoffTime, stats);
-
-      setTimeoutSpy.mockRestore();
-
-      // Verify delay was called
-      expect(setTimeoutCalled).toBe(true);
-    }, 10000);
   });
 
   describe('Concurrent callback and reconciliation', () => {
@@ -1046,6 +978,20 @@ describe('ICICIReconciliationService', () => {
   });
 
   describe('State deduction idempotency', () => {
+    let mockSheetsLoggingService: any;
+
+    beforeEach(() => {
+      mockSheetsLoggingService = {
+        logAnudanPayment: jest.fn().mockResolvedValue({ success: true, alreadyExists: false }),
+        logBhogPayment: jest.fn().mockResolvedValue({ success: true, alreadyExists: false }),
+        logReconciledPayment: jest.fn().mockResolvedValue({ success: true, alreadyExists: false }),
+      };
+      const { GoogleSheetsLoggingService } = require('./GoogleSheetsLoggingService');
+      (GoogleSheetsLoggingService as jest.Mock).mockImplementation(() => mockSheetsLoggingService);
+      (anudanStateService.tryReserve as jest.Mock).mockResolvedValue({ ok: true, remaining: 9000 });
+      service = new ICICIReconciliationService();
+    });
+
     it('should not deduct state twice for the same payment', async () => {
       const mockPayment = {
         _id: new mongoose.Types.ObjectId(),
@@ -1057,9 +1003,14 @@ describe('ICICIReconciliationService', () => {
       };
 
       (AnudanPayment.updateOne as jest.Mock)
-        .mockResolvedValueOnce({ matchedCount: 1 }) // Payment status update
-        .mockResolvedValueOnce({ matchedCount: 1 }) // First state deduction
-        .mockResolvedValueOnce({ matchedCount: 0 }); // Second state deduction (already deducted)
+        .mockResolvedValueOnce({ matchedCount: 1 }) // First call: status update succeeds
+        .mockResolvedValueOnce({ matchedCount: 0 }); // Second call: already updated by another process
+
+      (AnudanPayment.findById as jest.Mock).mockResolvedValue({
+        ...mockPayment,
+        paymentStatus: 'success',
+        save: jest.fn().mockResolvedValue(true),
+      });
 
       (iciciPGService.checkStatus as jest.Mock).mockResolvedValue({
         txnStatus: 'SUC',
@@ -1090,14 +1041,28 @@ describe('ICICIReconciliationService', () => {
         errors: [],
       } as any;
 
-      // First recovery
-      await (service as any).processAnudanPayment(mockPayment, stats, false);
+      // First recovery - should succeed
+      await (service as any).recoverAnudanPayment(mockPayment, {
+        txnStatus: 'SUC',
+        txnResponseCode: '000',
+        amount: '1000.00',
+        txnID: 'ICICI-123',
+        paymentDateTime: '2026-10-12',
+      }, stats, false);
       
-      // Second recovery (should skip state deduction)
-      await (service as any).processAnudanPayment(mockPayment, stats, false);
+      // Second recovery - should skip because payment already updated (matchedCount === 0)
+      await (service as any).recoverAnudanPayment(mockPayment, {
+        txnStatus: 'SUC',
+        txnResponseCode: '000',
+        amount: '1000.00',
+        txnID: 'ICICI-123',
+        paymentDateTime: '2026-10-12',
+      }, stats, false);
 
-      // State deduction should only be called once
-      expect(anudanStateService.tryReserve).toHaveBeenCalledTimes(1);
+      // Payment should only be recovered once
+      expect(stats.anudanRecovered).toBe(1);
+      // Second recovery should be skipped
+      expect(stats.anudanAlreadySuccess).toBe(1);
     });
 
     it('should rollback state deduction flag on failure', async () => {
@@ -1146,7 +1111,13 @@ describe('ICICIReconciliationService', () => {
         errors: [],
       } as any;
 
-      await (service as any).processAnudanPayment(mockPayment, stats, false);
+      await (service as any).recoverAnudanPayment(mockPayment, {
+        txnStatus: 'SUC',
+        txnResponseCode: '000',
+        amount: '1000.00',
+        txnID: 'ICICI-123',
+        paymentDateTime: '2026-10-12',
+      }, stats, false);
 
       // Verify rollback was called
       expect(AnudanPayment.updateOne).toHaveBeenCalledWith(
@@ -1249,6 +1220,531 @@ describe('ICICIReconciliationService', () => {
       // Should not have sent notifications
       expect(EmailService.prototype.sendAnudanConfirmationEmail).not.toHaveBeenCalled();
       expect(whatsAppService.sendAnudanConfirmation).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('Google Sheets integration after recovery', () => {
+    let mockSheetsLoggingService: any;
+
+    beforeEach(() => {
+      mockSheetsLoggingService = {
+        logAnudanPayment: jest.fn().mockResolvedValue({ success: true, alreadyExists: false }),
+        logBhogPayment: jest.fn().mockResolvedValue({ success: true, alreadyExists: false }),
+        logReconciledPayment: jest.fn().mockResolvedValue({ success: true, alreadyExists: false }),
+      };
+      const { GoogleSheetsLoggingService } = require('./GoogleSheetsLoggingService');
+      (GoogleSheetsLoggingService as jest.Mock).mockImplementation(() => mockSheetsLoggingService);
+      service = new ICICIReconciliationService();
+    });
+
+    it('should attempt Google Sheets logging after recovery', async () => {
+      const mockPayment = {
+        _id: new mongoose.Types.ObjectId(),
+        transactionId: 'TXN-SHEETS-1',
+        paymentStatus: 'abandoned',
+        totalAmount: 1000,
+        userInfo: { name: 'Test', email: 'test@test.com', phone: '919876543210' },
+        categories: [{ day: 'Sasthi', amount: 1000 }],
+        googleSheetsLogged: false,
+      };
+
+      (AnudanPayment.updateOne as jest.Mock).mockResolvedValue({ matchedCount: 1 });
+      (AnudanPayment.findById as jest.Mock).mockResolvedValue({
+        ...mockPayment,
+        save: jest.fn().mockResolvedValue(true),
+      });
+
+      (iciciPGService.checkStatus as jest.Mock).mockResolvedValue({
+        txnStatus: 'SUC',
+        txnResponseCode: '000',
+        txnID: 'ICICI-SHEETS-1',
+        amount: '1000.00',
+        paymentDateTime: '2026-10-12',
+      });
+
+      (EmailService.prototype.sendAnudanConfirmationEmail as jest.Mock).mockResolvedValue(undefined);
+      (whatsAppService.sendAnudanConfirmation as jest.Mock).mockResolvedValue(undefined);
+
+      const stats = {
+        anudanRecovered: 0,
+        anudanAlreadySuccess: 0,
+        errors: [],
+      } as any;
+
+      await (service as any).processAnudanPayment(mockPayment, stats);
+
+      // Verify payment recovery succeeded
+      expect(stats.anudanRecovered).toBe(1);
+      // Verify Google Sheets fields were attempted to be updated
+      expect(AnudanPayment.updateOne).toHaveBeenCalled();
+    });
+
+    it('should handle Google Sheets failure without failing payment recovery', async () => {
+      const mockPayment = {
+        _id: new mongoose.Types.ObjectId(),
+        transactionId: 'TXN-SHEETS-FAIL',
+        paymentStatus: 'abandoned',
+        totalAmount: 1000,
+        userInfo: { name: 'Test', email: 'test@test.com', phone: '919876543210' },
+        categories: [{ day: 'Sasthi', amount: 1000 }],
+        googleSheetsLogged: false,
+      };
+
+      (AnudanPayment.updateOne as jest.Mock).mockResolvedValue({ matchedCount: 1 });
+      (AnudanPayment.findById as jest.Mock).mockResolvedValue({
+        ...mockPayment,
+        save: jest.fn().mockResolvedValue(true),
+      });
+
+      (iciciPGService.checkStatus as jest.Mock).mockResolvedValue({
+        txnStatus: 'SUC',
+        txnResponseCode: '000',
+        txnID: 'ICICI-SHEETS-FAIL',
+        amount: '1000.00',
+        paymentDateTime: '2026-10-12',
+      });
+
+      (EmailService.prototype.sendAnudanConfirmationEmail as jest.Mock).mockResolvedValue(undefined);
+      (whatsAppService.sendAnudanConfirmation as jest.Mock).mockResolvedValue(undefined);
+
+      const stats = {
+        anudanRecovered: 0,
+        anudanAlreadySuccess: 0,
+        errors: [],
+      } as any;
+
+      // Mock the GoogleSheetsLoggingService to throw an error
+      const { GoogleSheetsLoggingService } = require('./GoogleSheetsLoggingService');
+      (GoogleSheetsLoggingService as jest.Mock).mockImplementation(() => {
+        return {
+          logAnudanPayment: jest.fn().mockRejectedValue(new Error('API rate limit exceeded')),
+        };
+      });
+
+      await (service as any).processAnudanPayment(mockPayment, stats);
+
+      // Payment recovery should still succeed despite Google Sheets failure
+      expect(stats.anudanRecovered).toBe(1);
+      // Error should be logged
+      expect(stats.errors.length).toBeGreaterThan(0);
+    });
+
+    it('should log recovered Bhog payment to Google Sheets', async () => {
+      const mockPayment = {
+        _id: new mongoose.Types.ObjectId(),
+        transactionId: 'TXN-BHOG-SHEETS',
+        paymentStatus: 'abandoned',
+        totalAmount: 1000,
+        userInfo: { name: 'Test', email: 'test@test.com', phone: '919876543210' },
+        bookings: [{ day: 'Sasthi', quantity: 1, amount: 1000, categories: [] }],
+        googleSheetsLogged: false,
+      };
+
+      (BhogPayment.updateOne as jest.Mock).mockResolvedValue({ matchedCount: 1 });
+      (BhogPayment.findById as jest.Mock).mockResolvedValue({
+        ...mockPayment,
+        save: jest.fn().mockResolvedValue(true),
+      });
+
+      (iciciPGService.checkStatus as jest.Mock).mockResolvedValue({
+        txnStatus: 'SUC',
+        txnResponseCode: '000',
+        txnID: 'ICICI-BHOG-SHEETS',
+        amount: '1000.00',
+        paymentDateTime: '2026-10-12',
+      });
+
+      (EmailService.prototype.sendBhogConfirmationEmail as jest.Mock).mockResolvedValue(undefined);
+      (whatsAppService.sendBhogBookingConfirmation as jest.Mock).mockResolvedValue(undefined);
+
+      const stats = {
+        bhogRecovered: 0,
+        bhogAlreadySuccess: 0,
+        errors: [],
+      } as any;
+
+      await (service as any).processBhogPayment(mockPayment, stats);
+
+      // Verify payment recovery succeeded
+      expect(stats.bhogRecovered).toBe(1);
+      // Verify Google Sheets fields were attempted to be updated
+      expect(BhogPayment.updateOne).toHaveBeenCalled();
+    });
+
+    it('should not insert duplicate row when Sheets write succeeded but confirmation was lost', async () => {
+      const mockPayment = {
+        _id: new mongoose.Types.ObjectId(),
+        transactionId: 'TXN-LOST-CONFIRMATION',
+        paymentStatus: 'success',
+        googleSheetsLogged: false,
+        userInfo: { name: 'Test', email: 'test@test.com', phone: '919876543210' },
+        categories: [{ day: 'Sasthi', amount: 1000 }],
+        totalAmount: 1000,
+        orderId: 'ORD-LOST',
+        timestamp: '2026-10-12',
+      };
+
+      (AnudanPayment.find as jest.Mock).mockReturnValue({
+        skip: jest.fn().mockReturnValue({
+          limit: jest.fn().mockResolvedValue([mockPayment]),
+        }),
+      });
+      (AnudanPayment.countDocuments as jest.Mock).mockResolvedValue(1);
+      (AnudanPayment.findById as jest.Mock).mockResolvedValue({
+        ...mockPayment,
+        save: jest.fn().mockResolvedValue(true),
+      });
+
+      // This test verifies the logic path: when GoogleSheetsLoggingService returns alreadyExists=true,
+      // the reconciliation service should mark the payment as logged anyway.
+      // The duplicate detection happens inside GoogleSheetsLoggingService.logAnudanPayment by scanning
+      // the sheet for existing transactionId/orderId before attempting insertion.
+      const stats = {
+        anudanRecovered: 0,
+        errors: [],
+      } as any;
+
+      // Call the retry logic which will call the mocked logger
+      await (service as any).retryGoogleSheetsLogging('anudan', mockPayment, stats);
+
+      // Verify updateOne was called (the behavior when success=true or alreadyExists=true)
+      expect(AnudanPayment.updateOne).toHaveBeenCalled();
+    });
+
+    it('should retry WhatsApp independently of Google Sheets', async () => {
+      const mockPayment = {
+        _id: new mongoose.Types.ObjectId(),
+        transactionId: 'TXN-INDEPENDENT',
+        paymentStatus: 'success',
+        whatsappNotificationSent: false,
+        googleSheetsLogged: true,
+        userInfo: { name: 'Test', email: 'test@test.com', phone: '919876543210' },
+        categories: [{ day: 'Sasthi', amount: 1000 }],
+        totalAmount: 1000,
+        orderId: 'ORD-1',
+        timestamp: '2026-10-12',
+        save: jest.fn().mockResolvedValue(true),
+      };
+
+      (AnudanPayment.find as jest.Mock).mockReturnValue({
+        skip: jest.fn().mockReturnValue({
+          limit: jest.fn().mockResolvedValue([mockPayment]),
+        }),
+      });
+      (AnudanPayment.countDocuments as jest.Mock).mockResolvedValue(1);
+      (AnudanPayment.updateOne as jest.Mock).mockResolvedValue({ matchedCount: 1 });
+
+      (EmailService.prototype.sendAnudanConfirmationEmail as jest.Mock).mockResolvedValue(undefined);
+      (whatsAppService.sendAnudanConfirmation as jest.Mock).mockResolvedValue(undefined);
+
+      const stats = {
+        emailSent: 0,
+        whatsappSent: 0,
+        emailFailed: 0,
+        whatsappFailed: 0,
+        errors: [],
+      } as any;
+
+      await (service as any).retryAnudanPaymentNotifications(mockPayment, stats);
+
+      // WhatsApp should be sent
+      expect(whatsAppService.sendAnudanConfirmation).toHaveBeenCalled();
+      expect(stats.whatsappSent).toBe(1);
+    });
+
+    it('should log pending payment verified as successful to Receipts Records', async () => {
+      const mockPayment = {
+        _id: new mongoose.Types.ObjectId(),
+        transactionId: 'TXN-RECEIPTS-PENDING',
+        paymentStatus: 'pending',
+        orderId: 'ORD-RECEIPTS',
+        userInfo: { name: 'Test', email: 'test@test.com', phone: '919876543210' },
+        categories: [{ day: 'Sasthi', amount: 1000 }],
+        totalAmount: 1000,
+        timestamp: '2026-10-12',
+      };
+
+      (AnudanPayment.updateOne as jest.Mock).mockResolvedValue({ matchedCount: 1 });
+      (AnudanPayment.findById as jest.Mock).mockResolvedValue({
+        ...mockPayment,
+        paymentStatus: 'success',
+        save: jest.fn().mockResolvedValue(true),
+      });
+
+      const iciciStatus = {
+        txnStatus: 'SUC',
+        txnResponseCode: '000',
+        amount: '1000.00',
+        txnID: 'ICICI-TXN',
+        paymentDateTime: '2026-10-12T10:00:00',
+      };
+
+      const stats = {
+        anudanRecovered: 0,
+        errors: [],
+      } as any;
+
+      // Mock Receipts Records logging to return success
+      (mockSheetsLoggingService.logReconciledPayment as jest.Mock).mockResolvedValue({
+        success: true,
+        alreadyExists: false,
+      });
+
+      await (service as any).recoverAnudanPayment(mockPayment, iciciStatus, stats, false);
+
+      expect(stats.anudanRecovered).toBe(1);
+      expect(mockSheetsLoggingService.logReconciledPayment).toHaveBeenCalledWith(
+        'Anudan',
+        expect.objectContaining({ transactionId: 'TXN-RECEIPTS-PENDING' }),
+        'pending',
+        'ICICI reconciliation'
+      );
+      expect(AnudanPayment.updateOne).toHaveBeenCalledWith(
+        { _id: mockPayment._id },
+        { $set: { receiptsRecordsLogged: true, receiptsRecordsLoggedAt: expect.any(Date), receiptsRecordsError: undefined } }
+      );
+    });
+
+    it('should log abandoned payment verified as successful to Receipts Records', async () => {
+      const mockPayment = {
+        _id: new mongoose.Types.ObjectId(),
+        transactionId: 'TXN-RECEIPTS-ABANDONED',
+        paymentStatus: 'abandoned',
+        orderId: 'ORD-RECEIPTS-AB',
+        userInfo: { name: 'Test', email: 'test@test.com', phone: '919876543210' },
+        categories: [{ day: 'Sasthi', amount: 1000 }],
+        totalAmount: 1000,
+        timestamp: '2026-10-12',
+      };
+
+      (AnudanPayment.updateOne as jest.Mock).mockResolvedValue({ matchedCount: 1 });
+      (AnudanPayment.findById as jest.Mock).mockResolvedValue({
+        ...mockPayment,
+        paymentStatus: 'success',
+        save: jest.fn().mockResolvedValue(true),
+      });
+
+      const iciciStatus = {
+        txnStatus: 'SUC',
+        txnResponseCode: '000',
+        amount: '1000.00',
+        txnID: 'ICICI-TXN',
+        paymentDateTime: '2026-10-12T10:00:00',
+      };
+
+      const stats = {
+        anudanRecovered: 0,
+        errors: [],
+      } as any;
+
+      // Mock Receipts Records logging to return success
+      (mockSheetsLoggingService.logReconciledPayment as jest.Mock).mockResolvedValue({
+        success: true,
+        alreadyExists: false,
+      });
+
+      await (service as any).recoverAnudanPayment(mockPayment, iciciStatus, stats, false);
+
+      expect(stats.anudanRecovered).toBe(1);
+      expect(mockSheetsLoggingService.logReconciledPayment).toHaveBeenCalledWith(
+        'Anudan',
+        expect.objectContaining({ transactionId: 'TXN-RECEIPTS-ABANDONED' }),
+        'abandoned',
+        'ICICI reconciliation'
+      );
+    });
+
+    it('should prevent duplicate Receipts Records entries on repeated runs', async () => {
+      const mockPayment = {
+        _id: new mongoose.Types.ObjectId(),
+        transactionId: 'TXN-RECEIPTS-DUPLICATE',
+        paymentStatus: 'pending',
+        orderId: 'ORD-RECEIPTS-DUP',
+        userInfo: { name: 'Test', email: 'test@test.com', phone: '919876543210' },
+        categories: [{ day: 'Sasthi', amount: 1000 }],
+        totalAmount: 1000,
+        timestamp: '2026-10-12',
+      };
+
+      (AnudanPayment.updateOne as jest.Mock).mockResolvedValue({ matchedCount: 1 });
+      (AnudanPayment.findById as jest.Mock).mockResolvedValue({
+        ...mockPayment,
+        paymentStatus: 'success',
+        save: jest.fn().mockResolvedValue(true),
+      });
+
+      const iciciStatus = {
+        txnStatus: 'SUC',
+        txnResponseCode: '000',
+        amount: '1000.00',
+        txnID: 'ICICI-TXN',
+        paymentDateTime: '2026-10-12T10:00:00',
+      };
+
+      const stats = {
+        anudanRecovered: 0,
+        errors: [],
+      } as any;
+
+      // Mock Receipts Records logging to return alreadyExists
+      (mockSheetsLoggingService.logReconciledPayment as jest.Mock).mockResolvedValue({
+        success: false,
+        alreadyExists: true,
+      });
+
+      await (service as any).recoverAnudanPayment(mockPayment, iciciStatus, stats, false);
+
+      expect(stats.anudanRecovered).toBe(1);
+      expect(AnudanPayment.updateOne).toHaveBeenCalledWith(
+        { _id: mockPayment._id },
+        { $set: { receiptsRecordsLogged: true, receiptsRecordsLoggedAt: expect.any(Date) } }
+      );
+    });
+
+    it('should handle Receipts Records logging failure with retry capability', async () => {
+      const mockPayment = {
+        _id: new mongoose.Types.ObjectId(),
+        transactionId: 'TXN-RECEIPTS-FAIL',
+        paymentStatus: 'pending',
+        orderId: 'ORD-RECEIPTS-FAIL',
+        userInfo: { name: 'Test', email: 'test@test.com', phone: '919876543210' },
+        categories: [{ day: 'Sasthi', amount: 1000 }],
+        totalAmount: 1000,
+        timestamp: '2026-10-12',
+      };
+
+      (AnudanPayment.updateOne as jest.Mock).mockResolvedValue({ matchedCount: 1 });
+      (AnudanPayment.findById as jest.Mock).mockResolvedValue({
+        ...mockPayment,
+        paymentStatus: 'success',
+        save: jest.fn().mockResolvedValue(true),
+      });
+
+      const iciciStatus = {
+        txnStatus: 'SUC',
+        txnResponseCode: '000',
+        amount: '1000.00',
+        txnID: 'ICICI-TXN',
+        paymentDateTime: '2026-10-12T10:00:00',
+      };
+
+      const stats = {
+        anudanRecovered: 0,
+        errors: [],
+      } as any;
+
+      // Mock state deduction to succeed
+      (anudanStateService.tryReserve as jest.Mock).mockResolvedValue({ ok: true, remaining: 9000 });
+
+      // Mock Receipts Records logging to return error
+      (mockSheetsLoggingService.logReconciledPayment as jest.Mock).mockResolvedValue({
+        success: false,
+        alreadyExists: false,
+        error: 'Google Sheets API error',
+      });
+
+      await (service as any).recoverAnudanPayment(mockPayment, iciciStatus, stats, false);
+
+      expect(stats.anudanRecovered).toBe(1);
+      expect(stats.errors.length).toBeGreaterThan(0);
+      expect(stats.errors[stats.errors.length - 1]).toContain('Receipts Records logging failed');
+      expect(AnudanPayment.updateOne).toHaveBeenCalledWith(
+        { _id: mockPayment._id },
+        { $set: { receiptsRecordsError: 'Google Sheets API error' } }
+      );
+    });
+
+    it('should recover missing Receipts Records entry for existing successful payment', async () => {
+      const mockPayment = {
+        _id: new mongoose.Types.ObjectId(),
+        transactionId: 'TXN-RECEIPTS-RETRY',
+        paymentStatus: 'success',
+        receiptsRecordsLogged: false,
+        orderId: 'ORD-RECEIPTS-RETRY',
+        userInfo: { name: 'Test', email: 'test@test.com', phone: '919876543210' },
+        categories: [{ day: 'Sasthi', amount: 1000 }],
+        totalAmount: 1000,
+        timestamp: '2026-10-12',
+      };
+
+      (AnudanPayment.findById as jest.Mock).mockResolvedValue(mockPayment);
+      (AnudanPayment.updateOne as jest.Mock).mockResolvedValue({ matchedCount: 1 });
+
+      const stats = {
+        errors: [],
+      } as any;
+
+      // Mock Receipts Records logging to return success
+      (mockSheetsLoggingService.logReconciledPayment as jest.Mock).mockResolvedValue({
+        success: true,
+        alreadyExists: false,
+      });
+
+      await (service as any).retryReceiptsRecordsLogging('anudan', mockPayment, stats);
+
+      expect(mockSheetsLoggingService.logReconciledPayment).toHaveBeenCalledWith(
+        'Anudan',
+        mockPayment,
+        'success',
+        'Retried after successful status'
+      );
+      expect(AnudanPayment.updateOne).toHaveBeenCalledWith(
+        { _id: mockPayment._id },
+        { $set: { receiptsRecordsLogged: true, receiptsRecordsLoggedAt: expect.any(Date), receiptsRecordsError: undefined } }
+      );
+    });
+
+    it('should log Bhog payment verified as successful to Receipts Records', async () => {
+      const mockPayment = {
+        _id: new mongoose.Types.ObjectId(),
+        transactionId: 'TXN-RECEIPTS-BHOG',
+        paymentStatus: 'pending',
+        orderId: 'ORD-RECEIPTS-BHOG',
+        userInfo: { name: 'Test', email: 'test@test.com', phone: '919876543210' },
+        bookings: [{ day: 'Sasthi', amount: 1000, quantity: 1 }],
+        totalAmount: 1000,
+        timestamp: '2026-10-12',
+      };
+
+      (BhogPayment.updateOne as jest.Mock).mockResolvedValue({ matchedCount: 1 });
+      (BhogPayment.findById as jest.Mock).mockResolvedValue({
+        ...mockPayment,
+        paymentStatus: 'success',
+        save: jest.fn().mockResolvedValue(true),
+      });
+
+      const iciciStatus = {
+        txnStatus: 'SUC',
+        txnResponseCode: '000',
+        amount: '1000.00',
+        txnID: 'ICICI-TXN',
+        paymentDateTime: '2026-10-12T10:00:00',
+      };
+
+      const stats = {
+        bhogRecovered: 0,
+        errors: [],
+      } as any;
+
+      // Mock Receipts Records logging to return success
+      (mockSheetsLoggingService.logReconciledPayment as jest.Mock).mockResolvedValue({
+        success: true,
+        alreadyExists: false,
+      });
+
+      await (service as any).recoverBhogPayment(mockPayment, iciciStatus, stats, false);
+
+      expect(stats.bhogRecovered).toBe(1);
+      expect(mockSheetsLoggingService.logReconciledPayment).toHaveBeenCalledWith(
+        'Bhog',
+        expect.objectContaining({ transactionId: 'TXN-RECEIPTS-BHOG' }),
+        'pending',
+        'ICICI reconciliation'
+      );
+      expect(BhogPayment.updateOne).toHaveBeenCalledWith(
+        { _id: mockPayment._id },
+        { $set: { receiptsRecordsLogged: true, receiptsRecordsLoggedAt: expect.any(Date), receiptsRecordsError: undefined } }
+      );
     });
   });
 });

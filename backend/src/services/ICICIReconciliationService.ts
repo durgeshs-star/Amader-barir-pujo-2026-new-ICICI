@@ -46,6 +46,8 @@ import { whatsAppService } from './WhatsAppService';
 import { ReceiptService } from './ReceiptService';
 import { formatBhogBookingDetails } from '../utils/bhogWhatsAppFormatter';
 import { anudanStateService } from './anudanState.service';
+import { GoogleSheetsService } from './GoogleSheetsService';
+import { GoogleSheetsLoggingService } from './GoogleSheetsLoggingService';
 
 /**
  * Get Bhog date based on day title
@@ -110,6 +112,8 @@ export class ICICIReconciliationService {
   private reconciliationInterval: NodeJS.Timeout | null = null;
   private emailService: EmailService;
   private receiptService: ReceiptService;
+  private sheetsService: GoogleSheetsService;
+  private sheetsLoggingService: GoogleSheetsLoggingService;
 
   // Configuration
   private readonly RECONCILIATION_INTERVAL_MS = 30 * 60 * 1000; // 30 minutes
@@ -122,6 +126,8 @@ export class ICICIReconciliationService {
   constructor() {
     this.emailService = new EmailService();
     this.receiptService = new ReceiptService();
+    this.sheetsService = new GoogleSheetsService();
+    this.sheetsLoggingService = new GoogleSheetsLoggingService(this.sheetsService);
   }
 
   /**
@@ -225,6 +231,12 @@ export class ICICIReconciliationService {
       // Retry missing notifications for successful payments (without querying ICICI)
       await this.retryNotificationsForSuccessPayments(cutoffTime, stats);
 
+      // Retry Google Sheets logging for successful payments
+      await this.reconcileGoogleSheetsLogging(stats);
+
+      // Retry Receipts Records logging for successful payments
+      await this.reconcileReceiptsRecordsLogging(stats);
+
       // Log summary
       this.logReconciliationSummary(stats);
     } catch (error) {
@@ -316,6 +328,296 @@ export class ICICIReconciliationService {
       }
 
       skip += this.BATCH_SIZE;
+    }
+  }
+
+  /**
+   * Reconcile Google Sheets logging for successful payments
+   * Retries logging for payments that are success but haven't been logged to Sheets yet
+   */
+  private async reconcileGoogleSheetsLogging(stats: ReconciliationStats): Promise<void> {
+    console.log('[ICICIReconciliation] Processing Google Sheets logging retries...');
+
+    // Find successful Anudan payments not yet logged to Sheets
+    const anudanQuery = {
+      paymentStatus: 'success',
+      googleSheetsLogged: { $ne: true },
+    };
+
+    const anudanTotal = await AnudanPayment.countDocuments(anudanQuery);
+    console.log(`[ICICIReconciliation] Found ${anudanTotal} Anudan payments to retry Sheets logging`);
+
+    if (anudanTotal > 0) {
+      const anudanPayments = await AnudanPayment.find(anudanQuery)
+        .limit(this.BATCH_SIZE)
+        .lean();
+
+      for (const payment of anudanPayments) {
+        try {
+          await this.retryGoogleSheetsLogging('anudan', payment, stats);
+        } catch (error) {
+          console.error(`[ICICIReconciliation] Error retrying Sheets logging for Anudan ${payment.transactionId}:`, error);
+          stats.errors.push(`Anudan Sheets retry ${payment.transactionId}: ${error instanceof Error ? error.message : String(error)}`);
+        }
+      }
+    }
+
+    // Find successful Bhog payments not yet logged to Sheets
+    const bhogQuery = {
+      paymentStatus: 'success',
+      googleSheetsLogged: { $ne: true },
+    };
+
+    const bhogTotal = await BhogPayment.countDocuments(bhogQuery);
+    console.log(`[ICICIReconciliation] Found ${bhogTotal} Bhog payments to retry Sheets logging`);
+
+    if (bhogTotal > 0) {
+      const bhogPayments = await BhogPayment.find(bhogQuery)
+        .limit(this.BATCH_SIZE)
+        .lean();
+
+      for (const payment of bhogPayments) {
+        try {
+          await this.retryGoogleSheetsLogging('bhog', payment, stats);
+        } catch (error) {
+          console.error(`[ICICIReconciliation] Error retrying Sheets logging for Bhog ${payment.transactionId}:`, error);
+          stats.errors.push(`Bhog Sheets retry ${payment.transactionId}: ${error instanceof Error ? error.message : String(error)}`);
+        }
+      }
+    }
+  }
+
+  /**
+   * Retry Google Sheets logging for a specific payment
+   */
+  private async retryGoogleSheetsLogging(type: 'anudan' | 'bhog', payment: any, stats: ReconciliationStats): Promise<void> {
+    console.log(`[ICICIReconciliation] Retrying Google Sheets logging for ${type} payment ${payment.transactionId}`);
+
+    const freshPayment = type === 'anudan'
+      ? await AnudanPayment.findById(payment._id)
+      : await BhogPayment.findById(payment._id);
+
+    if (!freshPayment) {
+      console.error(`[ICICIReconciliation] Failed to fetch fresh ${type} payment ${payment._id}`);
+      return;
+    }
+
+    // Skip if already logged (concurrent retry)
+    if (freshPayment.googleSheetsLogged) {
+      console.log(`[ICICIReconciliation] ${type} payment ${payment.transactionId} already logged to Sheets, skipping`);
+      return;
+    }
+
+    try {
+      const sheetsResult = type === 'anudan'
+        ? await this.sheetsLoggingService.logAnudanPayment(freshPayment)
+        : await this.sheetsLoggingService.logBhogPayment(freshPayment);
+
+      if (sheetsResult.success) {
+        console.log(`[ICICIReconciliation] Google Sheets logging successful for ${type} ${payment.transactionId}`);
+        if (type === 'anudan') {
+          await AnudanPayment.updateOne(
+            { _id: freshPayment._id },
+            { $set: { googleSheetsLogged: true, googleSheetsLoggedAt: new Date(), googleSheetsError: undefined } }
+          );
+        } else {
+          await BhogPayment.updateOne(
+            { _id: freshPayment._id },
+            { $set: { googleSheetsLogged: true, googleSheetsLoggedAt: new Date(), googleSheetsError: undefined } }
+          );
+        }
+      } else if (sheetsResult.alreadyExists) {
+        console.log(`[ICICIReconciliation] Transaction already in Google Sheets for ${type} ${payment.transactionId}`);
+        if (type === 'anudan') {
+          await AnudanPayment.updateOne(
+            { _id: freshPayment._id },
+            { $set: { googleSheetsLogged: true, googleSheetsLoggedAt: new Date() } }
+          );
+        } else {
+          await BhogPayment.updateOne(
+            { _id: freshPayment._id },
+            { $set: { googleSheetsLogged: true, googleSheetsLoggedAt: new Date() } }
+          );
+        }
+      } else {
+        console.error(`[ICICIReconciliation] Google Sheets logging failed for ${type} ${payment.transactionId}: ${sheetsResult.error}`);
+        if (type === 'anudan') {
+          await AnudanPayment.updateOne(
+            { _id: freshPayment._id },
+            { $set: { googleSheetsError: sheetsResult.error } }
+          );
+        } else {
+          await BhogPayment.updateOne(
+            { _id: freshPayment._id },
+            { $set: { googleSheetsError: sheetsResult.error } }
+          );
+        }
+        stats.errors.push(`Google Sheets logging failed for ${type} ${payment.transactionId}: ${sheetsResult.error}`);
+      }
+    } catch (sheetsError) {
+      console.error(`[ICICIReconciliation] Google Sheets logging error for ${type} ${payment.transactionId}:`, sheetsError);
+      if (type === 'anudan') {
+        await AnudanPayment.updateOne(
+          { _id: freshPayment._id },
+          { $set: { googleSheetsError: sheetsError instanceof Error ? sheetsError.message : String(sheetsError) } }
+        );
+      } else {
+        await BhogPayment.updateOne(
+          { _id: freshPayment._id },
+          { $set: { googleSheetsError: sheetsError instanceof Error ? sheetsError.message : String(sheetsError) } }
+        );
+      }
+      stats.errors.push(`Google Sheets logging error for ${type} ${payment.transactionId}: ${sheetsError instanceof Error ? sheetsError.message : String(sheetsError)}`);
+    }
+  }
+
+  /**
+   * Reconcile Receipts Records logging for successful payments
+   * Retries logging for payments that are success but haven't been logged to Receipts Records yet
+   */
+  private async reconcileReceiptsRecordsLogging(stats: ReconciliationStats): Promise<void> {
+    console.log('[ICICIReconciliation] Processing Receipts Records logging retries...');
+
+    // Find successful Anudan payments not yet logged to Receipts Records
+    const anudanQuery = {
+      paymentStatus: 'success',
+      receiptsRecordsLogged: { $ne: true },
+    };
+
+    const anudanTotal = await AnudanPayment.countDocuments(anudanQuery);
+    console.log(`[ICICIReconciliation] Found ${anudanTotal} Anudan payments to retry Receipts Records logging`);
+
+    if (anudanTotal > 0) {
+      const anudanPayments = await AnudanPayment.find(anudanQuery)
+        .limit(this.BATCH_SIZE)
+        .lean();
+
+      for (const payment of anudanPayments) {
+        try {
+          await this.retryReceiptsRecordsLogging('anudan', payment, stats);
+        } catch (error) {
+          console.error(`[ICICIReconciliation] Error retrying Receipts Records logging for Anudan ${payment.transactionId}:`, error);
+          stats.errors.push(`Anudan Receipts Records retry ${payment.transactionId}: ${error instanceof Error ? error.message : String(error)}`);
+        }
+      }
+    }
+
+    // Find successful Bhog payments not yet logged to Receipts Records
+    const bhogQuery = {
+      paymentStatus: 'success',
+      receiptsRecordsLogged: { $ne: true },
+    };
+
+    const bhogTotal = await BhogPayment.countDocuments(bhogQuery);
+    console.log(`[ICICIReconciliation] Found ${bhogTotal} Bhog payments to retry Receipts Records logging`);
+
+    if (bhogTotal > 0) {
+      const bhogPayments = await BhogPayment.find(bhogQuery)
+        .limit(this.BATCH_SIZE)
+        .lean();
+
+      for (const payment of bhogPayments) {
+        try {
+          await this.retryReceiptsRecordsLogging('bhog', payment, stats);
+        } catch (error) {
+          console.error(`[ICICIReconciliation] Error retrying Receipts Records logging for Bhog ${payment.transactionId}:`, error);
+          stats.errors.push(`Bhog Receipts Records retry ${payment.transactionId}: ${error instanceof Error ? error.message : String(error)}`);
+        }
+      }
+    }
+  }
+
+  /**
+   * Retry Receipts Records logging for a specific payment
+   * For existing successful payments that were never logged to Receipts Records
+   */
+  private async retryReceiptsRecordsLogging(type: 'anudan' | 'bhog', payment: any, stats: ReconciliationStats): Promise<void> {
+    console.log(`[ICICIReconciliation] Retrying Receipts Records logging for ${type} payment ${payment.transactionId}`);
+
+    const freshPayment = type === 'anudan'
+      ? await AnudanPayment.findById(payment._id)
+      : await BhogPayment.findById(payment._id);
+
+    if (!freshPayment) {
+      console.error(`[ICICIReconciliation] Failed to fetch fresh ${type} payment ${payment._id}`);
+      return;
+    }
+
+    // Skip if already logged (concurrent retry)
+    if (freshPayment.receiptsRecordsLogged) {
+      console.log(`[ICICIReconciliation] ${type} payment ${payment.transactionId} already logged to Receipts Records, skipping`);
+      return;
+    }
+
+    // Only log if payment is successful
+    if (freshPayment.paymentStatus !== 'success') {
+      console.log(`[ICICIReconciliation] ${type} payment ${payment.transactionId} is not successful, skipping Receipts Records logging`);
+      return;
+    }
+
+    try {
+      const receiptsResult = await this.sheetsLoggingService.logReconciledPayment(
+        type === 'anudan' ? 'Anudan' : 'Bhog',
+        freshPayment,
+        'success', // Already successful
+        'Retried after successful status'
+      );
+
+      if (receiptsResult.success) {
+        console.log(`[ICICIReconciliation] Receipts Records logging successful for ${type} ${payment.transactionId}`);
+        if (type === 'anudan') {
+          await AnudanPayment.updateOne(
+            { _id: freshPayment._id },
+            { $set: { receiptsRecordsLogged: true, receiptsRecordsLoggedAt: new Date(), receiptsRecordsError: undefined } }
+          );
+        } else {
+          await BhogPayment.updateOne(
+            { _id: freshPayment._id },
+            { $set: { receiptsRecordsLogged: true, receiptsRecordsLoggedAt: new Date(), receiptsRecordsError: undefined } }
+          );
+        }
+      } else if (receiptsResult.alreadyExists) {
+        console.log(`[ICICIReconciliation] Payment already in Receipts Records for ${type} ${payment.transactionId}`);
+        if (type === 'anudan') {
+          await AnudanPayment.updateOne(
+            { _id: freshPayment._id },
+            { $set: { receiptsRecordsLogged: true, receiptsRecordsLoggedAt: new Date() } }
+          );
+        } else {
+          await BhogPayment.updateOne(
+            { _id: freshPayment._id },
+            { $set: { receiptsRecordsLogged: true, receiptsRecordsLoggedAt: new Date() } }
+          );
+        }
+      } else {
+        console.error(`[ICICIReconciliation] Receipts Records logging failed for ${type} ${payment.transactionId}: ${receiptsResult.error}`);
+        if (type === 'anudan') {
+          await AnudanPayment.updateOne(
+            { _id: freshPayment._id },
+            { $set: { receiptsRecordsError: receiptsResult.error } }
+          );
+        } else {
+          await BhogPayment.updateOne(
+            { _id: freshPayment._id },
+            { $set: { receiptsRecordsError: receiptsResult.error } }
+          );
+        }
+        stats.errors.push(`Receipts Records logging failed for ${type} ${payment.transactionId}: ${receiptsResult.error}`);
+      }
+    } catch (receiptsError) {
+      console.error(`[ICICIReconciliation] Receipts Records logging error for ${type} ${payment.transactionId}:`, receiptsError);
+      if (type === 'anudan') {
+        await AnudanPayment.updateOne(
+          { _id: freshPayment._id },
+          { $set: { receiptsRecordsError: receiptsError instanceof Error ? receiptsError.message : String(receiptsError) } }
+        );
+      } else {
+        await BhogPayment.updateOne(
+          { _id: freshPayment._id },
+          { $set: { receiptsRecordsError: receiptsError instanceof Error ? receiptsError.message : String(receiptsError) } }
+        );
+      }
+      stats.errors.push(`Receipts Records logging error for ${type} ${payment.transactionId}: ${receiptsError instanceof Error ? receiptsError.message : String(receiptsError)}`);
     }
   }
 
@@ -804,6 +1106,9 @@ export class ICICIReconciliationService {
    * Recover an Anudan payment (mark as success and send notifications)
    */
   private async recoverAnudanPayment(payment: any, iciciStatus: TransactionStatusResponse, stats: ReconciliationStats, isBacklog: boolean = false): Promise<void> {
+    // Capture original status before update
+    const originalStatus = payment.paymentStatus || 'pending';
+
     // Atomic update: only if still abandoned or pending
     const result = await AnudanPayment.updateOne(
       { _id: payment._id, paymentStatus: { $in: ['abandoned', 'pending'] } },
@@ -828,6 +1133,45 @@ export class ICICIReconciliationService {
       stats.anudanBacklogRecovered++;
     } else {
       stats.anudanRecovered++;
+    }
+
+    // Log to Receipts Records tab
+    try {
+      console.log(`[ICICIReconciliation] Logging to Receipts Records for ${payment.transactionId}`);
+      const receiptsResult = await this.sheetsLoggingService.logReconciledPayment(
+        'Anudan',
+        payment,
+        originalStatus,
+        isBacklog ? 'Recovered from backlog' : 'ICICI reconciliation'
+      );
+      
+      if (receiptsResult.success) {
+        console.log(`[ICICIReconciliation] Receipts Records logging successful for ${payment.transactionId}`);
+        await AnudanPayment.updateOne(
+          { _id: payment._id },
+          { $set: { receiptsRecordsLogged: true, receiptsRecordsLoggedAt: new Date(), receiptsRecordsError: undefined } }
+        );
+      } else if (receiptsResult.alreadyExists) {
+        console.log(`[ICICIReconciliation] Receipts Records already exists for ${payment.transactionId}`);
+        await AnudanPayment.updateOne(
+          { _id: payment._id },
+          { $set: { receiptsRecordsLogged: true, receiptsRecordsLoggedAt: new Date() } }
+        );
+      } else {
+        console.error(`[ICICIReconciliation] Receipts Records logging failed for ${payment.transactionId}: ${receiptsResult.error}`);
+        await AnudanPayment.updateOne(
+          { _id: payment._id },
+          { $set: { receiptsRecordsError: receiptsResult.error } }
+        );
+        stats.errors.push(`Receipts Records logging failed for ${payment.transactionId}: ${receiptsResult.error}`);
+      }
+    } catch (receiptsError) {
+      console.error(`[ICICIReconciliation] Receipts Records logging error for ${payment.transactionId}:`, receiptsError);
+      await AnudanPayment.updateOne(
+        { _id: payment._id },
+        { $set: { receiptsRecordsError: receiptsError instanceof Error ? receiptsError.message : String(receiptsError) } }
+      );
+      stats.errors.push(`Receipts Records logging error for ${payment.transactionId}: ${receiptsError instanceof Error ? receiptsError.message : String(receiptsError)}`);
     }
 
     // Deduct from in-memory Anudan state (payment was created as pending without deduction)
@@ -948,12 +1292,49 @@ export class ICICIReconciliationService {
         stats.whatsappFailed++;
       }
     }
+
+    // Log to Google Sheets (non-critical - payment success already persisted)
+    // Use the same logging service as the callback controller for consistency
+    if (!freshPayment.googleSheetsLogged) {
+      try {
+        console.log(`[ICICIReconciliation] Logging to Google Sheets for ${freshPayment.transactionId}`);
+        const sheetsResult = await this.sheetsLoggingService.logAnudanPayment(freshPayment);
+        
+        if (sheetsResult.success) {
+          console.log(`[ICICIReconciliation] Google Sheets logging successful for ${freshPayment.transactionId}`);
+          await AnudanPayment.updateOne(
+            { _id: freshPayment._id },
+            { $set: { googleSheetsLogged: true, googleSheetsLoggedAt: new Date(), googleSheetsError: undefined } }
+          );
+        } else if (sheetsResult.alreadyExists) {
+          console.log(`[ICICIReconciliation] Transaction already in Google Sheets for ${freshPayment.transactionId}`);
+          await AnudanPayment.updateOne(
+            { _id: freshPayment._id },
+            { $set: { googleSheetsLogged: true, googleSheetsLoggedAt: new Date() } }
+          );
+        } else {
+          console.error(`[ICICIReconciliation] Google Sheets logging failed for ${freshPayment.transactionId}: ${sheetsResult.error}`);
+          await AnudanPayment.updateOne(
+            { _id: freshPayment._id },
+            { $set: { googleSheetsError: sheetsResult.error } }
+          );
+          stats.errors.push(`Google Sheets logging failed for ${freshPayment.transactionId}: ${sheetsResult.error}`);
+        }
+      } catch (sheetsError) {
+        console.error(`[ICICIReconciliation] Google Sheets logging error for ${freshPayment.transactionId}:`, sheetsError);
+        // Don't fail the payment - payment status already saved as success
+        stats.errors.push(`Google Sheets logging error for ${freshPayment.transactionId}: ${sheetsError instanceof Error ? sheetsError.message : String(sheetsError)}`);
+      }
+    }
   }
 
   /**
    * Recover a Bhog payment (mark as success and send notifications)
    */
   private async recoverBhogPayment(payment: any, iciciStatus: TransactionStatusResponse, stats: ReconciliationStats, isBacklog: boolean = false): Promise<void> {
+    // Capture original status before update
+    const originalStatus = payment.paymentStatus || 'pending';
+
     // Atomic update: only if still abandoned or pending
     const result = await BhogPayment.updateOne(
       { _id: payment._id, paymentStatus: { $in: ['abandoned', 'pending'] } },
@@ -978,6 +1359,45 @@ export class ICICIReconciliationService {
       stats.bhogBacklogRecovered++;
     } else {
       stats.bhogRecovered++;
+    }
+
+    // Log to Receipts Records tab
+    try {
+      console.log(`[ICICIReconciliation] Logging to Receipts Records for ${payment.transactionId}`);
+      const receiptsResult = await this.sheetsLoggingService.logReconciledPayment(
+        'Bhog',
+        payment,
+        originalStatus,
+        isBacklog ? 'Recovered from backlog' : 'ICICI reconciliation'
+      );
+      
+      if (receiptsResult.success) {
+        console.log(`[ICICIReconciliation] Receipts Records logging successful for ${payment.transactionId}`);
+        await BhogPayment.updateOne(
+          { _id: payment._id },
+          { $set: { receiptsRecordsLogged: true, receiptsRecordsLoggedAt: new Date(), receiptsRecordsError: undefined } }
+        );
+      } else if (receiptsResult.alreadyExists) {
+        console.log(`[ICICIReconciliation] Receipts Records already exists for ${payment.transactionId}`);
+        await BhogPayment.updateOne(
+          { _id: payment._id },
+          { $set: { receiptsRecordsLogged: true, receiptsRecordsLoggedAt: new Date() } }
+        );
+      } else {
+        console.error(`[ICICIReconciliation] Receipts Records logging failed for ${payment.transactionId}: ${receiptsResult.error}`);
+        await BhogPayment.updateOne(
+          { _id: payment._id },
+          { $set: { receiptsRecordsError: receiptsResult.error } }
+        );
+        stats.errors.push(`Receipts Records logging failed for ${payment.transactionId}: ${receiptsResult.error}`);
+      }
+    } catch (receiptsError) {
+      console.error(`[ICICIReconciliation] Receipts Records logging error for ${payment.transactionId}:`, receiptsError);
+      await BhogPayment.updateOne(
+        { _id: payment._id },
+        { $set: { receiptsRecordsError: receiptsError instanceof Error ? receiptsError.message : String(receiptsError) } }
+      );
+      stats.errors.push(`Receipts Records logging error for ${payment.transactionId}: ${receiptsError instanceof Error ? receiptsError.message : String(receiptsError)}`);
     }
 
     // Fetch fresh document with all fields
@@ -1066,6 +1486,40 @@ export class ICICIReconciliationService {
         freshPayment.whatsappNotificationError = error instanceof Error ? error.message : String(error);
         await freshPayment.save();
         stats.whatsappFailed++;
+      }
+    }
+
+    // Log to Google Sheets (non-critical - payment success already persisted)
+    // Use the same logging service as the callback controller for consistency
+    if (!freshPayment.googleSheetsLogged) {
+      try {
+        console.log(`[ICICIReconciliation] Logging to Google Sheets for ${freshPayment.transactionId}`);
+        const sheetsResult = await this.sheetsLoggingService.logBhogPayment(freshPayment);
+        
+        if (sheetsResult.success) {
+          console.log(`[ICICIReconciliation] Google Sheets logging successful for ${freshPayment.transactionId}`);
+          await BhogPayment.updateOne(
+            { _id: freshPayment._id },
+            { $set: { googleSheetsLogged: true, googleSheetsLoggedAt: new Date(), googleSheetsError: undefined } }
+          );
+        } else if (sheetsResult.alreadyExists) {
+          console.log(`[ICICIReconciliation] Transaction already in Google Sheets for ${freshPayment.transactionId}`);
+          await BhogPayment.updateOne(
+            { _id: freshPayment._id },
+            { $set: { googleSheetsLogged: true, googleSheetsLoggedAt: new Date() } }
+          );
+        } else {
+          console.error(`[ICICIReconciliation] Google Sheets logging failed for ${freshPayment.transactionId}: ${sheetsResult.error}`);
+          await BhogPayment.updateOne(
+            { _id: freshPayment._id },
+            { $set: { googleSheetsError: sheetsResult.error } }
+          );
+          stats.errors.push(`Google Sheets logging failed for ${freshPayment.transactionId}: ${sheetsResult.error}`);
+        }
+      } catch (sheetsError) {
+        console.error(`[ICICIReconciliation] Google Sheets logging error for ${freshPayment.transactionId}:`, sheetsError);
+        // Don't fail the payment - payment status already saved as success
+        stats.errors.push(`Google Sheets logging error for ${freshPayment.transactionId}: ${sheetsError instanceof Error ? sheetsError.message : String(sheetsError)}`);
       }
     }
   }

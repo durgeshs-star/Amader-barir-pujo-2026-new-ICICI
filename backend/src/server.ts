@@ -26,6 +26,7 @@ import { createAnudanRoutes } from './routes/anudanRoutes';
 import { createIciciPaymentRoutes } from './routes/iciciPaymentRoutes';
 import { createWhatsAppRoutes } from './routes/whatsappRoutes';
 import { errorHandler } from './middleware/errorHandler';
+import { ICICIReconciliationService } from './services/ICICIReconciliationService';
 
 dotenv.config();
 
@@ -203,6 +204,10 @@ const startServer = async () => {
 
     // Start cleanup service for abandoned payments
     abandonedPaymentCleanupService.start();
+
+    // Start ICICI reconciliation service
+    const iciciReconciliationService = new ICICIReconciliationService();
+    iciciReconciliationService.start();
 
     // Start Express server
     app.listen(PORT, () => {
