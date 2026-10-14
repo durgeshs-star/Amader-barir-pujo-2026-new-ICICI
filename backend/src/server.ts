@@ -205,9 +205,9 @@ const startServer = async () => {
     // Start cleanup service for abandoned payments
     abandonedPaymentCleanupService.start();
 
-    // Start ICICI reconciliation service
-    const iciciReconciliationService = new ICICIReconciliationService();
-    iciciReconciliationService.start();
+    // ICICI reconciliation service - disabled for now
+    // const iciciReconciliationService = new ICICIReconciliationService();
+    // iciciReconciliationService.start();
 
     // Start Express server
     app.listen(PORT, () => {
