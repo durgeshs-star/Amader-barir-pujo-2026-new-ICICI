@@ -53,6 +53,20 @@ export interface IAnudanPayment extends Document {
   // Anudan state deduction tracking
   anudanStateDeducted?: boolean;
   anudanStateDeductedAt?: Date;
+  // Google Sheets logging tracking
+  googleSheetsLogged?: boolean;
+  googleSheetsLoggedAt?: Date;
+  googleSheetsError?: string;
+  // Receipts Records logging tracking
+  receiptsRecordsLogged?: boolean;
+  receiptsRecordsLoggedAt?: Date;
+  receiptsRecordsError?: string;
+  // Server-side receipt path
+  receiptPath?: string;
+  // Administrative recovery email tracking
+  adminReceiptEmailed?: boolean;
+  adminReceiptEmailedAt?: Date;
+  adminReceiptEmailError?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -183,6 +197,43 @@ const AnudanPaymentSchema = new Schema<IAnudanPayment>(
     },
     anudanStateDeductedAt: {
       type: Date,
+    },
+    // Google Sheets logging tracking
+    googleSheetsLogged: {
+      type: Boolean,
+      default: false,
+    },
+    googleSheetsLoggedAt: {
+      type: Date,
+    },
+    googleSheetsError: {
+      type: String,
+    },
+    // Receipts Records logging tracking
+    receiptsRecordsLogged: {
+      type: Boolean,
+      default: false,
+    },
+    receiptsRecordsLoggedAt: {
+      type: Date,
+    },
+    receiptsRecordsError: {
+      type: String,
+    },
+    // Server-side receipt path
+    receiptPath: {
+      type: String,
+    },
+    // Administrative recovery email tracking
+    adminReceiptEmailed: {
+      type: Boolean,
+      default: false,
+    },
+    adminReceiptEmailedAt: {
+      type: Date,
+    },
+    adminReceiptEmailError: {
+      type: String,
     },
   },
   {

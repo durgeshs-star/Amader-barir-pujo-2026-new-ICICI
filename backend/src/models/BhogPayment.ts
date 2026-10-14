@@ -58,12 +58,26 @@ export interface IBhogPayment extends Document {
   whatsappNotificationSent?: boolean;
   whatsappNotificationSentAt?: Date;
   whatsappNotificationError?: string;
+  whatsappNotificationClaimedAt?: Date;
   // Email notification tracking
   emailNotificationSent?: boolean;
   emailNotificationSentAt?: Date;
   emailNotificationError?: string;
+  emailNotificationClaimedAt?: Date;
   // Server-side receipt path
   receiptPath?: string;
+  // Google Sheets logging tracking
+  googleSheetsLogged?: boolean;
+  googleSheetsLoggedAt?: Date;
+  googleSheetsError?: string;
+  // Receipts Records logging tracking
+  receiptsRecordsLogged?: boolean;
+  receiptsRecordsLoggedAt?: Date;
+  receiptsRecordsError?: string;
+  // Administrative recovery email tracking
+  adminReceiptEmailed?: boolean;
+  adminReceiptEmailedAt?: Date;
+  adminReceiptEmailError?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -189,6 +203,9 @@ const BhogPaymentSchema = new Schema<IBhogPayment>(
     whatsappNotificationError: {
       type: String,
     },
+    whatsappNotificationClaimedAt: {
+      type: Date,
+    },
     // Email notification tracking
     emailNotificationSent: {
       type: Boolean,
@@ -200,8 +217,44 @@ const BhogPaymentSchema = new Schema<IBhogPayment>(
     emailNotificationError: {
       type: String,
     },
+    emailNotificationClaimedAt: {
+      type: Date,
+    },
     // Server-side receipt path
     receiptPath: {
+      type: String,
+    },
+    // Google Sheets logging tracking
+    googleSheetsLogged: {
+      type: Boolean,
+      default: false,
+    },
+    googleSheetsLoggedAt: {
+      type: Date,
+    },
+    googleSheetsError: {
+      type: String,
+    },
+    // Receipts Records logging tracking
+    receiptsRecordsLogged: {
+      type: Boolean,
+      default: false,
+    },
+    receiptsRecordsLoggedAt: {
+      type: Date,
+    },
+    receiptsRecordsError: {
+      type: String,
+    },
+    // Administrative recovery email tracking
+    adminReceiptEmailed: {
+      type: Boolean,
+      default: false,
+    },
+    adminReceiptEmailedAt: {
+      type: Date,
+    },
+    adminReceiptEmailError: {
       type: String,
     },
   },
