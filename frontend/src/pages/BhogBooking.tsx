@@ -391,6 +391,9 @@ export const BhogBooking: React.FC = () => {
                               </span>
                             )}
                           </div>
+                          <p className="mt-1 text-sm font-normal leading-relaxed text-secondary">
+                            {{ saptami: 'Khichuri | Labra | Chutney | Papad | Payesh', ashtami: 'Khichuri | Aloo Dum | Chutney | Papad | Pantua', sandhiPuja: 'Khichuri | Pachmisali Sabji | Chutney | Papad | Kheer', navami: 'Veg Pulao | Mutter Panner | Chutney | Papad | Rosogolla' }[dayConfig.key]}
+                          </p>
                           {daySelectedPlates > 0 && (
                             <div className="mt-1">
                               <span className="inline-block px-2.5 py-0.5 bg-primary text-white text-[11px] sm:text-xs font-semibold rounded-md shadow-xs">
