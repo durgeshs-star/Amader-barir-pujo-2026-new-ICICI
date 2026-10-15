@@ -28,8 +28,8 @@ export const AnudanFormModal: React.FC<AnudanFormModalProps> = ({
     if (!name.trim()) newErrors.name = 'Name is required';
     if (!phone.trim()) {
       newErrors.phone = 'Mobile number is required';
-    } else if (!/^[6-9]\d{9}$/.test(phone.replace(/\s/g, ''))) {
-      newErrors.phone = 'Please enter a valid 10-digit mobile number';
+    } else if (!/^[6-9]\d{9}$/.test(phone)) {
+      newErrors.phone = 'Please enter a valid 10-digit phone number starting with 6-9 (do not add 0 or +91)';
     }
     if (!email.trim()) {
       newErrors.email = 'Email is required';
@@ -127,10 +127,13 @@ export const AnudanFormModal: React.FC<AnudanFormModalProps> = ({
                 id="anudan-phone"
                 value={phone}
                 onChange={(e) => {
-                  setPhone(e.target.value);
+                  // Only allow digits, max 10 characters
+                  const value = e.target.value.replace(/[^0-9]/g, '').slice(0, 10);
+                  setPhone(value);
                   if (errors.phone) setErrors((prev) => ({ ...prev, phone: '' }));
                 }}
-                placeholder="Enter your 10-digit mobile number"
+                placeholder="Mobile number (no 0 or +91)"
+                maxLength={10}
                 className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-[oklch(96.2% 0.059 95.617)] ${errors.phone ? 'border-red-500' : 'border-[rgb(180,160,130)]'
                   }`}
               />

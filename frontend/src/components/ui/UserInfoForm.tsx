@@ -29,7 +29,7 @@ export const UserInfoForm = forwardRef<UserInfoFormRef, UserInfoFormProps>(({ on
         return null;
       case 'phone':
         if (!value.trim()) return 'Phone number is required';
-        if (!/^[6-9]\d{9}$/.test(value.replace(/\s/g, ''))) return 'Please enter a valid 10-digit phone number';
+        if (!/^[6-9]\d{9}$/.test(value)) return 'Please enter a valid 10-digit phone number starting with 6-9 (do not add 0 or +91)';
         return null;
       case 'email':
         if (!value.trim()) return 'Email is required';
@@ -64,7 +64,7 @@ export const UserInfoForm = forwardRef<UserInfoFormRef, UserInfoFormProps>(({ on
   const handleFieldChange = (field: keyof UserInfo, value: string) => {
     // Clear error for this field when user starts typing
     setErrors(prev => ({ ...prev, [field]: null }));
-    
+
     let newName = name;
     let newPhone = phone;
     let newEmail = email;
@@ -75,8 +75,9 @@ export const UserInfoForm = forwardRef<UserInfoFormRef, UserInfoFormProps>(({ on
         setName(value);
         break;
       case 'phone':
-        newPhone = value;
-        setPhone(value);
+        // Only allow digits, max 10 characters
+        newPhone = value.replace(/[^0-9]/g, '').slice(0, 10);
+        setPhone(newPhone);
         break;
       case 'email':
         newEmail = value;
@@ -90,13 +91,13 @@ export const UserInfoForm = forwardRef<UserInfoFormRef, UserInfoFormProps>(({ on
 
   return (
     <>
-      {/* Mobile Form - Compact design */}
-      <div className="p-4 border-2 border-[rgb(180,160,130)] rounded-xl lg:hidden">
-        <h3 className="text-xl font-bold text-primary mb-4 font-fraunces">Contact Information</h3>
-        
-        <div className="space-y-4">
+      {/* Phone Form - Compact design */}
+      <div className="p-5 border border-[rgb(180,160,130)] rounded-xl lg:hidden bg-white shadow-md">
+        <h3 className="text-xl font-bold text-primary mb-5 font-fraunces">Contact Information</h3>
+
+        <div className="space-y-5">
           <div>
-            <label htmlFor="name" className="block text-sm font-semibold text-primary mb-2">
+            <label htmlFor="name" className="block text-base font-semibold text-primary mb-2">
               Full Name <span className="text-red-500">*</span>
             </label>
             <input
@@ -106,15 +107,15 @@ export const UserInfoForm = forwardRef<UserInfoFormRef, UserInfoFormProps>(({ on
               onChange={(e) => handleFieldChange('name', e.target.value)}
               disabled={disabled}
               placeholder="Enter your full name"
-              className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-[oklch(96.2% 0.059 95.617)] ${
-                errors.name ? 'border-red-300 bg-red-50' : 'border-[rgb(180,160,130)]'
+              className={`w-full px-4 py-3.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-white ${
+                errors.name ? 'border-red-400 bg-red-50' : 'border-gray-300'
               } ${disabled ? 'opacity-60 cursor-not-allowed' : ''}`}
             />
-            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+            {errors.name && <p className="text-red-500 text-sm mt-1.5">{errors.name}</p>}
           </div>
 
           <div>
-            <label htmlFor="phone" className="block text-sm font-semibold text-primary mb-2">
+            <label htmlFor="phone" className="block text-base font-semibold text-primary mb-2">
               Phone Number <span className="text-red-500">*</span>
             </label>
             <input
@@ -123,16 +124,17 @@ export const UserInfoForm = forwardRef<UserInfoFormRef, UserInfoFormProps>(({ on
               value={phone}
               onChange={(e) => handleFieldChange('phone', e.target.value)}
               disabled={disabled}
-              placeholder="Enter your 10-digit phone number"
-              className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-[oklch(96.2% 0.059 95.617)] ${
-                errors.phone ? 'border-red-300 bg-red-50' : 'border-[rgb(180,160,130)]'
+              placeholder="Phone number 10-digits"
+              maxLength={10}
+              className={`w-full px-4 py-3.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-white ${
+                errors.phone ? 'border-red-400 bg-red-50' : 'border-gray-300'
               } ${disabled ? 'opacity-60 cursor-not-allowed' : ''}`}
             />
-            {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
+            {errors.phone && <p className="text-red-500 text-sm mt-1.5">{errors.phone}</p>}
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-semibold text-primary mb-2">
+            <label htmlFor="email" className="block text-base font-semibold text-primary mb-2">
               Email Address <span className="text-red-500">*</span>
             </label>
             <input
@@ -142,11 +144,11 @@ export const UserInfoForm = forwardRef<UserInfoFormRef, UserInfoFormProps>(({ on
               onChange={(e) => handleFieldChange('email', e.target.value)}
               disabled={disabled}
               placeholder="Enter your email address"
-              className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-[oklch(96.2% 0.059 95.617)] ${
-                errors.email ? 'border-red-300 bg-red-50' : 'border-[rgb(180,160,130)]'
+              className={`w-full px-4 py-3.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-white ${
+                errors.email ? 'border-red-400 bg-red-50' : 'border-gray-300'
               } ${disabled ? 'opacity-60 cursor-not-allowed' : ''}`}
             />
-            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+            {errors.email && <p className="text-red-500 text-sm mt-1.5">{errors.email}</p>}
           </div>
         </div>
       </div>
@@ -184,12 +186,16 @@ export const UserInfoForm = forwardRef<UserInfoFormRef, UserInfoFormProps>(({ on
               value={phone}
               onChange={(e) => handleFieldChange('phone', e.target.value)}
               disabled={disabled}
-              placeholder="Enter your 10-digit phone number"
+              placeholder="Phone number 10-digits"
+              maxLength={10}
               className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-[oklch(96.2% 0.059 95.617)] ${
                 errors.phone ? 'border-red-500' : 'border-[rgb(180,160,130)]'
               } ${disabled ? 'opacity-60 cursor-not-allowed' : ''}`}
             />
             {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
+            {!errors.phone && phone.length > 0 && phone.length < 10 && (
+              <p className="text-amber-600 text-xs mt-1">Enter exactly 10 digits</p>
+            )}
           </div>
 
           <div>
