@@ -4,12 +4,9 @@ import PageHero from "../../components/common/PageHero";
 import BhogBookingSection from "../../components/ui/BhogBookingSection";
 import FloatingBhogCTA from "../../components/common/FloatingBhogCTA";
 // import { ComingSoonPopup } from "../../components/ui/ComingSoonPopup";
-import { BHOG_BOOKING_CATEGORIES } from "../../config/pujaConfig";
-import type { BhogBookingCategory } from "../../types/bhog";
+import { UNIFIED_BHOG_DAYS } from "../../config/pujaConfig";
 
 const DurgaPujaBhogPage: React.FC = () => {
-  const categories: BhogBookingCategory[] = BHOG_BOOKING_CATEGORIES;
-
   return (
     <div className="relative">
       {/* <ComingSoonPopup /> */}
@@ -31,7 +28,7 @@ const DurgaPujaBhogPage: React.FC = () => {
 
       <section className="content-layer py-14 md:py-20">
         <div className="max-w-4xl mx-auto px-6">
-           
+
 
           <div className="text-center">
             <p className="text-base md:text-lg text-secondary leading-relaxed md:leading-loose">
@@ -43,15 +40,19 @@ const DurgaPujaBhogPage: React.FC = () => {
       </section>
 
       <section className="pb-4">
-        <div className="max-w-5xl mx-auto px-6">
-          <BhogBookingSection
-            title="Durga Puja Bhog"
-            subtitle="Bhog Booking"
-            description="Select the number of bhog."
-            categories={categories}
-            paymentUrl="https://www.abp.proplusdatafoundation.com"
-            disclaimer="ID card verification is mandatory for children aged 0 to 5 years and senior citizens."
-          />
+        <div className="max-w-5xl mx-auto px-6 space-y-8">
+          {UNIFIED_BHOG_DAYS.map((day) => (
+            <BhogBookingSection
+              key={day.key}
+              title={day.title}
+              subtitle={day.subtitle}
+              description={day.description}
+              categories={day.categories}
+              paymentUrl="https://www.abp.proplusdatafoundation.com"
+              disclaimer="ID card verification is mandatory for children aged 0 to 5 years and senior citizens."
+              menu={day.menu}
+            />
+          ))}
         </div>
       </section>
     </div>

@@ -10,26 +10,26 @@ export interface PujaBookingCutoff {
 }
 
 export const PUJA_BOOKING_CUTOFFS: Record<string, PujaBookingCutoff> = {
-  saptami: {
-    pujaName: "Maha Saptami",
-    pujaDate: "Sat, 17 Oct 2026",
-    cutoffISO: "2026-10-16T12:00:00+05:30",
-  },
-  ashtami: {
-    pujaName: "Maha Ashtami",
-    pujaDate: "Sun, 18 Oct 2026",
-    cutoffISO: "2026-10-17T12:00:00+05:30",
-  },
-  sandhiPuja: {
-    pujaName: "Sandhi Puja",
-    pujaDate: "Mon, 19 Oct 2026",
-    cutoffISO: "2026-10-18T12:00:00+05:30",
-  },
-  navami: {
-    pujaName: "Maha Navami",
-    pujaDate: "Tue, 20 Oct 2026",
-    cutoffISO: "2026-10-19T12:00:00+05:30",
-  },
+  // saptami: {
+  //   pujaName: "Maha Saptami",
+  //   pujaDate: "Sat, 17 Oct 2026",
+  //   cutoffISO: "2026-10-16T12:00:00+05:30",
+  // },
+  // ashtami: {
+  //   pujaName: "Maha Ashtami",
+  //   pujaDate: "Sun, 18 Oct 2026",
+  //   cutoffISO: "2026-10-17T12:00:00+05:30",
+  // },
+  // sandhiPuja: {
+  //   pujaName: "Sandhi Puja",
+  //   pujaDate: "Mon, 19 Oct 2026",
+  //   cutoffISO: "2026-10-18T12:00:00+05:30",
+  // },
+  // navami: {
+  //   pujaName: "Maha Navami",
+  //   pujaDate: "Tue, 20 Oct 2026",
+  //   cutoffISO: "2026-10-19T12:00:00+05:30",
+  // },
   // lakshmiPuja: {
   //   pujaName: "Lakshmi Puja",
   //   pujaDate: "Sun, 25 Oct 2026",
@@ -52,6 +52,7 @@ export const BHOG_BOOKING_CATEGORIES = [
     description: "per person",
     price: 315,
     max: 5,
+    menu: "Khichuri | Labra | Chutney | Papad | Payesh",
   },
   {
     id: "bhog-booking-senior",
@@ -59,6 +60,7 @@ export const BHOG_BOOKING_CATEGORIES = [
     description: "per person",
     price: 100,
     max: 10,
+    menu: "Khichuri | Labra | Chutney | Papad | Payesh",
   },
   {
     id: "packed-bhog",
@@ -66,6 +68,7 @@ export const BHOG_BOOKING_CATEGORIES = [
     description: "per person",
     price: 335,
     max: 10,
+    menu: "Khichuri | Labra | Chutney | Papad | Payesh",
   },
   {
     id: "children-0-5",
@@ -73,6 +76,7 @@ export const BHOG_BOOKING_CATEGORIES = [
     description: "",
     price: 0,
     max: 2,
+    menu: "Khichuri | Labra | Chutney | Papad | Payesh",
   },
 ];
 
@@ -87,6 +91,7 @@ export const NAVAMI_BHOG_BOOKING_CATEGORIES = [
     description: "per person",
     price: 350,
     max: 5,
+    menu: "Veg Pulao | Matar Paneer | Chutney | Papad | Rosogolla",
   },
   {
     id: "bhog-booking-senior",
@@ -94,6 +99,7 @@ export const NAVAMI_BHOG_BOOKING_CATEGORIES = [
     description: "per person",
     price: 100,
     max: 10,
+    menu: "Veg Pulao | Matar Paneer | Chutney | Papad | Rosogolla",
   },
   {
     id: "packed-bhog",
@@ -101,6 +107,7 @@ export const NAVAMI_BHOG_BOOKING_CATEGORIES = [
     description: "per person",
     price: 375,
     max: 10,
+    menu: "Veg Pulao | Matar Paneer | Chutney | Papad | Rosogolla",
   },
   {
     id: "children-0-5",
@@ -108,6 +115,7 @@ export const NAVAMI_BHOG_BOOKING_CATEGORIES = [
     description: "",
     price: 0,
     max: 2,
+    menu: "Veg Pulao | Matar Paneer | Chutney | Papad | Rosogolla",
   },
 ];
 
@@ -130,6 +138,7 @@ export interface UnifiedBhogDay {
   date: string;
   cutoffISO: string;
   categories: typeof BHOG_BOOKING_CATEGORIES;
+  menu: string;
 }
 
 export const UNIFIED_BHOG_DAYS: UnifiedBhogDay[] = [
@@ -140,8 +149,9 @@ export const UNIFIED_BHOG_DAYS: UnifiedBhogDay[] = [
     subtitle: 'Bhog Booking',
     description: 'Select the number of bhog.',
     date: 'Sat, 17 Oct 2026',
-    cutoffISO: '2026-10-16T12:00:00+05:30',
+    cutoffISO: '',
     categories: BHOG_BOOKING_CATEGORIES,
+    menu: 'Khichuri | Labra | Chutney | Papad | Payesh',
   },
   {
     key: 'ashtami',
@@ -150,8 +160,9 @@ export const UNIFIED_BHOG_DAYS: UnifiedBhogDay[] = [
     subtitle: 'Bhog Booking',
     description: 'Select the number of bhog.',
     date: 'Sun, 18 Oct 2026',
-    cutoffISO: '2026-10-17T12:00:00+05:30',
+    cutoffISO: '',
     categories: BHOG_BOOKING_CATEGORIES,
+    menu: 'Khichuri | Aloo Dum | Chutney | Papad | Pantua',
   },
   {
     key: 'sandhiPuja',
@@ -160,8 +171,9 @@ export const UNIFIED_BHOG_DAYS: UnifiedBhogDay[] = [
     subtitle: 'Sacred Transition Bhog Booking',
     description: 'Select the number of bhog.',
     date: 'Mon, 19 Oct 2026',
-    cutoffISO: '2026-10-18T12:00:00+05:30',
+    cutoffISO: '',
     categories: BHOG_BOOKING_CATEGORIES,
+    menu: 'Khichuri | Pachmisali Sabji | Chutney | Papad | Kheer',
   },
   {
     key: 'navami',
@@ -170,8 +182,9 @@ export const UNIFIED_BHOG_DAYS: UnifiedBhogDay[] = [
     subtitle: 'Bhog Booking',
     description: 'Select the number of bhog.',
     date: 'Tue, 20 Oct 2026',
-    cutoffISO: '2026-10-19T12:00:00+05:30',
+    cutoffISO: '',
     categories: NAVAMI_BHOG_BOOKING_CATEGORIES,
+    menu: 'Veg Pulao | Matar Paneer | Chutney | Papad | Rosogolla',
   },
 ];
 

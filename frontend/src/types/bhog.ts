@@ -12,6 +12,7 @@ export interface BhogBookingCategory {
   description: string;
   price: number;
   max: number;
+  menu?: string;
 }
 
 export interface BhogBookingState {
@@ -25,6 +26,7 @@ export interface BhogBookingSectionProps {
   categories: BhogBookingCategory[];
   paymentUrl: string;
   disclaimer?: string;
+  menu?: string;
 }
 
 export interface BhogBookingUserInfo {

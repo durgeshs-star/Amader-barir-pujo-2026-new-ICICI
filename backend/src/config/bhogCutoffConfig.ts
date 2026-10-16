@@ -17,30 +17,30 @@ export interface BhogCutoffConfig {
  * Cutoff is always 12:00 PM IST on the day before the Bhog date
  */
 export const BHOG_CUTOFF_CONFIGS: BhogCutoffConfig[] = [
-  {
-    pujaKey: 'saptami',
-    pujaName: 'Maha Saptami',
-    bhogDate: '2026-10-17',
-    cutoffISO: '2026-10-16T12:00:00+05:30',
-  },
-  {
-    pujaKey: 'ashtami',
-    pujaName: 'Maha Ashtami',
-    bhogDate: '2026-10-18',
-    cutoffISO: '2026-10-17T12:00:00+05:30',
-  },
-  {
-    pujaKey: 'sandhiPuja',
-    pujaName: 'Sandhi Puja',
-    bhogDate: '2026-10-19',
-    cutoffISO: '2026-10-18T12:00:00+05:30',
-  },
-  {
-    pujaKey: 'navami',
-    pujaName: 'Maha Navami',
-    bhogDate: '2026-10-20',
-    cutoffISO: '2026-10-19T12:00:00+05:30',
-  },
+  // {
+  //   pujaKey: 'saptami',
+  //   pujaName: 'Maha Saptami',
+  //   bhogDate: '2026-10-17',
+  //   cutoffISO: '2026-10-17T23:59:59+05:30',
+  // },
+  // {
+  //   pujaKey: 'ashtami',
+  //   pujaName: 'Maha Ashtami',
+  //   bhogDate: '2026-10-18',
+  //   cutoffISO: '2026-10-18T23:59:59+05:30',
+  // },
+  // {
+  //   pujaKey: 'sandhiPuja',
+  //   pujaName: 'Sandhi Puja',
+  //   bhogDate: '2026-10-19',
+  //   cutoffISO: '2026-10-19T23:59:59+05:30',
+  // },
+  // {
+  //   pujaKey: 'navami',
+  //   pujaName: 'Maha Navami',
+  //   bhogDate: '2026-10-20',
+  //   cutoffISO: '2026-10-20T23:59:59+05:30',
+  // },
   // {
   //   pujaKey: 'lakshmiPuja',
   //   pujaName: 'Lakshmi Puja',
