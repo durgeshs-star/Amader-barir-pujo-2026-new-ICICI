@@ -85,6 +85,11 @@ export class WhatsAppService {
     // Remove all non-digit characters
     let normalized = phone.replace(/\D/g, '');
 
+    // Remove leading 0 if present (common in UK-style numbers)
+    if (normalized.startsWith('0')) {
+      normalized = normalized.substring(1);
+    }
+
     // If number starts with 91 and has 12 digits, it's already in correct format
     if (normalized.startsWith('91') && normalized.length === 12) {
       return normalized;

@@ -25,18 +25,24 @@ const formatBhogDate = (isoDate: string): string => {
   return `${day} ${monthName} ${year}`;
 };
 
+// Map day keys to their bhog dates (independent of cutoff config)
+const BHOG_DATES: Record<string, string> = {
+  saptami: '2026-10-17',
+  ashtami: '2026-10-18',
+  sandhiPuja: '2026-10-19',
+  navami: '2026-10-20',
+};
+
 export const formatBhogBookingDetails = (bookings: BhogWhatsAppBooking[]): string => {
   if (!bookings.length) {
     throw new Error('No Bhog bookings available for WhatsApp confirmation');
   }
 
   return bookings.map((booking) => {
+    // Try to get date from cutoff config first, fallback to BHOG_DATES
     const dayConfig = (booking.dayKey && getCutoffConfig(booking.dayKey))
       || getCutoffConfigByTitle(booking.day);
-
-    if (!dayConfig) {
-      throw new Error(`No configured Bhog date found for ${booking.day}`);
-    }
+    const bhogDate = dayConfig?.bhogDate || BHOG_DATES[booking.dayKey || ''] || '2026-10-17';
 
     const selectedCategories = (booking.categories || []).filter(
       (category) => Number(category.quantity) > 0,
@@ -51,7 +57,7 @@ export const formatBhogBookingDetails = (bookings: BhogWhatsAppBooking[]): strin
 
     return [
       `**Day:** ${day}`,
-      `**Date:** ${formatBhogDate(dayConfig.bhogDate)}`,
+      `**Date:** ${formatBhogDate(bhogDate)}`,
       `**Number of Bhog:** ${numberOfBhog}`,
       `**Type:** ${types.join(', ') || 'Bhog'}`,
       `**Bhog Timing:** ${BHOG_TIMING}`,
