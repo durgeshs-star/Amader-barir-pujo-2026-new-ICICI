@@ -13,7 +13,7 @@ import { PUJA_BOOKING_CUTOFFS } from "../config/pujaConfig";
 export const isBookingClosed = (pujaKey: string): boolean => {
   const cutoffConfig = PUJA_BOOKING_CUTOFFS[pujaKey];
 
-  if (!cutoffConfig) {
+  if (!cutoffConfig || !cutoffConfig.cutoffISO) {
     console.warn(`[BookingUtils] No cutoff config found for puja key: ${pujaKey}`);
     return false;
   }
