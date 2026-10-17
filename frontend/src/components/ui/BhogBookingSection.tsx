@@ -9,10 +9,9 @@ import { toast } from 'react-toastify';
 
 export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
   title,
-  subtitle,
-  description,
   categories,
   disclaimer,
+  menu,
 }) => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const roundCurrency = (value: number) => Math.round((value + Number.EPSILON) * 100) / 100;
@@ -187,21 +186,26 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
               <h4 className="text-3xl font-bold text-primary mb-2 font-fraunces">
                 {title}
               </h4>
-              <p className="text-base text-gray-600">{description}</p>
+              {menu && (
+                <p className="text-sm text-secondary mb-2 italic font-medium">
+                  {menu}
+                </p>
+              )}
             </div>
-            
+
             {/* Desktop: Original layout */}
             <div className="hidden lg:block">
-              <p className="text-xs font-bold text-accent-text uppercase tracking-widest">
-                {subtitle}
-              </p>
               <h4
                 id={`${title.replace(/\s+/g, '-').toLowerCase()}Title`}
                 className="text-2xl font-bold text-primary mb-2 font-fraunces"
               >
                 {title}
               </h4>
-              <p className="text-sm text-secondary">{description}</p>
+              {menu && (
+                <p className="text-sm text-secondary mb-2 italic font-medium">
+                  {menu}
+                </p>
+              )}
             </div>
           </div>
         </div>

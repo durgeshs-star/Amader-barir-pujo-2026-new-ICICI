@@ -17,12 +17,12 @@ export interface BhogCutoffConfig {
  * Cutoff is always 12:00 PM IST on the day before the Bhog date
  */
 export const BHOG_CUTOFF_CONFIGS: BhogCutoffConfig[] = [
-  // {
-  //   pujaKey: 'saptami',
-  //   pujaName: 'Maha Saptami',
-  //   bhogDate: '2026-10-17',
-  //   cutoffISO: '2026-10-17T23:59:59+05:30',
-  // },
+  {
+    pujaKey: 'saptami',
+    pujaName: 'Maha Saptami',
+    bhogDate: '2026-10-17',
+    cutoffISO: '2026-10-17T00:00:00+05:30',
+  },
   // {
   //   pujaKey: 'ashtami',
   //   pujaName: 'Maha Ashtami',

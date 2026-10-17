@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { LazyMotion, domAnimation, m } from 'framer-motion';
-import { FaChevronDown, FaTrashAlt, FaExclamationTriangle, FaShieldAlt } from 'react-icons/fa';
+import { FaChevronDown, FaTrashAlt, FaShieldAlt } from 'react-icons/fa';
 import SEO from '../components/ui/SEO';
 import PageHero from '../components/common/PageHero';
 import UserInfoForm, { type UserInfoFormRef } from '../components/ui/UserInfoForm';
@@ -423,13 +423,12 @@ export const BhogBooking: React.FC = () => {
                         </div>
 
                         {isClosed ? (
-                          <div className="py-6 text-center bg-red-50/50 rounded-xl border border-red-200">
-                            <FaExclamationTriangle className="mx-auto text-red-500 text-2xl mb-2" />
+                          <div className="py-6 text-center bg-red-50/50 rounded-xl border border-red-200 flex flex-col items-center justify-center gap-2">
                             <p className="text-sm font-bold text-red-800">
-                              Bookings for {dayConfig.title} are closed
+                              {dayConfig.title} bookings are closed.
                             </p>
-                            <p className="text-xs text-red-600 mt-1">
-                              The booking deadline for {dayConfig.title} has passed.
+                            <p className="text-xs text-gray-700 mt-1">
+                              Thank you for celebrating with us! 🌸
                             </p>
                           </div>
                         ) : (
