@@ -15,11 +15,11 @@ export const PUJA_BOOKING_CUTOFFS: Record<string, PujaBookingCutoff> = {
     pujaDate: "Sat, 17 Oct 2026",
     cutoffISO: "2026-10-17T00:00:00+05:30",
   },
-  // ashtami: {
-  //   pujaName: "Maha Ashtami",
-  //   pujaDate: "Sun, 18 Oct 2026",
-  //   cutoffISO: "2026-10-17T12:00:00+05:30",
-  // },
+  ashtami: {
+    pujaName: "Maha Ashtami",
+    pujaDate: "Sun, 18 Oct 2026",
+    cutoffISO: "2026-10-17T00:00:00+05:30",
+  },
   // sandhiPuja: {
   //   pujaName: "Sandhi Puja",
   //   pujaDate: "Mon, 19 Oct 2026",
@@ -160,7 +160,7 @@ export const UNIFIED_BHOG_DAYS: UnifiedBhogDay[] = [
     subtitle: 'Bhog Booking',
     description: 'Select the number of bhog.',
     date: 'Sun, 18 Oct 2026',
-    cutoffISO: '',
+    cutoffISO: '2026-10-17T00:00:00+05:30',
     categories: BHOG_BOOKING_CATEGORIES,
     menu: 'Khichuri | Aloo Dum | Chutney | Papad | Pantua',
   },
