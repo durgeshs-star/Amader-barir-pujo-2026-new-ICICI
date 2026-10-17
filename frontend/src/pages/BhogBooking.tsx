@@ -18,9 +18,9 @@ export const BhogBooking: React.FC = () => {
 
   // Accordion state: multiple dropdowns can stay open independently
   const [openDays, setOpenDays] = useState<Record<string, boolean>>(() => ({
-    saptami: true,
+    saptami: false,
     ashtami: false,
-    sandhiPuja: false,
+    sandhiPuja: true,
     navami: false,
   }));
 
