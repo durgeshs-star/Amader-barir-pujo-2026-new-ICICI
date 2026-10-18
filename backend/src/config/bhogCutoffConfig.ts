@@ -29,12 +29,12 @@ export const BHOG_CUTOFF_CONFIGS: BhogCutoffConfig[] = [
     bhogDate: '2026-10-18',
     cutoffISO: '2026-10-17T00:00:00+05:30',
   },
-  // {
-  //   pujaKey: 'sandhiPuja',
-  //   pujaName: 'Sandhi Puja',
-  //   bhogDate: '2026-10-19',
-  //   cutoffISO: '2026-10-19T23:59:59+05:30',
-  // },
+  {
+    pujaKey: 'sandhiPuja',
+    pujaName: 'Sandhi Puja',
+    bhogDate: '2026-10-19',
+    cutoffISO: '2026-10-17T00:00:00+05:30',
+  },
   // {
   //   pujaKey: 'navami',
   //   pujaName: 'Maha Navami',

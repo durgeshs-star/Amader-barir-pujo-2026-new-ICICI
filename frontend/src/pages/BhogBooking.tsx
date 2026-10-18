@@ -20,8 +20,8 @@ export const BhogBooking: React.FC = () => {
   const [openDays, setOpenDays] = useState<Record<string, boolean>>(() => ({
     saptami: false,
     ashtami: false,
-    sandhiPuja: true,
-    navami: false,
+    sandhiPuja: false,
+    navami: true,
   }));
 
   // Cart state: [dayKey][categoryId] -> quantity
