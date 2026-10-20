@@ -143,28 +143,6 @@ export interface UnifiedBhogDay {
 
 export const UNIFIED_BHOG_DAYS: UnifiedBhogDay[] = [
   {
-    key: 'navami',
-    title: 'Navami Bhog',
-    shortName: 'Navami',
-    subtitle: 'Bhog Booking',
-    description: 'Select the number of bhog.',
-    date: 'Tue, 20 Oct 2026',
-    cutoffISO: '2026-10-20T00:00:00+05:30',
-    categories: NAVAMI_BHOG_BOOKING_CATEGORIES,
-    menu: 'Veg Pulao | Matar Paneer | Chutney | Papad | Rosogolla',
-  },
-  {
-    key: 'sandhiPuja',
-    title: 'Ashtami Sandhi Pujo Bhog',
-    shortName: 'Ashtami Sandhi Pujo',
-    subtitle: 'Sacred Transition Bhog Booking',
-    description: 'Select the number of bhog.',
-    date: 'Mon, 19 Oct 2026',
-    cutoffISO: '2026-10-17T00:00:00+05:30',
-    categories: BHOG_BOOKING_CATEGORIES,
-    menu: 'Khichuri | Pachmisali Sabji | Chutney | Papad | Kheer',
-  },
-  {
     key: 'saptami',
     title: 'Saptami Bhog',
     shortName: 'Saptami',
@@ -185,6 +163,28 @@ export const UNIFIED_BHOG_DAYS: UnifiedBhogDay[] = [
     cutoffISO: '2026-10-17T00:00:00+05:30',
     categories: BHOG_BOOKING_CATEGORIES,
     menu: 'Khichuri | Aloo Dum | Chutney | Papad | Pantua',
+  },
+  {
+    key: 'sandhiPuja',
+    title: 'Ashtami Sandhi Pujo Bhog',
+    shortName: 'Ashtami Sandhi Pujo',
+    subtitle: 'Sacred Transition Bhog Booking',
+    description: 'Select the number of bhog.',
+    date: 'Mon, 19 Oct 2026',
+    cutoffISO: '2026-10-17T00:00:00+05:30',
+    categories: BHOG_BOOKING_CATEGORIES,
+    menu: 'Khichuri | Pachmisali Sabji | Chutney | Papad | Kheer',
+  },
+  {
+    key: 'navami',
+    title: 'Navami Bhog',
+    shortName: 'Navami',
+    subtitle: 'Bhog Booking',
+    description: 'Select the number of bhog.',
+    date: 'Tue, 20 Oct 2026',
+    cutoffISO: '2026-10-20T00:00:00+05:30',
+    categories: NAVAMI_BHOG_BOOKING_CATEGORIES,
+    menu: 'Veg Pulao | Matar Paneer | Chutney | Papad | Rosogolla',
   },
 ];
 

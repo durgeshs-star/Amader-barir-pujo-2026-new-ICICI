@@ -21,7 +21,7 @@ export const BhogBooking: React.FC = () => {
     saptami: false,
     ashtami: false,
     sandhiPuja: false,
-    navami: true,
+    navami: false,
   }));
 
   // Cart state: [dayKey][categoryId] -> quantity
