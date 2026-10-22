@@ -19,19 +19,11 @@ export const BhogBooking: React.FC = () => {
   // Accordion state: multiple dropdowns can stay open independently
   const [openDays, setOpenDays] = useState<Record<string, boolean>>(() => ({
     lokhiPuja: true,
-    saptami: false,
-    ashtami: false,
-    sandhiPuja: false,
-    navami: false,
   }));
 
   // Cart state: [dayKey][categoryId] -> quantity
   const [cart, setCart] = useState<Record<string, Record<string, number>>>(() => ({
     lokhiPuja: {},
-    saptami: {},
-    ashtami: {},
-    sandhiPuja: {},
-    navami: {},
   }));
 
   const [isUserInfoFilled, setIsUserInfoFilled] = useState(false);
@@ -330,8 +322,13 @@ export const BhogBooking: React.FC = () => {
         <section className="content-layer pt-8 pb-4">
           <div className="max-w-4xl mx-auto px-6 text-center">
             <p className="text-base md:text-lg text-secondary leading-relaxed md:leading-loose text-center">
-              Join us in celebrating Durga Pujo through the sacred tradition of Bhog.{' '}
-              <strong>Saptami, Ashtami, Sandhi Puja, and Navami</strong> — four days of soulful offerings, shared with love.
+              Join us in celebrating Lokhi Pujo through the sacred tradition of Bhog.
+              <br />
+              Prepared with love, care, and the highest standards of hygiene.
+              <br />
+              <strong>25th October 2026 | 12:30 PM – 1:30 PM</strong>
+              <br />
+              Sant Tukaram Garden and Banquet Hall, Kasturi Chowk, Wakad, Pune – 411057
             </p>
           </div>
         </section>
