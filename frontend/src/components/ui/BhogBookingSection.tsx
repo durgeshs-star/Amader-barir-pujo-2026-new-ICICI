@@ -79,7 +79,7 @@ export const BhogBookingSection: React.FC<BhogBookingSectionProps> = ({
 
   const bookingSummary = getBookingSummary();
 
-  const isDisabledPuja = title.toLowerCase().includes('saraswati') || title.toLowerCase().includes('lakshmi');
+  const isDisabledPuja = title.toLowerCase().includes('saraswati');
 
   const handleBookingSubmit = async () => {
     if (isDisabledPuja) {

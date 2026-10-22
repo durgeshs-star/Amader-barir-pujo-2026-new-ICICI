@@ -39,6 +39,24 @@ const BHOG_HEADERS = [
   'Order ID',
   'Timestamp',
 ];
+
+// Lakshmi Puja specific headers (no Pandal Bhog)
+const LAKSHMI_PUJA_BHOG_HEADERS = [
+  'Customer Name',
+  'Mobile Number',
+  'Email',
+  'Packed Bhog Plates',
+  'Senior Citizen (age above 60) Plates',
+  'Children aged 0 to 5 Plates',
+  'Total Plates',
+  'Base Amount (₹)',
+  'Gateway Charges (₹)',
+  'Actual Amount Paid (₹)',
+  'Payment Status',
+  'Transaction ID',
+  'Order ID',
+  'Timestamp',
+];
 const BHOG_COL = {
   PANDAL_BHOG: 3,
   SENIOR_CITIZEN: 4,
@@ -49,6 +67,17 @@ const BHOG_COL = {
   GATEWAY_CHARGES: 9,
   ACTUAL_AMOUNT: 10,
 };
+
+const LAKSHMI_PUJA_BHOG_COL = {
+  PACKED_BHOG: 3,
+  SENIOR_CITIZEN: 4,
+  CHILDREN_0_5: 5,
+  TOTAL_PLATES: 6,
+  BASE_AMOUNT: 7,
+  GATEWAY_CHARGES: 8,
+  ACTUAL_AMOUNT: 9,
+};
+
 const BHOG_BOLD_COLUMNS = [BHOG_COL.TOTAL_PLATES, BHOG_COL.ACTUAL_AMOUNT];
 
 export class BhogController {
@@ -381,8 +410,12 @@ export class BhogController {
       // For EACH booked day, write a record to that day's respective sheet
       for (const booking of dayBookings) {
         const sheetName = this.getSheetNameFromTitle(booking.day);
-        await this.sheetsService.createSheetIfNotExists(sheetName, BHOG_HEADERS);
-        await this.sheetsService.formatHeaderRowAt(sheetName, BHOG_HEADERS.length);
+        const isLakshmiPuja = sheetName === 'Lakshmi Puja Bhog';
+        const headers = isLakshmiPuja ? LAKSHMI_PUJA_BHOG_HEADERS : BHOG_HEADERS;
+        const colConfig = isLakshmiPuja ? LAKSHMI_PUJA_BHOG_COL : BHOG_COL;
+
+        await this.sheetsService.createSheetIfNotExists(sheetName, headers);
+        await this.sheetsService.formatHeaderRowAt(sheetName, headers.length);
 
         const quantities = this.extractBhogQuantities(booking.categories);
         const dayPlates = booking.quantity || (quantities.pandalBhog + quantities.seniorCitizen + quantities.packedBhog + quantities.children05);
@@ -391,21 +424,20 @@ export class BhogController {
         rowData[0] = userInfo?.name || '';
         rowData[1] = userInfo?.phone || '';
         rowData[2] = userInfo?.email || '';
-        rowData[BHOG_COL.PANDAL_BHOG] = quantities.pandalBhog;
-        rowData[BHOG_COL.SENIOR_CITIZEN] = quantities.seniorCitizen;
-        rowData[BHOG_COL.PACKED_BHOG] = quantities.packedBhog;
-        rowData[BHOG_COL.CHILDREN_0_5] = quantities.children05;
-        rowData[BHOG_COL.TOTAL_PLATES] = dayPlates;
-        rowData[BHOG_COL.BASE_AMOUNT] = 0;
-        rowData[BHOG_COL.GATEWAY_CHARGES] = 0;
-        rowData[BHOG_COL.ACTUAL_AMOUNT] = 0;
-        rowData[11] = 'Free';
-        rowData[12] = transactionId;
-        rowData[13] = orderId;
-        rowData[14] = receiptTimestamp;
+        rowData[colConfig.PACKED_BHOG] = quantities.packedBhog;
+        rowData[colConfig.SENIOR_CITIZEN] = quantities.seniorCitizen;
+        rowData[colConfig.CHILDREN_0_5] = quantities.children05;
+        rowData[colConfig.TOTAL_PLATES] = dayPlates;
+        rowData[colConfig.BASE_AMOUNT] = 0;
+        rowData[colConfig.GATEWAY_CHARGES] = 0;
+        rowData[colConfig.ACTUAL_AMOUNT] = 0;
+        rowData[10] = 'Free';
+        rowData[11] = transactionId;
+        rowData[12] = orderId;
+        rowData[13] = receiptTimestamp;
 
         await this.appendOrInsertBhogRow(sheetName, rowData);
-        await this.recalculateBhogTotal(sheetName);
+        await this.recalculateBhogTotal(sheetName, colConfig);
       }
 
       // Store booking in MongoDB
@@ -642,6 +674,10 @@ export class BhogController {
     const lastRow = data[data.length - 1];
     const hasTotalRow = !!lastRow && lastRow[0] === 'TOTAL';
 
+    const isLakshmiPuja = sheetName === 'Lakshmi Puja Bhog';
+    const colConfig = isLakshmiPuja ? LAKSHMI_PUJA_BHOG_COL : BHOG_COL;
+    const boldColumns = isLakshmiPuja ? [colConfig.TOTAL_PLATES, colConfig.ACTUAL_AMOUNT] : BHOG_BOLD_COLUMNS;
+
     let newRowIndex: number;
     if (hasTotalRow) {
       const totalRowIndex = data.length - 1;
@@ -652,7 +688,7 @@ export class BhogController {
       newRowIndex = data.length;
     }
 
-    await this.sheetsService.formatCellsBold(sheetName, newRowIndex, BHOG_BOLD_COLUMNS);
+    await this.sheetsService.formatCellsBold(sheetName, newRowIndex, boldColumns);
   }
 
   /**
@@ -660,7 +696,7 @@ export class BhogController {
    * data row above it (mirrors the logic in iciciPayment.controller.ts so
    * free and paid bookings share one consistent running total).
    */
-  private async recalculateBhogTotal(sheetName: string): Promise<void> {
+  private async recalculateBhogTotal(sheetName: string, colConfig: any = BHOG_COL): Promise<void> {
     const data = await this.sheetsService.getSheetData(sheetName);
     if (data.length <= 1) return;
 
@@ -670,14 +706,15 @@ export class BhogController {
     for (let i = 1; i < data.length; i++) {
       const row = data[i];
       if (row[0] === 'TOTAL') continue;
-      totalPlates += parseInt(row[BHOG_COL.TOTAL_PLATES], 10) || 0;
-      totalActualAmount += parseFloat(row[BHOG_COL.ACTUAL_AMOUNT]) || 0;
+      totalPlates += parseInt(row[colConfig.TOTAL_PLATES], 10) || 0;
+      totalActualAmount += parseFloat(row[colConfig.ACTUAL_AMOUNT]) || 0;
     }
 
-    const summaryRow = new Array(BHOG_HEADERS.length).fill('');
+    const headers = colConfig === LAKSHMI_PUJA_BHOG_COL ? LAKSHMI_PUJA_BHOG_HEADERS : BHOG_HEADERS;
+    const summaryRow = new Array(headers.length).fill('');
     summaryRow[0] = 'TOTAL';
-    summaryRow[BHOG_COL.TOTAL_PLATES] = totalPlates;
-    summaryRow[BHOG_COL.ACTUAL_AMOUNT] = totalActualAmount;
+    summaryRow[colConfig.TOTAL_PLATES] = totalPlates;
+    summaryRow[colConfig.ACTUAL_AMOUNT] = totalActualAmount;
 
     const lastRow = data[data.length - 1];
     if (lastRow && lastRow[0] === 'TOTAL') {

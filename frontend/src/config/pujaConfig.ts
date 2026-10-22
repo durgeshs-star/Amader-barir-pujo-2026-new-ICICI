@@ -30,11 +30,11 @@ export const PUJA_BOOKING_CUTOFFS: Record<string, PujaBookingCutoff> = {
     pujaDate: "Tue, 20 Oct 2026",
     cutoffISO: "2026-10-20T00:00:00+05:30",
   },
-  // lakshmiPuja: {
-  //   pujaName: "Lakshmi Puja",
-  //   pujaDate: "Sun, 25 Oct 2026",
-  //   cutoffISO: "2026-10-24T12:00:00+05:30",
-  // },
+  lakshmiPuja: {
+    pujaName: "Lakshmi Puja",
+    pujaDate: "Sun, 25 Oct 2026",
+    cutoffISO: "2026-10-24T23:59:00+05:30",
+  },
   // saraswatiPuja: {
   //   pujaName: "Saraswati Puja",
   //   pujaDate: "Thu, 11 Feb 2027",
@@ -120,11 +120,45 @@ export const NAVAMI_BHOG_BOOKING_CATEGORIES = [
 ];
 
 /**
+ * Lakshmi Pujo Bhog booking categories
+ * No Pandal Bhog, only: Packed Bhog ₹315, Children 0-5 ₹100, Senior Citizen ₹100
+ */
+export const LAKSHMI_PUJA_BHOG_BOOKING_CATEGORIES = [
+  {
+    id: "packed-bhog",
+    title: "Packed Bhog",
+    description: "per person",
+    price: 315,
+    max: 10,
+    menu: "Khichuri | Labra | Chutney | Papad | Rasogolla",
+  },
+  {
+    id: "bhog-booking-senior",
+    title: "Senior Citizen (age above 60)",
+    description: "per person",
+    price: 100,
+    max: 10,
+    menu: "Khichuri | Labra | Chutney | Papad | Rasogolla",
+  },
+  {
+    id: "children-0-5",
+    title: "Children aged 0 to 5",
+    description: "per child",
+    price: 100,
+    max: 2,
+    menu: "Khichuri | Labra | Chutney | Papad | Rasogolla",
+  },
+];
+
+/**
  * Get Bhog booking categories for a specific puja key
  */
 export const getBhogBookingCategories = (pujaKey?: string) => {
   if (pujaKey && pujaKey.toLowerCase() === "navami") {
     return NAVAMI_BHOG_BOOKING_CATEGORIES;
+  }
+  if (pujaKey && pujaKey.toLowerCase() === "lakshmipuja") {
+    return LAKSHMI_PUJA_BHOG_BOOKING_CATEGORIES;
   }
   return BHOG_BOOKING_CATEGORIES;
 };
@@ -139,9 +173,22 @@ export interface UnifiedBhogDay {
   cutoffISO: string;
   categories: typeof BHOG_BOOKING_CATEGORIES;
   menu: string;
+  defaultOpen?: boolean;
 }
 
 export const UNIFIED_BHOG_DAYS: UnifiedBhogDay[] = [
+  {
+    key: 'lakshmiPuja',
+    title: 'Lakshmi Pujo Bhog',
+    shortName: 'Lakshmi Pujo',
+    subtitle: 'Bhog Booking',
+    description: 'Select the number of bhog.',
+    date: 'Sun, 25 Oct 2026',
+    cutoffISO: '2026-10-24T23:59:00+05:30',
+    categories: LAKSHMI_PUJA_BHOG_BOOKING_CATEGORIES,
+    menu: 'Khichuri | Labra | Chutney | Papad | Rasogolla',
+    defaultOpen: true,
+  },
   {
     key: 'saptami',
     title: 'Saptami Bhog',

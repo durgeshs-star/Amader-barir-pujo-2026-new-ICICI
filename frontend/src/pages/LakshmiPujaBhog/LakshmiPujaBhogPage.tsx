@@ -1,15 +1,14 @@
 import React from "react";
 import SEO from "../../components/ui/SEO";
 import PageHero from "../../components/common/PageHero";
-import PujaBookingCard from "../../components/ui/PujaBookingCard";
+import BhogBookingSection from "../../components/ui/BhogBookingSection";
 import FloatingBhogCTA from "../../components/common/FloatingBhogCTA";
-// import { ComingSoonPopup } from "../../components/ui/ComingSoonPopup";
+import { LAKSHMI_PUJA_BHOG_BOOKING_CATEGORIES } from "../../config/pujaConfig";
 
 const LakshmiPujaBhogPage: React.FC = () => {
 
   return (
     <div className="relative">
-      {/* <ComingSoonPopup /> */}
       <SEO
         title="Lakshmi Puja Bhog Schedule | Durga Puja PCMC Pune"
         description="Lakshmi Puja Bhog Schedule — Learn about our Lakshmi Puja Bhog offerings, procedures, and their spiritual significance at Amader Barir Pujo."
@@ -27,7 +26,6 @@ const LakshmiPujaBhogPage: React.FC = () => {
 
       <section className="content-layer py-8">
         <div className="max-w-4xl mx-auto px-6">
-           
 
           <div className="text-center">
             <p className="text-base md:text-lg text-secondary leading-relaxed md:leading-loose text-center">
@@ -40,13 +38,14 @@ const LakshmiPujaBhogPage: React.FC = () => {
 
       <section className="pb-4">
         <div className="max-w-5xl mx-auto px-6">
-          <PujaBookingCard
-            pujaKey="lakshmiPuja"
+          <BhogBookingSection
             title="Lakshmi Pujo Bhog"
             subtitle="Bhog Booking"
             description="Select the number of bhog."
+            categories={LAKSHMI_PUJA_BHOG_BOOKING_CATEGORIES}
             paymentUrl="https://www.abp.proplusdatafoundation.com"
             disclaimer="ID card verification is mandatory for children aged 0 to 5 years and senior citizens."
+            menu="Khichuri | Labra | Chutney | Papad | Rasogolla"
           />
         </div>
       </section>

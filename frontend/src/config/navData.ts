@@ -11,7 +11,7 @@ export const pujoScheduleDays: NavItem[] = [
   { name: 'Ashtami Sandhi Pujo', path: '/ashtami-sandhi-puja' },
   { name: 'Navami', path: '/navami' },
   { name: 'Dashami', path: '/dashami' },
-  { name: 'Saraswati Pujo', path: '/saraswati-puja' },
+  { name: 'Lakshmi Pujo', path: '/lakshmi-puja' },
 ];
 
 export const bhogBookingDays: NavItem[] = [
@@ -19,7 +19,7 @@ export const bhogBookingDays: NavItem[] = [
   { name: 'Ashtami', path: '/bhog-booking/ashtami' },
   { name: 'Ashtami Sandhi Pujo', path: '/bhog-booking/ashtami-sandhi-puja' },
   { name: 'Navami', path: '/bhog-booking/navami' },
-  // Hidden for now - Lakshmi Pujo and Saraswati Puja Bhog
-  // { name: 'Lakshmi Pujo', path: '/bhog-booking/lakshmi-puja' },
+  { name: 'Lakshmi Pujo', path: '/bhog-booking/lakshmi-puja' },
+  // Hidden for now - Saraswati Puja Bhog
   // { name: 'Saraswati Pujo', path: '/bhog-booking/saraswati-puja' },
 ];

@@ -70,6 +70,25 @@ const BHOG_HEADERS = [
   'Order ID',
   'Timestamp',
 ];
+
+// Lakshmi Puja specific headers (no Pandal Bhog)
+const LAKSHMI_PUJA_BHOG_HEADERS = [
+  'Customer Name',
+  'Mobile Number',
+  'Email',
+  'Packed Bhog Plates',
+  'Senior Citizen (age above 60) Plates',
+  'Children aged 0 to 5 Plates',
+  'Total Plates',
+  'Base Amount (₹)',
+  'Gateway Charges (₹)',
+  'Actual Amount Paid (₹)',
+  'Payment Status',
+  'Transaction ID',
+  'Order ID',
+  'Timestamp',
+];
+
 const BHOG_COL = {
   PANDAL_BHOG: 3,
   SENIOR_CITIZEN: 4,
@@ -80,6 +99,17 @@ const BHOG_COL = {
   GATEWAY_CHARGES: 9,
   ACTUAL_AMOUNT: 10,
 };
+
+const LAKSHMI_PUJA_BHOG_COL = {
+  PACKED_BHOG: 3,
+  SENIOR_CITIZEN: 4,
+  CHILDREN_0_5: 5,
+  TOTAL_PLATES: 6,
+  BASE_AMOUNT: 7,
+  GATEWAY_CHARGES: 8,
+  ACTUAL_AMOUNT: 9,
+};
+
 const BHOG_BOLD_COLUMNS = [BHOG_COL.TOTAL_PLATES, BHOG_COL.ACTUAL_AMOUNT];
 
 // ---------------------------------------------------------------------------
@@ -1016,8 +1046,12 @@ export class IciciPaymentController {
         const sheetName = this.getSheetNameFromTitle(alloc.day);
         console.log(`${prefix} Logging for day "${alloc.day}" into sheet "${sheetName}"`);
 
-        await this.sheetsService.createSheetIfNotExists(sheetName, BHOG_HEADERS);
-        await this.sheetsService.formatHeaderRowAt(sheetName, BHOG_HEADERS.length);
+        const isLakshmiPuja = sheetName === 'Lakshmi Puja Bhog';
+        const headers = isLakshmiPuja ? LAKSHMI_PUJA_BHOG_HEADERS : BHOG_HEADERS;
+        const colConfig = isLakshmiPuja ? LAKSHMI_PUJA_BHOG_COL : BHOG_COL;
+
+        await this.sheetsService.createSheetIfNotExists(sheetName, headers);
+        await this.sheetsService.formatHeaderRowAt(sheetName, headers.length);
 
         // Check duplicate transaction ID in this sheet
         const existingData = await this.sheetsService.getSheetData(sheetName);
@@ -1046,18 +1080,17 @@ export class IciciPaymentController {
         rowData[0] = payment.userInfo?.name || '';
         rowData[1] = payment.userInfo?.phone || '';
         rowData[2] = payment.userInfo?.email || '';
-        rowData[BHOG_COL.PANDAL_BHOG] = quantities.pandalBhog;
-        rowData[BHOG_COL.SENIOR_CITIZEN] = quantities.seniorCitizen;
-        rowData[BHOG_COL.PACKED_BHOG] = quantities.packedBhog;
-        rowData[BHOG_COL.CHILDREN_0_5] = quantities.children05;
-        rowData[BHOG_COL.TOTAL_PLATES] = totalPlates;
-        rowData[BHOG_COL.BASE_AMOUNT] = alloc.base;
-        rowData[BHOG_COL.GATEWAY_CHARGES] = alloc.gateway;
-        rowData[BHOG_COL.ACTUAL_AMOUNT] = alloc.actual;
-        rowData[11] = 'Paid';
-        rowData[12] = payment.transactionId;
-        rowData[13] = payment.orderId;
-        rowData[14] = payment.timestamp;
+        rowData[colConfig.PACKED_BHOG] = quantities.packedBhog;
+        rowData[colConfig.SENIOR_CITIZEN] = quantities.seniorCitizen;
+        rowData[colConfig.CHILDREN_0_5] = quantities.children05;
+        rowData[colConfig.TOTAL_PLATES] = totalPlates;
+        rowData[colConfig.BASE_AMOUNT] = alloc.base;
+        rowData[colConfig.GATEWAY_CHARGES] = alloc.gateway;
+        rowData[colConfig.ACTUAL_AMOUNT] = alloc.actual;
+        rowData[10] = 'Paid';
+        rowData[11] = payment.transactionId;
+        rowData[12] = payment.orderId;
+        rowData[13] = payment.timestamp;
 
         console.log(`${prefix} Inserting row data into "${sheetName}":`, JSON.stringify(rowData));
         await this.appendOrInsertBhogRow(sheetName, rowData);
@@ -1081,6 +1114,10 @@ export class IciciPaymentController {
     const lastRow = data[data.length - 1];
     const hasTotalRow = !!lastRow && lastRow[0] === 'TOTAL';
 
+    const isLakshmiPuja = sheetName === 'Lakshmi Puja Bhog';
+    const colConfig = isLakshmiPuja ? LAKSHMI_PUJA_BHOG_COL : BHOG_COL;
+    const boldColumns = isLakshmiPuja ? [colConfig.TOTAL_PLATES, colConfig.ACTUAL_AMOUNT] : BHOG_BOLD_COLUMNS;
+
     let newRowIndex: number;
     if (hasTotalRow) {
       const totalRowIndex = data.length - 1; // 0-based
@@ -1091,7 +1128,7 @@ export class IciciPaymentController {
       newRowIndex = data.length; // 0-based index of the freshly appended row
     }
 
-    await this.sheetsService.formatCellsBold(sheetName, newRowIndex, BHOG_BOLD_COLUMNS);
+    await this.sheetsService.formatCellsBold(sheetName, newRowIndex, boldColumns);
   }
 
   /**
@@ -1103,29 +1140,33 @@ export class IciciPaymentController {
     const data = await this.sheetsService.getSheetData(sheetName);
     if (data.length <= 1) return; // only header row, nothing to total yet
 
+    const isLakshmiPuja = sheetName === 'Lakshmi Puja Bhog';
+    const colConfig = isLakshmiPuja ? LAKSHMI_PUJA_BHOG_COL : BHOG_COL;
+    const headers = isLakshmiPuja ? LAKSHMI_PUJA_BHOG_HEADERS : BHOG_HEADERS;
+
     let totalPlates = 0;
     let totalActualAmount = 0;
 
     for (let i = 1; i < data.length; i++) {
       const row = data[i];
       if (row[0] === 'TOTAL') continue;
-      totalPlates += parseInt(row[BHOG_COL.TOTAL_PLATES], 10) || 0;
-      totalActualAmount += parseFloat(row[BHOG_COL.ACTUAL_AMOUNT]) || 0;
+      totalPlates += parseInt(row[colConfig.TOTAL_PLATES], 10) || 0;
+      totalActualAmount += parseFloat(row[colConfig.ACTUAL_AMOUNT]) || 0;
     }
 
-    const summaryRow = new Array(BHOG_HEADERS.length).fill('');
+    const summaryRow = new Array(headers.length).fill('');
     summaryRow[0] = 'TOTAL';
-    summaryRow[BHOG_COL.TOTAL_PLATES] = totalPlates;
-    summaryRow[BHOG_COL.ACTUAL_AMOUNT] = totalActualAmount;
+    summaryRow[colConfig.TOTAL_PLATES] = totalPlates;
+    summaryRow[colConfig.ACTUAL_AMOUNT] = totalActualAmount;
 
     const lastRow = data[data.length - 1];
     if (lastRow && lastRow[0] === 'TOTAL') {
       const totalRowIndex = data.length - 1;
       await this.sheetsService.updateRow(sheetName, totalRowIndex, summaryRow);
-      await this.sheetsService.formatRowBold(sheetName, totalRowIndex, BHOG_HEADERS.length);
+      await this.sheetsService.formatRowBold(sheetName, totalRowIndex, headers.length);
     } else {
       await this.sheetsService.appendRow(sheetName, summaryRow);
-      await this.sheetsService.formatRowBold(sheetName, data.length, BHOG_HEADERS.length);
+      await this.sheetsService.formatRowBold(sheetName, data.length, headers.length);
     }
   }
 

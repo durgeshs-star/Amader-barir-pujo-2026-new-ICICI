@@ -18,6 +18,7 @@ export const BhogBooking: React.FC = () => {
 
   // Accordion state: multiple dropdowns can stay open independently
   const [openDays, setOpenDays] = useState<Record<string, boolean>>(() => ({
+    lakshmiPuja: true,
     saptami: false,
     ashtami: false,
     sandhiPuja: false,
@@ -26,6 +27,7 @@ export const BhogBooking: React.FC = () => {
 
   // Cart state: [dayKey][categoryId] -> quantity
   const [cart, setCart] = useState<Record<string, Record<string, number>>>(() => ({
+    lakshmiPuja: {},
     saptami: {},
     ashtami: {},
     sandhiPuja: {},
@@ -162,6 +164,7 @@ export const BhogBooking: React.FC = () => {
 
   const handleClearCart = () => {
     setCart({
+      lakshmiPuja: {},
       saptami: {},
       ashtami: {},
       sandhiPuja: {},
@@ -392,7 +395,7 @@ export const BhogBooking: React.FC = () => {
                             )}
                           </div>
                           <p className="mt-1 text-sm font-normal leading-relaxed text-secondary">
-                            {{ saptami: 'Khichuri | Labra | Chutney | Papad | Payesh', ashtami: 'Khichuri | Aloo Dum | Chutney | Papad | Pantua', sandhiPuja: 'Khichuri | Pachmisali Sabji | Chutney | Papad | Kheer', navami: 'Veg Pulao | Matar Paneer | Chutney | Papad | Rosogolla' }[dayConfig.key]}
+                            {{ saptami: 'Khichuri | Labra | Chutney | Papad | Payesh', ashtami: 'Khichuri | Aloo Dum | Chutney | Papad | Pantua', sandhiPuja: 'Khichuri | Pachmisali Sabji | Chutney | Papad | Kheer', navami: 'Veg Pulao | Matar Paneer | Chutney | Papad | Rosogolla', lakshmiPuja: 'Khichuri | Labra | Chutney | Papad | Rasogolla' }[dayConfig.key]}
                           </p>
                           {daySelectedPlates > 0 && (
                             <div className="mt-1">
@@ -433,66 +436,199 @@ export const BhogBooking: React.FC = () => {
                           </div>
                         ) : (
                           /* Categories Grid */
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                            {dayConfig.categories.map((category) => {
-                              const qty = dayCart[category.id] || 0;
-                              const isMax = qty >= category.max;
-                              const isMin = qty <= 0;
+                          <>
+                            {dayConfig.key === 'lakshmiPuja' ? (
+                              <div className="flex flex-col gap-3.5">
+                                {/* First two categories in grid */}
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                                  {dayConfig.categories.slice(0, 2).map((category) => {
+                                    const qty = dayCart[category.id] || 0;
+                                    const isMax = qty >= category.max;
+                                    const isMin = qty <= 0;
 
-                              return (
-                                <div
-                                  key={category.id}
-                                  className={`p-3.5 sm:p-4 rounded-xl border transition-all duration-200 flex flex-col justify-between ${qty > 0
-                                    ? 'border-primary bg-amber-50/40 ring-1 ring-primary/20'
-                                    : 'border-gray-200 bg-white hover:border-amber-300'
-                                    }`}
-                                >
-                                  <div>
-                                    <div className="flex justify-between items-start gap-2 mb-1">
-                                      <h4 className="text-sm font-bold text-primary leading-tight">
-                                        {category.title}
-                                      </h4>
-                                      <span className="text-sm font-extrabold text-primary font-fraunces flex-shrink-0">
-                                        {category.price === 0 ? 'FREE' : `₹${category.price}`}
-                                      </span>
-                                    </div>
-                                    {category.description && (
-                                      <p className="text-[11px] text-gray-500 mb-3">
-                                        {category.description}
-                                      </p>
-                                    )}
-                                  </div>
+                                    return (
+                                      <div
+                                        key={category.id}
+                                        className={`p-3.5 sm:p-4 rounded-xl border transition-all duration-200 flex flex-col justify-between ${qty > 0
+                                          ? 'border-primary bg-amber-50/40 ring-1 ring-primary/20'
+                                          : 'border-gray-200 bg-white hover:border-amber-300'
+                                        }`}
+                                      >
+                                        <div>
+                                          <div className="flex justify-between items-start gap-2 mb-1">
+                                            <h4 className="text-sm font-bold text-primary leading-tight">
+                                              {category.title}
+                                            </h4>
+                                            <span className="text-sm font-extrabold text-primary font-fraunces flex-shrink-0">
+                                              {category.price === 0 ? 'FREE' : `₹${category.price}`}
+                                            </span>
+                                          </div>
+                                          {category.description && (
+                                            <p className="text-[11px] text-gray-500 mb-3">
+                                              {category.description}
+                                            </p>
+                                          )}
+                                        </div>
 
-                                  {/* Counter Control */}
-                                  <div className="flex items-center justify-end pt-2 border-t border-gray-100 mt-2">
-                                    <div className="flex items-center gap-2">
-                                      <button
-                                        type="button"
-                                        onClick={() => handleQuantityChange(dayConfig.key, category.id, qty - 1, category.max)}
-                                        disabled={isMin}
-                                        className="w-9 h-9 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center font-bold text-base sm:text-sm transition-colors duration-150 border disabled:opacity-30 disabled:cursor-not-allowed bg-gray-50 text-gray-700 border-gray-300 hover:bg-gray-100 active:bg-gray-200 touch-manipulation cursor-pointer"
-                                        aria-label={`Decrease quantity of ${category.title} for ${dayConfig.title}`}
-                                      >
-                                        −
-                                      </button>
-                                      <span className="w-7 text-center font-bold text-sm text-primary">
-                                        {qty}
-                                      </span>
-                                      <button
-                                        type="button"
-                                        onClick={() => handleQuantityChange(dayConfig.key, category.id, qty + 1, category.max)}
-                                        disabled={isMax}
-                                        className="w-9 h-9 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center font-bold text-base sm:text-sm transition-colors duration-150 border disabled:opacity-30 disabled:cursor-not-allowed bg-primary text-white border-primary hover:bg-primary-dark active:bg-primary-dark touch-manipulation cursor-pointer"
-                                        aria-label={`Increase quantity of ${category.title} for ${dayConfig.title}`}
-                                      >
-                                        +
-                                      </button>
-                                    </div>
-                                  </div>
+                                        {/* Counter Control */}
+                                        <div className="flex items-center justify-end pt-2 border-t border-gray-100 mt-2">
+                                          <div className="flex items-center gap-2">
+                                            <button
+                                              type="button"
+                                              onClick={() => handleQuantityChange(dayConfig.key, category.id, qty - 1, category.max)}
+                                              disabled={isMin}
+                                              className="w-9 h-9 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center font-bold text-base sm:text-sm transition-colors duration-150 border disabled:opacity-30 disabled:cursor-not-allowed bg-gray-50 text-gray-700 border-gray-300 hover:bg-gray-100 active:bg-gray-200 touch-manipulation cursor-pointer"
+                                              aria-label={`Decrease quantity of ${category.title} for ${dayConfig.title}`}
+                                            >
+                                              −
+                                            </button>
+                                            <span className="w-7 text-center font-bold text-sm text-primary">
+                                              {qty}
+                                            </span>
+                                            <button
+                                              type="button"
+                                              onClick={() => handleQuantityChange(dayConfig.key, category.id, qty + 1, category.max)}
+                                              disabled={isMax}
+                                              className="w-9 h-9 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center font-bold text-base sm:text-sm transition-colors duration-150 border disabled:opacity-30 disabled:cursor-not-allowed bg-primary text-white border-primary hover:bg-primary-dark active:bg-primary-dark touch-manipulation cursor-pointer"
+                                              aria-label={`Increase quantity of ${category.title} for ${dayConfig.title}`}
+                                            >
+                                              +
+                                            </button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    );
+                                  })}
                                 </div>
-                              );
-                            })}
-                          </div>
+
+                                {/* Third category (Children) centered below */}
+                                {dayConfig.categories.slice(2).map((category) => {
+                                  const qty = dayCart[category.id] || 0;
+                                  const isMax = qty >= category.max;
+                                  const isMin = qty <= 0;
+
+                                  return (
+                                    <div
+                                      key={category.id}
+                                      className="mx-auto max-w-xs w-full"
+                                    >
+                                      <div
+                                        className={`p-3.5 sm:p-4 rounded-xl border transition-all duration-200 flex flex-col justify-between ${qty > 0
+                                          ? 'border-primary bg-amber-50/40 ring-1 ring-primary/20'
+                                          : 'border-gray-200 bg-white hover:border-amber-300'
+                                        }`}
+                                      >
+                                        <div>
+                                          <div className="flex justify-between items-start gap-2 mb-1">
+                                            <h4 className="text-sm font-bold text-primary leading-tight">
+                                              {category.title}
+                                            </h4>
+                                            <span className="text-sm font-extrabold text-primary font-fraunces flex-shrink-0">
+                                              {category.price === 0 ? 'FREE' : `₹${category.price}`}
+                                            </span>
+                                          </div>
+                                          {category.description && (
+                                            <p className="text-[11px] text-gray-500 mb-3">
+                                              {category.description}
+                                            </p>
+                                          )}
+                                        </div>
+
+                                        {/* Counter Control */}
+                                        <div className="flex items-center justify-end pt-2 border-t border-gray-100 mt-2">
+                                          <div className="flex items-center gap-2">
+                                            <button
+                                              type="button"
+                                              onClick={() => handleQuantityChange(dayConfig.key, category.id, qty - 1, category.max)}
+                                              disabled={isMin}
+                                              className="w-9 h-9 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center font-bold text-base sm:text-sm transition-colors duration-150 border disabled:opacity-30 disabled:cursor-not-allowed bg-gray-50 text-gray-700 border-gray-300 hover:bg-gray-100 active:bg-gray-200 touch-manipulation cursor-pointer"
+                                              aria-label={`Decrease quantity of ${category.title} for ${dayConfig.title}`}
+                                            >
+                                              −
+                                            </button>
+                                            <span className="w-7 text-center font-bold text-sm text-primary">
+                                              {qty}
+                                            </span>
+                                            <button
+                                              type="button"
+                                              onClick={() => handleQuantityChange(dayConfig.key, category.id, qty + 1, category.max)}
+                                              disabled={isMax}
+                                              className="w-9 h-9 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center font-bold text-base sm:text-sm transition-colors duration-150 border disabled:opacity-30 disabled:cursor-not-allowed bg-primary text-white border-primary hover:bg-primary-dark active:bg-primary-dark touch-manipulation cursor-pointer"
+                                              aria-label={`Increase quantity of ${category.title} for ${dayConfig.title}`}
+                                            >
+                                              +
+                                            </button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            ) : (
+                              /* Standard grid for other puja days */
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                                {dayConfig.categories.map((category) => {
+                                  const qty = dayCart[category.id] || 0;
+                                  const isMax = qty >= category.max;
+                                  const isMin = qty <= 0;
+
+                                  return (
+                                    <div
+                                      key={category.id}
+                                      className={`p-3.5 sm:p-4 rounded-xl border transition-all duration-200 flex flex-col justify-between ${qty > 0
+                                        ? 'border-primary bg-amber-50/40 ring-1 ring-primary/20'
+                                        : 'border-gray-200 bg-white hover:border-amber-300'
+                                      }`}
+                                    >
+                                      <div>
+                                        <div className="flex justify-between items-start gap-2 mb-1">
+                                          <h4 className="text-sm font-bold text-primary leading-tight">
+                                            {category.title}
+                                          </h4>
+                                          <span className="text-sm font-extrabold text-primary font-fraunces flex-shrink-0">
+                                            {category.price === 0 ? 'FREE' : `₹${category.price}`}
+                                          </span>
+                                        </div>
+                                        {category.description && (
+                                          <p className="text-[11px] text-gray-500 mb-3">
+                                            {category.description}
+                                          </p>
+                                        )}
+                                      </div>
+
+                                      {/* Counter Control */}
+                                      <div className="flex items-center justify-end pt-2 border-t border-gray-100 mt-2">
+                                        <div className="flex items-center gap-2">
+                                          <button
+                                            type="button"
+                                            onClick={() => handleQuantityChange(dayConfig.key, category.id, qty - 1, category.max)}
+                                            disabled={isMin}
+                                            className="w-9 h-9 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center font-bold text-base sm:text-sm transition-colors duration-150 border disabled:opacity-30 disabled:cursor-not-allowed bg-gray-50 text-gray-700 border-gray-300 hover:bg-gray-100 active:bg-gray-200 touch-manipulation cursor-pointer"
+                                            aria-label={`Decrease quantity of ${category.title} for ${dayConfig.title}`}
+                                          >
+                                            −
+                                          </button>
+                                          <span className="w-7 text-center font-bold text-sm text-primary">
+                                            {qty}
+                                          </span>
+                                          <button
+                                            type="button"
+                                            onClick={() => handleQuantityChange(dayConfig.key, category.id, qty + 1, category.max)}
+                                            disabled={isMax}
+                                            className="w-9 h-9 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center font-bold text-base sm:text-sm transition-colors duration-150 border disabled:opacity-30 disabled:cursor-not-allowed bg-primary text-white border-primary hover:bg-primary-dark active:bg-primary-dark touch-manipulation cursor-pointer"
+                                            aria-label={`Increase quantity of ${category.title} for ${dayConfig.title}`}
+                                          >
+                                            +
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            )}
+                          </>
                         )}
                       </div>
                     )}

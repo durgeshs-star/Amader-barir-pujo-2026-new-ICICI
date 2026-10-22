@@ -77,12 +77,12 @@ export const Schedule: React.FC = () => {
       ]
     },
     'lakshmi-puja': {
-      title: 'Kojagari Lakshmi Puja',
-      date: 'October 24, 2026',
+      title: 'Lakshmi Pujo',
+      date: 'October 25, 2026',
       items: [
-        { time: '06:30 PM', ritual: 'Lakshmi Puja & Kalparambha', details: 'Invocation of Goddess Lakshmi for wealth and prosperity.' },
-        { time: '08:00 PM', ritual: 'Pushpanjali & Aarti', details: 'Floral offerings and lamp rituals.' },
-        { time: '08:30 PM', ritual: 'Prasad Distribution', details: 'Serving of sweets and traditional coconut flatbread.' }
+        { time: '12:30 PM', ritual: 'Lakshmi Puja & Kalparambha', details: 'Invocation of Goddess Lakshmi for wealth and prosperity.' },
+        { time: '01:00 PM', ritual: 'Pushpanjali & Aarti', details: 'Floral offerings and lamp rituals.' },
+        { time: '01:30 PM', ritual: 'Prasad Distribution', details: 'Serving of sweets and traditional coconut flatbread.' }
       ]
     }
   };

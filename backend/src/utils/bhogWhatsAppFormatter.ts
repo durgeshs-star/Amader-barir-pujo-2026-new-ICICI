@@ -15,6 +15,14 @@ interface BhogWhatsAppBooking {
 
 const BHOG_TIMING = '12:30 PM – 2:00 PM';
 
+const BHOG_TIMINGS: Record<string, string> = {
+  saptami: '12:30 PM – 2:00 PM',
+  ashtami: '12:30 PM – 2:00 PM',
+  sandhiPuja: '12:30 PM – 2:00 PM',
+  navami: '12:30 PM – 2:00 PM',
+  lakshmiPuja: '12:30 PM – 1:00 PM',
+};
+
 const formatBhogDate = (isoDate: string): string => {
   const [year, month, day] = isoDate.split('-').map(Number);
   const monthName = new Date(Date.UTC(year, month - 1, 1)).toLocaleString('en-GB', {
@@ -31,6 +39,7 @@ const BHOG_DATES: Record<string, string> = {
   ashtami: '2026-10-18',
   sandhiPuja: '2026-10-19',
   navami: '2026-10-20',
+  lakshmiPuja: '2026-10-25',
 };
 
 export const formatBhogBookingDetails = (bookings: BhogWhatsAppBooking[]): string => {
@@ -55,12 +64,15 @@ export const formatBhogBookingDetails = (bookings: BhogWhatsAppBooking[]): strin
       .filter((title): title is string => Boolean(title))));
     const day = booking.day.replace(/\s+Bhog$/i, '').trim();
 
+    // Get specific timing for the puja day
+    const bhogTiming = BHOG_TIMINGS[booking.dayKey || ''] || BHOG_TIMING;
+
     return [
       `**Day:** ${day}`,
       `**Date:** ${formatBhogDate(bhogDate)}`,
       `**Number of Bhog:** ${numberOfBhog}`,
       `**Type:** ${types.join(', ') || 'Bhog'}`,
-      `**Bhog Timing:** ${BHOG_TIMING}`,
+      `**Bhog Timing:** ${bhogTiming}`,
     ].join('\n');
   }).join('\n\n');
 };
