@@ -76,11 +76,11 @@ export const Schedule: React.FC = () => {
         { time: '08:00 PM', ritual: 'Bijoya Milani & Greetings', details: 'Sharing sweets and offering respect to elders.' }
       ]
     },
-    'lakshmi-puja': {
-      title: 'Lakshmi Pujo',
+    'lokhi-puja': {
+      title: 'Lokhi Pujo',
       date: 'October 25, 2026',
       items: [
-        { time: '12:30 PM', ritual: 'Lakshmi Puja & Kalparambha', details: 'Invocation of Goddess Lakshmi for wealth and prosperity.' },
+        { time: '12:30 PM', ritual: 'Lokhi Puja & Kalparambha', details: 'Invocation of Goddess Lokhi for wealth and prosperity.' },
         { time: '01:00 PM', ritual: 'Pushpanjali & Aarti', details: 'Floral offerings and lamp rituals.' },
         { time: '01:30 PM', ritual: 'Prasad Distribution', details: 'Serving of sweets and traditional coconut flatbread.' }
       ]

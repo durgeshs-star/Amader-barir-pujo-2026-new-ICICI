@@ -32,14 +32,14 @@ const AshtamiPage = lazy(() => import('./pages/Ashtami/AshtamiPage'));
 const AshtamiSandhiPujaPage = lazy(() => import('./pages/AshtamiSandhiPuja/AshtamiSandhiPujaPage'));
 const NavamiPage = lazy(() => import('./pages/Navami/NavamiPage'));
 const DashamiPage = lazy(() => import('./pages/Dashami/DashamiPage'));
-const LakshmiPujaPage = lazy(() => import('./pages/LakshmiPuja/LakshmiPujaPage'));
+const LokhiPujaPage = lazy(() => import('./pages/LokhiPuja/LokhiPujaPage'));
 // Individual Bhog pages commented out - Unified under /bhog-booking
 // const SaptamiBhogPage = lazy(() => import('./pages/SaptamiBhog/SaptamiBhogPage'));
 // const AshtamiBhogPage = lazy(() => import('./pages/AshtamiBhog/AshtamiBhogPage'));
 // const AshtamiBhogSandhiPujaPage = lazy(() => import('./pages/AshtamiBhogSandhiPuja/AshtamiBhogSandhiPujaPage'));
 // const NavamiBhogPage = lazy(() => import('./pages/NavamiBhog/NavamiBhogPage'));
 // const DurgaPujaBhogPage = lazy(() => import('./pages/DurgaPujaBhog/DurgaPujaBhogPage'));
-const LakshmiPujaBhogPage = lazy(() => import('./pages/LakshmiPujaBhog/LakshmiPujaBhogPage'));
+const LokhiPujaBhogPage = lazy(() => import('./pages/LokhiPujaBhog/LokhiPujaBhogPage'));
 // const SaraswatiPujaBhogPage = lazy(() => import('./pages/SaraswatiPujaBhog/SaraswatiPujaBhogPage'));
 // const SaraswatiPuja = lazy(() => import('./pages/SaraswatiPuja'));
 const MockPayment = lazy(() => import('./components/Payment/MockPayment'));
@@ -98,7 +98,7 @@ const AppShell: React.FC = () => {
             <Route path="/ashtami-sandhi-puja" element={<AshtamiSandhiPujaPage />} />
             <Route path="/navami" element={<NavamiPage />} />
             <Route path="/dashami" element={<DashamiPage />} />
-            <Route path="/lakshmi-puja" element={<LakshmiPujaPage />} />
+            <Route path="/lokhi-puja" element={<LokhiPujaPage />} />
 
             <Route path="/anudan" element={<Anudan />} />
             {/* Hidden for now - Saraswati Puja */}
@@ -111,7 +111,7 @@ const AppShell: React.FC = () => {
             {/* <Route path="/bhog-booking/ashtami-sandhi-puja" element={<AshtamiBhogSandhiPujaPage />} /> */}
             {/* <Route path="/bhog-booking/navami" element={<NavamiBhogPage />} /> */}
             {/* <Route path="/durga-puja-bhog" element={<DurgaPujaBhogPage />} /> */}
-            <Route path="/bhog-booking/lakshmi-puja" element={<LakshmiPujaBhogPage />} />
+            <Route path="/bhog-booking/lokhi-puja" element={<LokhiPujaBhogPage />} />
             {/* <Route path="/bhog-booking/saraswati-puja" element={<SaraswatiPujaBhogPage />} /> */}
             <Route path="/bhog-booking/:day" element={<BhogBooking />} />
             <Route path="/bhog-booking" element={<BhogBooking />} />

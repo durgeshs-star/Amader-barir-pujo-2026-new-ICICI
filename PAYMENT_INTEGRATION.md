@@ -1446,7 +1446,7 @@ await this.sheetsService.createSheetIfNotExists('Anudan Contributions', headers)
 - `Ashtami Bhog`
 - `Navami Bhog`
 - `Durga Puja Bhog`
-- `Lakshmi Puja Bhog`
+- `Lokhi Puja Bhog`
 - `Saraswati Puja Bhog`
 
 **Sheet Structure**:

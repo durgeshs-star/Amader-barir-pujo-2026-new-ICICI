@@ -61,7 +61,7 @@ function getBhogDate(dayTitle: string): string {
   if (titleLower.includes('ashtami')) return '17 October 2026';
   if (titleLower.includes('navami')) return '19 October 2026';
   if (titleLower.includes('durga puja')) return '20 October 2026';
-  if (titleLower.includes('lakshmi puja')) return 'TBD';
+  if (titleLower.includes('lokhi puja')) return '25 October 2026';
   if (titleLower.includes('saraswati puja')) return 'TBD';
 
   return '15-21 October 2026';
@@ -79,7 +79,7 @@ function getBhogTiming(dayTitle: string): string {
   if (titleLower.includes('ashtami')) return '12:30 PM - 2:30 PM';
   if (titleLower.includes('navami')) return '12:30 PM - 2:30 PM';
   if (titleLower.includes('durga puja')) return '12:30 PM - 2:30 PM';
-  if (titleLower.includes('lakshmi puja')) return 'TBD';
+  if (titleLower.includes('lokhi puja')) return '12:30 PM - 1:00 PM';
   if (titleLower.includes('saraswati puja')) return 'TBD';
 
   return '12:30 PM - 2:30 PM';

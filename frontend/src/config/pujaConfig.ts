@@ -30,8 +30,8 @@ export const PUJA_BOOKING_CUTOFFS: Record<string, PujaBookingCutoff> = {
     pujaDate: "Tue, 20 Oct 2026",
     cutoffISO: "2026-10-20T00:00:00+05:30",
   },
-  lakshmiPuja: {
-    pujaName: "Lakshmi Puja",
+  lokhiPuja: {
+    pujaName: "Lokhi Puja",
     pujaDate: "Sun, 25 Oct 2026",
     cutoffISO: "2026-10-24T23:59:00+05:30",
   },
@@ -120,10 +120,10 @@ export const NAVAMI_BHOG_BOOKING_CATEGORIES = [
 ];
 
 /**
- * Lakshmi Pujo Bhog booking categories
+ * Lokhi Pujo Bhog booking categories
  * No Pandal Bhog, only: Packed Bhog ₹315, Children 0-5 ₹100, Senior Citizen ₹100
  */
-export const LAKSHMI_PUJA_BHOG_BOOKING_CATEGORIES = [
+export const LOKHI_PUJA_BHOG_BOOKING_CATEGORIES = [
   {
     id: "packed-bhog",
     title: "Packed Bhog",
@@ -157,8 +157,8 @@ export const getBhogBookingCategories = (pujaKey?: string) => {
   if (pujaKey && pujaKey.toLowerCase() === "navami") {
     return NAVAMI_BHOG_BOOKING_CATEGORIES;
   }
-  if (pujaKey && pujaKey.toLowerCase() === "lakshmipuja") {
-    return LAKSHMI_PUJA_BHOG_BOOKING_CATEGORIES;
+  if (pujaKey && pujaKey.toLowerCase() === "lokhipuja") {
+    return LOKHI_PUJA_BHOG_BOOKING_CATEGORIES;
   }
   return BHOG_BOOKING_CATEGORIES;
 };
@@ -178,14 +178,14 @@ export interface UnifiedBhogDay {
 
 export const UNIFIED_BHOG_DAYS: UnifiedBhogDay[] = [
   {
-    key: 'lakshmiPuja',
-    title: 'Lakshmi Pujo Bhog',
-    shortName: 'Lakshmi Pujo',
+    key: 'lokhiPuja',
+    title: 'Lokhi Pujo Bhog',
+    shortName: 'Lokhi Pujo',
     subtitle: 'Bhog Booking',
     description: 'Select the number of bhog.',
     date: 'Sun, 25 Oct 2026',
     cutoffISO: '2026-10-24T23:59:00+05:30',
-    categories: LAKSHMI_PUJA_BHOG_BOOKING_CATEGORIES,
+    categories: LOKHI_PUJA_BHOG_BOOKING_CATEGORIES,
     menu: 'Khichuri | Labra | Chutney | Papad | Rasogolla',
     defaultOpen: true,
   },

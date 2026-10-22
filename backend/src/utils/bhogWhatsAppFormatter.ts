@@ -20,7 +20,7 @@ const BHOG_TIMINGS: Record<string, string> = {
   ashtami: '12:30 PM – 2:00 PM',
   sandhiPuja: '12:30 PM – 2:00 PM',
   navami: '12:30 PM – 2:00 PM',
-  lakshmiPuja: '12:30 PM – 1:00 PM',
+  lokhiPuja: '12:30 PM – 1:00 PM',
 };
 
 const formatBhogDate = (isoDate: string): string => {
@@ -39,7 +39,7 @@ const BHOG_DATES: Record<string, string> = {
   ashtami: '2026-10-18',
   sandhiPuja: '2026-10-19',
   navami: '2026-10-20',
-  lakshmiPuja: '2026-10-25',
+  lokhiPuja: '2026-10-25',
 };
 
 export const formatBhogBookingDetails = (bookings: BhogWhatsAppBooking[]): string => {

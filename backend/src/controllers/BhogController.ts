@@ -40,8 +40,8 @@ const BHOG_HEADERS = [
   'Timestamp',
 ];
 
-// Lakshmi Puja specific headers (no Pandal Bhog)
-const LAKSHMI_PUJA_BHOG_HEADERS = [
+// Lokhi Puja specific headers (no Pandal Bhog)
+const LOKHI_PUJA_BHOG_HEADERS = [
   'Customer Name',
   'Mobile Number',
   'Email',
@@ -68,7 +68,7 @@ const BHOG_COL = {
   ACTUAL_AMOUNT: 10,
 };
 
-const LAKSHMI_PUJA_BHOG_COL = {
+const LOKHI_PUJA_BHOG_COL = {
   PACKED_BHOG: 3,
   SENIOR_CITIZEN: 4,
   CHILDREN_0_5: 5,
@@ -147,7 +147,7 @@ export class BhogController {
     if (titleLower.includes('saptami')) return 'Saptami Bhog';
     if (titleLower.includes('navami')) return 'Navami Bhog';
     if (titleLower.includes('durga puja')) return 'Durga Puja Bhog';
-    if (titleLower.includes('lakshmi')) return 'Lakshmi Puja Bhog';
+    if (titleLower.includes('lokhi')) return 'Lokhi Puja Bhog';
     if (titleLower.includes('saraswati')) return 'Saraswati Puja Bhog';
 
     return 'General Bhog Bookings';
@@ -410,9 +410,9 @@ export class BhogController {
       // For EACH booked day, write a record to that day's respective sheet
       for (const booking of dayBookings) {
         const sheetName = this.getSheetNameFromTitle(booking.day);
-        const isLakshmiPuja = sheetName === 'Lakshmi Puja Bhog';
-        const headers = isLakshmiPuja ? LAKSHMI_PUJA_BHOG_HEADERS : BHOG_HEADERS;
-        const colConfig = isLakshmiPuja ? LAKSHMI_PUJA_BHOG_COL : BHOG_COL;
+        const islokhiPuja = sheetName === 'Lokhi Puja Bhog';
+        const headers = islokhiPuja ? LOKHI_PUJA_BHOG_HEADERS : BHOG_HEADERS;
+        const colConfig = islokhiPuja ? LOKHI_PUJA_BHOG_COL : BHOG_COL;
 
         await this.sheetsService.createSheetIfNotExists(sheetName, headers);
         await this.sheetsService.formatHeaderRowAt(sheetName, headers.length);
@@ -674,9 +674,9 @@ export class BhogController {
     const lastRow = data[data.length - 1];
     const hasTotalRow = !!lastRow && lastRow[0] === 'TOTAL';
 
-    const isLakshmiPuja = sheetName === 'Lakshmi Puja Bhog';
-    const colConfig = isLakshmiPuja ? LAKSHMI_PUJA_BHOG_COL : BHOG_COL;
-    const boldColumns = isLakshmiPuja ? [colConfig.TOTAL_PLATES, colConfig.ACTUAL_AMOUNT] : BHOG_BOLD_COLUMNS;
+    const islokhiPuja = sheetName === 'Lokhi Puja Bhog';
+    const colConfig = islokhiPuja ? LOKHI_PUJA_BHOG_COL : BHOG_COL;
+    const boldColumns = islokhiPuja ? [colConfig.TOTAL_PLATES, colConfig.ACTUAL_AMOUNT] : BHOG_BOLD_COLUMNS;
 
     let newRowIndex: number;
     if (hasTotalRow) {
@@ -710,7 +710,7 @@ export class BhogController {
       totalActualAmount += parseFloat(row[colConfig.ACTUAL_AMOUNT]) || 0;
     }
 
-    const headers = colConfig === LAKSHMI_PUJA_BHOG_COL ? LAKSHMI_PUJA_BHOG_HEADERS : BHOG_HEADERS;
+    const headers = colConfig === LOKHI_PUJA_BHOG_COL ? LOKHI_PUJA_BHOG_HEADERS : BHOG_HEADERS;
     const summaryRow = new Array(headers.length).fill('');
     summaryRow[0] = 'TOTAL';
     summaryRow[colConfig.TOTAL_PLATES] = totalPlates;
@@ -739,7 +739,7 @@ export class BhogController {
     if (titleLower.includes('ashtami')) return '12:30 PM - 2:30 PM';
     if (titleLower.includes('navami')) return '12:30 PM - 2:30 PM';
     if (titleLower.includes('durga puja')) return '12:30 PM - 2:30 PM';
-    if (titleLower.includes('lakshmi puja')) return '12:30 PM - 2:30 PM';
+    if (titleLower.includes('lokhi puja')) return '12:30 PM - 2:30 PM';
     if (titleLower.includes('saraswati puja')) return '12:30 PM - 2:30 PM';
     
     return '12:30 PM - 2:30 PM';
@@ -757,7 +757,7 @@ export class BhogController {
     if (titleLower.includes('ashtami')) return '17 October 2026';
     if (titleLower.includes('navami')) return '19 October 2026';
     if (titleLower.includes('durga puja')) return '20 October 2026';
-    if (titleLower.includes('lakshmi puja')) return 'TBD';
+    if (titleLower.includes('lokhi puja')) return 'TBD';
     if (titleLower.includes('saraswati puja')) return 'TBD';
     
     return '15-21 October 2026';

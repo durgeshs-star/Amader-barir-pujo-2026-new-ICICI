@@ -18,7 +18,7 @@ export const BhogBooking: React.FC = () => {
 
   // Accordion state: multiple dropdowns can stay open independently
   const [openDays, setOpenDays] = useState<Record<string, boolean>>(() => ({
-    lakshmiPuja: true,
+    lokhiPuja: true,
     saptami: false,
     ashtami: false,
     sandhiPuja: false,
@@ -27,7 +27,7 @@ export const BhogBooking: React.FC = () => {
 
   // Cart state: [dayKey][categoryId] -> quantity
   const [cart, setCart] = useState<Record<string, Record<string, number>>>(() => ({
-    lakshmiPuja: {},
+    lokhiPuja: {},
     saptami: {},
     ashtami: {},
     sandhiPuja: {},
@@ -164,7 +164,7 @@ export const BhogBooking: React.FC = () => {
 
   const handleClearCart = () => {
     setCart({
-      lakshmiPuja: {},
+      lokhiPuja: {},
       saptami: {},
       ashtami: {},
       sandhiPuja: {},
@@ -395,7 +395,7 @@ export const BhogBooking: React.FC = () => {
                             )}
                           </div>
                           <p className="mt-1 text-sm font-normal leading-relaxed text-secondary">
-                            {{ saptami: 'Khichuri | Labra | Chutney | Papad | Payesh', ashtami: 'Khichuri | Aloo Dum | Chutney | Papad | Pantua', sandhiPuja: 'Khichuri | Pachmisali Sabji | Chutney | Papad | Kheer', navami: 'Veg Pulao | Matar Paneer | Chutney | Papad | Rosogolla', lakshmiPuja: 'Khichuri | Labra | Chutney | Papad | Rasogolla' }[dayConfig.key]}
+                            {{ saptami: 'Khichuri | Labra | Chutney | Papad | Payesh', ashtami: 'Khichuri | Aloo Dum | Chutney | Papad | Pantua', sandhiPuja: 'Khichuri | Pachmisali Sabji | Chutney | Papad | Kheer', navami: 'Veg Pulao | Matar Paneer | Chutney | Papad | Rosogolla', lokhiPuja: 'Khichuri | Labra | Chutney | Papad | Rasogolla' }[dayConfig.key]}
                           </p>
                           {daySelectedPlates > 0 && (
                             <div className="mt-1">
@@ -437,7 +437,7 @@ export const BhogBooking: React.FC = () => {
                         ) : (
                           /* Categories Grid */
                           <>
-                            {dayConfig.key === 'lakshmiPuja' ? (
+                            {dayConfig.key === 'lokhiPuja' ? (
                               <div className="flex flex-col gap-3.5">
                                 {/* First two categories in grid */}
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
