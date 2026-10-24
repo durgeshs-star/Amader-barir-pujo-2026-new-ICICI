@@ -33,7 +33,7 @@ export const PUJA_BOOKING_CUTOFFS: Record<string, PujaBookingCutoff> = {
   lokhiPuja: {
     pujaName: "Lokhi Puja",
     pujaDate: "Sun, 25 Oct 2026",
-    cutoffISO: "2026-10-24T23:59:00+05:30",
+    cutoffISO: "2026-10-23T23:59:00+05:30",
   },
   // saraswatiPuja: {
   //   pujaName: "Saraswati Puja",
@@ -184,10 +184,10 @@ export const UNIFIED_BHOG_DAYS: UnifiedBhogDay[] = [
     subtitle: 'Bhog Booking',
     description: 'Select the number of bhog.',
     date: 'Sun, 25 Oct 2026',
-    cutoffISO: '2026-10-24T23:59:00+05:30',
+    cutoffISO: '2026-10-23T23:59:00+05:30',
     categories: LOKHI_PUJA_BHOG_BOOKING_CATEGORIES,
     menu: 'Khichuri | Labra | Chutney | Papad | Rasogolla',
-    defaultOpen: true,
+    defaultOpen: false,
   },
   // Other Bhog days temporarily hidden
   // {
