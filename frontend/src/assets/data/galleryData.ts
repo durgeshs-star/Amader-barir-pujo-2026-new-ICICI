@@ -25,7 +25,6 @@ const gallery2026Images: GalleryImage[] = [
   'SJP_3022.webp',
   'SJP_3672.webp',
   'SJP_3676.webp',
-  'SJP_3870 (1).webp',
   'SJP_3870.webp',
   'SJP_3943.webp',
   'SJP_3957.webp',
@@ -63,22 +62,6 @@ const gallery2026Images: GalleryImage[] = [
   alt: `Durga Puja 2026 celebration ${index + 1}`,
   category: 'pujo',
   isFeaturedIdol: featuredIdolImageFilenames.has(filename),
-}));
-
-const additionalAboutUsImages: GalleryImage[] = [
-  'SJP_3943.webp',
-  'SJP_3957.webp',
-  'SJP_3961.webp',
-  'SJP_4041.webp',
-  'SJP_4142.webp',
-  'SJP_4388.webp',
-  'SJP_4509.webp',
-].map((filename, index) => ({
-  id: 137 + index,
-  year: '2026',
-  src: `/assets/img26/aboutus/${filename}`,
-  alt: `Durga Puja 2026 community moment ${index + 1}`,
-  category: 'pujo',
 }));
 
 const cultural2026Images: GalleryImage[] = [
@@ -119,7 +102,6 @@ const bhog2026Images: GalleryImage[] = [
   'SJP_3943 (1).webp',
   'SJP_4100.webp',
   'SJP_4115.webp',
-  'SJP_4127 (1).webp',
   'SJP_4127.webp',
   'SJP_4132.webp',
   'SJP_4135.webp',
@@ -230,7 +212,6 @@ export const galleryImages: GalleryImage[] = [
   { id: 75, year: '2024', src: '/assets/img/2024/SJP_8902.jpg', alt: 'Pujo celebration 2024 - 29', category: 'pujo' },
   { id: 76, year: '2024', src: '/assets/img/2024/SJP_8906.jpg', alt: 'Pujo celebration 2024 - 30', category: 'pujo' },
   ...gallery2026Images,
-  ...additionalAboutUsImages,
   ...cultural2026Images,
   ...bhog2026Images,
   ...volunteer2026Images,
