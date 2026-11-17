@@ -26,7 +26,7 @@ const AshtamiSandhiPujaPage: React.FC = () => {
       <ScheduleIntro paragraph={ashtamiSandhiPujaIntroParagraph} />
 
       <ScheduleDetails
-        image="/assets/img/ashtami.webp"
+        image="/assets/img26/page-img/SJP_6907.webp"
         imageAlt="Ashtami Sandhi Puja celebration at Amader Bari'r Pujo"
         date="19th October, Monday (1st Kartik)"
         blocks={[

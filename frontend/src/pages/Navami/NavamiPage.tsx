@@ -25,7 +25,7 @@ const NavamiPage: React.FC = () => {
       <ScheduleIntro paragraph={navamiIntroParagraph} />
 
       <ScheduleDetails
-        image="/assets/img/navami.webp"
+        image="/assets/img26/page-img/SJP_8513.webp"
         imageAlt="Navami celebration at Amader Bari'r Pujo"
         date="20th October, Tuesday (2nd Kartik)"
         blocks={[

@@ -1,10 +1,152 @@
 export interface GalleryImage {
   id: number;
-  year: '2024' | '2025';
+  year: '2024' | '2025' | '2026';
   src: string;
   alt: string;
   category?: 'pujo' | 'cultural' | 'bhog' | 'volunteer';
+  isFeaturedIdol?: boolean;
+  isPinnedToTop?: boolean;
 }
+
+const featuredIdolImageFilenames = new Set([
+  'SJP_3870.webp',
+  'SJP_5325.webp',
+]);
+
+const gallery2026Images: GalleryImage[] = [
+  'SJP_0132.webp',
+  'SJP_0240.webp',
+  'SJP_0347.webp',
+  'SJP_0381.webp',
+  'SJP_0537.webp',
+  'SJP_2808.webp',
+  'SJP_2826.webp',
+  'SJP_2827.webp',
+  'SJP_3022.webp',
+  'SJP_3672.webp',
+  'SJP_3676.webp',
+  'SJP_3870 (1).webp',
+  'SJP_3870.webp',
+  'SJP_3943.webp',
+  'SJP_3957.webp',
+  'SJP_3961.webp',
+  'SJP_4013.webp',
+  'SJP_4041.webp',
+  'SJP_4142.webp',
+  'SJP_4388.webp',
+  'SJP_4509.webp',
+  'SJP_5312.webp',
+  'SJP_5317.webp',
+  'SJP_5319.webp',
+  'SJP_5325.webp',
+  'SJP_5343.webp',
+  'SJP_5344.webp',
+  'SJP_5345.webp',
+  'SJP_5437.webp',
+  'SJP_5476.webp',
+  'SJP_5502.webp',
+  'SJP_6835.webp',
+  'SJP_6853.webp',
+  'SJP_6903.webp',
+  'SJP_6912.webp',
+  'SJP_6979.webp',
+  'SJP_8487.webp',
+  'SJP_8510.webp',
+  'SJP_8612.webp',
+  'SJP_8791.webp',
+  'SJP_8815.webp',
+  'SJP_9051.webp',
+].map((filename, index) => ({
+  id: 100 + index,
+  year: '2026',
+  src: `/assets/img26/img26/${filename}`,
+  alt: `Durga Puja 2026 celebration ${index + 1}`,
+  category: 'pujo',
+  isFeaturedIdol: featuredIdolImageFilenames.has(filename),
+}));
+
+const additionalAboutUsImages: GalleryImage[] = [
+  'SJP_3943.webp',
+  'SJP_3957.webp',
+  'SJP_3961.webp',
+  'SJP_4041.webp',
+  'SJP_4142.webp',
+  'SJP_4388.webp',
+  'SJP_4509.webp',
+].map((filename, index) => ({
+  id: 137 + index,
+  year: '2026',
+  src: `/assets/img26/aboutus/${filename}`,
+  alt: `Durga Puja 2026 community moment ${index + 1}`,
+  category: 'pujo',
+}));
+
+const cultural2026Images: GalleryImage[] = [
+  'SJP_3470.webp',
+  'SJP_4410.webp',
+  'SJP_4453.webp',
+  'SJP_4465.webp',
+  'SJP_4523.webp',
+  'SJP_4534.webp',
+  'SJP_4579.webp',
+  'SJP_4600.webp',
+  'SJP_4677.webp',
+  'SJP_4738.webp',
+  'SJP_4767.webp',
+  'SJP_4833.webp',
+  'SJP_4874.webp',
+  'SJP_6423.webp',
+  'SJP_6747.webp',
+  'SJP_7561.webp',
+  'SJP_7659.webp',
+  'SJP_7799.webp',
+  'SJP_8037.webp',
+  'SJP_8149.webp',
+  'SJP_8194.webp',
+  'TAN_8252.webp',
+  'SJP_9199.webp',
+  'SJP_9262.webp',
+].map((filename, index) => ({
+  id: 200 + index,
+  year: '2026',
+  src: `/assets/img26/culture26/${filename}`,
+  alt: `Cultural performance at Durga Puja 2026 ${index + 1}`,
+  category: 'cultural',
+  isPinnedToTop: true,
+}));
+
+const bhog2026Images: GalleryImage[] = [
+  'SJP_3943 (1).webp',
+  'SJP_4100.webp',
+  'SJP_4115.webp',
+  'SJP_4127 (1).webp',
+  'SJP_4127.webp',
+  'SJP_4132.webp',
+  'SJP_4135.webp',
+  'SJP_4137.webp',
+  'SJP_4142 (1).webp',
+  'SJP_4146.webp',
+  'SJP_4148.webp',
+  'SJP_5567.webp',
+  'SJP_5577.webp',
+].map((filename, index) => ({
+  id: 300 + index,
+  year: '2026',
+  src: `/assets/img26/bhog/${filename}`,
+  alt: `Bhog offering and distribution at Durga Puja 2026 ${index + 1}`,
+  category: 'bhog',
+}));
+
+const volunteer2026Images: GalleryImage[] = [
+  'SJP_5304.webp',
+  'SJP_9745.webp',
+].map((filename, index) => ({
+  id: 400 + index,
+  year: '2026',
+  src: `/assets/img26/volunteer/${filename}`,
+  alt: `Volunteer activity at Durga Puja 2026 ${index + 1}`,
+  category: 'volunteer',
+}));
 
 export const galleryImages: GalleryImage[] = [
   // Row 1
@@ -87,4 +229,9 @@ export const galleryImages: GalleryImage[] = [
   { id: 74, year: '2024', src: '/assets/img/2024/SJP_8897.jpg', alt: 'Pujo celebration 2024 - 28', category: 'pujo' },
   { id: 75, year: '2024', src: '/assets/img/2024/SJP_8902.jpg', alt: 'Pujo celebration 2024 - 29', category: 'pujo' },
   { id: 76, year: '2024', src: '/assets/img/2024/SJP_8906.jpg', alt: 'Pujo celebration 2024 - 30', category: 'pujo' },
+  ...gallery2026Images,
+  ...additionalAboutUsImages,
+  ...cultural2026Images,
+  ...bhog2026Images,
+  ...volunteer2026Images,
 ];

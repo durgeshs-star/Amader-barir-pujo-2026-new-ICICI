@@ -5,7 +5,7 @@ import ImageGrid from '../components/ui/ImageGrid';
 import { galleryImages, type GalleryImage } from '../assets/data/galleryData';
 
 type CategoryFilter = 'all' | 'pujo' | 'cultural' | 'bhog' | 'volunteer';
-type YearFilter = '2024' | '2025';
+type YearFilter = '2024' | '2025' | '2026';
 
 /** Fisher-Yates shuffle (returns a new array) */
 function shuffleArray<T>(arr: T[]): T[] {
@@ -21,12 +21,12 @@ const VALID_CATEGORIES: CategoryFilter[] = ['all', 'pujo', 'cultural', 'bhog', '
 
 export const Gallery: React.FC = React.memo(() => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const initialCategory = (searchParams.get('category') as CategoryFilter) || 'all';
+  const initialCategory = (searchParams.get('category') as CategoryFilter) || 'pujo';
 
   const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>(
     VALID_CATEGORIES.includes(initialCategory) ? initialCategory : 'all'
   );
-  const [yearFilter, setYearFilter] = useState<YearFilter>('2025');
+  const [yearFilter, setYearFilter] = useState<YearFilter>('2026');
 
   // Shuffle all images once per page mount for the "All" view
   const shuffledAllImages = useMemo(() => shuffleArray(galleryImages), []);
@@ -42,7 +42,7 @@ export const Gallery: React.FC = React.memo(() => {
   const handleCategoryChange = (cat: CategoryFilter) => {
     setCategoryFilter(cat);
     if (cat === 'pujo') {
-      setYearFilter('2025');
+      setYearFilter('2026');
     }
     if (cat === 'all') {
       searchParams.delete('category');
@@ -59,8 +59,13 @@ export const Gallery: React.FC = React.memo(() => {
   const filteredImages: GalleryImage[] = categoryFilter === 'all'
     ? shuffledAllImages
     : categoryFilter === 'pujo'
-    ? galleryImages.filter(img => img.category === categoryFilter && img.year === yearFilter)
-    : galleryImages.filter(img => img.category === categoryFilter);
+    ? shuffledAllImages.filter(img => img.category === categoryFilter && img.year === yearFilter)
+    : shuffledAllImages.filter(img => img.category === categoryFilter);
+  const orderedImages = [
+    ...filteredImages.filter(img => img.isFeaturedIdol).sort((a, b) => a.id - b.id),
+    ...filteredImages.filter(img => img.isPinnedToTop && !img.isFeaturedIdol).sort((a, b) => a.id - b.id),
+    ...filteredImages.filter(img => !img.isPinnedToTop && !img.isFeaturedIdol),
+  ];
 
   return (
     <div className="relative pt-10 md:pt-14 pb-20 min-h-screen">
@@ -110,6 +115,7 @@ export const Gallery: React.FC = React.memo(() => {
             {([
               { key: '2024' as YearFilter, label: '2024' },
               { key: '2025' as YearFilter, label: '2025' },
+              { key: '2026' as YearFilter, label: '2026' },
             ]).map(({ key, label }) => (
               <button
                 key={key}
@@ -127,7 +133,7 @@ export const Gallery: React.FC = React.memo(() => {
 
         {/* Image Grid */}
         <ImageGrid
-          images={filteredImages}
+          images={orderedImages}
           showYear={true}
           columns={{ mobile: 1, tablet: 2, desktop: 3 }}
         />
