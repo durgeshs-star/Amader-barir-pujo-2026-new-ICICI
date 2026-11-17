@@ -15,11 +15,11 @@ export const Hero: React.FC = React.memo(() => {
       <div className="relative w-full h-[50vh] sm:h-[55vh] md:h-[60vh] lg:absolute lg:inset-0 lg:h-full z-0">
         <picture>
           <source
-            srcSet="/assets/img/hero-image.webp"
+            srcSet="/assets/img26/all-hero-image.webp"
             type="image/webp"
           />
           <img
-            src="/assets/img/hero-image.webp"
+            src="/assets/img26/all-hero-image.webp"
             alt="Amader Bari'r Pujo celebration with traditional Durga Pujo decorations and festive atmosphere"
             aria-hidden="true"
             fetchPriority="high"
@@ -31,8 +31,8 @@ export const Hero: React.FC = React.memo(() => {
 object-[50%_0%]
 sm:object-[50%_5%]
 md:object-[50%_10%]
-lg:object-[50%_70%]
-xl:object-[50%_78%]"
+lg:object-[50%_45%]
+xl:object-[50%_45%]"
           />
         </picture>
 

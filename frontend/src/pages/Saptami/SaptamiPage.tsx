@@ -25,7 +25,7 @@ const SaptamiPage: React.FC = () => {
       <ScheduleIntro paragraph={saptamiIntroParagraph} />
 
       <ScheduleDetails
-        image="/assets/img/saptami.webp"
+        image="/assets/img26/page-img/SJP_3662.webp"
         imageAlt="Saptami celebration at Amader Bari'r Pujo"
         date="17th October, Saturday (29th Ashwin)"
         blocks={[

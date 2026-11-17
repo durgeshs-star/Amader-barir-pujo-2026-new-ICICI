@@ -20,16 +20,13 @@ export const dashamiIntroParagraph =
   "<strong>Shubho Bijoya Dashami!</strong> No Bengali really says goodbye to Maa. We simply say, <strong>Abar Esho Maa</strong>. Between the colours of <strong>Sindoor Khela</strong>, the final beat of the <strong>dhaak</strong>, and folded hands before <strong>Bisorjon</strong>, Dashami reminds us that every farewell carries the promise of another homecoming.";
 
 export const fleaMarketImages: string[] = [
-  "/assets/img/flea-market/SJP_4242.webp",
-  "/assets/img/flea-market/SJP_4244.webp",
-  "/assets/img/flea-market/SJP_4245.webp",
-  "/assets/img/flea-market/SJP_4246.webp",
-  "/assets/img/flea-market/SJP_4247.webp",
-  "/assets/img/flea-market/SJP_4248.webp",
-  "/assets/img/flea-market/SJP_4249.webp",
-  "/assets/img/flea-market/SJP_4267.webp",
+  "/assets/img26/flea/SJP_5584.webp",
+  "/assets/img26/flea/SJP_5586.webp",
+  "/assets/img26/flea/SJP_5588.webp",
+  "/assets/img26/flea/SJP_5590.webp",
+  "/assets/img26/flea/SJP_5620.webp",
+  "/assets/img26/flea/SJP_5637.webp",
   "/assets/img/flea-market/SJP_4313.webp",
   "/assets/img/flea-market/SJP_4314.webp",
   "/assets/img/flea-market/SJP_4315.webp",
-  "/assets/img/flea-market/SJP_4317.webp",
 ];

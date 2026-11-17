@@ -36,7 +36,7 @@ export const News: React.FC = () => {
       <PageHero
         title="News & Media"
         subtitle="Stay updated with the latest news and media coverage about Amader Bari'r Pujo"
-        backgroundImage="/assets/img/culture-24.webp"
+        backgroundImage="/assets/img26/all-hero-image.webp"
         height="h-[40vh] md:h-[60vh]"
       />
 

@@ -26,7 +26,7 @@ const DashamiPage: React.FC = () => {
       </ScheduleIntro>
 
       <ScheduleDetails
-        image="/assets/img/dashami.webp"
+        image="/assets/img26/page-img/SJP_0145.webp"
         imageAlt="Dashami celebration at Amader Bari'r Pujo"
         date="21st October, Wednesday (3rd Kartik)"
         blocks={[

@@ -19,7 +19,7 @@ const SaraswatiPuja: React.FC = () => {
       <PageHero
         title="Saraswati Pujo"
         subtitle="Celebration of Knowledge, Wisdom & Learning"
-        backgroundImage="/assets/img/saraswati-puja16.webp"
+        backgroundImage="/assets/img26/all-hero-image.webp"
         height="h-[35vh] md:h-[60vh]"
         objectPosition="center top"
       />

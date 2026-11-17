@@ -25,7 +25,7 @@ const PanchamiPage: React.FC = () => {
       <ScheduleIntro paragraph={panchamiIntroParagraph} />
 
       <ScheduleDetails
-        image="/assets/img/panchami-photo.webp"
+        image="/assets/img26/page-img/SJP_2494.webp"
         imageAlt="Panchami celebration at Amader Bari'r Pujo"
         subtitle="Pujo Schedule"
         date="15th October, Friday (27th Ashwin)"
