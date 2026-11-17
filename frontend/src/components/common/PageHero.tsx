@@ -46,7 +46,7 @@ export const PageHero: React.FC<PageHeroProps> = React.memo(({
         <div
           className={`absolute inset-0 ${overlay}`}
           style={{
-            background: 'linear-gradient(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.12)), linear-gradient(to right, rgba(42, 10, 20, 0.85) 0%, rgba(42, 10, 20, 0.65) 5%, rgba(0, 0, 0, 0) 15%), linear-gradient(to left, rgba(42, 10, 20, 0.85) 0%, rgba(42, 10, 20, 0.65) 5%, rgba(0, 0, 0, 0) 15%)'
+            background: 'linear-gradient(rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.06)), linear-gradient(to right, rgba(42, 10, 20, 0.3) 0%, rgba(42, 10, 20, 0.16) 40%, rgba(0, 0, 0, 0) 70%)'
           }}
         />
 
