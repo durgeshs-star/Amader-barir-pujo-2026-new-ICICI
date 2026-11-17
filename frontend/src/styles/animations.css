@@ -41,6 +41,34 @@
   to   { transform: translateX(0); }
 }
 
+@keyframes aboutMarqueeLeft {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes aboutMarqueeRight {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+
+.about-marquee-left {
+  animation: aboutMarqueeLeft 48s linear infinite;
+}
+
+.about-marquee-right {
+  animation: aboutMarqueeRight 48s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-marquee-track {
+    animation: none;
+  }
+
+  .about-marquee-track > div:nth-child(2) {
+    display: none;
+  }
+}
+
 /* ── Bhog Booking beep / pulse animation ────────────────────────── */
 @keyframes bhog-beep {
   0%   { transform: scale(1);    color: inherit; text-shadow: none; }
