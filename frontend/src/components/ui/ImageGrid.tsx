@@ -20,42 +20,11 @@ export interface ImageGridProps {
   };
 }
 
-// Fallback image helper
-interface ImageProps {
-  src: string;
-  alt: string;
-}
-
-const GalleryImageWithFallback: React.FC<ImageProps> = React.memo(({ src, alt }) => {
-  const [hasError, setHasError] = useState(false);
-
-  if (hasError) {
-    return (
-      <div
-        className="min-h-48 w-full bg-linear-to-br from-primary to-accent flex flex-col justify-center items-center p-4 text-center select-none"
-      >
-        <span className="text-accent-text text-3xl font-bold font-fraunces leading-none opacity-60">ABP</span>
-        <span className="text-text-on-primary/70 text-[10px] uppercase font-semibold tracking-widest mt-2">{alt}</span>
-      </div>
-    );
-  }
-
-  return (
-    <img
-      src={src}
-      alt={alt}
-      loading="lazy"
-      decoding="async"
-      onError={() => setHasError(true)}
-      className="block h-auto w-full object-contain"
-    />
-  );
-});
-
 const ImageGrid: React.FC<ImageGridProps> = React.memo(({
   images,
   columns = { mobile: 1, tablet: 2, desktop: 3 },
 }) => {
+  const [failedImageIds, setFailedImageIds] = useState<Set<string | number>>(() => new Set());
   const columnClassesByBreakpoint: Record<string, Record<number, string>> = {
     mobile: { 1: 'columns-1', 2: 'columns-2', 3: 'columns-3', 4: 'columns-4' },
     tablet: { 1: 'md:columns-1', 2: 'md:columns-2', 3: 'md:columns-3', 4: 'md:columns-4' },
@@ -77,7 +46,7 @@ const ImageGrid: React.FC<ImageGridProps> = React.memo(({
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
       >
-        {images.map((img, index) => (
+        {images.filter((img) => !failedImageIds.has(img.id)).map((img, index) => (
           <m.div
             key={img.id}
             className={`group relative mb-6 inline-block w-full break-inside-avoid rounded-xl overflow-hidden shadow bg-primary/10 border border-[rgb(180,160,130)] hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 ${img.className || ''}`}
@@ -85,7 +54,14 @@ const ImageGrid: React.FC<ImageGridProps> = React.memo(({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: Math.min(index * 0.03, 0.5), ease: "easeOut" }}
           >
-            <GalleryImageWithFallback src={img.src} alt={img.alt} />
+            <img
+              src={img.src}
+              alt={img.alt}
+              loading="lazy"
+              decoding="async"
+              onError={() => setFailedImageIds((failed) => new Set(failed).add(img.id))}
+              className="block h-auto w-full object-contain"
+            />
           </m.div>
         ))}
       </m.div>
