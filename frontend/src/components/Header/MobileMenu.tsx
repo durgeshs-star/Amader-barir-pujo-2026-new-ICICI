@@ -165,7 +165,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
                 onClick={handleLinkClick}
                 className="block py-2 text-[15px] font-medium text-secondary hover:text-primary transition-colors"
               >
-                <span className="bhog-beep">Bhog Booking</span>
+                <span>Bhog Booking</span>
               </Link>
             </li>
 

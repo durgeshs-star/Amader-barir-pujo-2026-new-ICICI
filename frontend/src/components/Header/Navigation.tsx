@@ -54,7 +54,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ label, items }) => {
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
       >
-        <span className={label === 'Bhog Booking' ? 'bhog-beep' : undefined}>{label}</span>
+        <span>{label}</span>
       </button>
 
       {/* Dropdown panel */}
@@ -103,7 +103,7 @@ export const Navigation: React.FC = () => (
       </li>
       <li>
         <NavLink to="/bhog-booking" className={navLinkClass}>
-          <span className="bhog-beep">Bhog Booking</span>
+          <span>Bhog Booking</span>
         </NavLink>
       </li>
 
